@@ -1,6 +1,7 @@
 from datetime import datetime
 from gettext import gettext as _
 from django.db import models
+from aashe.organization.models import Organization
 
 
 class ResourceItemManager(models.Manager):
@@ -14,6 +15,7 @@ class ResourceItem(models.Model):
     '''
     title = models.CharField(_('resource title'), max_length=128)
     url = models.URLField(_('resource url'), blank=True)
+    organization = models.ForeignKey(Organization, blank=True, null=True)
     description = models.TextField(_('resource description'), blank=True)
     created_date = models.DateTimeField(auto_now_add=True, editable=False)
     updated_date = models.DateTimeField(auto_now=True, editable=False)

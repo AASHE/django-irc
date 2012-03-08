@@ -52,7 +52,14 @@ class PolicyLoader(BaseLoader):
 class GenericLoader(BaseLoader):
     def create_instance(self, data):
         init_args = {}
-        data.update({'notes': data.get('institution', '')})
+        if data.has_key('institution'):
+            try:
+                inst_query = data['institution'].strip().lower()
+                institution_obj = Organization.objects.get(name__iexact=inst_query)
+                data['institution'] = institution_obj
+            except:
+                data['notes'] = "Institution is " + data['institution']
+                del data['institution']                
         for key in data.keys():
             if key in self.model._meta.get_all_field_names():
                 init_args.update({key: data[key]})
@@ -99,4 +106,9 @@ class GlobalWarmingLoader(GenericLoader):
     def create_instance(self, data):
         pass
 
-    
+class RecyclingWasteLoader(GenericLoader):
+    def create_instance(self, data):
+        from rc.resources.apps.operations.models import RecyclingWebsite
+        super(RecyclingWasteLoader, self).create_instance(data)
+        
+        
