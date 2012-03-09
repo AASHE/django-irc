@@ -6,6 +6,7 @@ from rc.resources.apps.scrape.loader.etl import etl
 # register operations
 etl.register(parsers.BottledWaterBans, loader.BottleWaterBanLoader, 'operations.BottledWaterBan')
 etl.register(parsers.CarSharing, loader.CarShareLoader, 'operations.CarShare')
+etl.register(parsers.RecyclingWasteMinimization, loader.RecyclingWasteLoader, 'operations.RecyclingWebsite')
 
 # register education
 etl.register(parsers.SustainableLivingGuide, loader.GenericLoader, 'education.LivingGuides', reset=True)
