@@ -7,6 +7,12 @@ class LoaderException(Exception):
 
 class BaseLoader(object):
     def __init__(self, parser_class, model_or_string, reset=False):
+        '''
+        Setup the loader with the parser_class to use and the model
+        to dump the parser's data into. The model can be specified
+        as an actual models.Model subclass or as a string that
+        specifies the model in Django's `app.model` syntax.
+        '''
         self.parser_class = parser_class
         self.parser = self.parser_class()
         self.reset = reset
@@ -59,7 +65,10 @@ class GenericLoader(BaseLoader):
                 data['institution'] = institution_obj
             except:
                 data['notes'] = "Institution is " + data['institution']
-                del data['institution']                
+                del data['institution']
+        # iterate over all the keys in the dictionary provided by
+        # the parser... any keys that are fields on the model, use
+        # to construct a new instance of the model
         for key in data.keys():
             if key in self.model._meta.get_all_field_names():
                 init_args.update({key: data[key]})
