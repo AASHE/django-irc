@@ -102,7 +102,7 @@ class EnergyWebsite(ResourceItem):
         verbose_name = 'campus energy website'
 
 class EnergyPlan(ResourceItem):
-    date = models.DateField(_('date published'), blank=True, null=True)
+    date_published = models.DateField(_('date published'), blank=True, null=True)
     
     class Meta:
         verbose_name = 'campus energy plan'
@@ -168,10 +168,11 @@ class BiodieselFleet(ResourceItem):
     type = models.CharField(_('biodiesel type (B20, B50, etc)'), max_length=30)
 
     class Meta:
-        verbose_name = 'campus biodisel fleet'
+        verbose_name = 'campus biodiesel fleet'
 
 class ElectricFleet(ResourceItem):
-    number = models.IntegerField(_('number of vehicles'))
+    vehicles = models.IntegerField(_('number of vehicles'))
+    source_type = models.CharField(_('source type (article, website, etc.)'), max_length=30)
     
     class Meta:
         verbose_name = 'campus electric vehicle fleet'

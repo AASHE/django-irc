@@ -120,4 +120,27 @@ class RecyclingWasteLoader(GenericLoader):
         from rc.resources.apps.operations.models import RecyclingWebsite
         super(RecyclingWasteLoader, self).create_instance(data)
         
+class BuildingDashboardLoader(GenericLoader):
+    def create_instance(self, data):
+        from rc.resources.apps.operations.models import BuildingDashboard, BuildingDashboardPartner
+        if data.has_key('manufacturer_type'):
+            partner_obj, created = BuildingDashboardPartner.objects.get_or_create(name=data['manufacturer_type'])
+            data['partner'] = partner_obj
+            del data['manufacturer_type']
+        super(BuildingDashboardLoader, self).create_instance(data)
+
+class BiodieselFleetLoader(GenericLoader):
+    def create_instance(self, data):
+        from rc.resources.apps.operations.models import BiodieselFleet
+        production_types = dict([(value, key) for key, value in BiodieselFleet.PRODUCTION_TYPE])
+        production_type = production_types.get(data['biodiesel_source'], '')
+        data['biodiesel_source'] = production_type
+        super(BiodieselFleetLoader, self).create_instance(data)
         
+class CarBanLoader(GenericLoader):
+    def create_instance(self, data):
+        from rc.resources.apps.operations.models import CarBan
+        ban_types = dict([(value, key) for key, value in CarBan.BAN_TYPES])
+        ban_type = production_types.get(data['type'], '')
+        data['type'] = ban_type
+        super(CarBanLoadercd , self).create_instance(data)
