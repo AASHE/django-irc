@@ -88,8 +88,8 @@ class BuildingDashboardPartner(models.Model):
         verbose_name_plural = 'building energy dashboard partners'
         
 class FuelCell(ResourceItem):
-    size = models.IntegerField(_('system size (kW)'))
-
+    size = models.DecimalField(_('system size (kW)'), max_digits=6, 
+                                 decimal_places=1)
     class Meta:
         verbose_name = 'stationary fuel cell'
         
@@ -113,7 +113,8 @@ class EnergyPolicy(ResourceItem):
         verbose_name_plural = 'campus sustainable energy policies'
         
 class WindTurbine(ResourceItem):
-    size = models.IntegerField(_('system size (kW)'))
+    size = models.DecimalField(_('system size (kW)'), max_digits=6, 
+                                 decimal_places=1)
     
     class Meta:
         verbose_name = 'campus wind turbine'
