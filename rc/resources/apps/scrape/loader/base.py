@@ -141,7 +141,7 @@ class CarBanLoader(GenericLoader):
     def create_instance(self, data):
         from rc.resources.apps.operations.models import CarBan
         ban_types = dict([(value, key) for key, value in CarBan.BAN_TYPES])
-        ban_type = production_types.get(data['type'], '')
+        ban_type = ban_types.get(data['type'], '')
         data['type'] = ban_type
         super(CarBanLoadercd , self).create_instance(data)
         
@@ -149,7 +149,7 @@ class SustainableDiningInitiativesLoader(GenericLoader):
     def create_instance(self, data):
         from rc.resources.apps.operations.models import DiningInitiative
         ownership_types = dict([(value, key) for key, value in DiningInitiative.OWNERS])
-        ownership_type = production_types.get(data['type'], '')
+        ownership_type = ownership_types.get(data['type'], '')
         data['ownership'] = ownership_type
         super(SustainableDiningInitiativesLoader, self).create_instance(data)      
     
