@@ -224,7 +224,7 @@ class SustainabilitySyllabi(PageParser):
         for p in paras:
             nodes = [el for el in p]
             syllabiData['syllabi_name'] = nodes[3].text
-            syllabiData['organization'] = nodes[0].text
+            syllabiData['institution'] = nodes[0].text
             syllabiData['url'] = dict(nodes[3].attrs).get('href', '')
             syllabiData['description'] = nodes[5].title()
             self.data.append(syllabiData)
