@@ -11,7 +11,7 @@ etl.register(parsers.SustainableDiningInitiatives, loader.SustainableDiningIniti
 etl.register(parsers.FuelCells, loader.GenericLoader, 'operations.FuelCell')
 etl.register(parsers.RenewableEnergyResearchCenters, loader.GenericLoader, 'operations.RenewableResearchCenter')
 # TODO Green Buildings and Publications on Climate Action
-etl.register(parsers.WindTurbine, loader.GenericLoader, 'operations.WindTurbine')
+etl.register(parsers.WindTurbine, loader.WindTurbineLoader, 'operations.WindTurbine')
 etl.register(parsers.WaterConservation, loader.GenericLoader, 'operations.WaterConservationEffort')
 etl.register(parsers.EnergyPoliciesParser, loader.GenericLoader, 'operations.EnergyPolicy')
 etl.register(parsers.HybridVehicles, loader.GenericLoader, 'operations.HybridFleet')

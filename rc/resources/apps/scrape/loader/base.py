@@ -62,7 +62,7 @@ class GenericLoader(BaseLoader):
             try:
                 inst_query = data['institution'].strip().lower()
                 institution_obj = Organization.objects.get(name__iexact=inst_query)
-                data['institution'] = institution_obj
+                data['organization'] = institution_obj
             except:
                 data['notes'] = "Institution is " + data['institution']
                 del data['institution']
@@ -70,7 +70,7 @@ class GenericLoader(BaseLoader):
         # the parser... any keys that are fields on the model, use
         # to construct a new instance of the model
         for key in data.keys():
-            if key in self.model._meta.get_all_field_names():
+            if key in self.model._meta.get_all_field_names() and data[key]:
                 init_args.update({key: data[key]})
         obj = self.model(**init_args)
         obj.save()
@@ -151,5 +151,10 @@ class SustainableDiningInitiativesLoader(GenericLoader):
         ownership_types = dict([(value, key) for key, value in DiningInitiative.OWNERS])
         ownership_type = ownership_types.get(data['type'], '')
         data['ownership'] = ownership_type
-        super(SustainableDiningInitiativesLoader, self).create_instance(data)      
-    
+        super(SustainableDiningInitiativesLoader, self).create_instance(data)
+
+class WindTurbineLoader(GenericLoader):
+    def create_instance(self, data):
+        data['capacity'] = data['capacity'].strip(',')
+        super(WindTurbineLoader, self).create_instance(data)
+            
