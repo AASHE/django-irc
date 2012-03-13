@@ -19,7 +19,7 @@ etl.register(parsers.HybridVehicles, loader.GenericLoader, 'operations.HybridFle
 etl.register(parsers.CampusEnergyWebsite, loader.GenericLoader, 'operations.EnergyWebsite')
 etl.register(parsers.CampusEnergyPlan, loader.GenericLoader, 'operations.EnergyPlanssh')
 etl.register(parsers.ElectricVehicleFleet, loader.GenericLoader, 'operations.ElectricFleet')
-etl.register(parsers.CarBanParser, loader.CarBanLoader, 'operations.CarBan')
+etl.register(parsers.CarBan, loader.CarBanLoader, 'operations.CarBan')
 # TODO Biodiesel fleets
 etl.register(parsers.BicyclePlans, loader.GenericLoader, 'operations.BicyclePlan')
 etl.register(parsers.BuildingEnergyDashboard, loader.BuildingDashboardLoader, 'operations.BuildingDashboard')
