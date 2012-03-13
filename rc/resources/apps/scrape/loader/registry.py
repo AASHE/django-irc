@@ -6,7 +6,7 @@ from rc.resources.apps.scrape.loader.etl import etl
 # register operations
 etl.register(parsers.CampusEnergyPlan, loader.GenericLoader, 'operations.EnergyPlanssh')
 etl.register(parsers.ElectricVehicleFleet, loader.GenericLoader, 'operations.ElectricFleet')
-etl.register(parsers.CarBanParser, loader.CarBanLoader, 'operations.CarBan')
+etl.register(parsers.CarBan, loader.CarBanLoader, 'operations.CarBan')
 # TODO Biodiesel fleets
 etl.register(parsers.BicyclePlans, loader.GenericLoader, 'operations.BicyclePlan')
 etl.register(parsers.BuildingEnergyDashboard, loader.BuildingDashboardLoader, 'operations.BuildingDashboard')
