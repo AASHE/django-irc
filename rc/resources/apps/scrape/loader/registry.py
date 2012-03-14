@@ -17,7 +17,7 @@ etl.register(parsers.EnergyPoliciesParser, loader.GenericLoader, 'operations.Ene
 etl.register(parsers.HybridVehicles, loader.GenericLoader, 'operations.HybridFleet')
 # TODO global warming commitments 
 etl.register(parsers.CampusEnergyWebsite, loader.GenericLoader, 'operations.EnergyWebsite')
-etl.register(parsers.CampusEnergyPlan, loader.GenericLoader, 'operations.EnergyPlanssh')
+etl.register(parsers.CampusEnergyPlan, loader.GenericLoader, 'operations.EnergyPlan')
 etl.register(parsers.ElectricVehicleFleet, loader.GenericLoader, 'operations.ElectricFleet')
 etl.register(parsers.CarBan, loader.CarBanLoader, 'operations.CarBan')
 # TODO Biodiesel fleets

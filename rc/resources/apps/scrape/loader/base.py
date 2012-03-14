@@ -20,6 +20,8 @@ class BaseLoader(object):
             self.model = get_model(*model_or_string.split('.'))
         else:
             self.model = model_or_string
+        if not self.model:
+            raise ValueError("%s model_or_string kwarg must be valid Model subclass or Django app.Model string (%s)" % (self.__class__.__name__, self.parser_class.__name__))
 
     def reset_model(self):
         self.model.objects.all().delete()
@@ -143,7 +145,7 @@ class CarBanLoader(GenericLoader):
         ban_types = dict([(value, key) for key, value in CarBan.BAN_TYPES])
         ban_type = ban_types.get(data['type'], '')
         data['type'] = ban_type
-        super(CarBanLoadercd , self).create_instance(data)
+        super(CarBanLoader, self).create_instance(data)
         
 class SustainableDiningInitiativesLoader(GenericLoader):
     def create_instance(self, data):

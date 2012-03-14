@@ -1,5 +1,10 @@
+import re
 from base import PageParser, SimpleTableParser
 from BeautifulSoup import BeautifulSoup, NavigableString
+
+
+NON_NUMERIC_RE = re.compile(r'[^\d]+')
+NON_FLOAT_RE   = re.compile(r'[^\d.]+')
 
 
 class RecyclingWasteMinimization(SimpleTableParser):
@@ -38,7 +43,7 @@ class GeneralProcurementPolicies(PageParser):
         for p in paras:
             try:
                 nodes = [el for el in p]
-                policyData['policy_name'] = nodes[2].text
+                policyData['title'] = nodes[2].text
                 policyData['url'] = dict(nodes[2].attrs).get('href', '')
                 policyData['institution'] = nodes[0].text
                 policyData['notes'] = nodes[4].title()
@@ -72,7 +77,7 @@ class EnergyPoliciesParser(PageParser):
                 # anchor tag means it's a link...
                 linkText = el.text
                 url = dict(el.attrs).get('href', None)
-                policyData.update({'url': url, 'policy_name': linkText})
+                policyData.update({'url': url, 'title': linkText})
             elif isinstance(el, NavigableString) and '(pdf)' not in el.title().lower():
                 # not a <br/> and not an <a> so it's probably the school name text
                 # split on the '-' separator and strip of lead/trail whitespace...
@@ -123,7 +128,7 @@ class SurplusProperty(SimpleTableParser):
             tags = [el for el in row]
             policyData['institution'] = tags[1].text
             policyData['url'] = dict(tags[3].first().attrs)['href']
-            policyData['policy_name'] = tags[3].text
+            policyData['title'] = tags[3].text
             policyData['country'] = 'Canada'
             self.data.append(policyData)
             policyData = {}
@@ -133,7 +138,7 @@ class SurplusProperty(SimpleTableParser):
             tags = [el for el in row]
             policyData['institution'] = tags[1].text
             policyData['url'] = dict(tags[3].first().attrs)['href']
-            policyData['policy_name'] = tags[3].text
+            policyData['title'] = tags[3].text
             policyData['country'] = 'United States of America'
             self.data.append(policyData)
             policyData = {}
@@ -217,7 +222,7 @@ class SustainableDiningInitiatives(PageParser):
                 elif tag == 'a':
                     linkText = el.text
                     url = dict(el.attrs).get('href', '')
-                    policyData.update({'url': url, 'policy_name': linkText})
+                    policyData.update({'url': url, 'title': linkText})
                 elif isinstance(el, NavigableString) and '(article)' not in el.title().lower() and '**' not in el.title().lower():
                     institution = el.title().rsplit('-', 1)[0].strip()
                     policyData['institution'] = institution
@@ -241,7 +246,7 @@ class CampusFairTrade(PageParser):
             tags = [el for el in row]
             policyData['institution'] = tags[1].text
             policyData['url'] = dict(tags[3].first().attrs).get('href', '')
-            policyData['policy_name'] = tags[3].text
+            policyData['title'] = tags[3].text
             policyData['product_types'] = tags[5].text
             policyData['country'] = 'Canada'
             self.data.append(policyData)
@@ -252,7 +257,7 @@ class CampusFairTrade(PageParser):
             tags = [el for el in row]
             policyData['institution'] = tags[1].text
             policyData['url'] = dict(tags[3].first().attrs).get('href', '')
-            policyData['policy_name'] = tags[3].text
+            policyData['title'] = tags[3].text
             policyData['product_types'] = tags[5].text            
             policyData['country'] = 'United States of America'
             self.data.append(policyData)
@@ -284,7 +289,7 @@ class SustainabilityPurchasing(PageParser):
                 elif tag == 'a':
                     linkText = el.text
                     url = dict(el.attrs).get('href', '')
-                    policyData.update({'url': url, 'policy_name': linkText})
+                    policyData.update({'url': url, 'title': linkText})
                 elif isinstance(el, NavigableString) and '(article)' not in el.title().lower() and '**' not in el.title().lower():
                     institution = el.title().rsplit('-', 1)[0].strip()
                     policyData['institution'] = institution
@@ -312,7 +317,7 @@ class AlternativeTransport(PageParser):
             elif tag == 'a':
                 linkText = el.text
                 url = dict(el.attrs).get('href', None)
-                policyData.update({'url': url, 'policy_name': linkText})
+                policyData.update({'url': url, 'title': linkText})
             elif isinstance(el, NavigableString):
                 institution = el.title().rsplit('-', 1)[0].strip()
                 policyData['institution'] = institution
@@ -335,7 +340,7 @@ class UniversalAccess(PageParser):
             tags = [el for el in row]
             policyData['institution'] = tags[1].text
             policyData['url'] = dict(tags[3].first().attrs).get('href', '')
-            policyData['policy_name'] = tags[3].text
+            policyData['title'] = tags[3].text
             policyData['type'] = 'Universal Bus/Transit Pass Programs'
             policyData['country'] = 'Canada'
             self.data.append(policyData)
@@ -347,7 +352,7 @@ class UniversalAccess(PageParser):
             tags = [el for el in row]
             policyData['institution'] = tags[1].text
             policyData['url'] = dict(tags[3].first().attrs).get('href', '')
-            policyData['policy_name'] = tags[3].text
+            policyData['title'] = tags[3].text
             policyData['type'] = 'Universal Bus/Transit Pass Programs'
             policyData['country'] = 'United States of America'
             self.data.append(policyData)
@@ -359,7 +364,7 @@ class UniversalAccess(PageParser):
             tags = [el for el in row]
             policyData['institution'] = tags[1].text
             policyData['url'] = dict(tags[3].first().attrs).get('href', '')
-            policyData['policy_name'] = tags[3].text
+            policyData['title'] = tags[3].text
             policyData['type'] = 'Bus/Transit Pass Discount Programs'
             policyData['country'] = 'Canada'
             self.data.append(policyData)
@@ -371,7 +376,7 @@ class UniversalAccess(PageParser):
             tags = [el for el in row]
             policyData['institution'] = tags[1].text
             policyData['url'] = dict(tags[3].first().attrs).get('href', '')
-            policyData['policy_name'] = tags[3].text
+            policyData['title'] = tags[3].text
             policyData['type'] = 'Bus/Transit Pass Discount Programs'
             policyData['country'] = 'United States of America'
             self.data.append(policyData)
@@ -395,7 +400,7 @@ class BicycleSharing(PageParser):
             tags = [el for el in row]
             policyData['institution'] = tags[1].text
             policyData['url'] = dict(tags[3].first().attrs).get('href', '')
-            policyData['policy_name'] = tags[3].text
+            policyData['title'] = tags[3].text
             policyData['type'] = 'Free Bicycle Share Programs'
             policyData['country'] = 'Canada'
             self.data.append(policyData)
@@ -407,7 +412,7 @@ class BicycleSharing(PageParser):
             tags = [el for el in row]
             policyData['institution'] = tags[1].text
             policyData['url'] = dict(tags[3].first().attrs).get('href', '')
-            policyData['policy_name'] = tags[3].text
+            policyData['title'] = tags[3].text
             policyData['type'] = 'Free Bicycle Share Programs'
             policyData['country'] = 'Colombia'
             self.data.append(policyData)
@@ -419,7 +424,7 @@ class BicycleSharing(PageParser):
             tags = [el for el in row]
             policyData['institution'] = tags[1].text
             policyData['url'] = dict(tags[3].first().attrs).get('href', '')
-            policyData['policy_name'] = tags[3].text
+            policyData['title'] = tags[3].text
             policyData['type'] = 'Free Bicycle Share Programs'
             policyData['country'] = 'United States of America'
             self.data.append(policyData)
@@ -431,7 +436,7 @@ class BicycleSharing(PageParser):
             tags = [el for el in row]
             policyData['institution'] = tags[1].text
             policyData['url'] = dict(tags[3].first().attrs).get('href', '')
-            policyData['policy_name'] = tags[3].text
+            policyData['title'] = tags[3].text
             policyData['type'] = 'Bicycle Rental Programs'
             policyData['country'] = 'United States of America'
             self.data.append(policyData)
@@ -604,7 +609,9 @@ class HybridVehicles(PageParser):
             # get all the <td> tags in the <tr>...
             tags = [el for el in row]
             policyData['institution'] = tags[1].text
-            policyData['number'] = tags[3].text
+            fleet_count = tags[3].text
+            fleet_count = NON_NUMERIC_RE.sub('', fleet_count)
+            policyData['number'] = fleet_count
             policyData['url'] = dict(tags[5].first().attrs)['href']
             policyData['source'] = tags[5].text
             policyData['title'] = policyData['institution']
@@ -652,6 +659,7 @@ class CampusEnergyPlan(PageParser):
     login_required = True
 
     def parsePage(self):
+        from datetime import date, datetime
         table = self.soup.findAll('table')[0]
         data = {}
         for row in table.findAll('tr')[1:]:
@@ -659,7 +667,12 @@ class CampusEnergyPlan(PageParser):
             data['institution'] = tags[1].text
             data['title'] = tags[3].text
             data['url'] = dict(tags[3].find('a').attrs).get('href','')
-            data['date_published'] = tags[5].text
+            try:
+                month, year = tags[5].text.split('/')
+                dt = datetime(month=month, year=year, day=1)
+                data['date_published'] = dt
+            except:
+                data['date_published'] = None
             self.data.append(data)
             data = {}
 
@@ -735,7 +748,7 @@ class WindTurbine(PageParser):
         for row in table.findAll('tr')[1:]:
             tags = [el for el in row]
             data['institution'] = tags[1].text
-            data['size'] = tags[3].text
+            data['capacity'] = tags[3].text
             data['url'] = dict(tags[5].first().attrs).get('href','')
             others = [anchor['href'] for anchor in tags[5].findAll('a')[1:]]
             data['other_urls'] = ' '.join(others)
