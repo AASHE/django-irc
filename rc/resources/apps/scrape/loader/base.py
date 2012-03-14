@@ -157,7 +157,10 @@ class SustainableDiningInitiativesLoader(GenericLoader):
 
 class WindTurbineLoader(GenericLoader):
     def create_instance(self, data):
-        data['capacity'] = data['capacity'].strip(',')
+        if data['size'].lower() == 'unknown':
+            del(data['size']) # Will load into db as a null.
+        else:
+            data['size'] = data['size'].replace(',', '')
         super(WindTurbineLoader, self).create_instance(data)
         
 class TransitPassLoader(GenericLoader):
@@ -170,14 +173,24 @@ class TransitPassLoader(GenericLoader):
 
 class SustainabilityPurchasingLoader(GenericLoader):
     def create_instance(self, data):
+        super(ElectricFleetLoader, self).create_instance(data)
         from rc.resources.apps.operations.models import PurchasingLink
         link_types = dict([(value, key) for key, value in PurchasingLink.LINK_TYPES])
         link_type = link_types.get(data['type'], '')
         data['type'] = link_type
         super(SustainabilityPurchasingLoader, self).create_instance(data)
+
+class HybridFleetLoader(GenericLoader):
+    def create_instance(self, data):
+        # sometimes number of vehicles is '>1'; can't convert that
+        # into an integer field, so we change it to 1:
+        data['number'] = str(data['number']).translate(None, '>&gt;')
         
 class GreenBuildingLoader(GenericLoader):
     def create_instance(self, data):
+        # sometimes number of vehicles is '>1'; can't convert that
+        # into an integer field, so we change it to 1:
+        data['number'] = str(data['number']).translate(None, '>&gt;')
         from rc.resources.apps.operations.models import GreenBuildingType
         if data.has_key('type'):
             try:
@@ -187,4 +200,3 @@ class GreenBuildingLoader(GenericLoader):
                     name=data['type'])
         data['type'] = type_obj
         super(GreenBuildingLoader, self).create_instance(data)
-            

@@ -16,5 +16,19 @@ def create_loader_from_etl(transform):
 
 def process_all():
     for transform in etl.all():
-        loader = create_loader_from_etl(transform)
-        loader.load_all()
+        process_one(transform)
+
+def process_some(model_names):
+    for model_name in model_names:
+        try:
+            transform = [ transform for transform in etl.all() 
+                          if transform['model'].endswith(model_name) ][0]
+        except IndexError:
+            raise Exception("No model named {0} found".format(model_name))
+        process_one(transform)
+
+def process_one(transform):
+    loader = create_loader_from_etl(transform)
+    print "loading {0} . . .".format(transform['model'])
+    loader.load_all()
+            
