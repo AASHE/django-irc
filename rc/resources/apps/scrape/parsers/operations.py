@@ -659,7 +659,12 @@ class CampusEnergyPlan(PageParser):
             data['institution'] = tags[1].text
             data['title'] = tags[3].text
             data['url'] = dict(tags[3].find('a').attrs).get('href','')
-            data['date_published'] = tags[5].text
+            # date published is listed as a mm/yy, but the
+            # database wants a yyyy-mm-dd date . . .
+            date_published = tags[5].text
+            if date_published:
+                month, year = date_published.split('/')
+                data['date_published'] = '-'.join(('20' + year, month, '01'))
             self.data.append(data)
             data = {}
 
