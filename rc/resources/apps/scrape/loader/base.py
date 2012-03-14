@@ -159,4 +159,32 @@ class WindTurbineLoader(GenericLoader):
     def create_instance(self, data):
         data['capacity'] = data['capacity'].strip(',')
         super(WindTurbineLoader, self).create_instance(data)
+        
+class TransitPassLoader(GenericLoader):
+    def create_instance(self, data):
+        from rc.resources.apps.operations.models import TransitPass
+        pass_types = dict([(value, key) for key, value in TransitPass.PASS_TYPES])
+        pass_type = pass_types.get(data['type'], '')
+        data['type'] = pass_type
+        super(TransitPassLoader, self).create_instance(data)
+
+class SustainabilityPurchasingLoader(GenericLoader):
+    def create_instance(self, data):
+        from rc.resources.apps.operations.models import PurchasingLink
+        link_types = dict([(value, key) for key, value in PurchasingLink.LINK_TYPES])
+        link_type = link_types.get(data['type'], '')
+        data['type'] = link_type
+        super(SustainabilityPurchasingLoader, self).create_instance(data)
+        
+class GreenBuildingLoader(GenericLoader):
+    def create_instance(self, data):
+        from rc.resources.apps.operations.models import GreenBuildingType
+        if data.has_key('type'):
+            try:
+                type_obj = GreenBuildingType.objects.get(name=data['type'])
+            except CarSharePartner.DoesNotExist:
+                type_obj = GreenBuildingType.objects.create(
+                    name=data['type'])
+        data['type'] = type_obj
+        super(GreenBuildingLoader, self).create_instance(data)
             

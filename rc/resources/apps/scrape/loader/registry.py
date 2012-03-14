@@ -4,13 +4,21 @@ from rc.resources.apps.scrape.loader.etl import etl
 
 
 # register operations
-
-# TODO write loader for this etl.register(parsers.SustainabilityPurchasing, )
+etl.register(parsers.WebsiteCampusGreenBuilding, loader.GenericLoader, 'operations.GreenBuildingWebsite')
+etl.register(parsers.UniversalAccess, loader.TransitPassLoader, 'operations.TransitPass')
+tl.register(parsers.SustainabilityPurchasing, loader.SustainabilityPurchasingLoader, 'operations.PurchasingLink')
 etl.register(parsers.SustainableLandscaping, loader.GenericLoader, 'operations.SustainableLandscape')
 etl.register(parsers.SustainableDiningInitiatives, loader.SustainableDiningInitiativesLoader, 'operations.DiningInitiative')
 etl.register(parsers.FuelCells, loader.GenericLoader, 'operations.FuelCell')
 etl.register(parsers.RenewableEnergyResearchCenters, loader.GenericLoader, 'operations.RenewableResearchCenter')
-# TODO Green Buildings and Publications on Climate Action
+# TODO Publications on Climate Action
+# BEGIN Green Buildings
+etl.register(parsers.GreenAthleticBuilding, loader.GreenBuildingLoader, 'operations.CampusGreenBuilding')
+etl.register(parsers.GreenLibrary, loader.GreenBuildingLoader, 'operations.CampusGreenBuilding')
+etl.register(parsers.GreenStudentCenter, loader.GreenBuildingLoader, 'operations.CampusGreenBuilding')
+etl.register(parsers.GreenResidence, loader.GreenBuildingLoader, 'operations.CampusGreenBuilding')
+etl.register(parsers.GreenScience, loader.GreenBuildingLoader, 'operations.CampusGreenBuilding')
+# END
 etl.register(parsers.WindTurbine, loader.WindTurbineLoader, 'operations.WindTurbine')
 etl.register(parsers.WaterConservation, loader.GenericLoader, 'operations.WaterConservationEffort')
 etl.register(parsers.EnergyPoliciesParser, loader.GenericLoader, 'operations.EnergyPolicy')
@@ -50,3 +58,6 @@ etl.register(parsers.RecyclingPolicy, loader.PolicyLoader,
              'policies.Policy', policy_type='Recycling / Waste Minimization Policy')
 etl.register(parsers.GeneralProcurementPolicies, loader.PolicyLoader,
              'policies.Policy', policy_type='General / Comprehensive Procurement Policy')
+             
+# register PAE
+etl.register(parsers.AlumniSustainabilityFunds, loader.GenericLoader, 'pae.AlumniFund')

@@ -125,9 +125,9 @@ class SustainableLandscape(ResourceItem):
         verbose_name_plural = 'sustainable landscaping'
 
 class PurchasingLink(ResourceItem):
-    type = models.CharField(_('link type'),
-                            choices=(('CA', 'Campus Links'),
-                                     ('OT', 'Other Links')),
+    LINK_TYPES = (('CA', 'Campus Links'),
+                  ('OT', 'Other Links'))
+    type = models.CharField(_('link type'), choices=LINK_TYPES,
                             max_length=2)
     
     class Meta:
