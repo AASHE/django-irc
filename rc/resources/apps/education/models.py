@@ -62,8 +62,8 @@ class FacultyWorkshops(ResourceItem):
 
 class SurveyOfAwareness(ResourceItem):
     class Meta:
-        verbose_name = 'survey of sustainability awareness, attitudes, and values'
-        verbose_name_plural = 'surveys of sustainability awareness, attitudes, and values'
+        verbose_name = 'sustainability survey'
+        verbose_name_plural = 'sustainability surveys'
 
 class ResearchInventories(ResourceItem):
     class Meta:
