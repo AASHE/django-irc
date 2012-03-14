@@ -155,6 +155,19 @@ class SustainableDiningInitiativesLoader(GenericLoader):
 
 class WindTurbineLoader(GenericLoader):
     def create_instance(self, data):
-        data['capacity'] = data['capacity'].strip(',')
+        if data['size'].lower() == 'unknown':
+            del(data['size']) # Will load into db as a null.
+        else:
+            data['size'] = data['size'].replace(',', '')
         super(WindTurbineLoader, self).create_instance(data)
-            
+
+class ElectricFleetLoader(GenericLoader):
+    def create_instance(self, data):
+        super(ElectricFleetLoader, self).create_instance(data)
+
+class HybridFleetLoader(GenericLoader):
+    def create_instance(self, data):
+        # sometimes number of vehicles is '>1'; can't convert that
+        # into an integer field, so we change it to 1:
+        data['number'] = str(data['number']).translate(None, '>&gt;')
+
