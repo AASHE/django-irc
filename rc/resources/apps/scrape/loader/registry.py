@@ -14,11 +14,13 @@ etl.register(parsers.RenewableEnergyResearchCenters, loader.GenericLoader, 'oper
 etl.register(parsers.WindTurbine, loader.WindTurbineLoader, 'operations.WindTurbine')
 etl.register(parsers.WaterConservation, loader.GenericLoader, 'operations.WaterConservationEffort')
 etl.register(parsers.EnergyPoliciesParser, loader.GenericLoader, 'operations.EnergyPolicy')
-etl.register(parsers.HybridVehicles, loader.GenericLoader, 'operations.HybridFleet')
+etl.register(parsers.HybridVehicles, loader.HybridFleetLoader, 'operations.HybridFleet')
 # TODO global warming commitments 
 etl.register(parsers.CampusEnergyWebsite, loader.GenericLoader, 'operations.EnergyWebsite')
-etl.register(parsers.CampusEnergyPlan, loader.GenericLoader, 'operations.EnergyPlanssh')
-etl.register(parsers.ElectricVehicleFleet, loader.GenericLoader, 'operations.ElectricFleet')
+etl.register(parsers.CampusEnergyPlan, loader.GenericLoader, 
+             'operations.EnergyPlan')
+etl.register(parsers.ElectricVehicleFleet, loader.ElectricFleetLoader, 
+             'operations.ElectricFleet')
 etl.register(parsers.CarBan, loader.CarBanLoader, 'operations.CarBan')
 # TODO Biodiesel fleets
 etl.register(parsers.BicyclePlans, loader.GenericLoader, 'operations.BicyclePlan')
@@ -38,7 +40,7 @@ etl.register(parsers.FacultyDevelopmentWorkshops, loader.GenericLoader, 'educati
 etl.register(parsers.SurveysAwarenessAttitudes, loader.GenericLoader, 'education.SurveyOfAwareness')
 
 # register policies
-etl.register(parsers.EnergyPoliciesParser, loader.PolicyLoader,
+etl.register(parsers.policies.EnergyConservationPolicies, loader.PolicyLoader,
              'policies.Policy', policy_type='Energy Conservation Policy')
 etl.register(parsers.IntegratedPestPolicies, loader.PolicyLoader,
              'policies.Policy', policy_type='Integrated Pest Management Policy')
