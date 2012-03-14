@@ -34,7 +34,7 @@ class AlumniFund(ResourceItem):
 
 class RevolvingLoanFund(ResourceItem):
     class Meta:
-        verbose_name = 'campus sustainability revolving loan fund'
+        verbose_name = 'revolving loan fund'
 
 class StudentFee(ResourceItem):
     class Meta:
