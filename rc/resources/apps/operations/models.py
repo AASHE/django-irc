@@ -54,8 +54,8 @@ class GHGInventory(ResourceItem):
                                    choices=METHODOLOGY_TYPES, max_length=2)
     
     class Meta:
-        verbose_name = 'campus greenhouse gas emissions inventory'
-        verbose_name_plural = 'campus greenhouse gas emissions inventories'
+        verbose_name = 'campus ghg inventory'
+        verbose_name_plural = 'campus ghg inventories'
 
 class DiningInitiative(ResourceItem):
     OWNERS = (('SO', 'Self-Operated'),
@@ -121,8 +121,8 @@ class WindTurbine(ResourceItem):
         
 class SustainableLandscape(ResourceItem):
     class Meta:
-        verbose_name = 'sustainable landscaping on campus'
-        verbose_name_plural = 'sustainable landscaping on campus'
+        verbose_name = 'sustainable landscaping'
+        verbose_name_plural = 'sustainable landscaping'
 
 class PurchasingLink(ResourceItem):
     type = models.CharField(_('link type'),
@@ -224,12 +224,12 @@ class BottledWaterBan(ResourceItem):
 
     class Meta:
         ordering = ('title',)
-        verbose_name = 'bottled water elimination and reduction'
-        verbose_name_plural = 'bottled water elimination and reductions'
+        verbose_name = 'bottled water reduction'
+        verbose_name_plural = 'bottled water reductions'
 
 class RecyclingWebsite(ResourceItem):
     class Meta:
-        verbose_name = 'campus recycling and waste minimization website'
+        verbose_name = 'campus recycling/waste website'
 
 class WaterConservationEffort(ResourceItem):
     class Meta:
