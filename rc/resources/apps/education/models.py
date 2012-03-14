@@ -58,7 +58,7 @@ class SustainabilitySyllabus(ResourceItem):
 
 class FacultyWorkshops(ResourceItem):
     class Meta:
-        verbose_name = 'sustainability faculty development workshop'
+        verbose_name = 'faculty development workshop'
 
 class SurveyOfAwareness(ResourceItem):
     class Meta:
