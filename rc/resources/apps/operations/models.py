@@ -114,7 +114,7 @@ class EnergyPolicy(ResourceItem):
         
 class WindTurbine(ResourceItem):
     size = models.DecimalField(_('system size (kW)'), max_digits=6, 
-                                 decimal_places=1)
+                                 decimal_places=1, null=True)
     
     class Meta:
         verbose_name = 'campus wind turbine'
@@ -172,7 +172,7 @@ class BiodieselFleet(ResourceItem):
         verbose_name = 'campus biodiesel fleet'
 
 class ElectricFleet(ResourceItem):
-    vehicles = models.IntegerField(_('number of vehicles'))
+    number = models.IntegerField(_('number of vehicles'), null=True)
     source_type = models.CharField(_('source type (article, website, etc.)'), max_length=30)
     
     class Meta:
