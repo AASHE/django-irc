@@ -1,6 +1,6 @@
 from django.db.models import get_model
 from rc.resources.apps.policies.models import *
-from rc.resources.apps.loader import GenericLoader, LoaderException
+from rc.resources.apps.scrape.loader import GenericLoader, LoaderException
 
 
 class BottleWaterBanLoader(GenericLoader):
