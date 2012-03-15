@@ -61,3 +61,8 @@ etl.register(parsers.GeneralProcurementPolicies, loader.PolicyLoader,
              
 # register PAE
 etl.register(parsers.AlumniSustainabilityFunds, loader.GenericLoader, 'pae.AlumniFund')
+etl.register(parsers.CampusMasterPlan, loader.GenericLoader, 'pae.MasterPlan')
+etl.register(parsers.AssessmentTools, loader.AssessmentToolsLoader, 'pae.AssessmentTool')
+etl.register(parsers.SustainabilityBlog, loader.GenericLoader, 'pae.SustainabilityBlog')
+etl.register(parsers.SustainabilityPlan, loader.GenericLoader, 'pae.SustainabilityPlan')
+etl.register(parsers.RevolvingFund, loader.GenericLoader, 'pae.RevolvingLoanFund')
