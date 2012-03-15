@@ -173,15 +173,9 @@ class BiodieselFleet(ResourceItem):
         verbose_name = 'campus biodiesel fleet'
 
 class ElectricFleet(ResourceItem):
-<<<<<<< local
-    vehicles = models.IntegerField(_('number of vehicles'),
-                                   blank=True, null=True)
+    number = models.IntegerField(_('number of vehicles'), blank=True, null=True)    
     source_type = models.CharField(_('source type (article, website, etc.)'),
                                    max_length=30)
-=======
-    number = models.IntegerField(_('number of vehicles'), null=True)
-    source_type = models.CharField(_('source type (article, website, etc.)'), max_length=30)
->>>>>>> other
     
     class Meta:
         verbose_name = 'campus electric vehicle fleet'
