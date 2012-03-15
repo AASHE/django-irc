@@ -83,3 +83,5 @@ class AcademicCenterType(models.Model):
     class Meta:
         verbose_name = 'academic center type'
         
+    def __unicode__(self):
+        return self.type
