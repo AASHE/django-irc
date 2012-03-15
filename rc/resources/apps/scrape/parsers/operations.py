@@ -1001,3 +1001,20 @@ class WebsiteCampusGreenBuilding(PageParser):
             self.data.append(data)
             data = {}
 
+class GlobalWarmingCommitment(SimpleTableParser):
+    '''
+    >>> parser = GlobalWarmingCommitment()
+    >>> parser.parsePage()
+    >>> len(parser.data) != 0
+    True
+    '''
+    url = 'http://www.aashe.org/resources/campus-global-warming-commitments'
+    login_required = True
+
+    def processTableData(self, row, tags):
+        commitmentData = {}
+        commitmentData['institution'] = tags[1].text
+        commitmentData['url'] = dict(tags[3].first().attrs)['href']
+        commitmentData['commitment'] = tags[3].text
+        commitmentData['date'] = tags[-2:-1][0].text
+        return commitmentData
