@@ -78,10 +78,22 @@ class AcademicCenter(ResourceItem):
         verbose_name_plural = 'academic centers on sustainability'
 
 class AcademicCenterType(models.Model):
-    type = models.CharField(_('academic center type'), max_length=75)
-    
+    CENTER_TYPES = (('AG', 'Agriculture'),
+                    ('AR', 'Architecture'),
+                    ('BS', 'Business'),
+                    ('DS', 'Development Studies'),
+                    ('EC', 'Economics'),
+                    ('ED', 'Education'),
+                    ('EN', 'Engineering'),
+                    ('LW', 'Law'),
+                    ('US', 'Urban Studies'))
+
+    type = models.CharField(_('academic center type'), max_length=2,
+                            choices=CENTER_TYPES, blank=True)
+
     class Meta:
         verbose_name = 'academic center type'
+        verbose_name_plural = 'academic center types'
         
     def __unicode__(self):
         return self.type
