@@ -154,38 +154,92 @@ class AcademicCentersParser(PageParser):
         self.processTable(self.soup.findAll('table')[0])    
 
 class AcademicCentersAgriculture(AcademicCentersParser):
+    '''
+    >>> parser = AcademicCentersAgriculture()
+    >>> parser.parsePage()
+    >>> len(parser.data) != 0
+    True
+    '''
     url = 'http://www.aashe.org/resources/academic-centers-and-research-initiatives-sustainable-agriculture'
     category = 'AG'
     
 class AcademicCentersArchitecture(AcademicCentersParser):
+    '''
+    >>> parser = AcademicCentersArchitecture()
+    >>> parser.parsePage()
+    >>> len(parser.data) != 0
+    True
+    '''
     url = 'http://www.aashe.org/resources/design_centers.php'
     category = 'AR'
     
 class AcademicCentersBusiness(AcademicCentersParser):
+    '''
+    >>> parser = AcademicCentersBusiness()
+    >>> parser.parsePage()
+    >>> len(parser.data) != 0
+    True
+    '''
     url = 'http://www.aashe.org/resources/business_centers.php'
     category = 'BS'
     
 class AcademicCentersDevelopmentStudies(AcademicCentersParser):
+    '''
+    >>> parser = 
+    >>> parser.parsePage()
+    >>> len(parser.data) != 0
+    True
+    '''
     url = 'http://www.aashe.org/resources/sustainable_development_centers.php'
     category = 'DS'
     
 class AcademicCentersEconomics(AcademicCentersParser):
+    '''
+    >>> parser = AcademicCentersEconomics()
+    >>> parser.parsePage()
+    >>> len(parser.data) != 0
+    True
+    '''
     url = 'http://www.aashe.org/resources/economics_centers.php'
     category = 'EC'
     
 class AcademicCentersEducation(AcademicCentersParser):
+    '''
+    >>> parser = AcademicCentersEducation()
+    >>> parser.parsePage()
+    >>> len(parser.data) != 0
+    True
+    '''
     url = 'http://www.aashe.org/resources/education_centers.php'
     category = 'ED'
     
 class AcademicCentersEngineering(AcademicCentersParser):
+    '''
+    >>> parser = AcademicCentersEngineering()
+    >>> parser.parsePage()
+    >>> len(parser.data) != 0
+    True
+    '''
     url = 'http://www.aashe.org/resources/engineeringcenters.php'
     category = 'EN'
     
 class AcademicCentersLaw(AcademicCentersParser):
+    '''
+    >>> parser = AcademicCentersLaw()
+    >>> parser.parsePage()
+    >>> len(parser.data) != 0
+    True
+    '''
     url = 'http://www.aashe.org/resources/law_centers.php'
     category = 'LW'
 
 class AcademicCentersUrbanStudies(AcademicCentersParser):
+    '''
+    >>> parser = AcademicCentersUrbanStudies()
+    >>> parser.parsePage()
+    >>> len(parser.data) != 0
+    True
+    '''
     url = 'http://www.aashe.org/resources/urban_studies_centers.php'
     category = 'US'
 

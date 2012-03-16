@@ -25,17 +25,36 @@ def process_all():
         process_one(transform)
 
 def process_some(model_names):
+    some_transforms = set()
+    all_transforms = etl.all()
+
     for model_name in model_names:
-        try:
-            transform = [ transform for transform in etl.all() 
-                          if transform['model'].endswith(model_name) ][0]
-        except IndexError:
-            raise Exception("No model named {0} found".format(model_name))
-        process_one(transform)
+        transforms_for_model_name = [ transform for transform in all_transforms
+                                      if transform['model'].endswith(model_name) ]
+        if transforms_for_model_name:
+            for transform in transforms_for_model_name:
+                some_transforms.add('\t'.join((transform['model'], 
+                                               transform['parser'].__name__)))
+        else:
+            print(colors.FAIL + 
+                  "ERROR: No transforms for model(s) named {0} found".format(model_name))        
+
+    for transform in some_transforms:
+        model, parser_name = transform.split('\t')
+        process_one([ t for t in all_transforms 
+                      if t['model'] == model and t['parser'].__name__ == parser_name ][0])
+            
+def process_category(category_name):
+    transforms = [ transform for transform in etl.all()
+                   if transform['model'].startswith(category_name) ]
+    if transforms:
+        process_some([ model['model'] for model in transforms ])
 
 def process_one(transform):
     loader = create_loader_from_etl(transform)
-    print "loading {0} . . .".format(transform['model'])
+    parser_name = str(transform['parser']).split('.')[-1][0:-2]
+    print "loading {0}, parsed by {1} . . .".format(transform['model'], parser_name)
+                      
     try:
         loader.load_all()
     except LoaderException:

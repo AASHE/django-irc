@@ -44,6 +44,10 @@ etl.register(parsers.SustainableCourseInventories, loader.GenericLoader, 'educat
 etl.register(parsers.SustainabilitySyllabi, loader.GenericLoader, 'education.SustainabilitySyllabus', reset=True)
 etl.register(parsers.FacultyDevelopmentWorkshops, loader.GenericLoader, 'education.FacultyWorkshops', reset=True)
 etl.register(parsers.SurveysAwarenessAttitudes, loader.GenericLoader, 'education.SurveyOfAwareness')
+for academic_center_type in ('Agriculture', 'Architecture', 'Business', 'DevelopmentStudies',
+                             'Economics', 'Education', 'Engineering', 'Law', 'UrbanStudies'):
+    etl.register(getattr(parsers, ''.join(('AcademicCenters', academic_center_type))),
+                         loader.AcademicCenterLoader, 'education.AcademicCenter')
 
 # register policies
 etl.register(parsers.policies.EnergyConservationPolicies, loader.PolicyLoader,
