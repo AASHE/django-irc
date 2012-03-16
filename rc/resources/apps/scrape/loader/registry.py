@@ -4,6 +4,7 @@ from rc.resources.apps.scrape.loader.etl import etl
 
 
 # register operations
+etl.register(parsers.CommuterSurvey, loader.CommuterSurveyLoader, 'operations.CommuterSurvey')
 etl.register(parsers.WebsiteCampusGreenBuilding, loader.GenericLoader, 'operations.GreenBuildingWebsite')
 etl.register(parsers.UniversalAccess, loader.TransitPassLoader, 'operations.TransitPass')
 etl.register(parsers.SustainabilityPurchasing, loader.SustainabilityPurchasingLoader, 'operations.PurchasingLink')
