@@ -18,17 +18,17 @@ etl.register(parsers.GreenLibrary, loader.GreenBuildingLoader, 'operations.Campu
 etl.register(parsers.GreenStudentCenter, loader.GreenBuildingLoader, 'operations.CampusGreenBuilding')
 etl.register(parsers.GreenResidence, loader.GreenBuildingLoader, 'operations.CampusGreenBuilding')
 etl.register(parsers.GreenScience, loader.GreenBuildingLoader, 'operations.CampusGreenBuilding')
-# END
+# END Green Buildings
 etl.register(parsers.WindTurbine, loader.WindTurbineLoader, 'operations.WindTurbine')
 etl.register(parsers.WaterConservation, loader.GenericLoader, 'operations.WaterConservationEffort')
 etl.register(parsers.EnergyPoliciesParser, loader.GenericLoader, 'operations.EnergyPolicy')
 etl.register(parsers.HybridVehicles, loader.HybridFleetLoader, 'operations.HybridFleet')
-# TODO global warming commitments 
+etl.register(parsers.GlobalWarmingCommitment, loader.GenericLoader, 'operations.GlobalWarmingCommitment')
 etl.register(parsers.CampusEnergyWebsite, loader.GenericLoader, 'operations.EnergyWebsite')
 etl.register(parsers.CampusEnergyPlan, loader.GenericLoader, 'operations.EnergyPlan')
 etl.register(parsers.ElectricVehicleFleet, loader.GenericLoader, 'operations.ElectricFleet')
 etl.register(parsers.CarBan, loader.CarBanLoader, 'operations.CarBan')
-# TODO Biodiesel fleets
+etl.register(parsers.BiodieselFleet, loader.BiodieselFleetLoader, 'operations.BiodieselFleet')
 etl.register(parsers.BicyclePlans, loader.GenericLoader, 'operations.BicyclePlan')
 etl.register(parsers.BuildingEnergyDashboard, loader.BuildingDashboardLoader, 'operations.BuildingDashboard')
 etl.register(parsers.AlternativeTransport, loader.GenericLoader, 'operations.TransportationWebsite')
