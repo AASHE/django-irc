@@ -26,9 +26,6 @@ class CampusSustainabilityCourseLoader(GenericLoader):
         # GenericLoader.create_instance() for each course.  note, this
         # breaks the pattern of create_instance() returning the db
         # object that was created.
-        # if 'Aquinas' in data['school_name']:
-        #     print "**** SKIPPING AQUINAS!! ****"
-        #     return
         for course in data['courses']:
             course['institution'] = data['school_name']
             # save off the course teachers since GenericLoader.create_instance()
@@ -53,3 +50,6 @@ class CampusSustainabilityCourseLoader(GenericLoader):
             csc_teachers.append(csc_teacher)
         return csc_teachers
 
+    def reset_model(self):
+        CampusSustainabilityCourseTeacher.objects.all().delete()
+        super(CampusSustainabilityCourse, self).reset_model()
