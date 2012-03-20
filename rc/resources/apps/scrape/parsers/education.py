@@ -260,12 +260,6 @@ class CampusSustainabilityCourses(PageParser):
     url = 'http://www.aashe.org/resources/courses-campus-sustainability'
     login_required = False
 
-
-    def __init__(self, debug=False):
-        if debug:
-            import pdb; pdb.set_trace()
-        super(CampusSustainabilityCourses, self).__init__()
-    
     def parseTeacher(self, anchor, text):
         if not text: # some data is unexpectedly formatted or missing
             return 
@@ -345,7 +339,9 @@ class CampusSustainabilityCourses(PageParser):
         course['description'] = self.parseDescription(element)
         return course
 
-    def parsePage(self):
+    def parsePage(self, trace=False):
+        if trace:
+            import pdb; pdb.set_trace()
         for school_element in self.soup.findAll('h2', {'class': None}):
             school = dict(school_name=school_element.text, courses=list())
             next_sibling = school_element.findNextSibling()
@@ -353,7 +349,7 @@ class CampusSustainabilityCourses(PageParser):
                    next_sibling.name.lower() == 'p' and
                    next_sibling.text > ''): # skip empty paragraphs
                 course = self.parseCourse(next_sibling)
-                school['courses'].append(self.parseCourse(next_sibling))
+                school['courses'].append(course)
                 next_sibling = next_sibling.findNextSibling()
             self.data.append(school)            
 
