@@ -56,6 +56,60 @@ class LivingWage(PageParser):
             self.data.append(data)
             data = {}
 
+class AntiIdling(PageParser):
+    '''
+    >>> parser = AntiIdling()
+    >>> parser.parsePage()
+    >>> len(parser.data) != 0
+    True
+    >>> parser.data[0]['description'] != ''
+    True
+    '''
+    url = 'http://www.aashe.org/resources/campus-anti-idling-policies'
+    login_required = True
+
+    def parsePage(self):
+        paras = self.soup.find('div', {'class': 'content clear-block'}).findAll('p')
+        data = {}
+        for para in paras:
+            strong = para.find('strong')
+            anchor = para.find('a')
+            br = para.find('br')
+            textEl = br.nextSibling
+            data['title'] = anchor.text
+            data['url'] = dict(anchor.attrs).get('href', '')
+            data['description'] = textEl
+            data['institution'] = strong.text
+            self.data.append(data)
+            data = {}
+
+class PaperProcurement(PageParser):
+    '''
+    >>> parser = PaperProcurement()
+    >>> parser.parsePage()
+    >>> len(parser.data) != 0
+    True
+    >>> parser.data[0]['description'] != ''
+    True
+    '''
+    url = 'http://www.aashe.org/resources/paper-procurement-policies'
+    login_required = True
+
+    def parsePage(self):
+        paras = self.soup.find('div', {'class': 'content clear-block'}).findAll('p')
+        data = {}
+        for para in paras:
+            strong = para.find('strong')
+            anchor = para.find('a')
+            br = para.find('br')
+            textEl = br.nextSibling
+            data['title'] = anchor.text
+            data['url'] = dict(anchor.attrs).get('href', '')
+            data['description'] = textEl
+            data['institution'] = strong.text
+            self.data.append(data)
+            data = {}
+            
 class StormwaterPolicies(SimpleTableParser):
     '''
     >>> parser = StormwaterPolicies()
