@@ -267,7 +267,7 @@ class CampusSustainabilityCourses(PageParser):
         # initialize teacher fields that might not be present so they'll
         # exist when the loader tries to access them:
         teacher = dict(email='', web_page='', middle_name='',
-                       title='', department='',)
+                       title='', department='')
         
         protocol, resource = anchor['href'].split(':')
         if protocol.lower() == 'mailto':
@@ -328,17 +328,13 @@ class CampusSustainabilityCourses(PageParser):
         '''Parse course info from element.'''
         course = dict()
         title_element = element.find('strong')
-        if title_element:
-            try:
-                course['title'] = element.find('strong').text.strip()
-            except TypeError:
-                self.course_note(course, 
-                                 "Can't parse a title from '{0}'".format(
-                                    title_element))
-        else:
-            self.course_note(course, 
-                             "Can't parse a title from '{0}'".format(
-                                element))
+        course['title'] = title_element.text.strip()
+        # sometimes there's a link in the title:
+        if title_element.find('a'):
+            course['url'] = title_element.find('a').get('href')
+        # sometimes the title is wrapped in an anchor tag:
+        elif title_element.parent.name == 'a':
+            course['url'] = title_element.parent.get('href')
         course['teachers'] = self.parseTeachers(element, course)
         course['description'] = self.parseDescription(element)
         return course
