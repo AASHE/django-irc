@@ -18,8 +18,9 @@ class AcademicCenterLoader(GenericLoader):
         data['type'] = this_center_type
         super(AcademicCenterLoader, self).create_instance(data)
 
+
 class CampusSustainabilityCourseLoader(GenericLoader):
-    
+
     def create_instance(self, data):
         # each datum is a school, and each school can have >1 course.
         # since we're loading courses, not schools, we need to call
@@ -52,4 +53,4 @@ class CampusSustainabilityCourseLoader(GenericLoader):
 
     def reset_model(self):
         CampusSustainabilityCourseTeacher.objects.all().delete()
-        super(CampusSustainabilityCourse, self).reset_model()
+        super(CampusSustainabilityCourseLoader, self).reset_model()
