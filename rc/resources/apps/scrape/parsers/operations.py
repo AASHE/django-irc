@@ -1018,3 +1018,35 @@ class GlobalWarmingCommitment(SimpleTableParser):
         commitmentData['commitment'] = tags[3].text
         commitmentData['date'] = tags[-2:-1][0].text
         return commitmentData
+        
+class CommuterSurvey(SimpleTableParser):
+    '''
+    >>> parser = CommuterSurvey()
+    >>> parser.parsePage()
+    >>> len(parser.data) != 0
+    True
+    '''
+    url = 'http://www.aashe.org/resources/campus-commuter-surveys'
+    login_required = True
+
+    def processTable(self, table, surveytype, headings=True):
+        # get all <tr> tags from the table...
+        rows = row_tags = table.findAll('tr')
+        policyData = {}
+        # loop over each <tr> row and extract the content...
+        if headings:
+            rows = row_tags[1:]
+        for row in rows:
+            # get all the <td> tags in the <tr>...
+            tags = [el for el in row]
+            policyData['institution'] = tags[1].text
+            policyData['url'] = dict(tags[3].first().attrs).get('href', '')
+            policyData['type'] = surveytype
+            self.data.append(policyData)
+            policyData = {}        
+
+    def parsePage(self):
+        headers = self.soup.find('div', {'class': 'content clear-block'}).findAll('h2')
+        for surveytype in headers:
+            table = surveytype.nextSibling.nextSibling
+            self.processTable(table, surveytype.text)

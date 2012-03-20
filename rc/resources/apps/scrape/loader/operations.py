@@ -110,4 +110,11 @@ class GreenBuildingLoader(GenericLoader):
                     name=data['type'])
         data['type'] = type_obj
         super(GreenBuildingLoader, self).create_instance(data)
-        
+
+class CommuterSurveyLoader(GenericLoader):
+    def create_instance(self, data):
+        from rc.resources.apps.operations.models import CommuterSurvey
+        survey_types = dict([(value, key) for key, value in CommuterSurvey.SURVEY_TYPES])
+        survey_type = link_types.get(data['type'], '')
+        data['type'] = survey_type
+        super(CommuterSurveyLoader, self).create_instance(data)
