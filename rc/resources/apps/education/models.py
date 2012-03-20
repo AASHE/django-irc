@@ -32,18 +32,34 @@ class StudentPeerOutreach(ResourceItem):
     class Meta:
         verbose_name = 'peer to peer sustainability outreach campaign'
 
-class CampusSustainabilityCourse(ResourceItem):
-    department_number = models.CharField(_('department and number'), max_length=75)
-    faculty_first_name = models.CharField(_('faculty first name'), max_length=75)
-    faculty_last_name = models.CharField(_('faculty last name'), max_length=75)
-    faculty_title = models.CharField(_('faculty title'), max_length=75)
-    faculty_dept = models.CharField(_('faculty department'), max_length=75)
-    faculty_email = models.CharField(_('faculty email'), max_length=75)
+class CampusSustainabilityCourseTeacher(models.Model):
+    first_name = models.CharField(_('faculty first name'), max_length=75)
+    middle_name = models.CharField(_('faculty middle name'), max_length=75)    
+    last_name = models.CharField(_('faculty last name'), max_length=75)
+    title = models.CharField(_('title'), max_length=75)
+    department = models.CharField(_('faculty department'), max_length=75)    
+    email = models.EmailField(('faculty email'), max_length=255)
+    web_page = models.CharField(('faculty web page'), max_length=75)
     
     class Meta:
-        verbose_name = 'course on campus sustainability'
-        verbose_name_plural = 'courses on campus sustainability'
+        ordering = ('last_name', 'first_name')
+        verbose_name = 'course on sustainability teacher'
+        verbose_name_plural = 'course on sustainability teachers'
+
+    class Admin:
+        list_display = ('last_name', 'first_name', 'title', 
+                        'email', 'web_page', 'department')
         
+class CampusSustainabilityCourse(ResourceItem):
+    department_number = models.CharField(_('department and number'), 
+                                         max_length=75)
+    teachers = models.ManyToManyField(CampusSustainabilityCourseTeacher)
+
+    class Meta:
+        ordering = ('title',)
+        verbose_name = 'course on sustainability'
+        verbose_name_plural = 'courses on sustainability'
+
 class SustainabilityCourseInventory(ResourceItem):
     class Meta:
         ordering = ('title',)

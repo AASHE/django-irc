@@ -1,5 +1,8 @@
-from base import PageParser, SimpleTableParser
+import urllib
+
 from BeautifulSoup import BeautifulSoup, NavigableString
+
+from base import PageParser, SimpleTableParser
 
 
 class CampusAgriculture(SimpleTableParser):
@@ -247,11 +250,110 @@ class SustainabilityResearchInventories(SimpleTableParser):
     url = 'http://www.aashe.org/resources/sustainability-research-inventories'
     login_required = True
 
-# TODO
-class CoursesOnSustainability(PageParser):
+class CampusSustainabilityCourses(PageParser):
+    '''
+    >>> parser = CoursesOnSustainability()
+    >>> parser.parsePage()
+    >>> len(parser.data) != 0
+    True
+    '''
     url = 'http://www.aashe.org/resources/courses-campus-sustainability'
     login_required = False
 
+    def parseTeacher(self, anchor, text):
+        if not text: # some data is unexpectedly formatted or missing
+            return 
+
+        # initialize teacher fields that might not be present so they'll
+        # exist when the loader tries to access them:
+        teacher = dict(email='', web_page='', middle_name='',
+                       title='', department='')
+        
+        protocol, resource = anchor['href'].split(':')
+        if protocol.lower() == 'mailto':
+            teacher['email'] = urllib.unquote(resource).strip()
+        elif protocol.lower() == 'http':
+            teacher['web_page'] = ':'.join((protocol, 
+                                            urllib.unquote(resource).strip()))
+
+        names = anchor.text.split()
+        teacher['first_name'] = names.pop(0)
+        teacher['last_name'] = names.pop()
+        if names:
+            teacher['middle_name'] = names[0]
+
+        if text.startswith(','):
+            text = text[1:]
+        teacher['title'] = text.strip()
+
+        return teacher
+    
+    def parseTeachers(self, element, course):
+        '''Parse faculty info from element.
+
+        Teacher info is wrapped in an <em>.  Inside, there's (always?)
+        a mailto anchor with email address and name, followed by a
+        title and sometimes, a department.  When there are > 1
+        teachers, they sometimes are wrapped in individual <em>'s,
+        sometimes combined into the same <em>.
+        '''
+        teachers = list()
+        for em in element.findAll('em'):
+            for a in em.findAll('a'):
+                teacher = self.parseTeacher(a, a.nextSibling)
+                if teacher:
+                    teachers.append(teacher)
+                else:
+                    self.course_note(course, 
+                                     "Can't parse a teacher from '{0}'".format(
+                                         a.parent))
+        return teachers
+
+    def parseDescription(self, element):
+        # description is last bits of element.  these bits can be
+        # string, or BeautifulSoup tags.
+        em_index = element.index(element.find('em'))
+        description = ''
+        for part in element.contents[em_index + 1:]:
+            # skip BR tags:
+            try:
+                if part.name.lower() == 'br':
+                    continue
+            except AttributeError:
+                pass # not a BeautifulSoup.Tag
+            description = ''.join((description, str(part).strip()))
+        return description
+    
+    def parseCourse(self, element):
+        '''Parse course info from element.'''
+        course = dict()
+        title_element = element.find('strong')
+        course['title'] = title_element.text.strip()
+        # sometimes there's a link in the title:
+        if title_element.find('a'):
+            course['url'] = title_element.find('a').get('href')
+        # sometimes the title is wrapped in an anchor tag:
+        elif title_element.parent.name == 'a':
+            course['url'] = title_element.parent.get('href')
+        course['teachers'] = self.parseTeachers(element, course)
+        course['description'] = self.parseDescription(element)
+        return course
+
+    def parsePage(self):
+        for school_element in self.soup.findAll('h2', {'class': None}):
+            school = dict(school_name=school_element.text, courses=list())
+            next_sibling = school_element.findNextSibling()
+            while (next_sibling and 
+                   next_sibling.name.lower() == 'p' and
+                   next_sibling.text > ''): # skip empty paragraphs
+                course = self.parseCourse(next_sibling)
+                school['courses'].append(self.parseCourse(next_sibling))
+                next_sibling = next_sibling.findNextSibling()
+            self.data.append(school)            
+
+    def course_note(self, course, text):
+        course['notes'] = '\n'.join((course.setdefault('notes', ''), text))
+        
 class SustainableCourseInventories(SimpleTableParser):
     '''
     >>> parser = SustainableCourseInventories()

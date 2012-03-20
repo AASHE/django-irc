@@ -37,19 +37,34 @@ etl.register(parsers.BottledWaterBans, loader.BottleWaterBanLoader, 'operations.
 etl.register(parsers.CarSharing, loader.CarShareLoader, 'operations.CarShare')
 etl.register(parsers.RecyclingWasteMinimization, loader.RecyclingWasteLoader, 'operations.RecyclingWebsite')
 
-# register education
-etl.register(parsers.SustainableLivingGuide, loader.GenericLoader, 'education.LivingGuides', reset=True)
-etl.register(parsers.CampusAgriculture, loader.GenericLoader, 'education.CampusAgriculture', reset=True)
-etl.register(parsers.SustainabilityResearchInventories, loader.GenericLoader, 'education.ResearchInventories', reset=True)
-etl.register(parsers.SustainableCourseInventories, loader.GenericLoader, 'education.SustainabilityCourseInventory', reset=True)
-etl.register(parsers.SustainabilitySyllabi, loader.GenericLoader, 'education.SustainabilitySyllabus', reset=True)
-etl.register(parsers.FacultyDevelopmentWorkshops, loader.GenericLoader, 'education.FacultyWorkshops', reset=True)
-etl.register(parsers.SurveysAwarenessAttitudes, loader.GenericLoader, 'education.SurveyOfAwareness')
-for academic_center_type in ('Agriculture', 'Architecture', 'Business', 'DevelopmentStudies',
-                             'Economics', 'Education', 'Engineering', 'Law', 'UrbanStudies'):
-    etl.register(getattr(parsers, ''.join(('AcademicCenters', academic_center_type))),
-                         loader.AcademicCenterLoader, 'education.AcademicCenter')
-
+# register education 
+etl.register(parsers.SustainableLivingGuide,
+             loader.GenericLoader, 'education.LivingGuides', reset=True)
+etl.register(parsers.CampusAgriculture, loader.GenericLoader,
+             'education.CampusAgriculture', reset=True)
+etl.register(parsers.SustainabilityResearchInventories,
+             loader.GenericLoader, 'education.ResearchInventories', reset=True)
+etl.register(parsers.SustainableCourseInventories,
+             loader.GenericLoader, 'education.SustainabilityCourseInventory',
+             reset=True)
+etl.register(parsers.SustainabilitySyllabi, loader.GenericLoader,
+             'education.SustainabilitySyllabus', reset=True)
+etl.register(parsers.FacultyDevelopmentWorkshops,
+             loader.GenericLoader, 'education.FacultyWorkshops', reset=True)
+etl.register(parsers.SurveysAwarenessAttitudes, loader.GenericLoader,
+             'education.SurveyOfAwareness')
+for academic_center_type in ('Agriculture', 'Architecture',
+                             'Business', 'DevelopmentStudies',
+                             'Economics', 'Education', 'Engineering',
+                             'Law', 'UrbanStudies'):
+    etl.register(getattr(parsers, ''.join(('AcademicCenters',
+                         academic_center_type))),
+                         loader.AcademicCenterLoader,
+                         'education.AcademicCenter')
+etl.register(parsers.education.CampusSustainabilityCourses,
+             loader.CampusSustainabilityCourseLoader,
+             'education.CampusSustainabilityCourse')
+    
 # register policies
 etl.register(parsers.policies.EnergyConservationPolicies, loader.PolicyLoader,
              'policies.Policy', resource_area='Energy Conservation Policy')
