@@ -79,6 +79,12 @@ class StormwaterPolicies(SimpleTableParser):
         data['url'] = dict(els[3].find('a').attrs).get('href', '')
         data['country'] = row.findPrevious('h2').text
         return data
+        
+    def parsePage(self, headings=True):
+        # data is in the first <table> on the page
+        self.processTable(self.soup.findAll('table')[0], headings=headings)
+        # data is in the second <table> on the page
+        self.processTable(self.soup.findAll('table')[1], headings=headings)
     
 class EnergyConservationPolicies(PageParser):
     '''
