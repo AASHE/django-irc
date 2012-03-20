@@ -8,6 +8,7 @@ class PolicyLoader(BaseLoader):
         # prevent reset of Policy model since it is shared 
         super(PolicyLoader, self).__init__(parser_class, model_or_string)
         self.policy_type = PolicyType.objects.get(type=policy_type)
+        self.resource_area = ResourceArea.objects.get(area=resource_area)
     
     def create_instance(self, data):
         obj = self.model()
@@ -16,6 +17,7 @@ class PolicyLoader(BaseLoader):
         obj.description = data.get('notes', '')
         obj.notes = data['institution']
         obj.type = self.policy_type
+        obj.resource_area = self.resource_area
         obj.save()
         return obj
 

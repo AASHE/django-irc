@@ -13,6 +13,7 @@ class Policy(ResourceItem):
     policy resources that do not require extra fields.
     '''
     type = models.ForeignKey('PolicyType', verbose_name='policy type')
+    resource_area = models.ForeignKey('ResourceArea', verbose_name='resource area')
     
     class Meta:
         verbose_name = 'general policy'
@@ -28,6 +29,17 @@ class PolicyType(models.Model):
 
     def __unicode__(self):
         return self.type
+        
+class ResourceArea(models.Model):
+    area = models.CharField(_("resource area of policy or plan"), max_length=128)
+
+    class Meta:
+        verbose_name = 'resource area'
+        verbose_name_plural = 'resource areas'
+        ordering = ('area',)
+
+    def __unicode__(self):
+        return self.area
 
 class GreenBuildingPolicy(ResourceItem):
     '''
@@ -40,6 +52,7 @@ class GreenBuildingPolicy(ResourceItem):
     
     leed_level = models.CharField(max_length=2, choices=LEED_LEVELS)
     type = models.ForeignKey('PolicyType', verbose_name='policy type')
+    resource_area = models.ForeignKey('ResourceArea', verbose_name='resource area')
 
     class Meta:
         verbose_name = 'green building policy'
@@ -49,7 +62,9 @@ class FairTradePolicy(ResourceItem):
     '''
     Fair trade practices and policies.
     '''
-    products = models.CharField(_('types of products'), blank=True, max_length=128)
+    product_types = models.CharField(_('types of products'), blank=True, max_length=128)
+    type = models.ForeignKey('PolicyType', verbose_name='policy type')
+    resource_area = models.ForeignKey('ResourceArea', verbose_name='resource area')
     
     class Meta:
         verbose_name = 'campus fair trade practice & policy'
