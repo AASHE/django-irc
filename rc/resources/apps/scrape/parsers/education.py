@@ -346,8 +346,6 @@ class CampusSustainabilityCourses(PageParser):
     def parsePage(self):
         for school_element in self.soup.findAll('h2', {'class': None}):
             school = dict(school_name=school_element.text, courses=list())
-            if 'Clark University' in school_element.text:
-                import pdb; pdb.set_trace()
             next_sibling = school_element.findNextSibling()
             while (next_sibling and 
                    next_sibling.name.lower() == 'p' and
