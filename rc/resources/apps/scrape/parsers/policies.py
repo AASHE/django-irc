@@ -276,3 +276,29 @@ class TelecommutingPolicy(PageParser):
                 data['title'] = tags[3].text
                 self.data.append(data)
                 data = {}
+
+class WaterConservationPolicy(PageParser):
+    '''
+    >>> parser = WaterConservationPolicy()
+    >>> parser.parsePage()
+    >>> len(parser.data) != 0
+    TRUE
+    '''
+    url = 'http://www.aashe.org/resources/water-conservation-policies'
+    login_required = True
+
+    def parsePage(self):
+        headers = self.soup.find('div', {'class': 'content clear-block'}).findAll('h2')
+        data = {}
+        for header in headers:
+            row_tags = header.nextSibling.nextSibling.findAll('tr')[1:]
+            for row in row_tags:
+                tags = [el for el in row]
+                data['country'] = header.text
+                data['institution'] = tags[1].text
+                data['url'] = dict(tags[3].find('a').attrs).get('href', '')
+                data['title'] = tags[3].text
+                self.data.append(data)
+                data = {}
+                
+    
