@@ -2,7 +2,7 @@
 import copy
 import urllib
 
-from BeautifulSoup import BeautifulSoup, NavigableString
+from BeautifulSoup import BeautifulSoup, NavigableString, Tag
 
 from base import PageParser, SimpleTableParser
 
@@ -125,16 +125,25 @@ class CampusGardens(SimpleTableParser):
     url = 'http://www.aashe.org/resources/campus-and-campus-community-gardens'
     login_required = True
 
+    def parsePage(self, headings=True, debug=False):
+        if debug:
+            import pdb; pdb.set_trace()
+        for table in self.soup.findAll('table'):
+            self.processTable(table, headings=headings)
+
     def processTableData(self, row, tags):
-        policyData = {}
-        policyData['institution'] = tags[1].text
-        try:
-            policyData['url'] = dict(tags[5].first().attrs).get('href', '')
-        except:
-            policyData['url'] = ''            
-        policyData['title'] = policyData['institution']
-        policyData['country'] = row.findPrevious('h3').text
-        return policyData
+        # get rid of bothersome NavigableStrings:
+        tags = [ t for t in tags if isinstance(t, Tag) ]
+        gardenData = {}
+        gardenData['institution'] = tags[0].text
+        gardenLink = tags[-1].find('a').extract()
+        gardenData['url'] = gardenLink['href']
+        gardenData['title'] = gardenLink.text
+        # sometimes there's a bit of text after the link -- this goes
+        # in the notes field:
+        if tags[-1].text:
+            gardenData['notes'] = 'text after link: {0}'.format(tags[-1].text)
+        return gardenData
                 
 class AcademicCentersParser(PageParser):
     '''Base parser for Academic Centers resources.
