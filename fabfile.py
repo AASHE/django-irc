@@ -44,7 +44,7 @@ def deploy():
     env.branch_name = prompt("Revision, branch or tag name (blank for default): ")
     if not env.branch_name:
         env.branch_name = 'default'
-    env.changeset = local('hg id -r %s -i' % env.branch_name, capture=True)
+    env.changeset_id = local('hg id -r %s -i' % env.branch_name, capture=True)
     export()
     config()
 
@@ -54,7 +54,17 @@ def export():
     and extract the tarfile to the server. Create a code archive
     locally instead of a server-side checkout of the repository.
     '''
-    pass
+    export_path = '%s_%s' % (env.branch_name,
+                             env.changeset_id)    
+    tarfile = '%s.tar.gz' % export_path
+    local('hg archive -r %(branch)s -t tgz %(tarfile)s' %
+          {'branch': env.branch_name, 'tarfile': tarfile})
+    put(tarfile, env.path)
+    with cd(env.path):
+        # extract tarfile to export path
+        run('tar xvzf %s' % tarfile)
+        run('rm -rf %s' % tarfile)
+        env.release_path = '%s/%s' % (env.path, export_path)
 
 def requirements():
     '''
@@ -69,4 +79,31 @@ def config():
     '''
     Configure the exported and uploaded code archive.
     '''
-    pass
+    with cd(env.path):
+        # update "current" symbolic link to new code path
+        run('rm current')
+        run('ln -s %s current' % env.release_path)
+    with virtualenv():        
+        with cd(env.release_path):
+            # enter new code location, activate virtualenv and collectstatic
+            run('python rc/manage.py collectstatic --settings=%s --noinput' %
+                env.django_settings)
+    # change group permissions
+    #sudo('chgrp -R admin %s/*' % env.path)
+
+def loadrc():
+    '''
+    Clear and load RC data.
+    '''
+    with virtualenv():        
+        with cd("%s/current/rc" % env.path):
+            run('python manage.py reset operations pae education policies programs --noinput --settings=%s' %
+                env.django_settings)
+            run('python manage.py loadrc --settings=%s' %
+                env.django_settings)
+
+def restart():
+    '''
+    Reboot uwsgi server.
+    '''
+    sudo("service uwsgi restart")
