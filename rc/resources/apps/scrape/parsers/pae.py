@@ -21,43 +21,6 @@ class LicenseeCodeConduct(SimpleTableParser):
     '''
     url = 'http://www.aashe.org/resources/trademark-licensee-code-conduct'
     login_required = True
-
-class SociallyResponsibleInvestment(PageParser):
-    url = 'http://www.aashe.org/resources/socially-responsible-investment-policies'
-    login_required = True
-
-    def parsePage(self):
-        tables = self.soup.findAll('table')
-        # first table is 'Independent Policies on Responsible Investment'
-        policyData = {}
-        for row in tables[0].findAll('tr')[1:]:
-            tags = [el for el in row]
-            policyData['institution'] = tags[1].text
-            policyData['url'] = dict(tags[3].first().attrs)['href']
-            policyData['policy_name'] = tags[3].text
-            policyData['policy_type'] = 'IN'
-            self.data.append(policyData)
-            policyData = {}
-            
-        # second table is overall
-        for row in tables[0].findAll('tr')[1:]:
-            tags = [el for el in row]
-            policyData['institution'] = tags[1].text
-            policyData['url'] = dict(tags[3].first().attrs)['href']
-            policyData['policy_name'] = tags[3].text
-            policyData['policy_type'] = 'OV'
-            self.data.append(policyData)
-            policyData = {}
-        
-        # third table is managed by students
-        for row in tables[0].findAll('tr')[1:]:
-            tags = [el for el in row]
-            policyData['institution'] = tags[1].text
-            policyData['url'] = dict(tags[3].first().attrs)['href']
-            policyData['policy_name'] = tags[3].text
-            policyData['policy_type'] = 'ST'
-            self.data.append(policyData)
-            policyData = {}
     
 class SustainabilityPlan(SimpleTableParser):
     '''
