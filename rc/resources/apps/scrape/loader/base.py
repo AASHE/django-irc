@@ -6,6 +6,7 @@ from aashe.organization.models import Organization
 class LoaderException(Exception):
     pass
 
+
 class BaseLoader(object):
     def __init__(self, parser_class, model_or_string, reset=False):
         '''
@@ -30,6 +31,7 @@ class BaseLoader(object):
     def create_instance(self, data):
         raise NotImplemented
 
+
 class GenericLoader(BaseLoader):
     def create_instance(self, data):
         init_args = {}
@@ -39,7 +41,11 @@ class GenericLoader(BaseLoader):
                 institution_obj = Organization.objects.get(name__iexact=inst_query)
                 data['organization'] = institution_obj
             except:
-                data['notes'] = "Institution is " + data['institution']
+                note_line = "Institution is " + data['institution']
+                try:
+                    data['notes'] = '\n'.join((data['notes'], note_line))
+                except KeyError:
+                    data['notes'] = note_line
                 del data['institution']
         # iterate over all the keys in the dictionary provided by
         # the parser... any keys that are fields on the model, use
