@@ -1,3 +1,4 @@
+import copy
 import urllib
 
 from BeautifulSoup import BeautifulSoup, NavigableString
@@ -304,9 +305,9 @@ class CampusSustainabilityCourses(PageParser):
                 if teacher:
                     teachers.append(teacher)
                 else:
-                    self.course_note(course, 
-                                     "Can't parse a teacher from '{0}'".format(
-                                         a.parent))
+                    self.course_note(
+                        course, 
+                        "Can't parse a teacher from '{0}'".format(a.parent))
         return teachers
 
     def parseDescription(self, element):
@@ -328,7 +329,7 @@ class CampusSustainabilityCourses(PageParser):
         '''Parse course info from element.'''
         course = dict()
         title_element = element.find('strong')
-        course['title'] = title_element.text.strip()
+        course['title'] = self.titleElement(element).text.strip()
         # sometimes there's a link in the title:
         if title_element.find('a'):
             course['url'] = title_element.find('a').get('href')
@@ -339,6 +340,39 @@ class CampusSustainabilityCourses(PageParser):
         course['description'] = self.parseDescription(element)
         return course
 
+    def allCourseElementsForTitleElement(self, title_element):
+        '''Parses titles out of title_element, and returns a list
+        of elements representing courses for each title.
+
+        Needed for cases where two courses are listed with the same
+        teachers and description.  E.g. Aquinas College courses.
+        '''
+        course_elements = list()
+        titles = [ t for t in title_element.contents 
+                   if t.string  and t.string.strip() ]
+        if len(titles) > 1:
+            # need to return a number of title elements, each
+            # associated with the same teachers and description.
+            for title in titles:
+                # duplicate title_element replacing the actual
+                # title text with this title
+                assert title_element.parent is title_element.findPrevious()
+                new_course_element = copy.deepcopy(
+                    self.courseElementForTitleElement(title_element))
+                new_title_element = self.titleElement(new_course_element)
+                new_title_element.setString(title)
+                course_elements.append(new_course_element)
+        else:
+            course_elements.append(
+                self.courseElementForTitleElement(title_element))
+        return course_elements
+
+    def titleElement(self, course_element):
+        return course_element.find('strong')
+
+    def courseElementForTitleElement(self, title_element):
+        return title_element.findPrevious('p')
+    
     def parsePage(self, trace=False):
         if trace:
             import pdb; pdb.set_trace()
@@ -348,8 +382,15 @@ class CampusSustainabilityCourses(PageParser):
             while (next_sibling and 
                    next_sibling.name.lower() == 'p' and
                    next_sibling.text > ''): # skip empty paragraphs
-                course = self.parseCourse(next_sibling)
-                school['courses'].append(course)
+                # some courses share the same description and teachers,
+                # and are listed only once -- so pick the titles apart
+                # and add a course for each of them:
+                title_element = self.titleElement(next_sibling)
+                course_elements = self.allCourseElementsForTitleElement(
+                    title_element)
+                for course_element in course_elements:
+                    course = self.parseCourse(course_element)
+                    school['courses'].append(course)
                 next_sibling = next_sibling.findNextSibling()
             self.data.append(school)            
 
