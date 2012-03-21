@@ -139,7 +139,40 @@ class StormwaterPolicies(SimpleTableParser):
         self.processTable(self.soup.findAll('table')[0], headings=headings)
         # data is in the second <table> on the page
         self.processTable(self.soup.findAll('table')[1], headings=headings)
-    
+
+class ResponsibleInvestmentPolicies(SimpleTableParser):
+    '''
+    >>> parser = ResponsibleInvestmentPolicies()
+    >>> parser.parsePage()
+    >>> len(parser.data) != 0
+    True
+    >>> parser.data[0]['type'] in ('Independent Policies on Responsible Investment',
+     'Overall Investment Policies that Include Sustainability Considerations', 'Policies and Special Funds Managed by Students')
+    True
+    '''
+    url = 'http://www.aashe.org/resources/socially-responsible-investment-policies'
+    login_required = True
+
+    def processTableData(self, row, els):
+        '''
+        row - the <tr> element
+        tags - the elements inside the <tr> element
+        '''
+        data = {}
+        data['institution'] = els[1].text
+        data['title'] = els[3].text
+        data['url'] = dict(els[3].find('a').attrs).get('href', '')
+        data['investment_type'] = row.findPrevious('h2').text
+        return data
+
+    def parsePage(self, headings=True):
+        # data is in the first <table> on the page
+        self.processTable(self.soup.findAll('table')[0], headings=headings)
+        # data is in the second <table> on the page
+        self.processTable(self.soup.findAll('table')[1], headings=headings)
+        # data is in the second <table> on the page
+        self.processTable(self.soup.findAll('table')[2], headings=headings)
+
 class EnergyConservationPolicies(PageParser):
     '''
     >>> parser = EnergyConservationPolicies()
@@ -218,3 +251,54 @@ class CampusFairTrade(PageParser):
             policyData['country'] = 'United States of America'
             self.data.append(policyData)
             policyData = {}
+            
+            
+class TelecommutingPolicy(PageParser):
+    '''
+    >>> parser = TelecommutingPolicy()
+    >>> parser.parsePage()
+    >>> len(parser.data) != 0
+    TRUE
+    '''
+    url = 'http://www.aashe.org/resources/telecommuting-alternative-work'
+    login_required = True
+    
+    def parsePage(self):
+        headers = self.soup.find('div', {'class': 'content clear-block'}).findAll('h2')
+        data = {}
+        for header in headers:
+            row_tags = header.nextSibling.nextSibling.findAll('tr')[1:]
+            for row in row_tags:
+                tags = [el for el in row]
+                data['country'] = header.text
+                data['institution'] = tags[1].text
+                data['url'] = dict(tags[3].find('a').attrs).get('href', '')
+                data['title'] = tags[3].text
+                self.data.append(data)
+                data = {}
+
+class WaterConservationPolicy(PageParser):
+    '''
+    >>> parser = WaterConservationPolicy()
+    >>> parser.parsePage()
+    >>> len(parser.data) != 0
+    TRUE
+    '''
+    url = 'http://www.aashe.org/resources/water-conservation-policies'
+    login_required = True
+
+    def parsePage(self):
+        headers = self.soup.find('div', {'class': 'content clear-block'}).findAll('h2')
+        data = {}
+        for header in headers:
+            row_tags = header.nextSibling.nextSibling.findAll('tr')[1:]
+            for row in row_tags:
+                tags = [el for el in row]
+                data['country'] = header.text
+                data['institution'] = tags[1].text
+                data['url'] = dict(tags[3].find('a').attrs).get('href', '')
+                data['title'] = tags[3].text
+                self.data.append(data)
+                data = {}
+                
+    
