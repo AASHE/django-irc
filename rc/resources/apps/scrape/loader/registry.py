@@ -88,6 +88,10 @@ etl.register(parsers.AntiIdling, loader.PolicyLoader,
              'policies.Policy', resource_area='Campus Anti-Idling Policies')
 etl.register(parsers.PaperProcurement, loader.PolicyLoader,
              'policies.Policy', resource_area='Campus Paper Procurement Policies')
+etl.register(parsers.ResponsibleInvestmentPolicies, loader.PolicyLoader,
+             'policies.ResponsibleInvestmentPolicy', resource_area='Socially Responsible Investment Policies')
+etl.register(parsers.TelecommutingPolicy, loader.PolicyLoader,
+             'policies.Policy', resource_area="Telecommuting (Alternative Work) Policies")
              
 # register PAE
 etl.register(parsers.AlumniSustainabilityFunds, loader.GenericLoader, 'pae.AlumniFund')

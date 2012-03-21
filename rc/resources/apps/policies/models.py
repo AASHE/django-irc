@@ -69,3 +69,15 @@ class FairTradePolicy(ResourceItem):
     class Meta:
         verbose_name = 'campus fair trade practice & policy'
         verbose_name_plural = 'campus fair trade practices & policies'
+
+class ResponsibleInvestmentPolicy(ResourceItem):
+    '''
+    Socially responsible investment policies.
+    '''
+    investment_type = models.CharField(_('types of investment'), blank=True, max_length=128)
+    type = models.ForeignKey('PolicyType', verbose_name='policy type')
+    resource_area = models.ForeignKey('ResourceArea', verbose_name='resource area')
+    
+    class Meta:
+        verbose_name = 'socially responsible investment policy'
+        verbose_name_plural = 'socially responsible investment policies'
