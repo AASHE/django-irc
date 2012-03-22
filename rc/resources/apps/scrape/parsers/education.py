@@ -68,12 +68,17 @@ class SustainableLivingGuide(PageParser):
             elif tag == 'a':
                 linkText = el.text
                 url = dict(el.attrs).get('href', None)
-                policyData.update({'url': url, 'policy_name': linkText})
-            elif isinstance(el, NavigableString) and '(pdf)' not in el.title().lower():
-                institution = el.title().rsplit('-', 1)[0].strip()
-                policyData['institution'] = institution
+                policyData.update({'url': url, 'title': linkText})
+            elif isinstance(el, NavigableString):
+                if 'institution' not in policyData.keys():
+                    institution = el.title().rsplit('-', 1)[0].strip()
+                    policyData['institution'] = institution
+                else:
+                    policyData['notes'] = 'text after link: ' + el.strip()
     
-    def parsePage(self):
+    def parsePage(self, debug=False):
+        if debug:
+            import pdb; pdb.set_trace()
         # parse the first paragraph (Canada)
         self.parsePara(self.soup.findAll('p')[0])
         # parse the second paragraph (USA)
