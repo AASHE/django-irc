@@ -163,7 +163,7 @@ class AcademicCentersParser(PageParser):
             tags = [el for el in row]
             policyData['institution'] = tags[1].text
             policyData['url'] = dict(tags[3].first().attrs)['href']
-            policyData['name_of_center'] = tags[3].text
+            policyData['title'] = tags[3].text
             policyData['category'] = self.category            
             self.data.append(policyData)
             policyData = {}
