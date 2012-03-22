@@ -17,12 +17,12 @@ class CampusAgriculture(ResourceItem):
         verbose_name = 'campus supported agriculture and farms'
         verbose_name_plural = 'campus supported agriculture and farms'
 
-class LivingGuides(ResourceItem):
+class LivingGuide(ResourceItem):
     class Meta:
         ordering = ('title',)
         verbose_name = 'campus sustainable living guide'
 
-class SustainabilityMaps(ResourceItem):
+class SustainabilityMap(ResourceItem):
     class Meta:
         verbose_name = 'campus sustainability map/tour'
         verbose_name_plural = 'campus sustainability maps/tours'
@@ -72,7 +72,7 @@ class SustainabilitySyllabus(ResourceItem):
         verbose_name = 'sustainability-related syllabus'
         verbose_name_plural = 'sustainability-related syllabi'
 
-class FacultyWorkshops(ResourceItem):
+class FacultyWorkshop(ResourceItem):
     class Meta:
         verbose_name = 'faculty development workshop'
 
@@ -81,7 +81,7 @@ class SurveyOfAwareness(ResourceItem):
         verbose_name = 'sustainability survey'
         verbose_name_plural = 'sustainability surveys'
 
-class ResearchInventories(ResourceItem):
+class ResearchInventory(ResourceItem):
     class Meta:
         verbose_name = 'sustainability research inventory'
         verbose_name_plural = 'sustainability research inventories'

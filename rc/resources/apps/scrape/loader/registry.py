@@ -39,18 +39,18 @@ etl.register(parsers.RecyclingWasteMinimization, loader.RecyclingWasteLoader, 'o
 
 # register education 
 etl.register(parsers.SustainableLivingGuide,
-             loader.GenericLoader, 'education.LivingGuides', reset=True)
+             loader.GenericLoader, 'education.LivingGuide', reset=True)
 etl.register(parsers.CampusAgriculture, loader.GenericLoader,
              'education.CampusAgriculture', reset=True)
 etl.register(parsers.SustainabilityResearchInventories,
-             loader.GenericLoader, 'education.ResearchInventories', reset=True)
+             loader.GenericLoader, 'education.ResearchInventory', reset=True)
 etl.register(parsers.SustainableCourseInventories,
              loader.GenericLoader, 'education.SustainabilityCourseInventory',
              reset=True)
 etl.register(parsers.SustainabilitySyllabi, loader.GenericLoader,
              'education.SustainabilitySyllabus', reset=True)
 etl.register(parsers.FacultyDevelopmentWorkshops,
-             loader.GenericLoader, 'education.FacultyWorkshops', reset=True)
+             loader.GenericLoader, 'education.FacultyWorkshop', reset=True)
 etl.register(parsers.SurveysAwarenessAttitudes, loader.GenericLoader,
              'education.SurveyOfAwareness', reset=True)
 for academic_center_type in ('Agriculture', 'Architecture',
