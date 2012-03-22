@@ -1,22 +1,46 @@
-from django.db.models import get_model
-
 from rc.resources.apps.scrape.loader import GenericLoader
+from rc.resources.apps.education.models import AcademicCenter, \
+     AcademicCenterType
 from rc.resources.apps.education.models import CampusSustainabilityCourseTeacher
+
+
+ACADEMIC_CENTERS_RESET_YET = False
 
 
 class AcademicCenterLoader(GenericLoader):
 
+    def __init__(self, parser_class, model_or_string, reset=False):
+        '''AcademicCenters are loaded by a bunch of parsers.  If we
+        reset after each one, only the last one in remains.  So here
+        we intercept the reset flag, and do it only once.
+        '''
+        global ACADEMIC_CENTERS_RESET_YET
+        if reset and not ACADEMIC_CENTERS_RESET_YET:
+            AcademicCenter.objects.all().delete()
+            # since AcademicCenterTypes are created as side effect in
+            # get_center_type() below, better blow 'em away here, too:
+            AcademicCenterType.objects.all().delete()
+            ACADEMIC_CENTERS_RESET_YET = True
+        super(AcademicCenterLoader, self).__init__(parser_class,
+                                                   model_or_string,
+                                                   reset=False)
+    
     def create_instance(self, data):
-        from rc.resources.apps.education.models import AcademicCenterType
-        
-        center_types = dict( [(value, key) for key, value in
-                              AcademicCenterType.CENTER_TYPES ])
-        
-        this_center_type, new_object = AcademicCenterType.objects.get_or_create(
-            type=center_types.get(data['category'], ''))
-        
-        data['type'] = this_center_type
+        data['type'] = self.get_center_type(data['category'])
         super(AcademicCenterLoader, self).create_instance(data)
+
+    def get_center_type(self, type_code):
+        '''
+        Return the AcademicCenterType for type_code, creating it
+        if necessary.
+        '''
+        center_types = dict(AcademicCenterType.CENTER_TYPES)
+        center_type, new_object = AcademicCenterType.objects.get_or_create(
+            **{'type': type_code})
+        if new_object:
+            center_type.description = center_types[type_code]
+            center_type.save()
+        return center_type
 
 
 class CampusSustainabilityCourseLoader(GenericLoader):

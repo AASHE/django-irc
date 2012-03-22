@@ -60,7 +60,8 @@ for academic_center_type in ('Agriculture', 'Architecture',
     etl.register(getattr(parsers, ''.join(('AcademicCenters',
                     academic_center_type))),
                     loader.AcademicCenterLoader,
-                    'education.AcademicCenter')
+                    'education.AcademicCenter',
+                    reset=True)
 etl.register(parsers.education.CampusSustainabilityCourses,
              loader.CampusSustainabilityCourseLoader,
              'education.CampusSustainabilityCourse',
