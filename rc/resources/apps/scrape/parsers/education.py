@@ -26,13 +26,21 @@ class CampusAgriculture(SimpleTableParser):
             # get all the <td> tags in the <tr>...
             tags = [el for el in row]
             policyData['institution'] = tags[1].text
-            policyData['url'] = dict(tags[3].first().attrs)['href']
-            policyData['title'] = tags[3].text
+            last_cell = row.findAll('td')[-1]
+            link = last_cell.findNext('a').extract()
+            policyData['url'] = link['href']
+            policyData['title'] = link.text
+            # sometimes there's a little text after the link:
+            left_over_text = str(last_cell).strip('<td>').strip('</')
+            if left_over_text:
+                policyData['notes'] = 'text after link: ' + left_over_text
             policyData['country'] = country
             self.data.append(policyData)
             policyData = {}        
 
-    def parsePage(self):
+    def parsePage(self, debug=False):
+        if debug:
+            import pdb; pdb.set_trace()
         # first table on page is Canada, second is USA
         canada_table = self.soup.findAll('table')[0]
         us_table = self.soup.findAll('table')[1]
