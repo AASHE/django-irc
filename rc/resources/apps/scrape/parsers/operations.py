@@ -784,6 +784,7 @@ class GenericGreenBuilding(PageParser):
             except:
                 data['url'] = ''
                 data['title'] = data['institution'] + data['year']
+            data['type'] = self.soup.find('h1', {'class': 'page-title'}).text
             self.data.append(data)
             data = {}
 
@@ -890,6 +891,7 @@ class GreenResidence(GenericGreenBuilding):
             except:
                 data['url'] = ''
                 data['title'] = data['institution'] + data['year']
+            data['type'] = self.soup.find('h1', {'class': 'page-title'}).text
             self.data.append(data)
             data = {}
     

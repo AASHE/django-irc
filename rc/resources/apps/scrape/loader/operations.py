@@ -68,10 +68,10 @@ class SustainableDiningInitiativesLoader(GenericLoader):
 
 class WindTurbineLoader(GenericLoader):
     def create_instance(self, data):
-        if data['size'].lower() == 'unknown':
-            del(data['size']) # Will load into db as a null.
+        if data['capacity'].lower() == 'unknown':
+            del(data['capacity']) # Will load into db as a null.
         else:
-            data['size'] = data['size'].replace(',', '')
+            data['capacity'] = data['capacity'].replace(',', '')
         super(WindTurbineLoader, self).create_instance(data)
         
 class TransitPassLoader(GenericLoader):
@@ -98,23 +98,20 @@ class HybridFleetLoader(GenericLoader):
         
 class GreenBuildingLoader(GenericLoader):
     def create_instance(self, data):
-        # sometimes number of vehicles is '>1'; can't convert that
-        # into an integer field, so we change it to 1:
-        data['number'] = str(data['number']).translate(None, '>&gt;')
         from rc.resources.apps.operations.models import GreenBuildingType
         if data.has_key('type'):
             try:
-                type_obj = GreenBuildingType.objects.get(name=data['type'])
-            except CarSharePartner.DoesNotExist:
+                type_obj = GreenBuildingType.objects.get(type=data['type'])
+            except GreenBuildingType.DoesNotExist:
                 type_obj = GreenBuildingType.objects.create(
-                    name=data['type'])
-        data['type'] = type_obj
+                    type=data['type'])
+            data['type'] = type_obj
         super(GreenBuildingLoader, self).create_instance(data)
 
 class CommuterSurveyLoader(GenericLoader):
     def create_instance(self, data):
         from rc.resources.apps.operations.models import CommuterSurvey
         survey_types = dict([(value, key) for key, value in CommuterSurvey.SURVEY_TYPES])
-        survey_type = link_types.get(data['type'], '')
+        survey_type = survey_types.get(data['type'], '')
         data['type'] = survey_type
         super(CommuterSurveyLoader, self).create_instance(data)
