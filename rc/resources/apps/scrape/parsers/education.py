@@ -445,14 +445,17 @@ class SustainabilitySyllabi(PageParser):
     url = 'http://www.aashe.org/resources/sustainability-related-syllabi-databases'
     login_required = True
 
-    def parsePage(self):
-        paras = self.soup.findAll('p')[1:-6]
+    def parsePage(self, debug=False):
+        if debug:
+            import pdb; pdb.set_trace()
+        paras = self.soup.findAll('p')[1:-5]
         syllabiData = {}
         for p in paras:
             nodes = [el for el in p]
-            syllabiData['syllabi_name'] = nodes[3].text
+            link = p.findNext('a')
+            syllabiData['url'] = link['href']
+            syllabiData['title'] = link.text
             syllabiData['institution'] = nodes[0].text
-            syllabiData['url'] = dict(nodes[3].attrs).get('href', '')
             syllabiData['description'] = nodes[5].title()
             self.data.append(syllabiData)
             syllabiData = {}
