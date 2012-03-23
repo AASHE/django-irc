@@ -26,13 +26,21 @@ class CampusAgriculture(SimpleTableParser):
             # get all the <td> tags in the <tr>...
             tags = [el for el in row]
             policyData['institution'] = tags[1].text
-            policyData['url'] = dict(tags[3].first().attrs)['href']
-            policyData['title'] = tags[3].text
+            last_cell = row.findAll('td')[-1]
+            link = last_cell.findNext('a').extract()
+            policyData['url'] = link['href']
+            policyData['title'] = link.text
+            # sometimes there's a little text after the link:
+            left_over_text = str(last_cell).strip('<td>').strip('</')
+            if left_over_text:
+                policyData['notes'] = 'text after link: ' + left_over_text
             policyData['country'] = country
             self.data.append(policyData)
             policyData = {}        
 
-    def parsePage(self):
+    def parsePage(self, debug=False):
+        if debug:
+            import pdb; pdb.set_trace()
         # first table on page is Canada, second is USA
         canada_table = self.soup.findAll('table')[0]
         us_table = self.soup.findAll('table')[1]
@@ -60,12 +68,17 @@ class SustainableLivingGuide(PageParser):
             elif tag == 'a':
                 linkText = el.text
                 url = dict(el.attrs).get('href', None)
-                policyData.update({'url': url, 'policy_name': linkText})
-            elif isinstance(el, NavigableString) and '(pdf)' not in el.title().lower():
-                institution = el.title().rsplit('-', 1)[0].strip()
-                policyData['institution'] = institution
+                policyData.update({'url': url, 'title': linkText})
+            elif isinstance(el, NavigableString):
+                if 'institution' not in policyData.keys():
+                    institution = el.title().rsplit('-', 1)[0].strip()
+                    policyData['institution'] = institution
+                else:
+                    policyData['notes'] = 'text after link: ' + el.strip()
     
-    def parsePage(self):
+    def parsePage(self, debug=False):
+        if debug:
+            import pdb; pdb.set_trace()
         # parse the first paragraph (Canada)
         self.parsePara(self.soup.findAll('p')[0])
         # parse the second paragraph (USA)
@@ -163,7 +176,7 @@ class AcademicCentersParser(PageParser):
             tags = [el for el in row]
             policyData['institution'] = tags[1].text
             policyData['url'] = dict(tags[3].first().attrs)['href']
-            policyData['name_of_center'] = tags[3].text
+            policyData['title'] = tags[3].text
             policyData['category'] = self.category            
             self.data.append(policyData)
             policyData = {}
@@ -445,14 +458,17 @@ class SustainabilitySyllabi(PageParser):
     url = 'http://www.aashe.org/resources/sustainability-related-syllabi-databases'
     login_required = True
 
-    def parsePage(self):
-        paras = self.soup.findAll('p')[1:-6]
+    def parsePage(self, debug=False):
+        if debug:
+            import pdb; pdb.set_trace()
+        paras = self.soup.findAll('p')[1:-5]
         syllabiData = {}
         for p in paras:
             nodes = [el for el in p]
-            syllabiData['syllabi_name'] = nodes[3].text
+            link = p.findNext('a')
+            syllabiData['url'] = link['href']
+            syllabiData['title'] = link.text
             syllabiData['institution'] = nodes[0].text
-            syllabiData['url'] = dict(nodes[3].attrs).get('href', '')
             syllabiData['description'] = nodes[5].title()
             self.data.append(syllabiData)
             syllabiData = {}
