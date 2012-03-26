@@ -1,0 +1,21 @@
+{% regroup communitygardens by organization.country as country_list %}
+
+{% for country in country_list %}
+  <h3>{{ country.grouper }}</h3>
+  <table>
+    <tbody>
+      <tr>
+        <th>Institution</th>
+        <th>Garden</th>
+      </tr>
+      {% for garden in country.list %}
+        <tr>
+          <td>{{ garden.organization.name }}</td>
+          <td><a href="{{ garden.url }}">{{ garden.title }}</a>
+          {{ garden.notes }}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endfor %}

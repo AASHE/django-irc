@@ -1,0 +1,23 @@
+{% extends "aashe/base.html" %}
+
+{% block content %}
+  
+
+    <h1>{{ title|safe }}</h1>
+
+    {% if member_only %}
+	  <div id="restricted-text" class="accessible">	
+	    You are viewing member-only content.
+	  </div>
+	{% endif %}
+
+    {{ opening_text|safe }}
+
+    <p>
+    {% include guts %}
+    </p>
+
+    {{ closing_text|safe }}
+
+{% endblock %}
+
