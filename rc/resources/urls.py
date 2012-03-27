@@ -32,7 +32,9 @@ urlpatterns = patterns(
     url(r'^resources/campus-sustainability-mapstours$',
         ResourceItemListByOrgNameView.as_view(
             model=edmodels.SustainabilityMap)),
-        
+    url(r'^resources/surveys-sustainability-awareness-attitudes-and-values$',
+        ResourceItemListByOrgNameView.as_view(model=edmodels.SurveyOfAwareness),
+        {'member_only': True}),
     # # Dorm vs Dorm Sustainability Competitions
     # url(r'http://www.youtube.com/aasheorg#g/c/7606C262CE970EE4',
     #     None),
