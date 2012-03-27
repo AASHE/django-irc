@@ -18,6 +18,16 @@ class ResourceItemListView(ListView):
         return context
 
     
+class ResourceItemListByOrgNameView(ResourceItemListView):        
+
+    def get_queryset(self, **kwargs):
+        if FILTER_RESOURCES_WITH_NO_ORGANIZATION:
+            return self.model.objects.all().filter(
+                organization__isnull=False).order_by('organization__name')
+        else:
+            return self.model.objects.all().order_by('organization__name')
+
+
 class ResourceItemListByOrgCountryView(ResourceItemListView):        
 
     def get_queryset(self, **kwargs):

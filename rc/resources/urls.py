@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import patterns, include, url
 
 from rc.resources.views import ResourceItemListView, \
-     ResourceItemListByOrgCountryView
+     ResourceItemListByOrgNameView, ResourceItemListByOrgCountryView
 import rc.resources.apps.education.models as edmodels
 
 urlpatterns = patterns(
@@ -24,10 +24,15 @@ urlpatterns = patterns(
             model=edmodels.CampusAgriculture),
         {'member_only': True}),
     # Campus Sustainability Living Guides
-    url(r'resources/campus-sustainable-living-guides',
+    url(r'^resources/campus-sustainable-living-guides$',
         ResourceItemListByOrgCountryView.as_view(
             model=edmodels.LivingGuide), 
         {'member_only': True}),
+    # Campus Sustainabiity Maps/Tours
+    url(r'^resources/campus-sustainability-mapstours$',
+        ResourceItemListByOrgNameView.as_view(
+            model=edmodels.SustainabilityMap)),
+        
     # # Dorm vs Dorm Sustainability Competitions
     # url(r'http://www.youtube.com/aasheorg#g/c/7606C262CE970EE4',
     #     None),
