@@ -6,34 +6,33 @@ import rc.resources.apps.education.models as edmodels
 
 urlpatterns = patterns(
     '',
-    # Alumni Sustainability Networks
     url(r'^resources/alumni-sustainability-networks$',
         ResourceItemListView.as_view(model=edmodels.SustainabilityNetwork),
         {'member_only': True}),
     # # Campus Case Studies on Sustainability in Co-Curricular Education
     # url(r'resources/case-studies/keyword/79',
     #     None, {'member-only': True}),
-    # Campus and Campus-Community Gardens
     url(r'^resources/campus-and-campus-community-gardens$', 
         ResourceItemListByOrgCountryView.as_view(
             model=edmodels.CommunityGarden),
         {'member_only': True}),
-    # Campus Supported Agriculture and Farms
     url(r'^resources/campus-supported-agriculture-and-farms$',
         ResourceItemListByOrgCountryView.as_view(
             model=edmodels.CampusAgriculture),
         {'member_only': True}),
-    # Campus Sustainability Living Guides
     url(r'^resources/campus-sustainable-living-guides$',
         ResourceItemListByOrgCountryView.as_view(
             model=edmodels.LivingGuide), 
         {'member_only': True}),
-    # Campus Sustainabiity Maps/Tours
     url(r'^resources/campus-sustainability-mapstours$',
         ResourceItemListByOrgNameView.as_view(
             model=edmodels.SustainabilityMap)),
     url(r'^resources/surveys-sustainability-awareness-attitudes-and-values$',
         ResourceItemListByOrgNameView.as_view(model=edmodels.SurveyOfAwareness),
+        {'member_only': True}),
+    url(r'^resources/sustainability-course-inventories$',
+        ResourceItemListByOrgNameView.as_view(
+            model=edmodels.SustainabilityCourseInventory),
         {'member_only': True}),
     # # Dorm vs Dorm Sustainability Competitions
     # url(r'http://www.youtube.com/aasheorg#g/c/7606C262CE970EE4',
