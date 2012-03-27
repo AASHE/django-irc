@@ -1,36 +1,33 @@
 from django.conf.urls.defaults import patterns, include, url
 
-from rc.resources.views import ResourceItemListView
-import rc.resources.apps.education.views as edviews
+from rc.resources.views import ResourceItemListView, \
+     ResourceItemTablesByOrgCountryView
 import rc.resources.apps.education.models as edmodels
 
 urlpatterns = patterns(
     '',
-    url(r'^resources/campus-and-campus-community-gardens$', 
-        edviews.ResourceItemTablesByOrgCountryView.as_view(
-            model=edmodels.CommunityGarden),
-        {'member_only': True}),
-    url(r'^resources/campus-supported-agriculture-and-farms$',
-        edviews.ResourceItemTablesByOrgCountryView.as_view(
-            model=edmodels.CampusAgriculture),
-        {'member_only': True}),
     # Alumni Sustainability Networks
-    #    url(r'^resources/alumni-sustainability-networks$',    
     url(r'^resources/alumni-sustainability-networks$',
         ResourceItemListView.as_view(model=edmodels.SustainabilityNetwork),
         {'member_only': True}),
     # # Campus Case Studies on Sustainability in Co-Curricular Education
     # url(r'resources/case-studies/keyword/79',
     #     None, {'member-only': True}),
-    # # Campus and Campus-Community Gardens
-    # url(r'resources/campus-community-gardens',
-    #     None, {'member_only': True}),
-    # # Campus Supported Agriculture and Farms
-    # url(r'resources/campus-supported-agriculture-and-farms',
-    #     None, {'member_only': True}),
+    # Campus and Campus-Community Gardens
+    url(r'^resources/campus-and-campus-community-gardens$', 
+        ResourceItemTablesByOrgCountryView.as_view(
+            model=edmodels.CommunityGarden),
+        {'member_only': True}),
+    # Campus Supported Agriculture and Farms
+    url(r'^resources/campus-supported-agriculture-and-farms$',
+        ResourceItemTablesByOrgCountryView.as_view(
+            model=edmodels.CampusAgriculture),
+        {'member_only': True}),
     # # Campus Sustainability Living Guides
     # url(r'resources/campus-sustainable-living-guides',
-    #     None, {'member_only': True}),
+    #     ResourceItemTablesByOrgCountryView.as_view(
+    #         model=edmodels.LivingGuide), 
+    #     {'member_only': True}),
     # # Dorm vs Dorm Sustainability Competitions
     # url(r'http://www.youtube.com/aasheorg#g/c/7606C262CE970EE4',
     #     None),
