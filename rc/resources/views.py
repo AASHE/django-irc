@@ -18,7 +18,7 @@ class ResourceItemListView(ListView):
         return context
 
     
-class ResourceItemTablesByOrgCountryView(ResourceItemListView):        
+class ResourceItemListByOrgCountryView(ResourceItemListView):        
 
     def get_queryset(self, **kwargs):
         if FILTER_RESOURCES_WITH_NO_ORGANIZATION:

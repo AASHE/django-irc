@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import patterns, include, url
 
 from rc.resources.views import ResourceItemListView, \
-     ResourceItemTablesByOrgCountryView
+     ResourceItemListByOrgCountryView
 import rc.resources.apps.education.models as edmodels
 
 urlpatterns = patterns(
@@ -15,24 +15,21 @@ urlpatterns = patterns(
     #     None, {'member-only': True}),
     # Campus and Campus-Community Gardens
     url(r'^resources/campus-and-campus-community-gardens$', 
-        ResourceItemTablesByOrgCountryView.as_view(
+        ResourceItemListByOrgCountryView.as_view(
             model=edmodels.CommunityGarden),
         {'member_only': True}),
     # Campus Supported Agriculture and Farms
     url(r'^resources/campus-supported-agriculture-and-farms$',
-        ResourceItemTablesByOrgCountryView.as_view(
+        ResourceItemListByOrgCountryView.as_view(
             model=edmodels.CampusAgriculture),
         {'member_only': True}),
     # Campus Sustainability Living Guides
     url(r'resources/campus-sustainable-living-guides',
-        ResourceItemTablesByOrgCountryView.as_view(
+        ResourceItemListByOrgCountryView.as_view(
             model=edmodels.LivingGuide), 
         {'member_only': True}),
     # # Dorm vs Dorm Sustainability Competitions
     # url(r'http://www.youtube.com/aasheorg#g/c/7606C262CE970EE4',
-    #     None),
-    # # Outreach Materials for Campus Sustainability
-    # url(r'resources/outreach.php',
     #     None),
     # # Student Sustainability Educator Programs
     # url(r'resources/peer2peer.php',
