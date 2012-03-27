@@ -74,6 +74,10 @@ etl.register(parsers.education.SustainabilityNetworks,
              loader.GenericLoader,
              'education.SustainabilityNetwork',
              reset=True)
+etl.register(parsers.education.SustainabilityMaps,
+             loader.GenericLoader,
+             'education.SustainabilityMap',
+             reset=True)
     
 # register policies
 etl.register(parsers.policies.EnergyConservationPolicies, loader.PolicyLoader,

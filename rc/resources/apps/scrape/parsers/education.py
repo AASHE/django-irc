@@ -517,3 +517,26 @@ class SustainabilityNetworks(PageParser):
                 network['description'] = li.text
             self.data.append(network)
         
+class SustainabilityMaps(PageParser):
+    '''
+    >>> parser = AlumniSustainabilityNetworks()
+    >>> parser.parsePage()
+    >>> len(parser.data) > 0
+    True
+    '''
+    url = 'http://www.aashe.org/resources/campus-sustainability-mapstours'
+
+    def parsePage(self):
+        content_div = self.soup.find('div', {'class': 'content clear-block'})
+        p = content_div.find('p')
+        while p.contents:
+            map = dict()
+            anchor = p.contents.pop()
+            map['url'] = anchor['href']
+            map['title'] = anchor.text
+            map['institution'] = p.contents.pop().strip().strip('-').strip()
+            # swallow the <br>:
+            if p.contents:  # except for the first resource listed
+                p.contents.pop()
+            self.data.append(map)
+        
