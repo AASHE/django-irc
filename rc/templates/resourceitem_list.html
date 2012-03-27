@@ -2,8 +2,7 @@
 
 {% block content %}
   
-
-    <h1>{{ title|safe }}</h1>
+    <h1>{{ title }}</h1>
 
     {% if member_only %}
 	  <div id="restricted-text" class="accessible">	
@@ -11,13 +10,8 @@
 	  </div>
 	{% endif %}
 
-    {{ opening_text|safe }}
-
-    <p>
-    {% include guts %}
-    </p>
-
-    {{ closing_text|safe }}
+    {% block body%}
+	{% endblock body %}
 
 {% endblock %}
 
