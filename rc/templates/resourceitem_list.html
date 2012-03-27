@@ -1,10 +1,12 @@
 {% extends "aashe/base.html" %}
 
 {% block content %}
-
-    {% block title %}
-      <h1>{{ title }}</h1>
-    {% endblock title %}
+ 
+    <h1>   
+      {% block title %}
+        {{ title }}
+      {% endblock title %}
+    </h1>
 
     {% if member_only %}
 	  <div id="restricted-text" class="accessible">	
@@ -14,6 +16,19 @@
 
     {% block body%}
 	{% endblock body %}
+
+    <div id="content-footer">
+      <div class="block block-block " id="block-block-43">
+        <div class="block-content content">
+          <p>
+		    <em>Please email <a href="mailto:resources@aashe.org">
+                resources@aashe.org</a> with any suggestions, additions or
+		        updates.
+		    </em>
+		  </p>
+        </div>
+      </div>
+    </div><!-- #content-footer -->	  
 	  
 {% endblock %}
 
