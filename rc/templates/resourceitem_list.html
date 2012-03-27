@@ -1,8 +1,10 @@
 {% extends "aashe/base.html" %}
 
 {% block content %}
-  
-    <h1>{{ title }}</h1>
+
+    {% block title %}
+      <h1>{{ title }}</h1>
+    {% endblock title %}
 
     {% if member_only %}
 	  <div id="restricted-text" class="accessible">	
@@ -12,6 +14,6 @@
 
     {% block body%}
 	{% endblock body %}
-
+	  
 {% endblock %}
 
