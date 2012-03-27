@@ -4,7 +4,7 @@ from rc.resources.apps.education.models import *
 
 
 admin.site.register(CommunityGarden, ResourceItemAdmin)
-admin.site.register(SustainabilityNetworks, ResourceItemAdmin)
+admin.site.register(SustainabilityNetwork, ResourceItemAdmin)
 admin.site.register(CampusAgriculture, ResourceItemAdmin)
 admin.site.register(LivingGuide, ResourceItemAdmin)
 admin.site.register(SustainabilityMap, ResourceItemAdmin)

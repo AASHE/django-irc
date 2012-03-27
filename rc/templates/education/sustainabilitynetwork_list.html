@@ -1,0 +1,37 @@
+{% extends "resourceitem_list.html" %}
+
+{% block body %}
+
+  <div id="opening_text">
+
+    The primary function of an alumni sustainability network is to
+    provide a mechanism for alumni to support campus sustainability
+    initiatives. Alumni networks can mobilize members to lobby
+    administrators on sustainability issues. Since their membership
+    often includes professionals working in sustainability fields,
+    alumni networks can also provide guidance, mentoring, and
+    technical expertise to support campus sustainability efforts.
+
+  </div>
+
+  <p>
+	<div id="resource_list">
+      <ul>
+		{% for network in object_list %}
+		  <li>
+            <a href="{{ network.url }}">{{ network.title }} </a>
+            {{ network.description }}
+          </li>
+		{% endfor %}
+      </ul>
+	</div>
+  </p>
+
+  <div id="closing_text">
+    <em>Please email <a href="mailto:resources@aashe.org">
+    resources@aashe.org</a> with any suggestions, additions or
+    updates.</em>"""
+  </div>
+
+{% endblock body %}
+
