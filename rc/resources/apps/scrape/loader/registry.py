@@ -70,6 +70,10 @@ etl.register(parsers.education.CampusGardens,
              loader.GenericLoader,
              'education.CommunityGarden',
              reset=True)
+etl.register(parsers.education.SustainabilityNetworks,
+             loader.GenericLoader,
+             'education.SustainabilityNetwork',
+             reset=True)
     
 # register policies
 etl.register(parsers.policies.EnergyConservationPolicies, loader.PolicyLoader,

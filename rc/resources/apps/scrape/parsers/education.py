@@ -492,3 +492,28 @@ class SurveysAwarenessAttitudes(SimpleTableParser):
     '''
     url = 'http://www.aashe.org/resources/surveys-sustainability-awareness-attitudes-and-values'
     login_required = True
+
+class SustainabilityNetworks(PageParser):
+    '''
+    >>> parser = AlumniSustainabilityNetworks()
+    >>> parser.parsePage()
+    >>> len(parser.data) > 0
+    True
+    '''
+    url = 'http://www.aashe.org/resources/alumni-sustainability-networks'
+
+    def parsePage(self):
+        content_div = self.soup.find('div', {'class': 'content clear-block'})
+        list = content_div.find('ul')
+        for li in list.findAll('li'):
+            network = dict()
+            anchor = li.find('a')
+            network['url'] = anchor['href']
+            network['title'] = anchor.text
+            # maybe we'll get a lucky match:            
+            network['institution'] = network['title'].split()[0]  
+            anchor.extract()
+            if li.text:
+                network['description'] = li.text
+            self.data.append(network)
+        

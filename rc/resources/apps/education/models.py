@@ -7,7 +7,7 @@ class CommunityGarden(ResourceItem):
     class Meta:
         verbose_name = 'campus and campus-community garden'
 
-class SustainabilityNetworks(ResourceItem):
+class SustainabilityNetwork(ResourceItem):
     class Meta:
         verbose_name = 'alumni sustainability network'
 
