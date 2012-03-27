@@ -150,7 +150,7 @@ class CampusMasterPlan(PageParser):
             br = para.find('br')
             if br:
                 textEl = br.nextSibling
-            else:p
+            else:
                 textEl = ''
             data['institution'] = strong.text
             data['title'] = anchor.text
