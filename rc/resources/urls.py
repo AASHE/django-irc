@@ -23,11 +23,11 @@ urlpatterns = patterns(
         ResourceItemTablesByOrgCountryView.as_view(
             model=edmodels.CampusAgriculture),
         {'member_only': True}),
-    # # Campus Sustainability Living Guides
-    # url(r'resources/campus-sustainable-living-guides',
-    #     ResourceItemTablesByOrgCountryView.as_view(
-    #         model=edmodels.LivingGuide), 
-    #     {'member_only': True}),
+    # Campus Sustainability Living Guides
+    url(r'resources/campus-sustainable-living-guides',
+        ResourceItemTablesByOrgCountryView.as_view(
+            model=edmodels.LivingGuide), 
+        {'member_only': True}),
     # # Dorm vs Dorm Sustainability Competitions
     # url(r'http://www.youtube.com/aasheorg#g/c/7606C262CE970EE4',
     #     None),
