@@ -2,10 +2,21 @@ from django.views.generic import ListView
 
 from rc.resources.apps.education.models import CommunityGarden
 
-FILTER_RESOURCES_WITH_NO_ORGANIZATION = True
 
 
 class ResourceItemListView(ListView):
+    '''
+    In the context dict passed to as_view(), the following keys are 
+    effective:
+
+      - member_only: a boolean, specifies if the view is restricted
+
+      - order_by: a tuple, specifies query set sorting
+
+      - exclude_resources_with_no_organization: a boolean, when True
+        resources with no related organization are excluded from the
+        query set
+    '''
 
     def get_context_data(self, **kwargs):
         context = super(ResourceItemListView, self).get_context_data(
@@ -17,25 +28,13 @@ class ResourceItemListView(ListView):
 
         return context
 
-    
-class ResourceItemListByOrgNameView(ResourceItemListView):        
-
     def get_queryset(self, **kwargs):
-        if FILTER_RESOURCES_WITH_NO_ORGANIZATION:
-            return self.model.objects.all().filter(
-                organization__isnull=False).order_by('organization__name')
-        else:
-            return self.model.objects.all().order_by('organization__name')
-
-
-class ResourceItemListByOrgCountryView(ResourceItemListView):        
-
-    def get_queryset(self, **kwargs):
-        if FILTER_RESOURCES_WITH_NO_ORGANIZATION:
-            return self.model.objects.all().filter(
-                organization__isnull=False).order_by(
-                    'organization__country', 'organization__name')
-        else:
-            return self.model.objects.all().order_by(
-                'organization__country', 'organization__name')
-
+        qs = self.model.objects.all()
+        if 'order_by' in self.kwargs:
+            for order in self.kwargs['order_by']:
+                qs = qs.order_by(order)
+        if 'exclude_resources_with_no_organization' in self.kwargs:
+            qs = qs.exclude(organization__isnull=self.kwargs[
+                'exclude_resources_with_no_organization'])
+        return qs
+            
