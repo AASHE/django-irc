@@ -29,7 +29,9 @@ class PageParser(object):
             if self.login_required:
                 self._login()
             self.page = AASHEOpener.open(self.url)
-            self.soup = BeautifulSoup(self.page)
+            self.soup = BeautifulSoup(
+                self.page, convertEntities=BeautifulSoup.HTML_ENTITIES)
+            
             self.data = []
 
     def parsePage(self):
