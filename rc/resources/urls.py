@@ -42,5 +42,9 @@ urlpatterns = patterns(
         ResourceItemListByOrgNameView.as_view(
             model=edmodels.ResearchInventory),
         {'member_only': True}),            
+    url(r'^resources/sustainability-related-syllabi-databases$',
+        ResourceItemListByOrgNameView.as_view(
+            model=edmodels.SustainabilitySyllabus),
+        {'member_only': True}),                        
     )
 
