@@ -34,37 +34,9 @@ urlpatterns = patterns(
         ResourceItemListByOrgNameView.as_view(
             model=edmodels.SustainabilityCourseInventory),
         {'member_only': True}),
-    # # Dorm vs Dorm Sustainability Competitions
-    # url(r'http://www.youtube.com/aasheorg#g/c/7606C262CE970EE4',
-    #     None),
-    # # Student Sustainability Educator Programs
-    # url(r'resources/peer2peer.php',
-    #     None),
-    # # Student Sustainability Leadership Stories
-    # url(r'resources/student_leadership_essays.php',
-    #     None, {'member_only': True}
-    # # AASHE Bulletin Articles on Sustainability in Co-Curricular Education
-    # url(r'resources/bulletin/keyword/257',
-    #     None, {'member_only': True}),
-    # # AASHE Blog Posts on Sustainability in Co-Curricular Education        
-    # url(r'category/blog-topics/campus-culture',
-    #     None),
-    # # Student Research on Sustainability in Co-Curricular Education  
-    # url(r'resources/student-research/keyword/79', 
-    #     None, {'member_only': True}),
-    # # AASHE Discussion Forum on Sustainability in Co-Curricular Education  
-    # url(r'forums/co-curricular-education',
-    #     None),
-
-    # # Engaging Students in STARS: A Student and Staff Perspective (Apr. 2010)  
-    # url(r'https://stars.aashe.org/pages/news-events/stars-webinars/'
-    #     '2010-stars-webinars.html#apr2010', None),
-
-    # # Presentations from AASHE Conferences (2010- ) Related to
-    # # Sustainability in Co-Curricular Education
-    # url(r'resources/conference/search?keys=&amp%3B'
-    #     r'field_stars_category_value[0]=290&amp%3B'
-    #     r'field_session_materials_list=All', 
-    #     None)
+    url(r'^resources/sustainability-faculty-development-workshops$',
+        ResourceItemListByOrgNameView.as_view(
+            model=edmodels.FacultyWorkshop),
+        {'member_only': True}),
     )
 
