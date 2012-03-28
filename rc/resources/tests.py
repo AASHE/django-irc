@@ -34,7 +34,6 @@ class ResourceUrlsTest(TestCase):
         '''
         client = Client()
         for url in self.get_url_strings():
-            print 'getting', url
             resp = client.get('/'.join(('http:/', TEST_SERVER, url)))
             self.assertEqual(resp.status_code, 200)
 
