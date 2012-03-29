@@ -139,7 +139,18 @@ urlpatterns = patterns('',
                                               'organization__name')),
             template_name='education/academiccenters/'
                           'economics_list.html')),
-                          
+
+    url('^resources/'
+        'academic-centers-sustainability-and-environmental-education',
+        ResourceItemListView.as_view(
+            model=edmodels.AcademicCenter,
+            queryset=handle_missing_organizations(
+                edmodels.AcademicCenter.objects.filter(
+                    type__type='ED').order_by('organization__name')),
+            template_name='education/academiccenters/'
+                          'education_list.html')),
+
+
 
     )
 
