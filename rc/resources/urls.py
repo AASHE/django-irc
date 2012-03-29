@@ -150,7 +150,14 @@ urlpatterns = patterns('',
             template_name='education/academiccenters/'
                           'education_list.html')),
 
-
+    url('^resources/sustainable-engineering-academic-centers',
+        ResourceItemListView.as_view(
+            model=edmodels.AcademicCenter,
+            queryset=handle_missing_organizations(
+                edmodels.AcademicCenter.objects.filter(
+                    type__type='EN').order_by('organization__name')),
+            template_name='education/academiccenters/'
+                          'engineering_list.html')),
 
     )
 
