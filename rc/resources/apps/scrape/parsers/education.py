@@ -234,6 +234,11 @@ class AcademicCentersEconomics(AcademicCentersParser):
     '''
     url = 'http://www.aashe.org/resources/economics_centers.php'
     category = 'EC'
+
+    def parsePage(self):
+        # data is in the many <table>s on the page
+        for table in self.soup.findAll('table'):    
+            self.processTable(table)
     
 class AcademicCentersEducation(AcademicCentersParser):
     '''
