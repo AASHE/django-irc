@@ -27,7 +27,7 @@ class Page(models.Model):
     updated_date = models.DateTimeField(auto_now=True, editable=False)
     content = models.TextField(_("page content"), blank=True)
     menuitem = models.ForeignKey(MenuItem, null=True, blank=True, related_name='pages',
-                             verbose_name=ugettext_lazy('menu'))
+                             verbose_name=ugettext_lazy('menuitem'))
     objects = PageManager()
 
     def __unicode__(self):
