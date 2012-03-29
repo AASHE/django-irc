@@ -1,0 +1,9 @@
+{% extends "aashe/base_resources.html" %}
+{% load markup %}
+
+{% block title %}{{ object.menu_title }}{% endblock %}
+{% block page-title %}<h1 class="page-title">{{ object.title }}</h1>{% endblock %}
+
+{% block content %}
+{{ page.content|markdown }}
+{% endblock %}
