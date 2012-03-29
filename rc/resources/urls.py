@@ -99,8 +99,16 @@ urlpatterns = patterns('',
             queryset=handle_missing_organizations(
                 edmodels.AcademicCenter.objects.filter(
                     type__type='AG').order_by('organization__name')),
-            template_name='education/'
-                          'academiccenteronsustainableagriculture_list.html')),
+            template_name='education/academiccenters/'
+                          'sustainableagriculture_list.html')),
                           
+    url('^resources/sustainable-design-academic-centers',
+        ResourceItemListView.as_view(
+            model=edmodels.AcademicCenter,
+            queryset=handle_missing_organizations(
+                edmodels.AcademicCenter.objects.filter(
+                    type__type='AR').order_by('organization__name')),
+            template_name='education/academiccenters/'
+                          'sustainabilityarchitecturedesign_list.html')),
     )
 
