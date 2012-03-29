@@ -110,5 +110,16 @@ urlpatterns = patterns('',
                     type__type='AR').order_by('organization__name')),
             template_name='education/academiccenters/'
                           'sustainabilityarchitecturedesign_list.html')),
+
+    url('^resources/business-school-academic-centers-and-'
+        'research-initiatives-sustainability',
+        ResourceItemListView.as_view(
+            model=edmodels.AcademicCenter,
+            queryset=handle_missing_organizations(
+                edmodels.AcademicCenter.objects.filter(
+                    type__type='BS').order_by('organization__name')),
+            template_name='education/academiccenters/'
+                          'sustainabilitybusiness_list.html')),
+
     )
 
