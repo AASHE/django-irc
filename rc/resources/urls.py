@@ -121,5 +121,15 @@ urlpatterns = patterns('',
             template_name='education/academiccenters/'
                           'sustainabilitybusiness_list.html')),
 
+    url('^resources/research-centers-sustainable-development',
+        ResourceItemListView.as_view(
+            model=edmodels.AcademicCenter,
+            queryset=handle_missing_organizations(
+                edmodels.AcademicCenter.objects.filter(
+                    type__type='DS').order_by('organization__name')),
+            template_name='education/academiccenters/'
+                          'developmentstudies_list.html')),
+                          
+
     )
 
