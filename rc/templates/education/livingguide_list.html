@@ -1,0 +1,28 @@
+{% extends "resourceitem_list.html" %}
+
+{% block body %}
+
+  <div id="opening_text">
+  </div>
+
+  <p>
+	<div id="resource_list" class="content clear-block">
+
+	  {% regroup object_list by organization.country as country_list %}
+
+	  {% for country in country_list %}
+		<h3>{{ country.grouper }}</h3>
+          <p>
+            {% for guide in country.list %}
+	    	  {{ guide.organization.name }} - 
+              <a href="{{ guide.url }}">{{ guide.title }}</a>
+              <br/>
+		    {% endfor %}
+          </p>
+	  {% endfor %}
+
+	</div>
+  </p>
+
+{% endblock body %}
+
