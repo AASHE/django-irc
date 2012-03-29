@@ -181,9 +181,14 @@ class AcademicCentersParser(PageParser):
             self.data.append(policyData)
             policyData = {}
     
-    def parsePage(self):
-        # data is in the first <table> on the page
-        self.processTable(self.soup.findAll('table')[0])    
+    def parsePage(self, all_tables=False):
+        if not all_tables:
+            # data is in the first <table> on the page
+            self.processTable(self.soup.findAll('table')[0])    
+        else:
+            # data is in the many <table>s on the page
+            for table in self.soup.findAll('table'):    
+                self.processTable(table)
 
 class AcademicCentersAgriculture(AcademicCentersParser):
     '''
@@ -234,6 +239,9 @@ class AcademicCentersEconomics(AcademicCentersParser):
     '''
     url = 'http://www.aashe.org/resources/economics_centers.php'
     category = 'EC'
+
+    def parsePage(self):
+        super(AcademicCentersEconomics, self).parsePage(all_tables=True)
     
 class AcademicCentersEducation(AcademicCentersParser):
     '''
@@ -264,6 +272,9 @@ class AcademicCentersLaw(AcademicCentersParser):
     '''
     url = 'http://www.aashe.org/resources/law_centers.php'
     category = 'LW'
+
+    def parsePage(self):
+        super(AcademicCentersLaw, self).parsePage(all_tables=True)
 
 class AcademicCentersUrbanStudies(AcademicCentersParser):
     '''

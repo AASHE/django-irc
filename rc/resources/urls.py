@@ -99,8 +99,83 @@ urlpatterns = patterns('',
             queryset=handle_missing_organizations(
                 edmodels.AcademicCenter.objects.filter(
                     type__type='AG').order_by('organization__name')),
-            template_name='education/'
-                          'academiccenteronsustainableagriculture_list.html')),
+            template_name='education/academiccenters/'
+                          'agriculture_list.html')),
                           
+    url('^resources/sustainable-design-academic-centers',
+        ResourceItemListView.as_view(
+            model=edmodels.AcademicCenter,
+            queryset=handle_missing_organizations(
+                edmodels.AcademicCenter.objects.filter(
+                    type__type='AR').order_by('organization__name')),
+            template_name='education/academiccenters/'
+                          'architecture_list.html')),
+
+    url('^resources/business-school-academic-centers-and-'
+        'research-initiatives-sustainability',
+        ResourceItemListView.as_view(
+            model=edmodels.AcademicCenter,
+            queryset=handle_missing_organizations(
+                edmodels.AcademicCenter.objects.filter(
+                    type__type='BS').order_by('organization__name')),
+            template_name='education/academiccenters/'
+                          'business_list.html')),
+
+    url('^resources/research-centers-sustainable-development',
+        ResourceItemListView.as_view(
+            model=edmodels.AcademicCenter,
+            queryset=handle_missing_organizations(
+                edmodels.AcademicCenter.objects.filter(
+                    type__type='DS').order_by('organization__name')),
+            template_name='education/academiccenters/'
+                          'developmentstudies_list.html')),
+                          
+    url('^resources/academic-centers-ecological-economics',
+        ResourceItemListView.as_view(
+            model=edmodels.AcademicCenter,
+            queryset=handle_missing_organizations(
+                edmodels.AcademicCenter.objects.filter(
+                    type__type='EC').order_by('organization__country',
+                                              'organization__name')),
+            template_name='education/academiccenters/'
+                          'economics_list.html')),
+
+    url('^resources/'
+        'academic-centers-sustainability-and-environmental-education',
+        ResourceItemListView.as_view(
+            model=edmodels.AcademicCenter,
+            queryset=handle_missing_organizations(
+                edmodels.AcademicCenter.objects.filter(
+                    type__type='ED').order_by('organization__name')),
+            template_name='education/academiccenters/'
+                          'education_list.html')),
+
+    url('^resources/sustainable-engineering-academic-centers',
+        ResourceItemListView.as_view(
+            model=edmodels.AcademicCenter,
+            queryset=handle_missing_organizations(
+                edmodels.AcademicCenter.objects.filter(
+                    type__type='EN').order_by('organization__name')),
+            template_name='education/academiccenters/'
+                          'engineering_list.html')),
+
+    url('^resources/academic-centers-focused-environmental-law',
+        ResourceItemListView.as_view(
+            model=edmodels.AcademicCenter,
+            queryset=handle_missing_organizations(
+                edmodels.AcademicCenter.objects.filter(
+                    type__type='LW').order_by('organization__country',
+                                              'organization__name')),
+            template_name='education/academiccenters/law_list.html')),
+
+    url('^resources/academic-centers-and-research-inititatives-urban-studies',
+        ResourceItemListView.as_view(
+            model=edmodels.AcademicCenter,
+            queryset=handle_missing_organizations(
+                edmodels.AcademicCenter.objects.filter(
+                    type__type='US').order_by('organization__name')),
+            template_name='education/academiccenters/'
+                          'urbanstudies_list.html')),
+
     )
 
