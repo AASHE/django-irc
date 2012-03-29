@@ -4,8 +4,8 @@ from rc.resources.models import ResourceItem
 
 
 class AssessmentTool(ResourceItem):
-    CREATORS = (('AA', 'AASHE'),
-                ('OT', 'Other Organizations'))
+    CREATORS = (('AA', 'Assessment Tools from AASHE'),
+                ('OT', 'Assessment Tools from Other Organizations'))
     provider = models.CharField(_('tool provider'), choices=CREATORS,
                                 max_length=2, default='AA')
     
