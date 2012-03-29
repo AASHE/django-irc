@@ -159,5 +159,15 @@ urlpatterns = patterns('',
             template_name='education/academiccenters/'
                           'engineering_list.html')),
 
+
+    url('^resources/academic-centers-focused-environmental-law',
+        ResourceItemListView.as_view(
+            model=edmodels.AcademicCenter,
+            queryset=handle_missing_organizations(
+                edmodels.AcademicCenter.objects.filter(
+                    type__type='LW').order_by('organization__country',
+                                              'organization__name')),
+            template_name='education/academiccenters/law_list.html')),
+
     )
 
