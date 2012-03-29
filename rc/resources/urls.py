@@ -100,7 +100,7 @@ urlpatterns = patterns('',
                 edmodels.AcademicCenter.objects.filter(
                     type__type='AG').order_by('organization__name')),
             template_name='education/academiccenters/'
-                          'sustainableagriculture_list.html')),
+                          'agriculture_list.html')),
                           
     url('^resources/sustainable-design-academic-centers',
         ResourceItemListView.as_view(
@@ -109,7 +109,7 @@ urlpatterns = patterns('',
                 edmodels.AcademicCenter.objects.filter(
                     type__type='AR').order_by('organization__name')),
             template_name='education/academiccenters/'
-                          'sustainabilityarchitecturedesign_list.html')),
+                          'architecture_list.html')),
 
     url('^resources/business-school-academic-centers-and-'
         'research-initiatives-sustainability',
@@ -119,7 +119,7 @@ urlpatterns = patterns('',
                 edmodels.AcademicCenter.objects.filter(
                     type__type='BS').order_by('organization__name')),
             template_name='education/academiccenters/'
-                          'sustainabilitybusiness_list.html')),
+                          'business_list.html')),
 
     url('^resources/research-centers-sustainable-development',
         ResourceItemListView.as_view(
