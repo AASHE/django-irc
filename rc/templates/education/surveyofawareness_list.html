@@ -1,0 +1,40 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Surveys of Sustainability Awareness, Attitudes, and Values
+{% endblock title %}
+
+{% block body %}
+
+  <div id="opening_text">
+
+    This resource contains campus surveys and assessments of
+    sustainability awareness, attitudes, values, and
+    literacy. Generally these surveys are of students, but they may
+    also include staff and faculty.
+
+  </div>
+
+  <p>
+    <div id="resource_list" class="content clear-block">
+      <p>
+        <table>
+          <tbody>
+            <tr>
+              <th>Institution</th>
+              <th>Survey</th>
+            </tr>
+            {% for survey in object_list %}
+			  <tr>
+                <td>{{ survey.organization.name }}</td>
+                <td><a href="{{ survey.url }}">{{ survey.title }}</a></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </p>
+    </div>
+  </p>
+
+{% endblock body %}
+

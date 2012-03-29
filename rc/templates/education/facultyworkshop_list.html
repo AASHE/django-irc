@@ -1,0 +1,48 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Sustainability Faculty Development Workshops
+{% endblock title %}
+
+
+{% block body %}
+
+  <div id="opening_text">
+    <p>
+	  This resource lists institutions that have held faculty
+	  development workshops that aim to integrate sustainability into
+	  the curriculum and across disciplines. To suggest your workshop be
+	  added to this list or to update your entry, please contact 
+	  <a href="mailto:resources@aashe.org">resources@aashe.org</a>.
+    </p>
+    <p>
+	  Users of this resource may wish to participate in one of AASHE's
+	  <a href="/events/workshops/curriculum">Sustainability Across the 
+	  Curriculum Leadership Workshops</a> training in how to develop a
+	  faculty development workshop series at your institution.
+    </p>
+  </div>
+
+  <p>
+    <div id="resource_list" class="content clear-block">
+      <p>
+        <table>
+          <tbody>
+            <tr>
+              <th>Institution</th>
+              <th>Workshop Title</th>
+            </tr>
+            {% for workshop in object_list %}
+			  <tr>
+                <td>{{ workshop.organization.name }}</td>
+                <td><a href="{{ workshop.url }}">{{ workshop.title }}</a></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </p>
+    </div>
+  </p>
+
+{% endblock body %}
+
