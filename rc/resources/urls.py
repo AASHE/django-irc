@@ -177,5 +177,15 @@ urlpatterns = patterns('',
             template_name='education/academiccenters/'
                           'urbanstudies_list.html')),
 
+    url('^resources/courses-campus-sustainability',
+        ResourceItemListView.as_view(
+            model=edmodels.CampusSustainabilityCourse,
+            queryset=handle_missing_organizations(
+                edmodels.CampusSustainabilityCourse.objects.order_by(
+                    'organization__name', 'title')),
+            template_name='education/academiccenters/'
+                          'campussustainabilitycourse_list.html')),
+
+                          
     )
 

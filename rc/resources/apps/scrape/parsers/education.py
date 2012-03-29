@@ -362,7 +362,7 @@ class CampusSustainabilityCourses(PageParser):
                     continue
             except AttributeError:
                 pass  # not a BeautifulSoup.Tag
-            description = ''.join((description, str(part).strip()))
+            description = ' '.join((description, str(part).strip()))
         return description
     
     def parseTeacher(self, anchor, text):
