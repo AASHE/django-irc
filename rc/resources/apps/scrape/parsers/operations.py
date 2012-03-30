@@ -637,7 +637,7 @@ class CampusEnergyPlan(PageParser):
             data['url'] = dict(tags[3].find('a').attrs).get('href','')
             try:
                 month, year = tags[5].text.split('/')
-                dt = datetime(month=month, year=year, day=1)
+                dt = datetime(month=int(month), year=2000 + int(year), day=1)
                 data['date_published'] = dt
             except:
                 data['date_published'] = None
