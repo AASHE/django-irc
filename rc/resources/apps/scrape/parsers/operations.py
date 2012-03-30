@@ -540,7 +540,7 @@ class ElectricVehicleFleet(PageParser):
             # get all the <td> tags in the <tr>...
             tags = [el for el in row]
             policyData['institution'] = tags[1].text
-            policyData['vehicles'] = tags[3].text
+            policyData['number'] = tags[3].text
             policyData['url'] = dict(tags[5].first().attrs).get('href', '')
             policyData['source_type'] = tags[5].text
             policyData['title'] = policyData['institution']
