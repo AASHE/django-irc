@@ -10,29 +10,29 @@
   </div>
 
   <p>
-	<div id="resource_list">
+    <div id="resource_list">
 
-	  {% regroup object_list by organization.country as country_list %}
+      {% regroup object_list by organization.country as country_list %}
 
-	  {% for country in country_list %}
-		<h3>{{ country.grouper }}</h3>
-		<table>
-		  <tbody>
-			<tr>
-			  <th>Institution</th>
-			  <th>Academic Center</th>
-			</tr>
-			{% for center in country.list %}
-			  <tr>
-				<td>{{ center.organization.name }}</td>
-				<td><a href="{{ center.url }}">{{ center.title }}</a></td>
-			  </tr>
-			{% endfor %}
-		  </tbody>
-		</table>
-	  {% endfor %}
+      {% for country in country_list %}
+        <h3>{{ country.grouper }}</h3>
+        <table>
+          <tbody>
+            <tr>
+              <th>Institution</th>
+              <th>Academic Center</th>
+            </tr>
+            {% for center in country.list %}
+              <tr>
+                <td>{{ center.organization.name }}</td>
+                <td><a href="{{ center.url }}">{{ center.title }}</a></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endfor %}
 
-	</div>
+    </div>
   </p>
 
 {% endblock body %}

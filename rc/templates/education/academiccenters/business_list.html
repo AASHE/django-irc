@@ -17,7 +17,7 @@
           <th>Institution</th>
           <th>Academic Center</th>
           {% for center in object_list %}
-			  <tr>
+            <tr>
               <td>{{ center.organization.name }}</td>
               <td><a href="{{ center.url }}">{{ center.title }}</a></td>
             </tr>
