@@ -14,13 +14,13 @@
     <div id="resource_list" class="content clear-block">
       <p>
         {% for syllabus in object_list %}
-		  <p>
-			<em>{{ syllabus.organization.name }}</em>
-			<br/>
-			<a href="{{ syllabus.url }}">
-			  <strong>{{ syllabus.title }}</strong>
-			</a>
-			<br/>
+          <p>
+            <em>{{ syllabus.organization.name }}</em>
+            <br/>
+            <a href="{{ syllabus.url }}">
+              <strong>{{ syllabus.title }}</strong>
+            </a>
+            <br/>
             {{ syllabus.description }}
           </p>
         {% endfor %}

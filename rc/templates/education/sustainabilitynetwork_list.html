@@ -15,16 +15,16 @@
   </div>
 
   <p>
-	<div id="resource_list">
+    <div id="resource_list">
       <ul>
-		{% for network in object_list %}
-		  <li>
+        {% for network in object_list %}
+          <li>
             <a href="{{ network.url }}">{{ network.title }} </a>
             {{ network.description }}
           </li>
-		{% endfor %}
+        {% endfor %}
       </ul>
-	</div>
+    </div>
   </p>
 
 {% endblock body %}

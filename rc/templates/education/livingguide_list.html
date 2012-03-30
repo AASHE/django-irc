@@ -6,22 +6,22 @@
   </div>
 
   <p>
-	<div id="resource_list" class="content clear-block">
+    <div id="resource_list" class="content clear-block">
 
-	  {% regroup object_list by organization.country as country_list %}
+      {% regroup object_list by organization.country as country_list %}
 
-	  {% for country in country_list %}
-		<h3>{{ country.grouper }}</h3>
+      {% for country in country_list %}
+        <h3>{{ country.grouper }}</h3>
           <p>
             {% for guide in country.list %}
-	    	  {{ guide.organization.name }} - 
+              {{ guide.organization.name }} - 
               <a href="{{ guide.url }}">{{ guide.title }}</a>
               <br/>
-		    {% endfor %}
+            {% endfor %}
           </p>
-	  {% endfor %}
+      {% endfor %}
 
-	</div>
+    </div>
   </p>
 
 {% endblock body %}

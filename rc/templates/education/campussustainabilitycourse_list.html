@@ -30,39 +30,39 @@
   </div>
 
   <p>
-	<div id="resource_list" class="content clear-block">
+    <div id="resource_list" class="content clear-block">
 
-	  {% regroup object_list by organization as organization_list %}
+      {% regroup object_list by organization as organization_list %}
 
-	  {% for organization in organization_list %}
-		<h3>{{ organization.grouper }}</h3>
+      {% for organization in organization_list %}
+        <h3>{{ organization.grouper }}</h3>
         {% for course in organization.list %}
           <p>
             {% if course.url %}
-			  <a href="{{ course.url }}">
+              <a href="{{ course.url }}">
             {% endif %}
             <strong>{{ course.title }}</strong>
             {% if course.url %}
-			  </a>
+              </a>
             {% endif %}
             <br/>
             {% for teacher in course.teachers.all %}
               {% if teacher.email %}
                 <a href=mailto:{{ teacher.email }}>
               {% else %}    <!-- why won't elif work here? -->
-				{% if teacher.web_page %}
+                {% if teacher.web_page %}
                   <a href={{ teacher.web_page }}>
                 {% endif %}
               {% endif %}
               <em>{{ teacher.first_name }}
                   {{ teacher.middle_name }}
                   {{ teacher.last_name }}
-              {% if teacher.email or teacher.web_page %}
-                </a>
-              {% endif %}
-              {% if teacher.title %}
-                 , {{ teacher.title }}
-              {% endif %}
+                {% if teacher.email or teacher.web_page %}
+                  </a>
+                {% endif %}
+                {% if teacher.title %}
+                   , {{ teacher.title }}
+                {% endif %}
               </em>
               <br/>
             {% endfor %}
@@ -71,9 +71,9 @@
             <br/>
           </p>
         {% endfor %}
-	  {% endfor %}
+      {% endfor %}
 
-	</div>
+    </div>
   </p>
 
 {% endblock body %}
