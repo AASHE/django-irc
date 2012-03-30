@@ -39,5 +39,15 @@ urlpatterns = patterns('',
                     'partner__name', 'organization__name'))),
         {'member_only': True}),
 
+    url(r'^resources/biodiesel-campus-fleets',
+        ResourceItemListView.as_view(
+            model=models.BiodieselFleet,
+            queryset=handle_missing_organizations(
+                models.BiodieselFleet.objects.order_by(
+                    'production', 'organization__country', 
+                    'organization__name'))),
+        {'member_only': True,
+         'production_types': dict(models.BiodieselFleet.PRODUCTION_TYPE)}),
+
     )
 
