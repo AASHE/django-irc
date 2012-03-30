@@ -91,13 +91,12 @@ urlpatterns = patterns('',
                     'organization__name'))),
         {'member_only': True}),
          
-    url(r'^resources/campus-energy-websites',
+    url(r'^resources/campus-global-warming-commitments',
         ResourceItemListView.as_view(
-            model=models.EnergyWebsite,
+            model=models.GlobalWarmingCommitment,
             queryset=handle_missing_organizations(
-                models.EnergyWebsite.objects.order_by(
-                    'organization__name'))),
-        {'member_only': True}),
+                models.GlobalWarmingCommitment.objects.order_by(
+                    'organization__name')))),
 
     )
 

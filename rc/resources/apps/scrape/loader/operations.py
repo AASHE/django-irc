@@ -24,10 +24,6 @@ class CarShareLoader(GenericLoader):
         data['title'] = data.get('institution', '')
         super(CarShareLoader, self).create_instance(data)
 
-class GlobalWarmingLoader(GenericLoader):
-    def create_instance(self, data):
-        pass
-
 class RecyclingWasteLoader(GenericLoader):
     def create_instance(self, data):
         from rc.resources.apps.operations.models import RecyclingWebsite
