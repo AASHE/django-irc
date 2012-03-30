@@ -65,6 +65,15 @@ urlpatterns = patterns('',
                     'type', 'organization__name'))),
         {'ban_types': dict(models.CarBan.BAN_TYPES),
          'member_only': True}),
+
+    url(r'^resources/campus-commuter-surveys',
+        ResourceItemListView.as_view(
+            model=models.CommuterSurvey,
+            queryset=handle_missing_organizations(
+                models.CommuterSurvey.objects.order_by(
+                    'type', 'organization__name'))),
+        {'survey_types': dict(models.CommuterSurvey.SURVEY_TYPES),
+         'member_only': True}),
          
     )
 
