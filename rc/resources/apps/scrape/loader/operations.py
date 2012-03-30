@@ -47,7 +47,7 @@ class BiodieselFleetLoader(GenericLoader):
         from rc.resources.apps.operations.models import BiodieselFleet
         production_types = dict([(value, key) for key, value in BiodieselFleet.PRODUCTION_TYPE])
         production_type = production_types.get(data['biodiesel_source'], '')
-        data['biodiesel_source'] = production_type
+        data['production'] = production_type
         super(BiodieselFleetLoader, self).create_instance(data)
         
 class CarBanLoader(GenericLoader):
