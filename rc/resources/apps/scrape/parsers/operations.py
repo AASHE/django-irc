@@ -1,3 +1,4 @@
+import calendar
 import re
 from base import PageParser, SimpleTableParser
 from BeautifulSoup import BeautifulSoup, NavigableString
@@ -982,13 +983,22 @@ class GlobalWarmingCommitment(SimpleTableParser):
     login_required = True
 
     def processTableData(self, row, tags):
+        from datetime import date, datetime
         commitmentData = {}
         commitmentData['institution'] = tags[1].text
         commitmentData['url'] = dict(tags[3].first().attrs)['href']
         commitmentData['commitment'] = tags[3].text
-        commitmentData['date'] = tags[-2:-1][0].text
+        date_string = tags[-2:-1][0].text
+        try:
+            month = date_string.split()[0]
+            year = date_string.split()[-1]            
+            month_num = list(calendar.month_abbr).index(month[0:3])
+            commitmentData['date'] = datetime(month=month_num, year=int(year),
+                                              day=1)
+        except:
+            commitmentData['notes'] = 'unparsed commitment date: ' + date_string
         return commitmentData
-        
+
 class CommuterSurvey(SimpleTableParser):
     '''
     >>> parser = CommuterSurvey()
