@@ -4,7 +4,6 @@ from django.views.generic.detail import DetailView
 from django.template import RequestContext
 from rc.cms.models import Page
 
-
 class PageView(DetailView):
     queryset = Page.objects.published()
     slug_field = 'path'
@@ -12,4 +11,3 @@ class PageView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(PageView, self).get_context_data(**kwargs)
         return context
-        
