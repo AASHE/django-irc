@@ -461,8 +461,10 @@ class BuildingEnergyDashboard(PageParser):
                 tags = [el for el in row]
                 data['manufacturer_type'] = header.text
                 data['institution'] = tags[1].text
-                data['url'] = dict(tags[3].first().attrs).get('href', '')
-                data['title'] = tags[3].text
+                anchor = tags[3].find('a').extract()
+                data['url'] = anchor['href']
+                data['title'] = ' '.join((anchor.text,
+                                          tags[3].text))
                 self.data.append(data)
                 data = {}
         
