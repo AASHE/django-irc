@@ -5,5 +5,16 @@
 {% block page-title %}<h1 class="page-title">{{ object.title }}</h1>{% endblock %}
 
 {% block content %}
+
 {{ page.content|markdown }}
+
+{% if object.menuitem.children %}
+<ul class="menu">
+{% for child_menu_item in object.menuitem.children %}
+  <li class="leaf"><a href="{{ child_menu_item }}"><span>{{ child_menu_item }}</span></a></li>
+{% endfor %}
+</ul>
+{% endif %}
+
+
 {% endblock %}

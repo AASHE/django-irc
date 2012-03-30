@@ -6,8 +6,7 @@ from gettext import gettext as _
 from django.utils.translation import ugettext_lazy
 from datetime import datetime
 from django.db import models
-from treemenus.models import Menu
-
+from treemenus.models import MenuItem, Menu
 
 class PageManager(models.Manager):
     def published(self):
@@ -27,8 +26,8 @@ class Page(models.Model):
     created_date = models.DateTimeField(auto_now_add=True, editable=False)
     updated_date = models.DateTimeField(auto_now=True, editable=False)
     content = models.TextField(_("page content"), blank=True)
-    menu = models.ForeignKey(Menu, null=True, blank=True, related_name='pages',
-                             verbose_name=ugettext_lazy('menu'))
+    menuitem = models.ForeignKey(MenuItem, null=True, blank=True, related_name='pages',
+                             verbose_name=ugettext_lazy('menuitem'))
     objects = PageManager()
 
     def __unicode__(self):
