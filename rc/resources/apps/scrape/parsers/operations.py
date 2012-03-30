@@ -608,8 +608,10 @@ class CarBan(SimpleTableParser):
             for row in table.findAll('tr')[1:]:
                 tags = [el for el in row]
                 data['institution'] = tags[1].text
-                data['url'] = dict(tags[3].first().attrs).get('href', '')
-                data['title'] = tags[3].text
+                anchor = tags[3].find('a').extract()
+                data['url'] = anchor['href']
+                data['title'] = anchor.text
+                data['notes'] = tags[3].text  # any text outside anchor tag
                 data['type'] = table.findPreviousSibling('h2').text
                 self.data.append(data)
                 data = {}                    
