@@ -83,5 +83,13 @@ urlpatterns = patterns('',
                     'organization__country', 'organization__name'))),
         {'member_only': True}),
          
+    url(r'^resources/campus-energy-plans',
+        ResourceItemListView.as_view(
+            model=models.EnergyPlan,
+            queryset=handle_missing_organizations(
+                models.EnergyPlan.objects.order_by(
+                    'organization__name'))),
+        {'member_only': True}),
+
     )
 
