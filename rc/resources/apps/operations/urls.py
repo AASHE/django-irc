@@ -49,5 +49,14 @@ urlpatterns = patterns('',
         {'member_only': True,
          'production_types': dict(models.BiodieselFleet.PRODUCTION_TYPE)}),
 
+    url(r'^resources/campus-bicycle-plans',
+        ResourceItemListView.as_view(
+            model=models.BicyclePlan,
+            queryset=handle_missing_organizations(
+                models.BicyclePlan.objects.order_by(
+                    'organization__name'))),
+        {'member_only': True}),
+
+         
     )
 
