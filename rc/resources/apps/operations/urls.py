@@ -31,6 +31,13 @@ urlpatterns = patterns('',
         {'ban_types': dict(models.BottledWaterBan.BAN_TYPES),
          'member_only': True}),
          
+    url(r'^resources/campus-building-energy-dashboards',
+        ResourceItemListView.as_view(
+            model=models.BuildingDashboard,
+            queryset=handle_missing_organizations(
+                models.BuildingDashboard.objects.order_by(
+                    'partner__name', 'organization__name'))),
+        {'member_only': True}),
 
     )
 
