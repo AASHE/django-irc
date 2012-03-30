@@ -57,6 +57,14 @@ urlpatterns = patterns('',
                     'organization__name'))),
         {'member_only': True}),
 
+    url(r'^resources/campus-car-bans',
+        ResourceItemListView.as_view(
+            model=models.CarBan,
+            queryset=handle_missing_organizations(
+                models.CarBan.objects.order_by(
+                    'type', 'organization__name'))),
+        {'ban_types': dict(models.CarBan.BAN_TYPES),
+         'member_only': True}),
          
     )
 
