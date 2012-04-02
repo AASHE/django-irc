@@ -121,5 +121,12 @@ urlpatterns = patterns('',
                 models.EnergyPolicy.objects.order_by(
                     'organization__name')))),
         
+    url(r'^resources/campus-water-conservation-efforts',
+        ResourceItemListView.as_view(
+            model=models.WaterConservationEffort,
+            queryset=handle_missing_organizations(
+                models.WaterConservationEffort.objects.order_by(
+                    'organization__country', 'organization__name'))),
+        {'member_only': True}),
     )
 
