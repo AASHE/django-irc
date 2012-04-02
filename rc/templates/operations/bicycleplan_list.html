@@ -1,0 +1,39 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Campus Alternative Transportation Websites
+{% endblock title %}
+
+{% block body %}
+
+  <div id="opening_text">
+
+    The following resource is a list of campus bicycle plans which
+    exist independently from campus master plans. In addition,
+    the <a href="http://www.universitybikeprograms.org/">University
+    Bike Programs</a> group may also be of interest for those working
+    on bicycling programs on campus.
+
+  </div>
+
+  <p>
+    <div id="resource_list" class="content clear-block">
+      <p>
+        <table>
+          <tbody>
+            {% for resource in object_list %}
+              <tr>
+                <td>{{ resource.organization.name }}</td>
+                <td><a href="{{ resource.url }}">{{ resource.title }}</a>
+                    {{ resource.notes }}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </p>
+    </div>
+  </p>
+
+{% endblock body %}
+
