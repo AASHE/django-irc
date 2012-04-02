@@ -13,32 +13,33 @@
     <p>
       {% regroup object_list by organization.country as country_list %}
 
-     {% for country in country_list %}
-       <h3>{{ country.grouper }}</h3>
-       <table>
-         <tbody>
-           <tr>
-             <th>Institution</th>
-             <th>Number of Hybrid Vehicles in Fleet</th>
-             <th>Source(s)</th>
-           </tr>
-           {% for resource in country.list %}
-             <tr>
-               <td>{{ resource.organization.name }}</td>
-               <td align="center">{% if resource.number %}
-                                    {{ resource.number }}
-                                  {% else %}
-                                    unknown
-                                  {% endif %}</td>
-               <td><a href="{{ resource.url }}">{{ resource.title }}</a>
-                   <br/>
-                   {{ resource.notes }}
-               </td>
-             </tr>
-           {% endfor %}
-         </tbody>
-       </table>
-     {% endfor %}
+      {% for country in country_list %}
+        <h3>{{ country.grouper }}</h3>
+        <table>
+          <tbody>
+            <tr>
+              <th>Institution</th>
+              <th>Number of Hybrid Vehicles in Fleet</th>
+              <th>Source(s)</th>
+            </tr>
+            {% for resource in country.list %}
+              <tr>
+                <td>{{ resource.organization.name }}</td>
+                <td align="center">{% if resource.number %}
+                                     {{ resource.number }}
+                                   {% else %}
+                                     unknown
+                                   {% endif %}</td>
+                </td>
+                <td><a href="{{ resource.url }}">{{ resource.title }}</a>
+                    <br/>
+                    {{ resource.notes }}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endfor %}
     </p>
   </div>
 
