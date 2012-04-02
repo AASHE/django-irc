@@ -128,5 +128,13 @@ urlpatterns = patterns('',
                 models.WaterConservationEffort.objects.order_by(
                     'organization__country', 'organization__name'))),
         {'member_only': True}),
+
+    url(r'^resources/wind-power-campus-1',
+        ResourceItemListView.as_view(
+            model=models.WindTurbine,
+            queryset=handle_missing_organizations(
+                models.WindTurbine.objects.order_by(
+                    'organization__country', 'organization__name'))),
+        {'member_only': True}),
     )
 
