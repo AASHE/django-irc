@@ -1,10 +1,12 @@
 import calendar
 import re
-from base import PageParser, SimpleTableParser
+import tempfile
+import urllib2
+
 from BeautifulSoup import BeautifulSoup, NavigableString
+import pyPdf
 
-
-NON_FLOAT_RE   = re.compile(r'[^\d.]+')
+from base import PageParser, SimpleTableParser
 
 
 class RecyclingWasteMinimization(SimpleTableParser):
@@ -579,7 +581,8 @@ class HybridVehicles(PageParser):
             policyData['number'] = fleet_count
             policyData['url'] = dict(tags[5].first().attrs)['href']
             policyData['source'] = tags[5].text
-            policyData['title'] = policyData['institution']
+            policyData['title'], policyData['notes'] = self.get_title(
+                policyData['url'])
             policyData['country'] = country
             self.data.append(policyData)
             policyData = {}            
@@ -589,6 +592,33 @@ class HybridVehicles(PageParser):
         for country in headers:
             table = country.nextSibling.nextSibling
             self.processTable(table, country.text)
+
+    def get_title(self, url):
+        notes = ''
+        try:
+            page = urllib2.urlopen(url)
+        except Exception as ex:
+            title = 'Source' 
+            notes = str(ex)
+        else:
+            if not url.strip().lower().endswith('pdf'):
+                try:
+                    soup = BeautifulSoup(
+                        page, convertEntities=BeautifulSoup.HTML_ENTITIES)
+                    title = soup.find('head').find('title').text
+                except Exception as ex:
+                    title = 'Source'
+                    notes = str(ex)
+            else:
+                with tempfile.TemporaryFile() as tfile:
+                    tfile.write(page.read())
+                    tfile.seek(0)
+                    pdf = pyPdf.PdfFileReader(tfile)
+                    title = pdf.documentInfo['/Title']
+        if not title.strip():
+            title = 'Source'
+        return title, notes
+
         
 class CarBan(SimpleTableParser):
     '''
