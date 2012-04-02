@@ -91,6 +91,7 @@ class HybridFleetLoader(GenericLoader):
         # sometimes number of vehicles is '>1'; can't convert that
         # into an integer field, so we change it to 1:
         data['number'] = str(data['number']).translate(None, '>&gt;')
+        super(HybridFleetLoader, self).create_instance(data)
         
 class GreenBuildingLoader(GenericLoader):
     def create_instance(self, data):
