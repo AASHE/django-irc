@@ -111,6 +111,14 @@ urlpatterns = patterns('',
             model=models.RecyclingWebsite,
             queryset=handle_missing_organizations(
                 models.RecyclingWebsite.objects.order_by(
+                    'organization__name'))),
+            {'member_only': True}),
+        
+    url(r'^resources/energy-conservation-policies',
+        ResourceItemListView.as_view(
+            model=models.EnergyPolicy,
+            queryset=handle_missing_organizations(
+                models.EnergyPolicy.objects.order_by(
                     'organization__name')))),
         
     )
