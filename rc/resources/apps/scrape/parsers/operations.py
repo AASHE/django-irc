@@ -723,8 +723,11 @@ class WaterConservation(PageParser):
             for row in table.findAll('tr'):
                 tags = [el for el in row]
                 data['institution'] = tags[1].text
-                data['url'] = dict(tags[3].first().attrs).get('href','')
-                data['title'] = tags[3].text
+                anchor = tags[3].find('a').extract()
+                data['url'] = anchor['href']
+                data['title'] = anchor.text
+                # any text left (after extracting the anchor tag) is a note
+                data['notes'] = tags[3].text
                 data['country'] = table.findPreviousSibling('h2')
                 self.data.append(data)
                 data={}
