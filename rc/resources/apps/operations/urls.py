@@ -105,5 +105,13 @@ urlpatterns = patterns('',
                 models.HybridFleet.objects.order_by(
                     'organization__country', 'organization__name'))),
         {'member_only': True}),
+
+    url(r'^resources/campus-recycling-and-waste-minimization-websites',
+        ResourceItemListView.as_view(
+            model=models.RecyclingWebsite,
+            queryset=handle_missing_organizations(
+                models.RecyclingWebsite.objects.order_by(
+                    'organization__name')))),
+        
     )
 
