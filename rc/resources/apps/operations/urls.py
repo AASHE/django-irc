@@ -75,7 +75,7 @@ urlpatterns = patterns('',
         {'survey_types': dict(models.CommuterSurvey.SURVEY_TYPES),
          'member_only': True}),
 
-        url(r'^resources/campus-electric-vehicle-fleets',
+    url(r'^resources/campus-electric-vehicle-fleets',
         ResourceItemListView.as_view(
             model=models.ElectricFleet,
             queryset=handle_missing_organizations(
@@ -98,5 +98,43 @@ urlpatterns = patterns('',
                 models.GlobalWarmingCommitment.objects.order_by(
                     'organization__name')))),
 
+    url(r'^resources/campus-hybrid-vehicle-fleets',
+        ResourceItemListView.as_view(
+            model=models.HybridFleet,
+            queryset=handle_missing_organizations(
+                models.HybridFleet.objects.order_by(
+                    'organization__country', 'organization__name'))),
+        {'member_only': True}),
+
+    url(r'^resources/campus-recycling-and-waste-minimization-websites',
+        ResourceItemListView.as_view(
+            model=models.RecyclingWebsite,
+            queryset=handle_missing_organizations(
+                models.RecyclingWebsite.objects.order_by(
+                    'organization__name'))),
+            {'member_only': True}),
+        
+    url(r'^resources/energy-conservation-policies',
+        ResourceItemListView.as_view(
+            model=models.EnergyPolicy,
+            queryset=handle_missing_organizations(
+                models.EnergyPolicy.objects.order_by(
+                    'organization__name')))),
+        
+    url(r'^resources/campus-water-conservation-efforts',
+        ResourceItemListView.as_view(
+            model=models.WaterConservationEffort,
+            queryset=handle_missing_organizations(
+                models.WaterConservationEffort.objects.order_by(
+                    'organization__country', 'organization__name'))),
+        {'member_only': True}),
+
+    url(r'^resources/wind-power-campus-1',
+        ResourceItemListView.as_view(
+            model=models.WindTurbine,
+            queryset=handle_missing_organizations(
+                models.WindTurbine.objects.order_by(
+                    'organization__country', 'organization__name'))),
+        {'member_only': True}),
     )
 

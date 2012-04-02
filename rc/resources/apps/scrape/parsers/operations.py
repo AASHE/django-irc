@@ -1,13 +1,49 @@
 import calendar
 import re
-from base import PageParser, SimpleTableParser
+import tempfile
+
 from BeautifulSoup import BeautifulSoup, NavigableString
+import requests
+from StringIO import StringIO
+import pyPdf
 
+from base import PageParser, SimpleTableParser
 
-NON_NUMERIC_RE = re.compile(r'[^\d]+')
-NON_FLOAT_RE   = re.compile(r'[^\d.]+')
+def get_url_title(url):
+    """Try to load url and return a tuple of its title and any 
+    error text.
 
+    Works for html and pdf (but not, e.g., Word docs).
+    """
+    notes = ''
+    try:
+        page = requests.get(url)
+    except Exception as ex:
+        title = 'Source' 
+        notes = 'Error loading url: "{}".'.format(str(ex))
+    else:
+        # Test page.url rather than url parameter since redirection
+        # can route to something other than the url parameter.
+        if not page.url.endswith('pdf'):
+            try:
+                soup = BeautifulSoup(
+                    page.text, convertEntities=BeautifulSoup.HTML_ENTITIES)
+                title = soup.find('head').find('title').text
+            except Exception as ex:
+                title = 'Source'
+                notes = 'Error parsing page: "{}".'.format(str(ex))
+        else:
+            try:
+                pdf = pyPdf.PdfFileReader(StringIO(page.content))
+                title = pdf.documentInfo['/Title']
+            except Exception as ex:
+                title = 'Source' 
+                notes = 'Error parsing PDF: "{}".'.format(str(ex))
+    if not title.strip():
+        title = 'Source'
+    return title, notes
 
+    
 class RecyclingWasteMinimization(SimpleTableParser):
     '''
     >>> parser = RecyclingWasteMinimization()
@@ -577,11 +613,11 @@ class HybridVehicles(PageParser):
             tags = [el for el in row]
             policyData['institution'] = tags[1].text
             fleet_count = tags[3].text
-            fleet_count = NON_NUMERIC_RE.sub('', fleet_count)
             policyData['number'] = fleet_count
             policyData['url'] = dict(tags[5].first().attrs)['href']
             policyData['source'] = tags[5].text
-            policyData['title'] = policyData['institution']
+            policyData['title'], policyData['notes'] = get_url_title(
+                policyData['url'])
             policyData['country'] = country
             self.data.append(policyData)
             policyData = {}            
@@ -695,8 +731,11 @@ class WaterConservation(PageParser):
             for row in table.findAll('tr'):
                 tags = [el for el in row]
                 data['institution'] = tags[1].text
-                data['url'] = dict(tags[3].first().attrs).get('href','')
-                data['title'] = tags[3].text
+                anchor = tags[3].find('a').extract()
+                data['url'] = anchor['href']
+                data['title'] = anchor.text
+                # any text left (after extracting the anchor tag) is a note
+                data['notes'] = tags[3].text
                 data['country'] = table.findPreviousSibling('h2')
                 self.data.append(data)
                 data={}
@@ -717,8 +756,9 @@ class WindTurbine(PageParser):
         for row in table.findAll('tr')[1:]:
             tags = [el for el in row]
             data['institution'] = tags[1].text
-            data['capacity'] = tags[3].text
+            data['size'] = tags[3].text
             data['url'] = dict(tags[5].first().attrs).get('href','')
+            data['title'], data['notes'] = get_url_title(data['url'])
             others = [anchor['href'] for anchor in tags[5].findAll('a')[1:]]
             data['other_urls'] = ' '.join(others)
             self.data.append(data)

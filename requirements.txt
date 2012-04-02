@@ -5,3 +5,5 @@ django-treemenus
 BeautifulSoup
 Sphinx
 Fabric
+pyPdf
+requests
