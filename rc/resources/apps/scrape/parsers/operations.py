@@ -4,7 +4,6 @@ from base import PageParser, SimpleTableParser
 from BeautifulSoup import BeautifulSoup, NavigableString
 
 
-NON_NUMERIC_RE = re.compile(r'[^\d]+')
 NON_FLOAT_RE   = re.compile(r'[^\d.]+')
 
 
@@ -577,7 +576,6 @@ class HybridVehicles(PageParser):
             tags = [el for el in row]
             policyData['institution'] = tags[1].text
             fleet_count = tags[3].text
-            fleet_count = NON_NUMERIC_RE.sub('', fleet_count)
             policyData['number'] = fleet_count
             policyData['url'] = dict(tags[5].first().attrs)['href']
             policyData['source'] = tags[5].text

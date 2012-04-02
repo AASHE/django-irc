@@ -181,7 +181,7 @@ class ElectricFleet(ResourceItem):
         verbose_name = 'campus electric vehicle fleet'
 
 class HybridFleet(ResourceItem):
-    number = models.IntegerField(_('number of vehicles'))
+    number = models.IntegerField(_('number of vehicles'), null=True)
 
     class Meta:
         verbose_name = 'campus hybrid vehicle fleet'
