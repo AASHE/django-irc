@@ -1,14 +1,49 @@
 import calendar
 import re
 import tempfile
-import urllib2
 
 from BeautifulSoup import BeautifulSoup, NavigableString
+import requests
+from StringIO import StringIO
 import pyPdf
 
 from base import PageParser, SimpleTableParser
 
+def get_url_title(url):
+    """Try to load url and return a tuple of its title and any 
+    error text.
 
+    Works for html and pdf (but not, e.g., Word docs).
+    """
+    notes = ''
+    try:
+        page = requests.get(url)
+    except Exception as ex:
+        title = 'Source' 
+        notes = 'Error loading url: "{}".'.format(str(ex))
+    else:
+        # Test page.url rather than url parameter since redirection
+        # can route to something other than the url parameter.
+        if not page.url.endswith('pdf'):
+            try:
+                soup = BeautifulSoup(
+                    page.text, convertEntities=BeautifulSoup.HTML_ENTITIES)
+                title = soup.find('head').find('title').text
+            except Exception as ex:
+                title = 'Source'
+                notes = 'Error parsing page: "{}".'.format(str(ex))
+        else:
+            try:
+                pdf = pyPdf.PdfFileReader(StringIO(page.content))
+                title = pdf.documentInfo['/Title']
+            except Exception as ex:
+                title = 'Source' 
+                notes = 'Error parsing PDF: "{}".'.format(str(ex))
+    if not title.strip():
+        title = 'Source'
+    return title, notes
+
+    
 class RecyclingWasteMinimization(SimpleTableParser):
     '''
     >>> parser = RecyclingWasteMinimization()
@@ -581,7 +616,7 @@ class HybridVehicles(PageParser):
             policyData['number'] = fleet_count
             policyData['url'] = dict(tags[5].first().attrs)['href']
             policyData['source'] = tags[5].text
-            policyData['title'], policyData['notes'] = self.get_title(
+            policyData['title'], policyData['notes'] = get_url_title(
                 policyData['url'])
             policyData['country'] = country
             self.data.append(policyData)
@@ -592,33 +627,6 @@ class HybridVehicles(PageParser):
         for country in headers:
             table = country.nextSibling.nextSibling
             self.processTable(table, country.text)
-
-    def get_title(self, url):
-        notes = ''
-        try:
-            page = urllib2.urlopen(url)
-        except Exception as ex:
-            title = 'Source' 
-            notes = str(ex)
-        else:
-            if not url.strip().lower().endswith('pdf'):
-                try:
-                    soup = BeautifulSoup(
-                        page, convertEntities=BeautifulSoup.HTML_ENTITIES)
-                    title = soup.find('head').find('title').text
-                except Exception as ex:
-                    title = 'Source'
-                    notes = str(ex)
-            else:
-                with tempfile.TemporaryFile() as tfile:
-                    tfile.write(page.read())
-                    tfile.seek(0)
-                    pdf = pyPdf.PdfFileReader(tfile)
-                    title = pdf.documentInfo['/Title']
-        if not title.strip():
-            title = 'Source'
-        return title, notes
-
         
 class CarBan(SimpleTableParser):
     '''
@@ -748,8 +756,9 @@ class WindTurbine(PageParser):
         for row in table.findAll('tr')[1:]:
             tags = [el for el in row]
             data['institution'] = tags[1].text
-            data['capacity'] = tags[3].text
+            data['size'] = tags[3].text
             data['url'] = dict(tags[5].first().attrs).get('href','')
+            data['title'], data['notes'] = get_url_title(data['url'])
             others = [anchor['href'] for anchor in tags[5].findAll('a')[1:]]
             data['other_urls'] = ' '.join(others)
             self.data.append(data)
