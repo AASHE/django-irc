@@ -64,10 +64,10 @@ class SustainableDiningInitiativesLoader(GenericLoader):
 
 class WindTurbineLoader(GenericLoader):
     def create_instance(self, data):
-        if data['capacity'].lower() == 'unknown':
-            del(data['capacity']) # Will load into db as a null.
+        if data['size'].lower() == 'unknown':
+            del(data['size']) # Will load into db as a null.
         else:
-            data['capacity'] = data['capacity'].replace(',', '')
+            data['size'] = data['size'].replace(',', '')
         super(WindTurbineLoader, self).create_instance(data)
         
 class TransitPassLoader(GenericLoader):
