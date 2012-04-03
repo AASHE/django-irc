@@ -185,5 +185,14 @@ urlpatterns = patterns('',
         {'type_list': dict(models.PurchasingLink.LINK_TYPES),
          'member_only': True}),
 
+    url(r'^resources/campus-universal-transit-passes',
+        ResourceItemListView.as_view(
+            model=models.TransitPass,
+            queryset=handle_missing_organizations(
+                models.TransitPass.objects.order_by(
+                    '-type', 'organization__country', 
+                    'organization__name'))),
+           {'type_list': dict(models.TransitPass.PASS_TYPES)}),
+         
     )
 
