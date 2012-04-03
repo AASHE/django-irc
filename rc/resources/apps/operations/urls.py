@@ -13,7 +13,10 @@ def handle_missing_organizations(qs):
     return qs
 
 def green_building_url(url_string, building_type, image_url=None,
-                       image_alt=None, image_caption=None):
+                       image_alt=None, image_caption=None,
+                       buildings_name=None):
+    if not buildings_name:
+        buildings_name = ' '.join(building_type.split()[1:]).lower()
     return url(url_string,
                ResourceItemListView.as_view(
                    model=models.CampusGreenBuilding,
@@ -28,9 +31,8 @@ def green_building_url(url_string, building_type, image_url=None,
                 'title': building_type,
                 'image_url': image_url,
                 'image_alt': image_alt,
-                'image_caption': image_caption})
-
-
+                'image_caption': image_caption,
+                'buildings_name': buildings_name})
 
 urlpatterns = patterns('',
 
@@ -233,5 +235,27 @@ urlpatterns = patterns('',
         image_alt='SJU McKeown',
         image_caption='St. John\'s University McKeown Center'),
          
+    green_building_url(
+        url_string=r'^resources/green-libraries-campus',
+        building_type='Green Libraries on Campus',
+        image_url='http://www.aashe.org/files/thompson_library_1.jpg',
+        image_alt='OSU Thompson Library',
+        image_caption='Ohio State University Thompson Library',
+        buildings_name='libraries'),
+
+    green_building_url(
+        url_string=r'^resources/green-residence-halls',
+        building_type='Green Residence Halls',
+        image_url='http://www.aashe.org/files/ashdown_house_mit.jpg',
+        image_alt='MIT Ashdown House',
+        image_caption='MIT Ashdown House'),
+
+    green_building_url(
+        url_string=r'^resources/green-science-buildings',
+        building_type='Green Science Buildings',
+        image_url='http://www.aashe.org/files/brandeis.jpg',
+        image_alt='Brandeis University Shapiro Science Center',
+        image_caption='Brandeis University Shapiro Science Center'),
+
     )
 
