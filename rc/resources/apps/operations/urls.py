@@ -145,5 +145,13 @@ urlpatterns = patterns('',
                     'partner__name', 'organization__name'))),
         {'member_only': True}),
 
+    url(r'^resources/renewable-energy-research-centers',
+        ResourceItemListView.as_view(
+            model=models.RenewableResearchCenter,
+            queryset=handle_missing_organizations(
+                models.RenewableResearchCenter.objects.order_by(
+                    'organization__name'))),
+            {'member_only': True}),                    
+
     )
 
