@@ -12,6 +12,26 @@ def handle_missing_organizations(qs):
         qs = qs.exclude(organization=None)
     return qs
 
+def green_building_url(url_string, building_type, image_url=None,
+                       image_alt=None, image_caption=None):
+    return url(url_string,
+               ResourceItemListView.as_view(
+                   model=models.CampusGreenBuilding,
+                   queryset=handle_missing_organizations(
+                       models.CampusGreenBuilding.objects.filter(
+                           type__type=building_type).order_by(
+                               'type', 'certification', 'organization__name')), 
+                   template_name='operations/campusgreenbuilding_list.html'),
+               {'member_only': True,
+                'cert_order': ('LEED Platinum', 'LEED Gold', 'LEED Silver',
+                               'LEED Certified', 'not certified'),
+                'title': building_type,
+                'image_url': image_url,
+                'image_alt': image_alt,
+                'image_caption': image_caption})
+
+
+
 urlpatterns = patterns('',
 
     url(r'^resources/campus-alternative-transportation-websites',
@@ -198,6 +218,20 @@ urlpatterns = patterns('',
         ResourceItemListView.as_view(
             model=models.GreenBuildingWebsite,
             queryset=models.GreenBuildingWebsite.objects.order_by('title'))),
+
+    green_building_url(
+        url_string=r'^resources/athletic-recreation-centers-stadiums',
+        building_type='Green Athletic Buildings',
+        image_url='http://www.aashe.org/files/univ_of_arizona_rec_center_0.jpg',
+        image_alt='Univ Arizona',
+        image_caption='University of Arizona Recreation Center'),
+            
+    green_building_url(
+        url_string=r'^resources/green-student-centers',
+        building_type='Green Student Centers',
+        image_url='http://www.aashe.org/files/sju_mckeown_0.jpg',
+        image_alt='SJU McKeown',
+        image_caption='St. John\'s University McKeown Center'),
          
     )
 
