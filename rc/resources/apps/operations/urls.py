@@ -176,5 +176,14 @@ urlpatterns = patterns('',
                 models.SustainableLandscape.objects.order_by(
                     'organization__name')))),
 
+    url(r'^resources/links-related-sustainable-purchasing-campus',
+        ResourceItemListView.as_view(
+            model=models.PurchasingLink,
+            queryset=handle_missing_organizations(
+                models.PurchasingLink.objects.order_by(
+                    'type', 'organization__name'))),
+        {'type_list': dict(models.PurchasingLink.LINK_TYPES),
+         'member_only': True}),
+
     )
 
