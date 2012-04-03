@@ -974,7 +974,8 @@ class FuelCells(SimpleTableParser):
         policyData = {}
         policyData['institution'] = tags[1].text
         policyData['url'] = dict(tags[5].first().attrs)['href']
-        policyData['title'] = policyData['institution']
+        policyData['title'], policyData['notes'] = get_url_title(
+            policyData['url'])
         policyData['size'] = tags[3].text
         return policyData
 
