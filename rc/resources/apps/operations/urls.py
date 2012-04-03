@@ -160,5 +160,13 @@ urlpatterns = patterns('',
                 models.FuelCell.objects.order_by('-size', 
                                                  'organization__name')))),
 
+    url(r'^resources/sustainable-dining-initiatives-campus',
+        ResourceItemListView.as_view(
+            model=models.DiningInitiative,
+            queryset=handle_missing_organizations(
+                models.DiningInitiative.objects.order_by(
+                    'ownership', 'organization__name'))),
+        {'owners': dict(models.DiningInitiative.OWNERS),
+         'member_only': True}),
     )
 
