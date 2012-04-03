@@ -153,5 +153,12 @@ urlpatterns = patterns('',
                     'organization__name'))),
             {'member_only': True}),                    
 
+    url(r'^resources/campus-installations-stationary-fuel-cells',
+        ResourceItemListView.as_view(
+            model=models.FuelCell,
+            queryset=handle_missing_organizations(
+                models.FuelCell.objects.order_by('-size', 
+                                                 'organization__name')))),
+
     )
 
