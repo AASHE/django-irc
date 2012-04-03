@@ -14,23 +14,25 @@
   {% endif %}
   
   <div id="opening_text">
-
-    This resource lists "green" athletic buildings at higher education
-    institutions. In addition to new construction, it includes
-    building renovations as well as buildings being operated or
-    maintained sustainably. Buildings that received a LEED (Leadership
-    in Energy and Environmental Design) certification are listed
-    first, grouped by certification level (Platinum, Gold, Silver,
-    Certified). Buildings certified by systems other than LEED are
-    listed next, followed by green buildings that are not certified.
-
-    LEED was developed by the
-    <a href="http://www.usgbc.org/DisplayPage.aspx?CategoryID=19">U.S.
-    Green Building Council</a> (USGBC). Other green building rating systems
-    include the <a href="http://www.greenglobe.com/">Green Globe
-    Certification</a> and <a href="http://www.breeam.org/index.jsp">
-    BREAMM</a>.
-
+    <p>
+      This resource lists "green" {% firstof buildings_name "buildings" %}
+      at higher education institutions. In addition to new
+      construction, it includes building renovations as well as
+      buildings being operated or maintained sustainably. Buildings
+      that received a LEED (Leadership in Energy and Environmental
+      Design) certification are listed first, grouped by certification
+      level (Platinum, Gold, Silver, Certified). Buildings certified
+      by systems other than LEED are listed next, followed by green
+      buildings that are not certified.
+    </p>
+    <p>
+      LEED was developed by the
+      <a href="http://www.usgbc.org/DisplayPage.aspx?CategoryID=19">U.S.
+      Green Building Council</a> (USGBC). Other green building rating systems
+      include the <a href="http://www.greenglobe.com/">Green Globe
+      Certification</a> and <a href="http://www.breeam.org/index.jsp">
+      BREAMM</a>.
+    </p>
   </div>
 
   {% if image_caption %}
