@@ -193,6 +193,11 @@ urlpatterns = patterns('',
                     '-type', 'organization__country', 
                     'organization__name'))),
            {'type_list': dict(models.TransitPass.PASS_TYPES)}),
+
+    url(r'^resources/websites-campus-green-building',
+        ResourceItemListView.as_view(
+            model=models.GreenBuildingWebsite,
+            queryset=models.GreenBuildingWebsite.objects.order_by('title'))),
          
     )
 
