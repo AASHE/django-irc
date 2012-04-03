@@ -58,11 +58,11 @@ class GHGInventory(ResourceItem):
         verbose_name_plural = 'campus ghg inventories'
 
 class DiningInitiative(ResourceItem):
-    OWNERS = (('SO', 'Self-Operated'),
-              ('AK', 'Aramark'),
-              ('BA', 'Bon Appétit'),
-              ('CW', 'Chartwells'),
-              ('SX', 'Sodexo'))
+    OWNERS = (('SO', u'Self-Operated'),
+              ('AK', u'Aramark'),
+              ('BA', u'Bon Appétit'),
+              ('CW', u'Chartwells'),
+              ('SX', u'Sodexo'))
     ownership = models.CharField(_('ownership of operation'),
                                  choices=OWNERS, max_length=2)
 
