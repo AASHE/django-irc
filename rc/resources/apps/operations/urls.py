@@ -168,5 +168,13 @@ urlpatterns = patterns('',
                     'ownership', 'organization__name'))),
         {'owners': dict(models.DiningInitiative.OWNERS),
          'member_only': True}),
+
+    url(r'^resources/sustainable-landscaping-campus',
+        ResourceItemListView.as_view(
+            model=models.SustainableLandscape,
+            queryset=handle_missing_organizations(
+                models.SustainableLandscape.objects.order_by(
+                    'organization__name')))),
+
     )
 
