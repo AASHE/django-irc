@@ -1,0 +1,13 @@
+syntax: glob
+*.pyc
+.DS_Store
+.vagrant
+pip-log.txt
+*~
+rc/rc.db
+
+syntax: regexp
+emacs.desktop
+^docs/_build
+^static/
+^build/
