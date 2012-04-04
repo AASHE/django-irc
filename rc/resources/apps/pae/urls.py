@@ -39,6 +39,14 @@ urlpatterns = patterns('',
                 models.SustainabilityBlog.objects.order_by(
                     'type', 'title')))),
 
-        
+    url(r'^resources/campus-sustainability-plans',
+        ResourceItemListView.as_view(
+            model=models.SustainabilityPlan,
+            queryset=handle_missing_organizations(
+                models.SustainabilityPlan.objects.order_by(
+                    'organization__name'))),
+        {'member_only': True}),
+
+
     )
 
