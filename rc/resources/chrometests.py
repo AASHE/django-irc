@@ -68,8 +68,11 @@ class ChromeTest(unittest.TestCase):
                          self.test_operations_urls):
                 try:
                     test()
-                except:
+                except Exception as e:
+                    print e.message
                     pass
+        except Exception as e:
+            print e.message
         finally:
             self.tearDown()
 
