@@ -1,5 +1,4 @@
 from base import PageParser, SimpleTableParser
-from BeautifulSoup import BeautifulSoup, NavigableString
 
 
 class IntegratedPestPolicies(SimpleTableParser):
