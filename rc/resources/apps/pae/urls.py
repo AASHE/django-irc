@@ -23,5 +23,16 @@ urlpatterns = patterns('',
                     'minor_reference_only', 'organization__name'))),
         {'member_only': True}),
 
+    url(r'^resources/campus-sustainability-assessment-tools',
+        ResourceItemListView.as_view(
+            model=models.AssessmentTool,
+            queryset=handle_missing_organizations(
+                models.AssessmentTool.objects.order_by(
+                    'provider', 'organization__name'))),
+        {'member_only': True,
+         'type_list': dict(models.AssessmentTool.CREATORS)}),
+
+
+        
     )
 
