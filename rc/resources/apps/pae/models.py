@@ -24,6 +24,8 @@ class SustainabilityWebsite(ResourceItem):
         verbose_name = 'campus sustainability website'
 
 class SustainabilityBlog(ResourceItem):
+    type = models.CharField(max_length=128)    
+    
     class Meta:
         verbose_name = 'campus sustainability blog'
 
