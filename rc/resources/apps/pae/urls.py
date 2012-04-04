@@ -15,5 +15,13 @@ urlpatterns = patterns('',
                     'organization__name'))),
         {'member_only': True}),
 
+    url(r'^resources/master-plans-incorporate-sustainability',
+        ResourceItemListView.as_view(
+            model=models.MasterPlan,
+            queryset=handle_missing_organizations(
+                models.MasterPlan.objects.order_by(
+                    'organization__name'))),
+        {'member_only': True}),
+
     )
 
