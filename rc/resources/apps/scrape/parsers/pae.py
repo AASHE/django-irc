@@ -41,6 +41,17 @@ class AlumniSustainabilityFunds(SimpleTableParser):
     url = 'http://www.aashe.org/resources/alumni-sustainability-funds'
     login_required = True
 
+    def processTableData(self, row, els):
+        policyData = {}
+        policyData['institution'] = els[1].text
+        anchor = els[3].find('a').extract()
+        policyData['url'] = anchor['href']
+        policyData['title'] = anchor.text
+        policyData['notes'] = els[3].text
+        return policyData
+
+        policyData['url'] = anchor['href']
+
 class CampusMasterPlan(PageParser):
     '''
     >>> parser = CampusMasterPlan()
