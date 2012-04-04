@@ -1,0 +1,46 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Sustainable Dining Initiatives on Campus
+{% endblock title %}  
+
+{% block body %}
+
+  <div id="opening_text">
+
+    This resource provides links to information about sustainable
+    dining initiatives at individual institutions. Links are arranged
+    according to the food service provider used by the institution. US
+    based institutions may find the
+    <a href="http://realfoodchallenge.org/">Real Food Challenge</a>
+    to be of additional interest. For Canadian campuses, please also
+    visit the <a href="http://www.syc-cjs.org/campus-food-systems-project">
+    Campus Food Systems Project</a> organized by the Sierra Youth Coalition.
+
+  </div>
+
+  <div id="resource_list">
+
+    <p>
+      {% regroup object_list by ownership as owner_list %}
+
+      {% for owner in owner_list %}
+        <p>
+          {% for key, value in owners.items %}
+            {% if key == owner.grouper %}
+              <h2>{{ value }}</h2>
+            {% endif %}
+          {% endfor %}
+          {% for resource in owner.list %}
+            {{ resource.organization.name }} -
+            <a href="{{ resource.url }}">{{ resource.title }}</a>
+            {{ resource.notes }}
+            <br/>
+          {% endfor %}
+        {% endfor %}
+      </p>
+    </p>
+  </div>
+
+{% endblock body %}
+

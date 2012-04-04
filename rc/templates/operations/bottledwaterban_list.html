@@ -1,0 +1,85 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Campus Bottle Water Bans and Reduction Campaigns
+{% endblock title %}  
+
+{% block body %}
+
+  <div id="opening_text">
+
+    This resource lists institutions that have banned bottled water or
+    have active campaigns to reduce their sale and consumption. Click
+    link below to go to the desired section.
+
+  </div>
+
+  <p>
+    <div id="types_menu">
+      <ul>
+        {% for type, name in ban_types.items %}
+          <li><a href="#{{ type }}">{{ name }}</a></li>
+        {% endfor %}
+        <li><a href="#additional_resources">Additional Resources</a></li>
+      </ul>
+    </div>
+  </p>
+
+  <div id="resource_list">
+    <p>
+      {% regroup object_list by type as type_list %}
+
+      {% for ban in type_list %}
+        <p>
+          <a name="{{ ban.grouper }}"/>
+          {% for key, value in ban_types.items %}
+            {% if key == ban.grouper %}
+              <h2>{{ value }}</h2>
+            {% endif %}
+          {% endfor %}
+          <table>
+            <tbody>
+              <tr>
+                <th>University</th>
+                <th>Resource</th>
+              </tr>
+              {% for resource in ban.list %}
+                <tr>
+                  <td>{{ resource.organization.name }}</td>
+                  <td><a href="{{ resource.url }}">{{ resource.title }}</a>
+                  {{ resource.notes }}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </p>
+        <br/>
+      {% endfor %}
+      <a name="additional_resources"/>
+      <h2>Additional Resources</h2>
+      <p>
+        <ul>
+          <li>
+            <a href="http://www.syc-cjs.org/backthetap">
+               Back the Tap: Bottled Water Free Campuses</a> 
+            (Sierra Youth Coalition)
+          </li>
+          <li>
+            <a href="http://www.stopcorporateabuse.org/students-think-outside-bottle">
+              Corporate Accountability International: Think Outside the
+              Bottle</a>
+            (Corporate Accountability International)
+          </li>
+          <li>
+            <a href="http://www.foodandwaterwatch.org/water/take-back-the-tap/">
+              Take Back the Tap</a>
+            (Food & Water Watch)
+          </li>
+        </ul>
+      </p>
+    </p>
+  </div>
+
+{% endblock body %}
+

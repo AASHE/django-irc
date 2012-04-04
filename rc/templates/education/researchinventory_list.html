@@ -1,0 +1,40 @@
+{% extends "resourceitem_list.html" %}
+
+{% block body %}
+
+  <div id="opening_text">
+
+    The following list highlights institutions that have identified
+    their sustainability research activities. Conducting an inventory
+    of an institution’s sustainability research can serve as a
+    valuable first step in identifying strengths and areas for
+    development. Likewise, since sustainability requires collaboration
+    that transcends traditional disciplines, conducting an inventory
+    can help connect individuals, laboratories, research centers, and
+    other campus community members with a shared interest in
+    sustainability
+
+  </div>
+
+
+  <div id="resource_list" class="content clear-block">
+    <p>
+      <table>
+        <tbody>
+          <tr>
+            <th>Institution</th>
+            <th>Research Inventory</th>
+          </tr>
+          {% for inventory in object_list %}
+            <tr>
+              <td>{{ inventory.organization.name }}</td>
+              <td><a href="{{ inventory.url }}">{{ inventory.title }}</a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </p>
+  </div>
+
+{% endblock body %}
+
