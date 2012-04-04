@@ -64,10 +64,10 @@ class SustainableDiningInitiativesLoader(GenericLoader):
 
 class WindTurbineLoader(GenericLoader):
     def create_instance(self, data):
-        if data['capacity'].lower() == 'unknown':
-            del(data['capacity']) # Will load into db as a null.
+        if data['size'].lower() == 'unknown':
+            del(data['size']) # Will load into db as a null.
         else:
-            data['capacity'] = data['capacity'].replace(',', '')
+            data['size'] = data['size'].replace(',', '')
         super(WindTurbineLoader, self).create_instance(data)
         
 class TransitPassLoader(GenericLoader):
@@ -89,8 +89,11 @@ class SustainabilityPurchasingLoader(GenericLoader):
 class HybridFleetLoader(GenericLoader):
     def create_instance(self, data):
         # sometimes number of vehicles is '>1'; can't convert that
-        # into an integer field, so we change it to 1:
-        data['number'] = str(data['number']).translate(None, '>&gt;')
+        # into an integer field, so we load it as a NULL, and leave it
+        # to the template to present this unknown value as it wishes.
+        if '>' in data['number']:
+            del(data['number'])
+        super(HybridFleetLoader, self).create_instance(data)
         
 class GreenBuildingLoader(GenericLoader):
     def create_instance(self, data):

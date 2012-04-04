@@ -13,6 +13,9 @@ class AssessmentTool(ResourceItem):
         verbose_name = 'campus sustainability assessment tool'
 
 class MasterPlan(ResourceItem):
+    minor_reference_only = models.BooleanField(_('minor reference only'),
+                                               default=False)
+
     class Meta:
         verbose_name = 'campus master plan'
 
@@ -21,6 +24,8 @@ class SustainabilityWebsite(ResourceItem):
         verbose_name = 'campus sustainability website'
 
 class SustainabilityBlog(ResourceItem):
+    type = models.CharField(max_length=128)    
+    
     class Meta:
         verbose_name = 'campus sustainability blog'
 

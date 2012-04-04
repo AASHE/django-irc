@@ -161,5 +161,5 @@ LOGGING = {
     }
 }
 
-AASHE_ACCOUNT_USERNAME = 'jesse.legg@aashe.org'
-AASHE_ACCOUNT_PASSWORD = 'Abh!xy2003'
+AASHE_ACCOUNT_USERNAME = 'releaser@aashe.org'
+AASHE_ACCOUNT_PASSWORD = 'releaseme'

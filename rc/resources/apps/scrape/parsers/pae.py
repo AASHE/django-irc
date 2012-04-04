@@ -1,5 +1,4 @@
 from base import PageParser, SimpleTableParser
-from BeautifulSoup import BeautifulSoup, NavigableString
 
 
 class IntegratedPestPolicies(SimpleTableParser):
@@ -42,6 +41,17 @@ class AlumniSustainabilityFunds(SimpleTableParser):
     url = 'http://www.aashe.org/resources/alumni-sustainability-funds'
     login_required = True
 
+    def processTableData(self, row, els):
+        policyData = {}
+        policyData['institution'] = els[1].text
+        anchor = els[3].find('a').extract()
+        policyData['url'] = anchor['href']
+        policyData['title'] = anchor.text
+        policyData['notes'] = els[3].text
+        return policyData
+
+        policyData['url'] = anchor['href']
+
 class CampusMasterPlan(PageParser):
     '''
     >>> parser = CampusMasterPlan()
@@ -67,6 +77,8 @@ class CampusMasterPlan(PageParser):
             data['title'] = anchor.text
             data['url'] = dict(anchor.attrs).get('href', '')
             data['description'] = textEl
+            if 'minor reference' in para.findPrevious('h2').text.lower():
+                data['minor_reference_only'] = True
             self.data.append(data)
             data = {}
 

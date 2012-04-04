@@ -1,16 +1,9 @@
 from django.conf.urls.defaults import patterns, url
 
-from rc.resources.views import ResourceItemListView
+from rc.resources.views import ResourceItemListView, \
+     handle_missing_organizations
 from rc.resources.apps.education import models
 
-
-HIDE_RESOURCES_WITH_NO_ORGANIZATION = False
-
-
-def handle_missing_organizations(qs):
-    if HIDE_RESOURCES_WITH_NO_ORGANIZATION:
-        qs = qs.exclude(organization=None)
-    return qs
 
 urlpatterns = patterns('',
     url(r'^resources/alumni-sustainability-networks$',
