@@ -1,16 +1,9 @@
 from django.conf.urls.defaults import patterns, include, url
 
-from rc.resources.views import ResourceItemListView
+from rc.resources.views import ResourceItemListView, \
+     handle_missing_organizations
 from rc.resources.apps.operations import models
 
-
-HIDE_RESOURCES_WITH_NO_ORGANIZATION = False
-
-
-def handle_missing_organizations(qs):
-    if HIDE_RESOURCES_WITH_NO_ORGANIZATION:
-        qs = qs.exclude(organization=None)
-    return qs
 
 def green_building_url(url_string, building_type, image_url=None,
                        image_alt=None, image_caption=None,
