@@ -110,6 +110,10 @@ etl.register(parsers.WaterConservationPolicy, loader.PolicyLoader,
              'policies.Policy', resource_area='Water Conservation Policies', reset=True)
 etl.register(parsers.GeneralPolicy, loader.PolicyLoader,
              'policies.Policy', resource_area='Campus Sustainability and Environmental Policies', reset=True)
+etl.register(parsers.ApplianceProcurement, loader.PolicyLoader,
+             'policies.Policy', 
+             resource_area='Energy Efficient Appliance Procurement Policies',
+             reset=True)
              
 # register PAE
 etl.register(parsers.AlumniSustainabilityFunds, loader.GenericLoader, 'pae.AlumniFund')
