@@ -1,0 +1,40 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Renewable Energy Reseach Centers
+{% endblock title %}
+
+{% block body %}
+
+  <div id="opening_text">
+
+    This resource lists campus renewable energy research
+    centers. Users may also wish to visit our list of
+    <a href="/resources/campus-energy-websites">Campus Energy Websites</a>.
+
+  </div>
+
+  <p>
+    <div id="resource_list" class="content clear-block">
+      <table>
+        <tbody>
+          <tr>
+            <th>Institution</th>
+            <th>Research Center</th>
+          </tr>
+        {% for resource in object_list %}
+          <tr>
+            <td>{{ resource.organization.name }}</td>
+            <td><a href="{{ resource.url }}">{{ resource.title }}</a>
+              {% if resource.notes %}
+                [{{ resource.notes }}]
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </p>
+
+{% endblock body %}
+
