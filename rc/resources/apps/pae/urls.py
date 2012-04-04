@@ -20,7 +20,7 @@ urlpatterns = patterns('',
             model=models.MasterPlan,
             queryset=handle_missing_organizations(
                 models.MasterPlan.objects.order_by(
-                    'organization__name'))),
+                    'minor_reference_only', 'organization__name'))),
         {'member_only': True}),
 
     )

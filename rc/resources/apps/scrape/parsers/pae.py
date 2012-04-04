@@ -77,6 +77,8 @@ class CampusMasterPlan(PageParser):
             data['title'] = anchor.text
             data['url'] = dict(anchor.attrs).get('href', '')
             data['description'] = textEl
+            if 'minor reference' in para.findPrevious('h2').text.lower():
+                data['minor_reference_only'] = True
             self.data.append(data)
             data = {}
 
