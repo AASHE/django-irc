@@ -47,6 +47,13 @@ urlpatterns = patterns('',
                     'organization__name'))),
         {'member_only': True}),
 
+    url(r'^resources/campus-sustainability-revolving-loan-funds',
+        ResourceItemListView.as_view(
+            model=models.RevolvingLoanFund,
+            queryset=handle_missing_organizations(
+                models.RevolvingLoanFund.objects.order_by(
+                    'organization__name', 'title'))),
+        {'member_only': True}),
 
     )
 
