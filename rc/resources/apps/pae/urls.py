@@ -32,6 +32,12 @@ urlpatterns = patterns('',
         {'member_only': True,
          'type_list': dict(models.AssessmentTool.CREATORS)}),
 
+    url(r'^resources/campus-sustainability-blogs',
+        ResourceItemListView.as_view(
+            model=models.SustainabilityBlog,
+            queryset=handle_missing_organizations(
+                models.SustainabilityBlog.objects.order_by(
+                    'type', 'title')))),
 
         
     )
