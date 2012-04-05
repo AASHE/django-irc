@@ -4,19 +4,28 @@ from rc.resources.views import ResourceItemListView, \
      handle_missing_organizations
 from rc.resources.apps.policies import models
 
-def policy_url(url_string, resource_area):
+def policy_url(url_string, resource_area, page_title=None, 
+               with_description=False, member_only=False):
+    if not page_title:
+        page_title = resource_area
+
+    template_name = 'policies/policy_list.html'
+
     return url(url_string,
                ResourceItemListView.as_view(
                    model=models.Policy,
                    queryset=handle_missing_organizations(
                        models.Policy.objects.filter(
                            resource_area__area=resource_area).order_by(
-                               'organization__name'))), 
-               {'member_only': True,
-                'resource_area': resource_area})
+                               'organization__name')),
+                   template_name=template_name), 
+                   {'resource_area': resource_area,
+                    'page_title': page_title,
+                    'with_description': with_description,
+                    'member_only': member_only })
 
 def policy_by_country_by_org_name_url(url_string, resource_area,
-                                      page_title=None):
+                                      page_title=None, member_only=False):
     template_name = 'policies/policy_by_country_by_org_name_list.html'
 
     if not page_title:
@@ -31,22 +40,36 @@ def policy_by_country_by_org_name_url(url_string, resource_area,
                                 'organization__country',
                                 'organization__name')),
                     template_name=template_name),
-                    {'member_only': True,
-                     'resource_area': resource_area,
-                     'page_title': page_title})
+                    {'resource_area': resource_area,
+                     'page_title': page_title,
+                     'member_only': member_only })
+
 
 urlpatterns = patterns('',
 
-    policy_url(r'^resources/energy-efficient-appliance-procurement-policies',
-               'Energy Efficient Appliance Procurement Policies'),
+    policy_url(
+        r'^resources/energy-efficient-appliance-procurement-policies',
+        resource_area='Energy Efficient Appliance Procurement Policies',
+        with_description=True,
+        member_only=True),
 
     policy_by_country_by_org_name_url(
         url_string=r'^resources/campus-stormwater-policies-plans',
         resource_area='Campus Stormwater Policy',
-        page_title='Campus Stormwater Policies / Plans'),
-        
+        page_title='Campus Stormwater Policies / Plans',
+        member_only=True),
 
-               
+    policy_url(url_string=r'^resources/energy-conservation-policies',
+               resource_area='Energy Conservation Policy', 
+               page_title='Campus Sustainable Energy Policies'),
+
+    policy_url(
+        r'^resources/campus-sustainable-procurement-policies',
+        resource_area='General / Comprehensive Procurement Policy',
+        with_description=True,
+        page_title='Campus Sustainable Procurement Policies',
+        member_only=True),
+
     # url(r'^resources/campus-living-wage-policies',
     #     ResourceItemListView.as_view(
     #         model=models.ZZ,
