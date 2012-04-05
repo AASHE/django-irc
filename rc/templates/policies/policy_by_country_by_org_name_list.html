@@ -1,0 +1,46 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  {{ page_title|title }}    
+{% endblock title %}  
+
+{% block body %}
+
+  <div id="opening_text">
+
+    This resource lists campus stormwater policies and procedures that
+    exist independently of water conservation policies, which can be
+    found within general
+    <a href="/resources/campus-water-conservation-policies">Campus
+    Water Conservation Policies</a>.
+
+  </div>
+
+  <div id="resource_list">
+    <p>
+     {% regroup object_list by organization.country as country_list %}
+
+     {% for country in country_list %}
+       <h2>{{ country.grouper }}</h2>
+       <table>
+         <tbody>
+           <tr>
+             <th>Institution</th>
+             <th>Policy</th>
+           </tr>
+           {% for resource in country.list %}
+             <tr>
+               <td>{{ resource.organization.name }}</td>
+               <td><a href="{{ resource.url }}">{{ resource.title }}</a>
+               {{ resource.notes }}
+               </td>
+             </tr>
+           {% endfor %}
+         </tbody>
+       </table>
+     {% endfor %}
+    </p>
+  </div>
+
+{% endblock body %}
+
