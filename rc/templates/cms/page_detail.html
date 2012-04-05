@@ -1,5 +1,6 @@
 {% extends "aashe/base_resources.html" %}
 {% load markup %}
+{% load markup tree_menu_tags %}
 
 {% block title %}{{ object.menu_title }}{% endblock %}
 {% block page-title %}<h1 class="page-title">{{ object.title }}</h1>{% endblock %}
@@ -11,10 +12,29 @@
 {% if object.menuitem.children %}
 <ul class="menu">
 {% for child_menu_item in object.menuitem.children %}
-  <li class="leaf"><a href="{{ child_menu_item }}"><span>{{ child_menu_item }}</span></a></li>
+  <li class="leaf"><a href="{{ child_menu_item.url }}"><span>{{ child_menu_item }}</span></a></li>
 {% endfor %}
 </ul>
 {% endif %}
 
+{% endblock content %}
 
-{% endblock %}
+{% block right %}
+
+{% show_menu "AASHE Resource Center" "sidebar" %}  
+
+<div class="block block-views " id="block-views-issues-block_5">
+  <h2 class="block-title">AASHE Bulletin</h2>
+  <div class="block-content content"><div class="view view-issues issues-homepage-block view-dom-id-1">
+      <div class="header">
+        <p>For the latest campus sustainability news, resources, opportunities, and events from the U.S. and Canada: <a href="http://www.aashe.org/connect/enewsletters/bulletin" rel="nofollow">Subscribe to the AASHE Bulletin</a></p>
+      </div>
+      <div class="row-1 odd first last">
+        <div class="field-bulletin-archive-url">
+          <a href="http://www2.aashe.org/archives/2011/0307.php ">View the latest issue!</a>  </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock right %}

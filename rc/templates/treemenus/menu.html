@@ -29,3 +29,16 @@
    </ul>
  {% endfor %}
 {% endifequal %}
+
+{% ifequal menu_type "sidebar" %}
+<div class="block block-menu_block " id="block-menu_block-4">
+  <h2 class="block-title"><none></none></h2>
+  <div class="block-content content"><div class="menu-block-4 menu-name-menu-sitemap parent-mlid-38287 menu-level-1">
+      <ul class="menu">
+        {% for menu_item in menu.root_item.children %}
+        <li class="collapsed first"><a href="{{ menu_item.url }}" title="{{ menu_item.caption }}"><span>{{ menu_item.caption}}</span></a></li>
+        {% endfor %}
+    </ul></div>
+  </div>
+</div>
+{% endifequal %}
