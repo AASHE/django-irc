@@ -215,7 +215,7 @@ class EnergyConservationPolicies(PageParser):
             self.data.append(data)
             data = {}
 
-class SustainbilityPolicies(PageParser):
+class GeneralSustainabilityPolicies(PageParser):
     '''
     >>> parser = SustainbilityPolicies()
     >>> parser.parsePage()
@@ -322,29 +322,4 @@ class WaterConservationPolicy(PageParser):
                 self.data.append(data)
                 data = {}
 
-class GeneralPolicy(PageParser):
-    '''
-    >>> parser = GeneralPolicy()
-    >>> parser.parsePage()
-    >>> len(parser.data) != 0
-    TRUE
-    '''
-    url = 'http://www.aashe.org/resources/campus-sustainability-and-environmental-policies'
-    login_required = True
-
-    def parsePage(self):
-        headers = self.soup.find('div', {'class': 'content clear-block'}).findAll('h2')
-        data = {}
-        for header in headers:
-            para = self.soup.find('div', {'class': 'content clear-block'}).find('p')
-            data = {}
-            for br in para.findAll('br'):
-                anchor = br.previousSibling
-                textEl = br.previousSibling.previousSibling
-                data['institution'] = textEl
-                data['title'] = anchor.text
-                data['url'] = dict(anchor.attrs).get('href', '')
-                data['type'] = header.text
-                self.data.append(data)
-                data = {}
     
