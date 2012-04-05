@@ -226,14 +226,15 @@ class SustainbilityPolicies(PageParser):
     login_required = True
     
     def parsePage(self):
-        anchors = self.soup.find('div', {'class': 'content clear-break'}).findAll('a')
+        anchors = self.soup.find('div', 
+                                 {'class': 'content clear-block'}).findAll('a')
         data = {}
         for anchor in anchors:
             textEl = anchor.findPrevious(text=True)
-            data['institution'] = textEl
+            data['institution'] = textEl.strip(' - ')
             data['title'] = anchor.text
             data['url'] = dict(anchor.attrs).get('href', '')
-            data['category'] = anchor.getPrevious('h2').text
+            data['category'] = anchor.findPrevious('h2').text
             self.data.append(data)
             data = {}
             
