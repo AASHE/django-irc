@@ -2,17 +2,10 @@ from base import PageParser, SimpleTableParser
 from BeautifulSoup import BeautifulSoup, NavigableString
 
 
-class ApplianceProcurement(PageParser):
-    '''
-    >>> parser = ApplianceProcurement()
-    >>> parser.parsePage()
-    >>> len(parser.data) != 0
-    True
-    >>> parser.data[0]['description'] != ''
-    True
-    '''
-    url = 'http://www.aashe.org/resources/energy-efficient-appliance-procurement-policies'
-    login_required = True
+class PolicyByOrgNameWithDescriptionParser(PageParser):
+
+    url = None
+    login_required = False
 
     def parsePage(self):
         paras = self.soup.find('div', {'class': 'content clear-block'}).findAll('p')
@@ -29,6 +22,32 @@ class ApplianceProcurement(PageParser):
             self.data.append(data)
             data = {}
 
+class ApplianceProcurement(PolicyByOrgNameWithDescriptionParser):
+    '''
+    >>> parser = ApplianceProcurement()
+    >>> parser.parsePage()
+    >>> len(parser.data) != 0
+    True
+    >>> parser.data[0]['description'] != ''
+    True
+    '''
+    url = ('http://www.aashe.org/resources/'
+           'energy-efficient-appliance-procurement-policies')
+    login_required = True
+
+class GeneralProcurement(PageParser):
+    '''
+    >>> parser = GeneralProcurement()
+    >>> parser.parsePage()
+    >>> len(parser.data) != 0
+    True
+    >>> parser.data[0]['description'] != ''
+    True
+    '''
+    url = ('http://www.aashe.org/resources/'
+           'campus-sustainable-procurement-policies')
+    login_required = True
+            
 class LivingWage(PageParser):
     '''
     >>> parser = LivingWage()
@@ -186,10 +205,11 @@ class EnergyConservationPolicies(PageParser):
     def parsePage(self):
         para = self.soup.find('div', {'class': 'content clear-block'}).find('p')
         data = {}
+        import pdb; pdb.set_trace
         for br in para.findAll('br'):
             anchor = br.previousSibling
             textEl = br.previousSibling.previousSibling
-            data['institution'] = textEl
+            data['institution'] = textEl.strip(' - ')
             data['title'] = anchor.text
             data['url'] = dict(anchor.attrs).get('href', '')
             self.data.append(data)
