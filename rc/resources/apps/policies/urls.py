@@ -44,6 +44,25 @@ def policy_by_country_by_org_name_url(url_string, resource_area,
                      'page_title': page_title,
                      'member_only': member_only })
 
+def policy_by_category_by_org_name_url(url_string, resource_area,
+                                      page_title=None, member_only=False):
+    template_name = 'policies/policy_text_by_category_by_org_name_list.html'
+
+    if not page_title:
+        page_title = resource_area
+    
+    return url(url_string,
+               ResourceItemListView.as_view(
+                    model=models.Policy,
+                    queryset=handle_missing_organizations(
+                        models.Policy.objects.filter(
+                            resource_area__area=resource_area).order_by(
+                                'category', 'organization__name')),
+                    template_name=template_name),
+                    {'resource_area': resource_area,
+                     'page_title': page_title,
+                     'member_only': member_only })
+
 
 urlpatterns = patterns('',
 
@@ -68,6 +87,12 @@ urlpatterns = patterns('',
         resource_area='General / Comprehensive Procurement Policy',
         with_description=True,
         page_title='Campus Sustainable Procurement Policies',
+        member_only=True),
+
+    policy_by_category_by_org_name_url(
+        r'^resources/campus-sustainability-and-environmental-policies',
+        resource_area='General Sustainability Policy',
+        page_title='Campus Sustainability and Environmental Policies',
         member_only=True),
 
     # url(r'^resources/campus-living-wage-policies',
