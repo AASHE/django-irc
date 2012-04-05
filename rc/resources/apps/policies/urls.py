@@ -113,6 +113,12 @@ urlpatterns = patterns('',
         page_title='Campus Living Wage Policies', 
         member_only=True),
 
+    policy_url(
+        r'^resources/campus-anti-idling-policies',
+        resource_area='Campus Anti-Idling Policies',
+        with_description=True,
+        member_only=True),
+
 
 
 
