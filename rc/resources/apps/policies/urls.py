@@ -95,6 +95,12 @@ urlpatterns = patterns('',
         page_title='Campus Sustainability and Environmental Policies',
         member_only=True),
 
+    policy_by_country_by_org_name_url(
+        url_string=r'^resources/telecommuting-alternative-work',
+        resource_area='Telecommuting and Alternative Work Policies',
+        page_title='Campus Stormwater Policies / Plans',
+        member_only=True),
+
     # url(r'^resources/campus-living-wage-policies',
     #     ResourceItemListView.as_view(
     #         model=models.ZZ,
