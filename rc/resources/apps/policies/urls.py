@@ -106,6 +106,14 @@ urlpatterns = patterns('',
         resource_area='Water Conservation Policies', 
         member_only=True),
 
+    policy_url(
+        r'^resources/campus-living-wage-policies',
+        resource_area='Campus Living Wage Policy',
+        with_description=True,
+        page_title='Campus Living Wage Policies', 
+        member_only=True),
+
+
 
 
     # url(r'^resources/campus-living-wage-policies',
