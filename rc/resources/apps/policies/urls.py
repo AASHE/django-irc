@@ -119,6 +119,12 @@ urlpatterns = patterns('',
         with_description=True,
         member_only=True),
 
+    policy_url(
+        r'^resources/paper-procurement-policies',
+        resource_area='Campus Paper Procurement Policies',
+        page_title='Paper Procurement Policies',
+        with_description=True,
+        member_only=True),
 
 
 
