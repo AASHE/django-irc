@@ -79,38 +79,6 @@ class GeneralProcurementPolicies(PageParser):
             except:
                 continue    
 
-class EnergyPoliciesParser(PageParser):
-    '''
-    >>> parser = EnergyPoliciesParser()
-    >>> parser.parsePage()
-    >>> len(parser.data) != 0
-    True
-    '''
-    url = 'http://www.aashe.org/resources/energy-conservation-policies'
-
-    def parsePage(self):
-        # policies listing starts at first paragraph tag on the page
-        para = self.soup.findAll('p')[0]
-        # each policy line is separated by a <br/> tag... loop until we hit one...
-        elements = [el for el in para]
-        policyData = {}
-        for el in elements:
-            tag = getattr(el, 'name', None)
-            if tag == 'br':
-                self.data.append(policyData)
-                policyData = {}
-                continue
-            elif tag == 'a':
-                # anchor tag means it's a link...
-                linkText = el.text
-                url = dict(el.attrs).get('href', None)
-                policyData.update({'url': url, 'title': linkText})
-            elif isinstance(el, NavigableString) and '(pdf)' not in el.title().lower():
-                # not a <br/> and not an <a> so it's probably the school name text
-                # split on the '-' separator and strip of lead/trail whitespace...
-                institution = el.title().rsplit('-', 1)[0].strip()
-                policyData['institution'] = institution
-            
 class RecyclingWasteMinimization(SimpleTableParser):
     '''
     >>> parser = RecyclingWasteMinimization()
