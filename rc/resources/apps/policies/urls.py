@@ -166,6 +166,15 @@ urlpatterns = patterns('',
                 models.FairTradePolicy.objects.order_by(
                     'organization__country', 'organization__name'))),
             {'member_only': True}),
+
+    url(r'^resources/socially-responsible-investment-policies',
+        ResourceItemListView.as_view(
+            model=models.ResponsibleInvestmentPolicy,
+            queryset=handle_missing_organizations(
+                models.ResponsibleInvestmentPolicy.objects.order_by(
+                    'investment_type', 'organization__name'))),
+            {'member_only': True}),
+
         
     )
 
