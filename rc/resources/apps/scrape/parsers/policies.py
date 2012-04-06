@@ -48,10 +48,18 @@ class RecyclingPolicy(SimpleTableParser):
     url = 'http://www.aashe.org/resources/campus-recycling-and-waste-minimization-policies'
     login_required = True
             
-class PolicyByOrgNameWithDescriptionParser(PageParser):
-
-    url = None
-    login_required = False
+class ApplianceProcurement(PageParser):
+    '''
+    >>> parser = ApplianceProcurement()
+    >>> parser.parsePage()
+    >>> len(parser.data) != 0
+    True
+    >>> parser.data[0]['description'] != ''
+    True
+    '''
+    url = ('http://www.aashe.org/resources/'
+           'energy-efficient-appliance-procurement-policies')
+    login_required = True
 
     def parsePage(self):
         paras = self.soup.find('div', {'class': 'content clear-block'}).findAll('p')
@@ -67,19 +75,6 @@ class PolicyByOrgNameWithDescriptionParser(PageParser):
             data['institution'] = strong.text
             self.data.append(data)
             data = {}
-
-class ApplianceProcurement(PolicyByOrgNameWithDescriptionParser):
-    '''
-    >>> parser = ApplianceProcurement()
-    >>> parser.parsePage()
-    >>> len(parser.data) != 0
-    True
-    >>> parser.data[0]['description'] != ''
-    True
-    '''
-    url = ('http://www.aashe.org/resources/'
-           'energy-efficient-appliance-procurement-policies')
-    login_required = True
 
 class GeneralProcurement(PageParser):
     '''
