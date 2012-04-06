@@ -142,3 +142,7 @@ etl.register(parsers.AssessmentTools, loader.AssessmentToolsLoader, 'pae.Assessm
 etl.register(parsers.SustainabilityBlog, loader.GenericLoader, 'pae.SustainabilityBlog')
 etl.register(parsers.SustainabilityPlan, loader.GenericLoader, 'pae.SustainabilityPlan')
 etl.register(parsers.RevolvingFund, loader.GenericLoader, 'pae.RevolvingLoanFund')
+
+# programs
+etl.register(parsers.BicycleSharePrograms, loader.ProgramLoader,
+             'programs.Program', resource_area='Bicycle Share Programs') 
