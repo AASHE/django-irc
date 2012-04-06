@@ -251,7 +251,6 @@ class EnergyConservationPolicies(PageParser):
     def parsePage(self):
         para = self.soup.find('div', {'class': 'content clear-block'}).find('p')
         data = {}
-        import pdb; pdb.set_trace
         for br in para.findAll('br'):
             anchor = br.previousSibling
             textEl = br.previousSibling.previousSibling
