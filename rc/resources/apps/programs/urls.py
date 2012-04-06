@@ -20,6 +20,15 @@ urlpatterns = patterns('',
                            'by_org_name_list.html')),
             {'member_only': True}),
 
+    url(r'^resources/campus-composting-programs',
+        ResourceItemListView.as_view(
+            model=models.Program,
+            queryset=handle_missing_organizations(
+                models.Program.objects.filter(
+                    type__type='Campus Composting Program').order_by(
+                    'organization__name')),
+            template_name=('programs/program_table_by_org_name_list.html')),
+            {'member_only': True}),
 
     )
 

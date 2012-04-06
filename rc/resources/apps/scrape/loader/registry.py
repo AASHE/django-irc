@@ -145,4 +145,6 @@ etl.register(parsers.RevolvingFund, loader.GenericLoader, 'pae.RevolvingLoanFund
 
 # programs
 etl.register(parsers.BicycleSharePrograms, loader.ProgramLoader,
-             'programs.Program', resource_area='Bicycle Share Programs') 
+             'programs.Program')
+etl.register(parsers.CampusCompostingPrograms, loader.ProgramLoader,
+             'programs.Program')
