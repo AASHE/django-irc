@@ -45,7 +45,7 @@ class RecyclingPolicy(SimpleTableParser):
     >>> len(parser.data) != 0
     True
     '''    
-    url = 'http://www.aashe.org/resources/waste_policies.php'
+    url = 'http://www.aashe.org/resources/campus-recycling-and-waste-minimization-policies'
     login_required = True
             
 class PolicyByOrgNameWithDescriptionParser(PageParser):
