@@ -137,6 +137,13 @@ urlpatterns = patterns('',
         table_list=True,
         member_only=True),
 
+    policy_url(
+        r'^resources/trademark-licensee-code-conduct',
+        resource_area='Licensee Code of Conduct', 
+        page_title='Trademark Licensee Code of Conduct', 
+        table_list=True,
+        member_only=True),
+
 
 
     # url(r'^resources/campus-living-wage-policies',
