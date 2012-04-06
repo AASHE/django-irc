@@ -44,16 +44,6 @@ def get_url_title(url):
     return title, notes
 
     
-class CampusComposting(SimpleTableParser):
-    '''
-    >>> parser = CampusComposting()
-    >>> parser.parsePage()
-    >>> len(parser.data) != 0
-    True
-    '''    
-    url = 'http://www.aashe.org/resources/campus-composting-programs'
-    login_required = True
-
 class GeneralProcurementPolicies(PageParser):
     '''
     >>> parser = GeneralProcurementPolicies()
