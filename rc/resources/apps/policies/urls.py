@@ -6,14 +6,16 @@ from rc.resources.apps.policies import models
 
 def policy_url(url_string, resource_area, page_title=None, 
                with_description=False, table_list=False,
+               template_name=None, opening_text=None,
                member_only=False):
     if not page_title:
         page_title = resource_area
 
-    if not table_list:
-        template_name = 'policies/policy_text_by_org_name_list.html'
-    else:
-        template_name = 'policies/policy_table_by_org_name_list.html'        
+    if not template_name:
+        if not table_list:
+            template_name = 'policies/policy_text_by_org_name_list.html'
+        else:
+            template_name = 'policies/policy_table_by_org_name_list.html'
 
     return url(url_string,
                ResourceItemListView.as_view(
@@ -26,6 +28,7 @@ def policy_url(url_string, resource_area, page_title=None,
                    {'resource_area': resource_area,
                     'page_title': page_title,
                     'with_description': with_description,
+                    'opening_text': opening_text,
                     'member_only': member_only })
 
 def policy_by_country_by_org_name_url(url_string, resource_area,
@@ -144,5 +147,16 @@ urlpatterns = patterns('',
         table_list=True,
         member_only=True),
 
+    policy_url(
+        r'^resources/campus-recycling-and-waste-minimization-policies',
+        resource_area='Recycling / Waste Minimization Policy',
+        page_title='Campus Recycling and Waste Minimization Policies',
+        table_list=True,
+        opening_text="""This resource compiles campus waste management 
+                        policies that focus on waste minimization and/or 
+                        recycling.""",
+        member_only=True),
+
+        
     )
 
