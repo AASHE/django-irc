@@ -283,7 +283,7 @@ class GeneralSustainabilityPolicies(PageParser):
             self.data.append(data)
             data = {}
             
-class CampusFairTrade(PageParser):
+class CampusFairTrade(SimpleTableParser):
     '''
     >>> parser = CampusFairTrade()
     >>> parser.parsePage()
@@ -293,31 +293,14 @@ class CampusFairTrade(PageParser):
     url = 'http://www.aashe.org/resources/campus-fair-trade-practices-policies'
     login_required = True
 
-    def parsePage(self):
-        tables = self.soup.findAll('table')
-        # first table is Canada
-        policyData = {}
-        for row in tables[0].findAll('tr')[1:]:
-            tags = [el for el in row]
-            policyData['institution'] = tags[1].text
-            policyData['url'] = dict(tags[3].first().attrs).get('href', '')
-            policyData['title'] = tags[3].text
-            policyData['product_types'] = tags[5].text
-            policyData['country'] = 'Canada'
-            self.data.append(policyData)
-            policyData = {}
+    def processTableData(self, row, els):
+        policyData = super(CampusFairTrade, self).processTableData(row, els)
+        policyData['product_types'] = els[5].text
+        return policyData
 
-        # second table is United States
-        for row in tables[1].findAll('tr')[1:]:
-            tags = [el for el in row]
-            policyData['institution'] = tags[1].text
-            policyData['url'] = dict(tags[3].first().attrs).get('href', '')
-            policyData['title'] = tags[3].text
-            policyData['product_types'] = tags[5].text            
-            policyData['country'] = 'United States of America'
-            self.data.append(policyData)
-            policyData = {}
-            
+    def parsePage(self, headings=True):
+        for table in self.soup.findAll('table'):
+            self.processTable(table, headings=headings)
             
 class TelecommutingPolicy(PageParser):
     '''
