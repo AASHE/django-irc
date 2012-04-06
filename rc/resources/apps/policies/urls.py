@@ -5,11 +5,15 @@ from rc.resources.views import ResourceItemListView, \
 from rc.resources.apps.policies import models
 
 def policy_url(url_string, resource_area, page_title=None, 
-               with_description=False, member_only=False):
+               with_description=False, table_list=False,
+               member_only=False):
     if not page_title:
         page_title = resource_area
 
-    template_name = 'policies/policy_list.html'
+    if not table_list:
+        template_name = 'policies/policy_text_by_org_name_list.html'
+    else:
+        template_name = 'policies/policy_table_by_org_name_list.html'        
 
     return url(url_string,
                ResourceItemListView.as_view(
@@ -26,7 +30,7 @@ def policy_url(url_string, resource_area, page_title=None,
 
 def policy_by_country_by_org_name_url(url_string, resource_area,
                                       page_title=None, member_only=False):
-    template_name = 'policies/policy_by_country_by_org_name_list.html'
+    template_name = 'policies/policy_table_by_country_by_org_name_list.html'
 
     if not page_title:
         page_title = resource_area
@@ -124,6 +128,13 @@ urlpatterns = patterns('',
         resource_area='Campus Paper Procurement Policies',
         page_title='Paper Procurement Policies',
         with_description=True,
+        member_only=True),
+
+    policy_url(
+        r'^resources/integrated-pest-management-policies',
+        resource_area='Integrated Pest Management Policy',
+        page_title='Integrated Pest Management Policies',        
+        table_list=True,
         member_only=True),
 
 
