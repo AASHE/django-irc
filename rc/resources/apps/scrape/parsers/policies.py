@@ -38,16 +38,16 @@ class GreenCleaning(SimpleTableParser):
         # parse the data from the second table and stuff into self.data
         self.processTable(self.soup.findAll('table')[1])
         
-class RecyclingWasteMinimization(SimpleTableParser):
+class RecyclingPolicy(SimpleTableParser):
     '''
-    >>> parser = RecyclingWasteMinimization()
+    >>> parser = RecyclingPolicy()
     >>> parser.parsePage()
     >>> len(parser.data) != 0
     True
-    '''
-    url = 'http://www.aashe.org/resources/campus-recycling-and-waste-minimization-websites'
+    '''    
+    url = 'http://www.aashe.org/resources/waste_policies.php'
     login_required = True
-
+            
 class PolicyByOrgNameWithDescriptionParser(PageParser):
 
     url = None

@@ -111,16 +111,16 @@ class EnergyPoliciesParser(PageParser):
                 institution = el.title().rsplit('-', 1)[0].strip()
                 policyData['institution'] = institution
             
-class RecyclingPolicy(SimpleTableParser):
+class RecyclingWasteMinimization(SimpleTableParser):
     '''
-    >>> parser = RecyclingPolicy()
+    >>> parser = RecyclingWasteMinimization()
     >>> parser.parsePage()
     >>> len(parser.data) != 0
     True
-    '''    
-    url = 'http://www.aashe.org/resources/waste_policies.php'
+    '''
+    url = 'http://www.aashe.org/resources/campus-recycling-and-waste-minimization-websites'
     login_required = True
-            
+
 class SurplusProperty(SimpleTableParser):
     '''
     >>> parser = SurplusProperty()
