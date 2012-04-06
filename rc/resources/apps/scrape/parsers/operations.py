@@ -325,66 +325,6 @@ class UniversalAccess(PageParser):
             self.data.append(policyData)
             policyData = {}
 
-class BicycleSharing(PageParser):
-    '''
-    >>> parser = BicycleSharing()
-    >>> parser.parsePage()
-    >>> len(parser.data) != 0
-    True
-    '''                                    
-    url = 'http://www.aashe.org/resources/bicycle-share-programs'
-    login_required = True
-
-    def parsePage(self):
-        tables = self.soup.findAll('table')
-        # first table is Free Bicycle Share Programs in Canada
-        policyData = {}
-        for row in tables[0].findAll('tr'):
-            tags = [el for el in row]
-            policyData['institution'] = tags[1].text
-            policyData['url'] = dict(tags[3].first().attrs).get('href', '')
-            policyData['title'] = tags[3].text
-            policyData['type'] = 'Free Bicycle Share Programs'
-            policyData['country'] = 'Canada'
-            self.data.append(policyData)
-            policyData = {}
-
-        # second table is Free Bicycle Share Programs in Colombia
-        policyData = {}
-        for row in tables[1].findAll('tr'):
-            tags = [el for el in row]
-            policyData['institution'] = tags[1].text
-            policyData['url'] = dict(tags[3].first().attrs).get('href', '')
-            policyData['title'] = tags[3].text
-            policyData['type'] = 'Free Bicycle Share Programs'
-            policyData['country'] = 'Colombia'
-            self.data.append(policyData)
-            policyData = {}
-
-        # third table is Free Bicycle Share Programs in USA
-        policyData = {}
-        for row in tables[2].findAll('tr'):
-            tags = [el for el in row]
-            policyData['institution'] = tags[1].text
-            policyData['url'] = dict(tags[3].first().attrs).get('href', '')
-            policyData['title'] = tags[3].text
-            policyData['type'] = 'Free Bicycle Share Programs'
-            policyData['country'] = 'United States of America'
-            self.data.append(policyData)
-            policyData = {}
-
-        # fourth table is Bicycle Rental Programs in USA
-        policyData = {}
-        for row in tables[3].findAll('tr'):
-            tags = [el for el in row]
-            policyData['institution'] = tags[1].text
-            policyData['url'] = dict(tags[3].first().attrs).get('href', '')
-            policyData['title'] = tags[3].text
-            policyData['type'] = 'Bicycle Rental Programs'
-            policyData['country'] = 'United States of America'
-            self.data.append(policyData)
-            policyData = {}
-
 class CarSharing(PageParser):
     '''
     >>> parser = CarSharing()
