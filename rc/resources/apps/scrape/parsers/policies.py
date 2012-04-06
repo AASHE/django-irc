@@ -231,12 +231,8 @@ class ResponsibleInvestmentPolicies(SimpleTableParser):
         return data
 
     def parsePage(self, headings=True):
-        # data is in the first <table> on the page
-        self.processTable(self.soup.findAll('table')[0], headings=headings)
-        # data is in the second <table> on the page
-        self.processTable(self.soup.findAll('table')[1], headings=headings)
-        # data is in the second <table> on the page
-        self.processTable(self.soup.findAll('table')[2], headings=headings)
+        for table in self.soup.findAll('table'):
+            self.processTable(table, headings=headings)
 
 class EnergyConservationPolicies(PageParser):
     '''
