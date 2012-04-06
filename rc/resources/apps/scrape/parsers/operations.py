@@ -44,16 +44,6 @@ def get_url_title(url):
     return title, notes
 
     
-class RecyclingWasteMinimization(SimpleTableParser):
-    '''
-    >>> parser = RecyclingWasteMinimization()
-    >>> parser.parsePage()
-    >>> len(parser.data) != 0
-    True
-    '''
-    url = 'http://www.aashe.org/resources/campus-recycling-and-waste-minimization-websites'
-    login_required = True
-
 class CampusComposting(SimpleTableParser):
     '''
     >>> parser = CampusComposting()
@@ -121,22 +111,6 @@ class EnergyPoliciesParser(PageParser):
                 institution = el.title().rsplit('-', 1)[0].strip()
                 policyData['institution'] = institution
             
-class GreenCleaning(SimpleTableParser):
-    '''
-    >>> parser = GreenCleaning()
-    >>> parser.parsePage()
-    >>> len(parser.data) != 0
-    True
-    '''
-    url = 'http://www.aashe.org/resources/green-cleaning'
-    login_required = True
-
-    def parsePage(self):
-        # parent method will get the data from the first table and stuff it into self.data
-        super(GreenCleaning, self).parsePage()
-        # parse the data from the second table and stuff into self.data
-        self.processTable(self.soup.findAll('table')[1])
-        
 class RecyclingPolicy(SimpleTableParser):
     '''
     >>> parser = RecyclingPolicy()
