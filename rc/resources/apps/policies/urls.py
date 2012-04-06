@@ -32,7 +32,8 @@ def policy_url(url_string, resource_area, page_title=None,
                     'member_only': member_only })
 
 def policy_by_country_by_org_name_url(url_string, resource_area,
-                                      page_title=None, member_only=False):
+                                      page_title=None, opening_text=None,
+                                      member_only=False):
     template_name = 'policies/policy_table_by_country_by_org_name_list.html'
 
     if not page_title:
@@ -49,6 +50,7 @@ def policy_by_country_by_org_name_url(url_string, resource_area,
                     template_name=template_name),
                     {'resource_area': resource_area,
                      'page_title': page_title,
+                     'opening_text': opening_text,
                      'member_only': member_only })
 
 def policy_by_category_by_org_name_url(url_string, resource_area,
@@ -157,6 +159,13 @@ urlpatterns = patterns('',
                         recycling.""",
         member_only=True),
 
+    url(r'^resources/campus-fair-trade-practices-policies',
+        ResourceItemListView.as_view(
+            model=models.FairTradePolicy,
+            queryset=handle_missing_organizations(
+                models.FairTradePolicy.objects.order_by(
+                    'organization__country', 'organization__name'))),
+            {'member_only': True}),
         
     )
 
