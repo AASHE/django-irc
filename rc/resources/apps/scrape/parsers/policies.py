@@ -1,4 +1,5 @@
 from base import PageParser, SimpleTableParser
+from rc.resources.apps.policies import models
 from BeautifulSoup import BeautifulSoup, NavigableString
 
 
@@ -341,4 +342,23 @@ class WaterConservationPolicy(PageParser):
                 self.data.append(data)
                 data = {}
 
-    
+class GreenBuildingPolicies(PageParser):
+    url = ('http://www.aashe.org/resources/'
+           'campus-building-guidelines-and-green-building-policies')
+    login_required = True
+
+    def parsePage(self):
+        content_block = self.soup.find('div', 
+                                       {'class': 'content clear-block'})
+        for para in content_block.find('h2').findNextSiblings('p'):
+            policy = {}
+            policy['institution'] = para.find('strong').extract().text
+            anchor = para.find('a').extract()
+            policy['url'] = anchor['href']
+            policy['title'] = anchor.text
+            policy['description'] = para.text.strip('- ')
+            standard_description = para.findPrevious('h2').text
+            for level in models.GreenBuildingPolicy.LEED_LEVELS:
+                if level[1] in standard_description:
+                    policy['leed_level'] = level[0]
+            self.data.append(policy)

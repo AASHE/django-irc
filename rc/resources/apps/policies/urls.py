@@ -175,6 +175,18 @@ urlpatterns = patterns('',
                     'investment_type', 'organization__name'))),
             {'member_only': True}),
 
-        
+    url(r'^resources/campus-building-guidelines-and-green-building-policies',
+        ResourceItemListView.as_view(
+            model=models.GreenBuildingPolicy,
+            queryset=handle_missing_organizations(
+                models.GreenBuildingPolicy.objects.order_by(
+                    'leed_level', 'organization__name'))),
+            {'member_only': True,
+             'type_list': [ level[0] for level in  
+                            models.GreenBuildingPolicy.LEED_LEVELS ],
+             'type_dict': dict(models.GreenBuildingPolicy.LEED_LEVELS)}),
+
+
+
     )
 
