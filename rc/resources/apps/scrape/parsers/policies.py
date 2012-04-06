@@ -2,6 +2,26 @@ from base import PageParser, SimpleTableParser
 from BeautifulSoup import BeautifulSoup, NavigableString
 
 
+class IntegratedPestPolicies(SimpleTableParser):
+    '''
+    >>> parser=IntegratedPestPolicies()
+    >>> parser.parsePage()
+    >>> len(parser.data) != 0
+    True
+    '''
+    url = 'http://www.aashe.org/resources/integrated-pest-management-policies'
+    login_required = True
+    
+class LicenseeCodeConduct(SimpleTableParser):
+    '''
+    >>> parser=LicenseeCodeConduct()
+    >>> parser.parsePage()
+    >>> len(parser.data) != 0
+    True
+    '''
+    url = 'http://www.aashe.org/resources/trademark-licensee-code-conduct'
+    login_required = True
+    
 class PolicyByOrgNameWithDescriptionParser(PageParser):
 
     url = None
