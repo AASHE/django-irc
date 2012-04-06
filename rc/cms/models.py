@@ -39,3 +39,7 @@ class Page(models.Model):
         elif not self.published:
             self.pub_date = None
         super(Page, self).save()
+        
+class MenuItemExtension(models.Model):
+    menu_item = models.OneToOneField (MenuItem, related_name="extension")
+    protected = models.BooleanField(default=False)
