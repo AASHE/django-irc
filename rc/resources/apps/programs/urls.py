@@ -1,0 +1,34 @@
+from django.conf.urls.defaults import patterns, url
+
+from rc.resources.views import ResourceItemListView, \
+     handle_missing_organizations
+from rc.resources.apps.programs import models
+
+
+urlpatterns = patterns('',
+
+    url(r'^resources/bicycle-share-programs',
+        ResourceItemListView.as_view(
+            model=models.Program,
+            queryset=handle_missing_organizations(
+                models.Program.objects.filter(
+                    type__type__in=['Free Bicycle Share Programs',
+                                    'Bicycle Rental Programs']).order_by(
+                    '-type__type', 'organization__country',
+                    'organization__name')),
+            template_name=('programs/program_table_by_type_by_country_'
+                           'by_org_name_list.html')),
+            {'member_only': True}),
+
+    url(r'^resources/campus-composting-programs',
+        ResourceItemListView.as_view(
+            model=models.Program,
+            queryset=handle_missing_organizations(
+                models.Program.objects.filter(
+                    type__type='Campus Composting Program').order_by(
+                    'organization__name')),
+            template_name=('programs/program_table_by_org_name_list.html')),
+            {'member_only': True}),
+
+    )
+

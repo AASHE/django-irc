@@ -14,6 +14,7 @@ class Policy(ResourceItem):
     '''
     type = models.ForeignKey('PolicyType', verbose_name='policy type', null=True, blank=True)
     resource_area = models.ForeignKey('ResourceArea', verbose_name='resource area', null=True, blank=True)
+    category = models.CharField(_("category"), max_length=128, null=True)
     
     class Meta:
         verbose_name = 'general policy'
@@ -48,7 +49,8 @@ class GreenBuildingPolicy(ResourceItem):
     LEED_LEVELS = (('PL', 'Platinum'),
                    ('GL', 'Gold'),
                    ('SL', 'Silver'),
-                   ('BZ', 'Bronze'))
+                   ('BZ', 'Bronze'),
+                   ('CR', 'Certified'))
     
     leed_level = models.CharField(max_length=2, choices=LEED_LEVELS)
     type = models.ForeignKey('PolicyType', verbose_name='policy type', null=True, blank=True)
@@ -81,3 +83,4 @@ class ResponsibleInvestmentPolicy(ResourceItem):
     class Meta:
         verbose_name = 'socially responsible investment policy'
         verbose_name_plural = 'socially responsible investment policies'
+

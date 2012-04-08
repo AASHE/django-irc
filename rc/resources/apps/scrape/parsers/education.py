@@ -518,12 +518,11 @@ class SustainabilityNetworks(PageParser):
         list = content_div.find('ul')
         for li in list.findAll('li'):
             network = dict()
-            anchor = li.find('a')
+            anchor = li.find('a').extract()
             network['url'] = anchor['href']
             network['title'] = anchor.text
             # maybe we'll get a lucky match:            
             network['institution'] = network['title'].split()[0]  
-            anchor.extract()
             if li.text:
                 network['description'] = li.text
             self.data.append(network)

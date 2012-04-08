@@ -64,8 +64,11 @@ class SimpleTableParser(PageParser):
         '''        
         policyData = {}
         policyData['institution'] = els[1].text
-        policyData['url'] = dict(els[3].first().attrs)['href']
-        policyData['title'] = els[3].text
+        anchor = els[3].find('a').extract()
+        policyData['url'] = anchor['href']
+        policyData['title'] = anchor.text
+        if els[3].text:
+            policyData['notes'] = els[3].text
         return policyData
     
     def parsePage(self, headings=True):

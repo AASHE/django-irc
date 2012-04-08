@@ -129,13 +129,6 @@ urlpatterns = patterns('',
                     'organization__name'))),
             {'member_only': True}),
         
-    url(r'^resources/energy-conservation-policies',
-        ResourceItemListView.as_view(
-            model=models.EnergyPolicy,
-            queryset=handle_missing_organizations(
-                models.EnergyPolicy.objects.order_by(
-                    'organization__name')))),
-        
     url(r'^resources/campus-water-conservation-efforts',
         ResourceItemListView.as_view(
             model=models.WaterConservationEffort,

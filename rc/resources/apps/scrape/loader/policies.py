@@ -1,9 +1,9 @@
 from django.db.models import get_model
 from rc.resources.apps.policies.models import *
-from rc.resources.apps.scrape.loader import BaseLoader, LoaderException
+from rc.resources.apps.scrape.loader import GenericLoader, LoaderException
 
 
-class PolicyLoader(BaseLoader):
+class PolicyLoader(GenericLoader):
     def __init__(self, parser_class, model_or_string, **kwargs):
         # prevent reset of Policy model since it is shared 
         super(PolicyLoader, self).__init__(parser_class, model_or_string, **kwargs)
@@ -21,11 +21,12 @@ class PolicyLoader(BaseLoader):
             self.resource_area = None
     
     def create_instance(self, data):
-        obj = self.model()
-        obj.title = data['title']
-        obj.url = data['url']
-        obj.description = data.get('notes', '')
-        obj.notes = data['institution']
+        # obj = self.model()
+        # obj.title = data['title']
+        # obj.url = data['url']
+        # obj.description = data['description']
+        # obj.institution = data['institution']        
+        obj = super(PolicyLoader, self).create_instance(data)
         obj.type = self.policy_type
         obj.resource_area = self.resource_area
         obj.save()

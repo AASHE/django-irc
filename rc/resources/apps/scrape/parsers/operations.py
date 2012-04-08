@@ -44,26 +44,6 @@ def get_url_title(url):
     return title, notes
 
     
-class RecyclingWasteMinimization(SimpleTableParser):
-    '''
-    >>> parser = RecyclingWasteMinimization()
-    >>> parser.parsePage()
-    >>> len(parser.data) != 0
-    True
-    '''
-    url = 'http://www.aashe.org/resources/campus-recycling-and-waste-minimization-websites'
-    login_required = True
-
-class CampusComposting(SimpleTableParser):
-    '''
-    >>> parser = CampusComposting()
-    >>> parser.parsePage()
-    >>> len(parser.data) != 0
-    True
-    '''    
-    url = 'http://www.aashe.org/resources/campus-composting-programs'
-    login_required = True
-
 class GeneralProcurementPolicies(PageParser):
     '''
     >>> parser = GeneralProcurementPolicies()
@@ -89,64 +69,16 @@ class GeneralProcurementPolicies(PageParser):
             except:
                 continue    
 
-class EnergyPoliciesParser(PageParser):
+class RecyclingWasteMinimization(SimpleTableParser):
     '''
-    >>> parser = EnergyPoliciesParser()
+    >>> parser = RecyclingWasteMinimization()
     >>> parser.parsePage()
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/energy-conservation-policies'
-
-    def parsePage(self):
-        # policies listing starts at first paragraph tag on the page
-        para = self.soup.findAll('p')[0]
-        # each policy line is separated by a <br/> tag... loop until we hit one...
-        elements = [el for el in para]
-        policyData = {}
-        for el in elements:
-            tag = getattr(el, 'name', None)
-            if tag == 'br':
-                self.data.append(policyData)
-                policyData = {}
-                continue
-            elif tag == 'a':
-                # anchor tag means it's a link...
-                linkText = el.text
-                url = dict(el.attrs).get('href', None)
-                policyData.update({'url': url, 'title': linkText})
-            elif isinstance(el, NavigableString) and '(pdf)' not in el.title().lower():
-                # not a <br/> and not an <a> so it's probably the school name text
-                # split on the '-' separator and strip of lead/trail whitespace...
-                institution = el.title().rsplit('-', 1)[0].strip()
-                policyData['institution'] = institution
-            
-class GreenCleaning(SimpleTableParser):
-    '''
-    >>> parser = GreenCleaning()
-    >>> parser.parsePage()
-    >>> len(parser.data) != 0
-    True
-    '''
-    url = 'http://www.aashe.org/resources/green-cleaning'
+    url = 'http://www.aashe.org/resources/campus-recycling-and-waste-minimization-websites'
     login_required = True
 
-    def parsePage(self):
-        # parent method will get the data from the first table and stuff it into self.data
-        super(GreenCleaning, self).parsePage()
-        # parse the data from the second table and stuff into self.data
-        self.processTable(self.soup.findAll('table')[1])
-        
-class RecyclingPolicy(SimpleTableParser):
-    '''
-    >>> parser = RecyclingPolicy()
-    >>> parser.parsePage()
-    >>> len(parser.data) != 0
-    True
-    '''    
-    url = 'http://www.aashe.org/resources/waste_policies.php'
-    login_required = True
-            
 class SurplusProperty(SimpleTableParser):
     '''
     >>> parser = SurplusProperty()
@@ -379,66 +311,6 @@ class UniversalAccess(PageParser):
             policyData['url'] = dict(tags[3].first().attrs).get('href', '')
             policyData['title'] = tags[3].text
             policyData['type'] = 'Bus/Transit Pass Discount Programs'
-            policyData['country'] = 'United States of America'
-            self.data.append(policyData)
-            policyData = {}
-
-class BicycleSharing(PageParser):
-    '''
-    >>> parser = BicycleSharing()
-    >>> parser.parsePage()
-    >>> len(parser.data) != 0
-    True
-    '''                                    
-    url = 'http://www.aashe.org/resources/bicycle-share-programs'
-    login_required = True
-
-    def parsePage(self):
-        tables = self.soup.findAll('table')
-        # first table is Free Bicycle Share Programs in Canada
-        policyData = {}
-        for row in tables[0].findAll('tr'):
-            tags = [el for el in row]
-            policyData['institution'] = tags[1].text
-            policyData['url'] = dict(tags[3].first().attrs).get('href', '')
-            policyData['title'] = tags[3].text
-            policyData['type'] = 'Free Bicycle Share Programs'
-            policyData['country'] = 'Canada'
-            self.data.append(policyData)
-            policyData = {}
-
-        # second table is Free Bicycle Share Programs in Colombia
-        policyData = {}
-        for row in tables[1].findAll('tr'):
-            tags = [el for el in row]
-            policyData['institution'] = tags[1].text
-            policyData['url'] = dict(tags[3].first().attrs).get('href', '')
-            policyData['title'] = tags[3].text
-            policyData['type'] = 'Free Bicycle Share Programs'
-            policyData['country'] = 'Colombia'
-            self.data.append(policyData)
-            policyData = {}
-
-        # third table is Free Bicycle Share Programs in USA
-        policyData = {}
-        for row in tables[2].findAll('tr'):
-            tags = [el for el in row]
-            policyData['institution'] = tags[1].text
-            policyData['url'] = dict(tags[3].first().attrs).get('href', '')
-            policyData['title'] = tags[3].text
-            policyData['type'] = 'Free Bicycle Share Programs'
-            policyData['country'] = 'United States of America'
-            self.data.append(policyData)
-            policyData = {}
-
-        # fourth table is Bicycle Rental Programs in USA
-        policyData = {}
-        for row in tables[3].findAll('tr'):
-            tags = [el for el in row]
-            policyData['institution'] = tags[1].text
-            policyData['url'] = dict(tags[3].first().attrs).get('href', '')
-            policyData['title'] = tags[3].text
-            policyData['type'] = 'Bicycle Rental Programs'
             policyData['country'] = 'United States of America'
             self.data.append(policyData)
             policyData = {}
