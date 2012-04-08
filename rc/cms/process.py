@@ -29,18 +29,23 @@ def generate_pages():
 
     # For each menu item, create a page if it doesn't exist
     for item in items:
-        try:
-            page = Page.objects.get(menuitem=item)
         # If page exists for this menu item, do nothing, otherwise create a new page
+        try:
+            Page.objects.get(menuitem=item)
         except:
-            # Create a new page if the item has a url
+            # Create a new page if the item has a url and children
+            # items without children don't need pages
             # TODO: only generate pages with relative URLs
-            if item.url:
+            if item.url and item.has_children():
                 # TODO: Build URL Path
                 _login()
                 if item.url[0:4] != "http":
-                    item.url = "http://www.aashe.org/" + item.url
-                page = AASHEOpener.open(item.url)
+                    url = "http://www.aashe.org/" + item.url
+                else:
+                    url = item.url
+                page = AASHEOpener.open(url)
+                import pdb
+                # pdb.set_trace()
                 soup = BeautifulSoup(
                     page, convertEntities=BeautifulSoup.HTML_ENTITIES)
                 # Get content from page
@@ -52,7 +57,5 @@ def generate_pages():
                     title = item.caption
                     content = ""
                 newpage = Page(title=title, path=item.url, published=True, content=content, menuitem=item)
-                except:
-                    newpage = Page(title=item.caption, path=item.url, published=True, menuitem=item)
                 newpage.save()
                 
