@@ -1,0 +1,32 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Campus Alternative Transportation Websites
+{% endblock title %}
+
+{% block body %}
+
+  <div id="opening_text">
+
+    This resource contains campus websites describing their
+    alternative transportation programs. In cases where an institution
+    has no central alternative transportation page but has many
+    alternative transportation programs underway, a link to the
+    parking or transportation office has been included.
+
+  </div>
+
+  <p>
+    <div id="resource_list" class="content clear-block">
+      <p>
+        {% for alttrans in object_list %}
+              {{ alttrans.organization.name }} - 
+          <a href="{{ alttrans.url }}">{{ alttrans.title }}</a>
+          <br/>
+        {% endfor %}
+      </p>
+    </div>
+  </p>
+
+{% endblock body %}
+

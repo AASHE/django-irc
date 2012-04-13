@@ -1,0 +1,39 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Campus Composting Programs
+{% endblock title %}
+
+{% block body %}
+
+  <div id="opening_text">
+
+    This resource lists campus composting programs.
+
+  </div>
+
+  <p>
+    <div id="resource_list" class="content clear-block">
+      <p>
+        <table>
+          <tbody>
+            <tr>
+              <th>Institution</th>
+              <th>Program</th>
+            </tr>
+            {% for resource in object_list %}
+              <tr>
+                <td>{{ resource.organization.name }}</td>
+                <td><a href="{{ resource.url }}">{{ resource.title }}</a>
+                    {{ resource.notes }}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </p>
+    </div>
+  </p>
+
+{% endblock body %}
+

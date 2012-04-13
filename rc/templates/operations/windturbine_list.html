@@ -1,0 +1,46 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Wind Power on Campus
+{% endblock title %}  
+
+{% block body %}
+
+  <div id="opening_text">
+
+    This resource lists wind turbine installations on campus
+    lands. The turbines listed are not necessarily owned by the
+    institutions upon whose land they are installed.
+
+  </div>
+
+  <div id="resource_list">
+    <p>
+     <table>
+       <tbody>
+         <tr>
+           <th>Institution</th>
+           <th>System Size (KW)</th>
+           <th>Source(s)</th>
+         </tr>
+         {% for resource in object_list %}
+           <tr>
+             <td>{{ resource.organization.name }}</td>
+             <td align="center">{% if resource.size %}
+                                  {{ resource.size }}
+                                {% else %}
+                                  unknown
+                                {% endif %}</td>
+             <td><a href="{{ resource.url }}">{{ resource.title }}</a>
+                 <br/>
+                 {{ resource.notes }}
+             </td>
+           </tr>
+         {% endfor %}
+       </tbody>
+     </table>
+    </p>
+  </div>
+
+{% endblock body %}
+
