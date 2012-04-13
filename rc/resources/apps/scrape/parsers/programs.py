@@ -7,28 +7,35 @@ class ProgramTableParser(SimpleTableParser):
     login_required = False
 
     def processTable(self, table, program_type, headings=True):
+        '''
+        Same as SimpleTableParser.processTable(), except this passes
+        program_type to self.processTableData().
+        '''
         rows = table.findAll('tr')
         if headings:
             rows = rows[1:]
         for row in rows:
-            policyData = {}            
+            policyData = {}
             policyData = self.processTableData(row, program_type)
             self.data.append(policyData)
 
     def processTableData(self, row, program_type):
+        '''
+        Tacks program_type on to each proto-Program that's parsed.
+        '''
         els = [ el for el in row ]
         policyData = super(ProgramTableParser, self).processTableData(row, els)
         policyData['program_type'] = program_type
         return policyData
 
-    
+
 class BicycleSharePrograms(ProgramTableParser):
     '''
     >>> parser = BicycleSharePrograms()
     >>> parser.parsePage()
     >>> len(parser.data) != 0
     True
-    '''                                    
+    '''
     url = 'http://www.aashe.org/resources/bicycle-share-programs'
     login_required = True
 
@@ -42,14 +49,14 @@ class BicycleSharePrograms(ProgramTableParser):
         super(BicycleSharePrograms, self).processTable(
             tables[-1], program_type='Bicycle Rental Programs')
 
-        
+
 class CampusCompostingPrograms(ProgramTableParser):
     '''
     >>> parser = CampusComposting()
     >>> parser.parsePage()
     >>> len(parser.data) != 0
     True
-    '''    
+    '''
     url = 'http://www.aashe.org/resources/campus-composting-programs'
     login_required = True
 
@@ -57,5 +64,30 @@ class CampusCompostingPrograms(ProgramTableParser):
         table = self.soup.find('table')
         super(CampusCompostingPrograms, self).processTable(
                 table, program_type='Campus Composting Program')
-        
 
+
+class RecyclingWasteMinimization(SimpleTableParser):
+    '''
+    >>> parser = RecyclingWasteMinimization()
+    >>> parser.parsePage()
+    >>> len(parser.data) != 0
+    True
+    '''
+    url = 'http://www.aashe.org/resources/campus-recycling-and-waste-minimization-websites'
+    login_required = True
+
+
+class SurplusPropertyRecyclingPrograms(ProgramTableParser):
+    '''
+    >>> parser = SurplusPropertyRecycling()
+    >>> parser.parsePage()
+    >>> len(parser.data) != 0
+    True
+    '''
+    url = 'http://www.aashe.org/resources/campus-surplus-recycling'
+    login_required = True
+
+    def parsePage(self):
+        for table in self.soup.findAll('table'):
+            super(SurplusPropertyRecyclingPrograms, self).processTable(
+                table, program_type='Surplus Property Recycling')

@@ -30,5 +30,13 @@ urlpatterns = patterns('',
             template_name=('programs/program_table_by_org_name_list.html')),
             {'member_only': True}),
 
+    url(r'^resources/campus-surplus-recycling',
+        ResourceItemListView.as_view(
+            model=models.Program,
+            queryset=handle_missing_organizations(
+                models.Program.objects.filter(
+                    type__type='Surplus Property Recycling').order_by(
+                    'organization__country', 'organization__name')),
+            template_name=('programs/campus_surplus_recycling_list.html')),
+            {'member_only': True}),
     )
-

@@ -36,7 +36,7 @@ etl.register(parsers.BottledWaterBans, loader.BottleWaterBanLoader, 'operations.
 etl.register(parsers.CarSharing, loader.CarShareLoader, 'operations.CarShare')
 etl.register(parsers.RecyclingWasteMinimization, loader.RecyclingWasteLoader, 'operations.RecyclingWebsite')
 
-# register education 
+# register education
 etl.register(parsers.SustainableLivingGuide,
              loader.GenericLoader, 'education.LivingGuide', reset=True)
 etl.register(parsers.CampusAgriculture, loader.GenericLoader,
@@ -77,64 +77,64 @@ etl.register(parsers.education.SustainabilityMaps,
              loader.GenericLoader,
              'education.SustainabilityMap',
              reset=True)
-    
+
 # register policies
 etl.register(parsers.ApplianceProcurement, loader.PolicyLoader,
-             'policies.Policy', 
+             'policies.Policy',
              resource_area='Energy Efficient Appliance Procurement Policies',
              reset=False)
 etl.register(parsers.AntiIdling, loader.PolicyLoader,
-             'policies.Policy', resource_area='Campus Anti-Idling Policies', 
+             'policies.Policy', resource_area='Campus Anti-Idling Policies',
              reset=False)
-etl.register(parsers.CampusFairTrade, loader.PolicyLoader, 
-             'policies.FairTradePolicy', 
+etl.register(parsers.CampusFairTrade, loader.PolicyLoader,
+             'policies.FairTradePolicy',
              resource_area='Campus Fair Trade Practice or Policy', reset=False)
 etl.register(parsers.EnergyConservationPolicies, loader.PolicyLoader,
-             'policies.Policy', resource_area='Energy Conservation Policy', 
+             'policies.Policy', resource_area='Energy Conservation Policy',
              reset=False)
 etl.register(parsers.GeneralProcurementPolicies, loader.PolicyLoader,
-             'policies.Policy', 
-             resource_area='General / Comprehensive Procurement Policy', 
+             'policies.Policy',
+             resource_area='General / Comprehensive Procurement Policy',
              reset=False)
 etl.register(parsers.GeneralSustainabilityPolicies, loader.PolicyLoader,
              'policies.Policy', resource_area='General Sustainability Policy',
              reset=False)
 etl.register(parsers.GreenBuildingPolicies, loader.PolicyLoader,
-             'policies.GreenBuildingPolicy', 
+             'policies.GreenBuildingPolicy',
              resource_area='Green Building Policies', reset=False)
 etl.register(parsers.GreenCleaning, loader.PolicyLoader,
-             'policies.Policy', 
+             'policies.Policy',
              resource_area='Green Cleaning Procurement Policy', reset=False)
 etl.register(parsers.IntegratedPestPolicies, loader.PolicyLoader,
-             'policies.Policy', 
+             'policies.Policy',
              resource_area='Integrated Pest Management Policy', reset=False)
 etl.register(parsers.LicenseeCodeConduct, loader.PolicyLoader,
-             'policies.Policy', resource_area='Licensee Code of Conduct', 
+             'policies.Policy', resource_area='Licensee Code of Conduct',
              reset=False)
 etl.register(parsers.LivingWage, loader.PolicyLoader,
-             'policies.Policy', resource_area='Campus Living Wage Policy', 
+             'policies.Policy', resource_area='Campus Living Wage Policy',
              reset=False)
 etl.register(parsers.PaperProcurement, loader.PolicyLoader,
-             'policies.Policy', 
+             'policies.Policy',
              resource_area='Campus Paper Procurement Policies', reset=False)
 etl.register(parsers.RecyclingPolicy, loader.PolicyLoader,
-             'policies.Policy', 
+             'policies.Policy',
              resource_area='Recycling / Waste Minimization Policy', reset=False)
 etl.register(parsers.ResponsibleInvestmentPolicies, loader.PolicyLoader,
-             'policies.ResponsibleInvestmentPolicy', 
-             resource_area='Socially Responsible Investment Policies', 
+             'policies.ResponsibleInvestmentPolicy',
+             resource_area='Socially Responsible Investment Policies',
              reset=False)
 etl.register(parsers.StormwaterPolicies, loader.PolicyLoader,
-             'policies.Policy', resource_area='Campus Stormwater Policy', 
+             'policies.Policy', resource_area='Campus Stormwater Policy',
              reset=False)
 etl.register(parsers.TelecommutingPolicy, loader.PolicyLoader,
-             'policies.Policy', 
-             resource_area='Telecommuting and Alternative Work Policies', 
+             'policies.Policy',
+             resource_area='Telecommuting and Alternative Work Policies',
              reset=False)
 etl.register(parsers.WaterConservationPolicy, loader.PolicyLoader,
-             'policies.Policy', resource_area='Water Conservation Policies', 
+             'policies.Policy', resource_area='Water Conservation Policies',
              reset=False)
-             
+
 # register PAE
 etl.register(parsers.AlumniSustainabilityFunds, loader.GenericLoader, 'pae.AlumniFund')
 etl.register(parsers.CampusMasterPlan, loader.GenericLoader, 'pae.MasterPlan')
@@ -147,4 +147,6 @@ etl.register(parsers.RevolvingFund, loader.GenericLoader, 'pae.RevolvingLoanFund
 etl.register(parsers.BicycleSharePrograms, loader.ProgramLoader,
              'programs.Program')
 etl.register(parsers.CampusCompostingPrograms, loader.ProgramLoader,
+             'programs.Program')
+etl.register(parsers.SurplusPropertyRecyclingPrograms, loader.ProgramLoader,
              'programs.Program')
