@@ -10,7 +10,7 @@ import pyPdf
 from base import PageParser, SimpleTableParser
 
 def get_url_title(url):
-    """Try to load url and return a tuple of its title and any 
+    """Try to load url and return a tuple of its title and any
     error text.
 
     Works for html and pdf (but not, e.g., Word docs).
@@ -19,7 +19,7 @@ def get_url_title(url):
     try:
         page = requests.get(url)
     except Exception as ex:
-        title = 'Source' 
+        title = 'Source'
         notes = 'Error loading url: "{}".'.format(str(ex))
     else:
         # Test page.url rather than url parameter since redirection
@@ -37,20 +37,20 @@ def get_url_title(url):
                 pdf = pyPdf.PdfFileReader(StringIO(page.content))
                 title = pdf.documentInfo['/Title']
             except Exception as ex:
-                title = 'Source' 
+                title = 'Source'
                 notes = 'Error parsing PDF: "{}".'.format(str(ex))
     if not title.strip():
         title = 'Source'
     return title, notes
 
-    
+
 class GeneralProcurementPolicies(PageParser):
     '''
     >>> parser = GeneralProcurementPolicies()
     >>> parser.parsePage()
     >>> len(parser.data) != 0
     True
-    '''        
+    '''
     url = 'http://www.aashe.org/resources/campus-sustainable-procurement-policies'
     login_required = True
 
@@ -67,50 +67,7 @@ class GeneralProcurementPolicies(PageParser):
                 self.data.append(policyData)
                 policyData = {}
             except:
-                continue    
-
-class RecyclingWasteMinimization(SimpleTableParser):
-    '''
-    >>> parser = RecyclingWasteMinimization()
-    >>> parser.parsePage()
-    >>> len(parser.data) != 0
-    True
-    '''
-    url = 'http://www.aashe.org/resources/campus-recycling-and-waste-minimization-websites'
-    login_required = True
-
-class SurplusProperty(SimpleTableParser):
-    '''
-    >>> parser = SurplusProperty()
-    >>> parser.parsePage()
-    >>> len(parser.data) != 0
-    True
-    '''        
-    url = 'http://www.aashe.org/resources/campus-surplus-recycling'
-    login_required = True
-
-    def parsePage(self):
-        tables = self.soup.findAll('table')
-        # first table is 'Canada'
-        policyData = {}
-        for row in tables[0].findAll('tr')[1:]:
-            tags = [el for el in row]
-            policyData['institution'] = tags[1].text
-            policyData['url'] = dict(tags[3].first().attrs)['href']
-            policyData['title'] = tags[3].text
-            policyData['country'] = 'Canada'
-            self.data.append(policyData)
-            policyData = {}
-            
-        # second table is overall
-        for row in tables[0].findAll('tr')[1:]:
-            tags = [el for el in row]
-            policyData['institution'] = tags[1].text
-            policyData['url'] = dict(tags[3].first().attrs)['href']
-            policyData['title'] = tags[3].text
-            policyData['country'] = 'United States of America'
-            self.data.append(policyData)
-            policyData = {}
+                continue
 
 class BottledWaterBans(PageParser):
     '''
@@ -118,7 +75,7 @@ class BottledWaterBans(PageParser):
     >>> parser.parsePage()
     >>> len(parser.data) != 0
     True
-    '''            
+    '''
     url = 'http://www.aashe.org/resources/bottled-water-elimination-and-reduction'
     login_required = True
 
@@ -164,14 +121,14 @@ class BottledWaterBans(PageParser):
             policyData['type'] = 'Awareness and Reduction Campaigns'
             self.data.append(policyData)
             policyData = {}
-        
+
 class SustainableDiningInitiatives(PageParser):
     '''
     >>> parser = SustainableDiningInitiatives()
     >>> parser.parsePage()
     >>> len(parser.data) != 0
     True
-    '''                
+    '''
     url = 'http://www.aashe.org/resources/sustainable-dining-initiatives-campus'
     login_required = True
 
@@ -202,7 +159,7 @@ class SustainabilityPurchasing(PageParser):
     >>> parser.parsePage()
     >>> len(parser.data) != 0
     True
-    '''                        
+    '''
     url = 'http://www.aashe.org/resources/links-related-sustainable-purchasing-campus'
     login_required = True
 
@@ -233,7 +190,7 @@ class AlternativeTransport(PageParser):
     >>> parser.parsePage()
     >>> len(parser.data) != 0
     True
-    '''                            
+    '''
     url = 'http://www.aashe.org/resources/campus-alternative-transportation-websites'
     login_required = True
 
@@ -261,7 +218,7 @@ class UniversalAccess(PageParser):
     >>> parser.parsePage()
     >>> len(parser.data) != 0
     True
-    '''                                
+    '''
     url = 'http://www.aashe.org/resources/campus-universal-transit-passes'
     login_required = False
 
@@ -278,7 +235,7 @@ class UniversalAccess(PageParser):
             policyData['country'] = 'Canada'
             self.data.append(policyData)
             policyData = {}
-        
+
         # second table is Universal Bus/Transit Pass Programs for USA
         policyData = {}
         for row in tables[1].findAll('tr'):
@@ -321,7 +278,7 @@ class CarSharing(PageParser):
     >>> parser.parsePage()
     >>> len(parser.data) != 0
     True
-    '''                                        
+    '''
     url = 'http://www.aashe.org/resources/carsharing-campus'
     login_required = True
 
@@ -376,7 +333,7 @@ class BuildingEnergyDashboard(PageParser):
                                           tags[3].text))
                 self.data.append(data)
                 data = {}
-        
+
 class BicyclePlans(SimpleTableParser):
     '''
     >>> parser = BicyclePlans()
@@ -390,7 +347,7 @@ class BicyclePlans(SimpleTableParser):
 
     def parsePage(self):
         super(BicyclePlans, self).parsePage(headings=False)
-        
+
 class BiodieselFleet(PageParser):
     '''
     >>> parser=BiodieselFleet()
@@ -418,7 +375,7 @@ class BiodieselFleet(PageParser):
             policyData['biodiesel_source'] = diesel_type
             policyData['biodiesel_type'] = tags[3].text
             self.data.append(policyData)
-            policyData = {}    
+            policyData = {}
 
     def parsePage(self):
         data = {}
@@ -455,14 +412,14 @@ class ElectricVehicleFleet(PageParser):
             policyData['title'] = policyData['institution']
             policyData['country'] = country
             self.data.append(policyData)
-            policyData = {}        
+            policyData = {}
 
     def parsePage(self):
         headers = self.soup.find('div', {'class': 'content clear-block'}).findAll('h3')
         for country in headers:
             table = country.nextSibling.nextSibling
             self.processTable(table, country.text)
-            
+
 class HybridVehicles(PageParser):
     '''
     >>> parser=HybridVehicles()
@@ -492,14 +449,14 @@ class HybridVehicles(PageParser):
                 policyData['url'])
             policyData['country'] = country
             self.data.append(policyData)
-            policyData = {}            
+            policyData = {}
 
     def parsePage(self):
         headers = self.soup.find('div', {'class': 'content clear-block'}).findAll('h2')
         for country in headers:
             table = country.nextSibling.nextSibling
             self.processTable(table, country.text)
-        
+
 class CarBan(SimpleTableParser):
     '''
     >>> parser=CarBan()
@@ -523,7 +480,7 @@ class CarBan(SimpleTableParser):
                 data['notes'] = tags[3].text  # any text outside anchor tag
                 data['type'] = table.findPreviousSibling('h2').text
                 self.data.append(data)
-                data = {}                    
+                data = {}
 
 class CampusEnergyPlan(PageParser):
     '''
@@ -584,8 +541,8 @@ class GHGInventory(PageParser):
                 data['url'] = dict(tags[3].find('a').attrs).get('href','')
                 data['calculator'] = calculator
                 self.data.append(data)
-                data = {} 
-        
+                data = {}
+
 class WaterConservation(PageParser):
     '''
     >>> parser=WaterConservation()
@@ -635,7 +592,7 @@ class WindTurbine(PageParser):
             data['other_urls'] = ' '.join(others)
             self.data.append(data)
             data={}
-    
+
 class GenericGreenBuilding(PageParser):
     para_skip = 4
     login_required = True
@@ -648,7 +605,7 @@ class GenericGreenBuilding(PageParser):
 
     def getTagElements(self, tag):
         return [el for el in tag]
-    
+
     def parsePage(self):
         # skip first `para_skip` paragraphs
         paras = self.getParas()
@@ -811,7 +768,7 @@ class GreenResidence(GenericGreenBuilding):
             data['type'] = self.soup.find('h1', {'class': 'page-title'}).text
             self.data.append(data)
             data = {}
-    
+
 class GreenScience(GenericGreenBuilding):
     '''
     >>> parser = GreenScience()
@@ -904,7 +861,7 @@ class GlobalWarmingCommitment(SimpleTableParser):
         date_string = tags[-2:-1][0].text
         try:
             month = date_string.split()[0]
-            year = date_string.split()[-1]            
+            year = date_string.split()[-1]
             month_num = list(calendar.month_abbr).index(month[0:3])
             commitmentData['date'] = datetime(month=month_num, year=int(year),
                                               day=1)
@@ -936,7 +893,7 @@ class CommuterSurvey(SimpleTableParser):
             policyData['url'] = dict(tags[3].first().attrs).get('href', '')
             policyData['type'] = surveytype
             self.data.append(policyData)
-            policyData = {}        
+            policyData = {}
 
     def parsePage(self):
         headers = self.soup.find('div', {'class': 'content clear-block'}).findAll('h2')
