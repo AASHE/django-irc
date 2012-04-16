@@ -4,7 +4,7 @@ pages in the AASHE resource center.
 '''
 from gettext import gettext as _
 from django.db import models
-from rc.resources.models import ResourceItem, ResourceArea
+from rc.resources.models import ResourceItem
 
 
 class Policy(ResourceItem):
@@ -14,10 +14,6 @@ class Policy(ResourceItem):
     '''
     type = models.ForeignKey('PolicyType', verbose_name='policy type',
                              null=True, blank=True)
-    resource_area = models.ForeignKey('ResourceArea',
-                                      verbose_name='resource area', null=True,
-                                      blank=True)
-    resource_areas = models.ManyToManyField(ResourceArea)
     category = models.CharField(_("category"), max_length=128, null=True)
 
     class Meta:
