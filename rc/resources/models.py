@@ -8,6 +8,7 @@ class ResourceItemManager(models.Manager):
     def published(self):
         return self.filter(published=True)
 
+
 class ResourceItem(models.Model):
     '''
     Abstract base-class to support commonality between all resources
@@ -23,7 +24,7 @@ class ResourceItem(models.Model):
     pub_date = models.DateTimeField(editable=False)
     notes = models.TextField(_('internal notes'), blank=True)
     objects = ResourceItemManager()
-    
+
     class Meta:
         abstract = True
 
@@ -36,3 +37,16 @@ class ResourceItem(models.Model):
 
     def __unicode__(self):
         return self.title
+
+
+class ResourceArea(models.Model):
+    area = models.CharField(_("resource area", max_length=128))
+    slug = models.SlugField(max_length=128)
+
+    class Meta:
+        verbose_name = 'resource area'
+        verbose_name_plural = 'resource areas'
+        ordering = ('area',)
+
+    def __unicode__(self):
+        return self.area

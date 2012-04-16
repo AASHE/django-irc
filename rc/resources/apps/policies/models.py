@@ -4,7 +4,7 @@ pages in the AASHE resource center.
 '''
 from gettext import gettext as _
 from django.db import models
-from rc.resources.models import ResourceItem
+from rc.resources.models import ResourceItem, ResourceArea
 
 
 class Policy(ResourceItem):
@@ -12,8 +12,12 @@ class Policy(ResourceItem):
     Generic policy model used throughout the resource center for
     policy resources that do not require extra fields.
     '''
-    type = models.ForeignKey('PolicyType', verbose_name='policy type', null=True, blank=True)
-    resource_area = models.ForeignKey('ResourceArea', verbose_name='resource area', null=True, blank=True)
+    type = models.ForeignKey('PolicyType', verbose_name='policy type',
+                             null=True, blank=True)
+    resource_area = models.ForeignKey('ResourceArea',
+                                      verbose_name='resource area', null=True,
+                                      blank=True)
+    resource_areas = models.ManyToManyField(ResourceArea)
     category = models.CharField(_("category"), max_length=128, null=True)
 
     class Meta:
@@ -30,17 +34,6 @@ class PolicyType(models.Model):
 
     def __unicode__(self):
         return self.type
-
-class ResourceArea(models.Model):
-    area = models.CharField(_("resource area of policy or plan"), max_length=128)
-
-    class Meta:
-        verbose_name = 'resource area'
-        verbose_name_plural = 'resource areas'
-        ordering = ('area',)
-
-    def __unicode__(self):
-        return self.area
 
 class GreenBuildingPolicy(ResourceItem):
     '''
