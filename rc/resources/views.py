@@ -1,6 +1,5 @@
 from django.views.generic import ListView
 
-from rc.resources.apps.education.models import CommunityGarden
 
 HIDE_RESOURCES_WITH_NO_ORGANIZATION = False
 
