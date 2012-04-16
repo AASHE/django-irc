@@ -42,8 +42,8 @@ class GreenBuildingPolicy(ResourceItem):
                    ('CR', 'Certified'))
 
     leed_level = models.CharField(max_length=2, choices=LEED_LEVELS)
-    type = models.ForeignKey('PolicyType', verbose_name='policy type', null=True, blank=True)
-    resource_area = models.ForeignKey('ResourceArea', verbose_name='resource area', null=True, blank=True)
+    type = models.ForeignKey('PolicyType', verbose_name='policy type',
+                             null=True, blank=True)
 
     class Meta:
         verbose_name = 'green building policy'
@@ -53,9 +53,10 @@ class FairTradePolicy(ResourceItem):
     '''
     Fair trade practices and policies.
     '''
-    product_types = models.CharField(_('types of products'), blank=True, max_length=128)
-    type = models.ForeignKey('PolicyType', verbose_name='policy type', null=True, blank=True)
-    resource_area = models.ForeignKey('ResourceArea', verbose_name='resource area', null=True, blank=True)
+    product_types = models.CharField(_('types of products'), blank=True,
+                                     max_length=128)
+    type = models.ForeignKey('PolicyType', verbose_name='policy type',
+                             null=True, blank=True)
 
     class Meta:
         verbose_name = 'campus fair trade practice & policy'
@@ -65,9 +66,10 @@ class ResponsibleInvestmentPolicy(ResourceItem):
     '''
     Socially responsible investment policies.
     '''
-    investment_type = models.CharField(_('types of investment'), blank=True, max_length=128)
-    type = models.ForeignKey('PolicyType', verbose_name='policy type', null=True, blank=True)
-    resource_area = models.ForeignKey('ResourceArea', verbose_name='resource area', null=True, blank=True)
+    investment_type = models.CharField(_('types of investment'), blank=True,
+                                       max_length=128)
+    type = models.ForeignKey('PolicyType', verbose_name='policy type',
+                             null=True, blank=True)
 
     class Meta:
         verbose_name = 'socially responsible investment policy'
