@@ -10,7 +10,7 @@ class ResourceItemManager(models.Manager):
 
 
 class ResourceArea(models.Model):
-    area = models.CharField(_("resource area", max_length=128))
+    area = models.CharField(_("resource area"), max_length=128)
     slug = models.SlugField(max_length=128)
 
     class Meta:
