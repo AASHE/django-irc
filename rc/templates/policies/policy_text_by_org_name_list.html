@@ -16,7 +16,14 @@
             {% if with_description %}
               <p>
             {% endif %}
-            <strong>{{ resource.organization.name }}</strong> -
+            {% if bold_org_name %}
+              <strong>
+            {% endif %}
+            {{ resource.organization.name }}
+            {% if bold_org_name %}
+              </strong>
+            {% endif %}
+            -
             <a href="{{ resource.url }}">{{ resource.title }}</a>
             {% if resource.notes %}
               {{ resource.notes }}
@@ -32,4 +39,3 @@
   </p>
 
 {% endblock body %}
-
