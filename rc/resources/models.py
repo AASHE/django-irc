@@ -1,6 +1,9 @@
 from datetime import datetime
 from gettext import gettext as _
+
 from django.db import models
+from django.template.defaultfilters import slugify
+
 from aashe.organization.models import Organization
 
 
@@ -10,8 +13,8 @@ class ResourceItemManager(models.Manager):
 
 
 class ResourceArea(models.Model):
-    area = models.CharField(_("resource area"), max_length=128)
-    slug = models.SlugField(max_length=128)
+    area = models.CharField(_("resource area"), max_length=128, unique=True)
+    slug = models.SlugField(max_length=128, unique=True)
 
     class Meta:
         verbose_name = 'resource area'
@@ -20,6 +23,14 @@ class ResourceArea(models.Model):
 
     def __unicode__(self):
         return self.area
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            try:
+                self.slug = kwargs['slug']
+            except KeyError:
+                self.slug = slugify(self.area)
+        super(ResourceArea, self).save(*args, **kwargs)
 
 
 class ResourceItem(models.Model):
