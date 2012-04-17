@@ -1,6 +1,7 @@
 from django.db.models import get_model
-from rc.resources.apps.policies.models import *
+
 from aashe.organization.models import Organization
+from rc.resources.models import ResourceArea
 
 
 class LoaderException(Exception):
@@ -34,12 +35,17 @@ class BaseLoader(object):
 
 
 class GenericLoader(BaseLoader):
+    '''
+    Tries to match an organization to each resource, where
+    data['institution'] ~= organization.name
+    '''
     def create_instance(self, data):
         init_args = {}
         if data.has_key('institution'):
             try:
                 inst_query = data['institution'].strip().lower()
-                institution_obj = Organization.objects.get(name__iexact=inst_query)
+                institution_obj = Organization.objects.get(
+                    name__iexact=inst_query)
                 data['organization'] = institution_obj
             except:
                 note_line = "Institution is " + data['institution']
@@ -66,9 +72,30 @@ class GenericLoader(BaseLoader):
             try:
                 self.create_instance(data)
             except:
-                import sys, traceback                                
+                import sys, traceback
                 exc_type, exc_value, exc_tb = sys.exc_info()
-                traceback.print_exception(exc_type, exc_value, exc_tb)                
+                traceback.print_exception(exc_type, exc_value, exc_tb)
                 raise LoaderException('%s failed to load parser %s for %s' % (
-                        self.__class__.__name__, self.parser_class.__name__, self.model.__name__))
+                        self.__class__.__name__, self.parser_class.__name__,
+                        self.model.__name__))
 
+
+class GenericResourceAreaLoader(GenericLoader):
+    '''
+    Connects resources to a ResourceArea, if data['resource_area'] is set.
+    '''
+    def __init__(self, parser_class, model_or_string, reset=False, **kwargs):
+        super(GenericResourceAreaLoader, self).__init__(parser_class,
+                                                        model_or_string,
+                                                        reset, **kwargs)
+        if kwargs.has_key('resource_area'):
+            obj, _ = ResourceArea.objects.get_or_create(
+                area=kwargs['resource_area'])
+            self.resource_area = obj
+
+    def create_instance(self, data):
+        obj = super(GenericResourceAreaLoader, self).create_instance(data)
+        if self.resource_area:
+            obj.resource_areas.add(self.resource_area)
+            obj.save()
+        return obj
