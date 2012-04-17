@@ -1,13 +1,28 @@
 from django.conf.urls.defaults import patterns, url
 
+from rc.resources.models import ResourceArea
 from rc.resources.views import ResourceItemListView, \
      handle_missing_organizations
 from rc.resources.apps.policies import models
 
-def policy_url(url_string, resource_area, page_title=None, 
+
+def policies_for_resource_area(resource_area_name):
+    '''Returns a queryset for all policies related to the ResourceArea with
+    area == resource_area_name.
+    '''
+    resource_area = ResourceArea.objects.get(area=resource_area_name)
+    queryset = models.Policy.objects.filter(resource_areas = resource_area)
+    return handle_missing_organizations(queryset)
+
+def policy_url(url_string, resource_area, page_title='',
                with_description=False, table_list=False,
-               template_name=None, opening_text=None,
+               template_name=None, opening_text='', bold_org_name=True,
                member_only=False):
+    '''Returns a url for policies.Policy, filtered by resource_area,
+    and sorted by organization__name.  If table_list is True, a
+    template describing a table of Policies is used; else, a template
+    describing a list of Policies is used.'''
+
     if not page_title:
         page_title = resource_area
 
@@ -20,33 +35,34 @@ def policy_url(url_string, resource_area, page_title=None,
     return url(url_string,
                ResourceItemListView.as_view(
                    model=models.Policy,
-                   queryset=handle_missing_organizations(
-                       models.Policy.objects.filter(
-                           resource_area__area=resource_area).order_by(
-                               'organization__name')),
-                   template_name=template_name), 
+                   queryset=policies_for_resource_area(resource_area).order_by(
+                       'organization__name'),
+                   template_name=template_name),
                    {'resource_area': resource_area,
                     'page_title': page_title,
                     'with_description': with_description,
                     'opening_text': opening_text,
+                    'bold_org_name': bold_org_name,
                     'member_only': member_only })
 
 def policy_by_country_by_org_name_url(url_string, resource_area,
-                                      page_title=None, opening_text=None,
+                                      page_title='', opening_text='',
                                       member_only=False):
+    '''Returns a url for policies.Policy, filtered by resource_area,
+    and sorted by organization__country and then organization__name. A
+    template describing a table of Policies is used.'''
+
     template_name = 'policies/policy_table_by_country_by_org_name_list.html'
 
     if not page_title:
         page_title = resource_area
-    
+
     return url(url_string,
                ResourceItemListView.as_view(
                     model=models.Policy,
-                    queryset=handle_missing_organizations(
-                        models.Policy.objects.filter(
-                            resource_area__area=resource_area).order_by(
-                                'organization__country',
-                                'organization__name')),
+                    queryset=policies_for_resource_area(resource_area).order_by(
+                        'organization__country',
+                        'organization__name'),
                     template_name=template_name),
                     {'resource_area': resource_area,
                      'page_title': page_title,
@@ -54,19 +70,21 @@ def policy_by_country_by_org_name_url(url_string, resource_area,
                      'member_only': member_only })
 
 def policy_by_category_by_org_name_url(url_string, resource_area,
-                                      page_title=None, member_only=False):
+                                      page_title='', member_only=False):
+    '''Returns a url for policies.Policy, filtered by resource_area,
+    and sorted by category and then organization__name. A template
+    describing a list of Policies is used.'''
+
     template_name = 'policies/policy_text_by_category_by_org_name_list.html'
 
     if not page_title:
         page_title = resource_area
-    
+
     return url(url_string,
                ResourceItemListView.as_view(
                     model=models.Policy,
-                    queryset=handle_missing_organizations(
-                        models.Policy.objects.filter(
-                            resource_area__area=resource_area).order_by(
-                                'category', 'organization__name')),
+                    queryset=policies_for_resource_area(resource_area).order_by(
+                        'category', 'organization__name'),
                     template_name=template_name),
                     {'resource_area': resource_area,
                      'page_title': page_title,
@@ -85,11 +103,19 @@ urlpatterns = patterns('',
         url_string=r'^resources/campus-stormwater-policies-plans',
         resource_area='Campus Stormwater Policy',
         page_title='Campus Stormwater Policies / Plans',
+        opening_text="""
+            This resource lists campus stormwater policies and
+            procedures that exist independently of water conservation
+            policies, which can be found within general <a
+            href="/resources/campus-water-conservation-policies">Campus
+            Water Conservation Policies</a>.
+            """,
         member_only=True),
 
     policy_url(url_string=r'^resources/energy-conservation-policies',
-               resource_area='Energy Conservation Policy', 
-               page_title='Campus Sustainable Energy Policies'),
+               resource_area='Energy Conservation Policy',
+               page_title='Campus Sustainable Energy Policies',
+               bold_org_name=False),
 
     policy_url(
         r'^resources/campus-sustainable-procurement-policies',
@@ -108,18 +134,28 @@ urlpatterns = patterns('',
         url_string=r'^resources/telecommuting-alternative-work',
         resource_area='Telecommuting and Alternative Work Policies',
         page_title='Telecommuting (Alternative Work) Policies',
+        opening_text="""This resource is a list of college and
+                        university telecommuting policies that
+                        facilitate alternative work arrangements for a
+                        selection of employees.""",
         member_only=True),
 
     policy_by_country_by_org_name_url(
         url_string=r'^resources/water-conservation-policies',
-        resource_area='Water Conservation Policies', 
+        resource_area='Water Conservation Policies',
+        opening_text="""This resource lists campus water conservation
+                        policies and procedures that exist
+                        independently of another policy or plan. More
+                        water conservation policies can be found
+                        within <a href="/resources/general_policies.php">
+                        Campus Sustainability Policies - General</a>.""",
         member_only=True),
 
     policy_url(
         r'^resources/campus-living-wage-policies',
         resource_area='Campus Living Wage Policy',
         with_description=True,
-        page_title='Campus Living Wage Policies', 
+        page_title='Campus Living Wage Policies',
         member_only=True),
 
     policy_url(
@@ -138,14 +174,14 @@ urlpatterns = patterns('',
     policy_url(
         r'^resources/integrated-pest-management-policies',
         resource_area='Integrated Pest Management Policy',
-        page_title='Integrated Pest Management Policies',        
+        page_title='Integrated Pest Management Policies',
         table_list=True,
         member_only=True),
 
     policy_url(
         r'^resources/trademark-licensee-code-conduct',
-        resource_area='Licensee Code of Conduct', 
-        page_title='Trademark Licensee Code of Conduct', 
+        resource_area='Licensee Code of Conduct',
+        page_title='Trademark Licensee Code of Conduct',
         table_list=True,
         member_only=True),
 
@@ -154,8 +190,8 @@ urlpatterns = patterns('',
         resource_area='Recycling / Waste Minimization Policy',
         page_title='Campus Recycling and Waste Minimization Policies',
         table_list=True,
-        opening_text="""This resource compiles campus waste management 
-                        policies that focus on waste minimization and/or 
+        opening_text="""This resource compiles campus waste management
+                        policies that focus on waste minimization and/or
                         recycling.""",
         member_only=True),
 
@@ -182,11 +218,10 @@ urlpatterns = patterns('',
                 models.GreenBuildingPolicy.objects.order_by(
                     'leed_level', 'organization__name'))),
             {'member_only': True,
-             'type_list': [ level[0] for level in  
+             'type_list': [ level[0] for level in
                             models.GreenBuildingPolicy.LEED_LEVELS ],
              'type_dict': dict(models.GreenBuildingPolicy.LEED_LEVELS)}),
 
 
 
     )
-
