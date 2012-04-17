@@ -17,7 +17,6 @@ package.
 import time
 import unittest
 
-from django.conf.urls.defaults import patterns, include
 from selenium import webdriver
 
 
@@ -38,13 +37,16 @@ class ChromeTest(unittest.TestCase):
 	self.addCleanup(self.tearDown)
 
     def test_education_urls(self):
-        import rc.resources.apps.education.urls
-        self.test_resource_list_there(rc.resources.apps.education.urls)
-        
+        self.test_urls('education')
+
     def test_operations_urls(self):
-        import rc.resources.apps.operations.urls
-        self.test_resource_list_there(rc.resources.apps.operations.urls)
-        
+        self.test_urls('operations')
+
+    def test_urls(self, app_name):
+        app = __import__('rc.resources.apps.' + app_name, globals(), locals(),
+                         ['urls'])
+        self.test_resource_list_there(app.urls)
+
     def test_resource_list_there(self, urls_module):
 	'''
 	Each resource item list page has a div with id 'resource_list'.
@@ -59,12 +61,12 @@ class ChromeTest(unittest.TestCase):
 
     def tearDown(self):
 	self.browser.close()
-            
+
     def runTest(self, delay=1):
 	self.delay=delay
 	self.setUp()
         try:
-            for test in (self.test_education_urls, 
+            for test in (self.test_education_urls,
                          self.test_operations_urls):
                 try:
                     test()
@@ -79,6 +81,3 @@ class ChromeTest(unittest.TestCase):
 
 if __name__ == '__main__':
     ChromeTest().runTest()
-
-
-
