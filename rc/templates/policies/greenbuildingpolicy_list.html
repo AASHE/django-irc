@@ -1,13 +1,13 @@
 {% extends "resourceitem_list.html" %}
 
 {% block title %}
-  {{ page_title|title }}  
-{% endblock title %}  
+  Campus Building Guidelines and Green Building Policies
+{% endblock title %}
 
 {% block body %}
 
   <div id="opening_text">
-    <p>    
+    <p>
       In recognition of the significant environmental and health
       impacts associated with buildings as well as the long-term cost
       savings from better design, colleges and universities are
@@ -17,11 +17,11 @@
       LEED (Leadership in Energy and Environmental Design)</a> Green
       Building Rating System.
     </p>
-    <p>    
+    <p>
       Below is a list of campus green building policies grouped by
       LEED standard where relevant, or ordered alphabetically by
       campus in an "other" category.
-    </p>      
+    </p>
     <p>
       Users may also wish to visit the
       <a href="http://acupcc.aashe.org/statistics-tangible.php">
@@ -59,8 +59,8 @@
             {% endfor %}
           {% endif %}
         {% endfor %}
-      {% endfor %}            
-              
+      {% endfor %}
+
       {% comment %}
         Put the ones w/o a specified leed_level at the end.
       {% endcomment %}
@@ -78,9 +78,8 @@
           {% endfor %}
         {% endif %}
       {% endfor %}
-              
+
     </p>
   </div>
 
 {% endblock body %}
-
