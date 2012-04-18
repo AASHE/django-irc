@@ -148,6 +148,10 @@ etl.register(parsers.BicycleSharePrograms, loader.ProgramLoader,
              'programs.Program', resource_area='Bicycle Share Programs')
 etl.register(parsers.CampusCompostingPrograms, loader.ProgramLoader,
              'programs.Program', resource_area='Campus Composting Programs')
+etl.register(parsers.StudentSustainabilityEducatorPrograms,
+             loader.ProgramLoader, 'programs.Program',
+             resource_area=('Student Peer-to-Peer Sustainability '
+                            'Education Programs'))
 etl.register(parsers.SurplusPropertyRecyclingPrograms, loader.ProgramLoader,
              'programs.Program',
              resource_area='Campus Surplus Property Recycling'),

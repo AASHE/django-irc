@@ -1,4 +1,7 @@
-from base import SimpleTableParser
+from base import PageParser, SimpleTableParser
+
+
+BASE_URL = 'http://www.aashe.org/resources/'
 
 
 class ProgramTableParser(SimpleTableParser):
@@ -36,7 +39,7 @@ class BicycleSharePrograms(ProgramTableParser):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/bicycle-share-programs'
+    url = BASE_URL + 'bicycle-share-programs'
     login_required = True
 
     def parsePage(self):
@@ -57,7 +60,7 @@ class CampusCompostingPrograms(ProgramTableParser):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/campus-composting-programs'
+    url = BASE_URL + 'campus-composting-programs'
     login_required = True
 
     def parsePage(self):
@@ -73,7 +76,7 @@ class GreenOfficePrograms(ProgramTableParser):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/green-office-programs'
+    url = BASE_URL + 'green-office-programs'
     login_required = True
 
     def parsePage(self):
@@ -89,8 +92,35 @@ class RecyclingWasteMinimization(SimpleTableParser):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/campus-recycling-and-waste-minimization-websites'
+    url = BASE_URL + 'campus-recycling-and-waste-minimization-websites'
     login_required = True
+
+
+class StudentSustainabilityEducatorPrograms(PageParser):
+    '''
+    >>> parser = StudentSustainabilityEducatorPrograms()
+    >>> parser.parsePage()
+    >>> len(parser.data) != 0
+    True
+    '''
+    url = BASE_URL + 'peer-peer-sustainability-outreach-campaigns'
+    login_required = True
+
+    def parsePage(self):
+        content_div = self.soup.find('div', {'class': 'content clear-block'})
+        for paragraph in content_div.findAll('p'):
+            resource = {'program_type': 'Student Sustainability Educator'}
+            try:
+                institution = paragraph.find('strong').extract()
+            except AttributeError:
+                continue  # *probably* opening text
+            resource['institution'] = institution.text
+            anchor = paragraph.find('a').extract()
+            resource['url'] = anchor['href']
+            resource['title'] = anchor.text
+            # anything left over is a note
+            resource['notes'] = paragraph.text
+            self.data.append(resource)
 
 
 class SurplusPropertyRecyclingPrograms(ProgramTableParser):
@@ -100,7 +130,7 @@ class SurplusPropertyRecyclingPrograms(ProgramTableParser):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/campus-surplus-recycling'
+    url = BASE_URL + 'campus-surplus-recycling'
     login_required = True
 
     def parsePage(self):
@@ -116,7 +146,7 @@ class GreenCleaningPrograms(ProgramTableParser):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/green-cleaning'
+    url = BASE_URL + 'green-cleaning'
     login_required = True
 
     def parsePage(self):

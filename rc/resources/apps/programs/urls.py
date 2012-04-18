@@ -56,4 +56,15 @@ urlpatterns = patterns('',
                     'organization__country', 'organization__name')),
             template_name=('programs/green_office_list.html')),
             {'member_only': True}),
-    )
+
+    url(r'^resources/peer-peer-sustainability-outreach-campaigns',
+        ResourceItemListView.as_view(
+            model=models.Program,
+            queryset=handle_missing_organizations(
+                models.Program.objects.filter(
+                    type__type='Student Sustainability Educator').order_by(
+                    'organization__name')),
+            template_name='programs/student_sustainability_educator_list.html'),
+            {'member_only': True}),
+
+        )
