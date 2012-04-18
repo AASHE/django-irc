@@ -1,14 +1,14 @@
 {% extends "resourceitem_list.html" %}
 
 {% block title %}
-  Campus Composting Programs
+  {{ title }}
 {% endblock title %}
 
 {% block body %}
 
   <div id="opening_text">
 
-    This resource lists campus composting programs.
+    {{ opening_text|safe }}
 
   </div>
 
@@ -36,4 +36,3 @@
   </p>
 
 {% endblock body %}
-
