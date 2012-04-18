@@ -104,7 +104,7 @@ etl.register(parsers.GreenBuildingPolicies, loader.PolicyLoader,
              resource_area='Green Building Policies', reset=False)
 etl.register(parsers.GreenCleaning, loader.PolicyLoader,
              'policies.Policy',
-             resource_area='Green Cleaning Procurement Policy', reset=False)
+             resource_area='Green Cleaning Programs & Policies', reset=False)
 etl.register(parsers.IntegratedPestPolicies, loader.PolicyLoader,
              'policies.Policy',
              resource_area='Integrated Pest Management Policy', reset=False)
@@ -145,8 +145,12 @@ etl.register(parsers.RevolvingFund, loader.GenericLoader, 'pae.RevolvingLoanFund
 
 # programs
 etl.register(parsers.BicycleSharePrograms, loader.ProgramLoader,
-             'programs.Program')
+             'programs.Program', resource_area='Bicycle Share Programs')
 etl.register(parsers.CampusCompostingPrograms, loader.ProgramLoader,
-             'programs.Program')
+             'programs.Program', resource_area='Campus Composting Programs')
 etl.register(parsers.SurplusPropertyRecyclingPrograms, loader.ProgramLoader,
-             'programs.Program')
+             'programs.Program',
+             resource_area='Campus Surplus Property Recycling'),
+etl.register(parsers.GreenCleaningPrograms, loader.ProgramLoader,
+             'programs.Program',
+             resource_area='Green Cleaning Programs & Policies')

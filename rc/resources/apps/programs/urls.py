@@ -2,7 +2,7 @@ from django.conf.urls.defaults import patterns, url
 
 from rc.resources.views import ResourceItemListView, \
      handle_missing_organizations
-from rc.resources.apps.programs import models
+from rc.resources.apps.programs import models, views
 
 
 urlpatterns = patterns('',
@@ -39,4 +39,11 @@ urlpatterns = patterns('',
                     'organization__country', 'organization__name')),
             template_name=('programs/campus_surplus_recycling_list.html')),
             {'member_only': True}),
+
+    url(r'^resources/green-cleaning',
+        views.GreenCleaningProgramAndPolicyListView.as_view(
+                model=models.Program,
+                template_name=('programs/green_cleaning_programs_and_policies'
+                               '_list.html')),
+                {'member_only': True}),
     )

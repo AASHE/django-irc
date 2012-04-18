@@ -1,0 +1,58 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  {{ title }}
+{% endblock title %}
+
+{% block body %}
+
+  <div id="opening_text">
+
+    {{ opening_text|safe }}
+
+  </div>
+
+  <p>
+    <div id="resource_list" class="content clear-block">
+    <h2>Programs</h2>
+    <p>
+      <table>
+        <tbody>
+          <tr>
+            <th>Institution</th>
+            <th>Program</th>
+          </tr>
+          {% for resource in program_list %}
+            <tr>
+              <td>{{ resource.organization.name }}</td>
+              <td><a href="{{ resource.url }}">{{ resource.title }}</a>
+                  {{ resource.notes }}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </p>
+    <h2>Policies</h2>
+    <p>
+      <table>
+        <tbody>
+          <tr>
+            <th>Institution</th>
+            <th>Policy</th>
+          </tr>
+          {% for resource in policy_list %}
+            <tr>
+              <td>{{ resource.organization.name }}</td>
+              <td><a href="{{ resource.url }}">{{ resource.title }}</a>
+                  {{ resource.notes }}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </p>
+    </div>
+  </p>
+
+{% endblock body %}

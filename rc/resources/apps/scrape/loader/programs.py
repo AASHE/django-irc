@@ -1,8 +1,8 @@
 from rc.resources.apps.programs import models
-from rc.resources.apps.scrape.loader import GenericLoader
+from rc.resources.apps.scrape.loader import GenericResourceAreaLoader
 
 
-class ProgramLoader(GenericLoader):
+class ProgramLoader(GenericResourceAreaLoader):
 
     def create_instance(self, data):
         '''
