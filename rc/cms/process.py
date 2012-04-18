@@ -30,19 +30,18 @@ def generate_pages():
     # For each menu item, create a page if it doesn't exist
     for item in items:
         # If page exists for this menu item, do nothing, otherwise create a new page
+        # An exception is raised if you try to get() a non-existent page
         try:
             Page.objects.get(menuitem=item)
         except:
             # Create a new page if the item has a url and children
-            # items without children don't need pages
-            # TODO: only generate pages with relative URLs
-            if item.url and item.has_children():
+            # only generate pages with relative URLs and with children
+            # relative urls: my way of indicating that a url should be handled by this app
+            # with children: childless items have their own views
+            if item.url and item.url[0:4] != "http" and item.has_children():
                 # TODO: Build URL Path
                 _login()
-                if item.url[0:4] != "http":
-                    url = "http://www.aashe.org/" + item.url
-                else:
-                    url = item.url
+                url = "http://www.aashe.org/" + item.url
                 page = AASHEOpener.open(url)
                 import pdb
                 # pdb.set_trace()
@@ -50,9 +49,10 @@ def generate_pages():
                     page, convertEntities=BeautifulSoup.HTML_ENTITIES)
                 # Get content from page
                 # TODO: Convert this to markdown
+                # TODO: Get content above first H2
                 try:
                     title = soup.find('h1', {'class': 'page-title'}).text
-                    content = soup.find('div', {'class': 'content clear-block'}).text
+                    content = soup.find('div', {'class': 'content clear-block'}).find('p').prettify()
                 except:
                     title = item.caption
                     content = ""

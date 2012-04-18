@@ -9,13 +9,7 @@
 
 {{ page.content|markdown }}
 
-{% if object.menuitem.children %}
-<ul class="menu">
-{% for child_menu_item in object.menuitem.children %}
-  <li class="leaf"><a href="{{ child_menu_item.url }}"><span>{{ child_menu_item }}</span></a></li>
-{% endfor %}
-</ul>
-{% endif %}
+{% show_menu "AASHE Resource Center" "resource-menu" %}  
 
 {% endblock content %}
 
