@@ -66,6 +66,22 @@ class CampusCompostingPrograms(ProgramTableParser):
                 table, program_type='Campus Composting Program')
 
 
+class GreenOfficePrograms(ProgramTableParser):
+    '''
+    >>> parser = GreenOfficePrograms()
+    >>> parser.parsePage()
+    >>> len(parser.data) != 0
+    True
+    '''
+    url = 'http://www.aashe.org/resources/green-office-programs'
+    login_required = True
+
+    def parsePage(self):
+        for table in self.soup.findAll('table'):
+            super(GreenOfficePrograms, self).processTable(
+                table, program_type='Green Office')
+
+
 class RecyclingWasteMinimization(SimpleTableParser):
     '''
     >>> parser = RecyclingWasteMinimization()
@@ -91,3 +107,20 @@ class SurplusPropertyRecyclingPrograms(ProgramTableParser):
         for table in self.soup.findAll('table'):
             super(SurplusPropertyRecyclingPrograms, self).processTable(
                 table, program_type='Surplus Property Recycling')
+
+
+class GreenCleaningPrograms(ProgramTableParser):
+    '''
+    >>> parser = GreenCleaningPrograms()
+    >>> parser.parsePage()
+    >>> len(parser.data) != 0
+    True
+    '''
+    url = 'http://www.aashe.org/resources/green-cleaning'
+    login_required = True
+
+    def parsePage(self):
+        # Programs are listed only in the first table on this page.
+        programs_table = self.soup.find('table')
+        super(GreenCleaningPrograms, self).processTable(
+                table=programs_table, program_type='Green Cleaning')

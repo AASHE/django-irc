@@ -154,3 +154,6 @@ etl.register(parsers.SurplusPropertyRecyclingPrograms, loader.ProgramLoader,
 etl.register(parsers.GreenCleaningPrograms, loader.ProgramLoader,
              'programs.Program',
              resource_area='Green Cleaning Programs & Policies')
+etl.register(parsers.GreenOfficePrograms, loader.ProgramLoader,
+             'programs.Program',
+             resource_area='Green Office Programs')

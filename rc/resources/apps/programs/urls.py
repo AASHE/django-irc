@@ -46,4 +46,14 @@ urlpatterns = patterns('',
                 template_name=('programs/green_cleaning_programs_and_policies'
                                '_list.html')),
                 {'member_only': True}),
+
+    url(r'^resources/green-office-programs',
+        ResourceItemListView.as_view(
+            model=models.Program,
+            queryset=handle_missing_organizations(
+                models.Program.objects.filter(
+                    type__type='Green Office').order_by(
+                    'organization__country', 'organization__name')),
+            template_name=('programs/green_office_list.html')),
+            {'member_only': True}),
     )
