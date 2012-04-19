@@ -1,0 +1,67 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Campus Sustainabilty Revolving Loan Funds
+{% endblock title %}
+
+{% block body %}
+
+  <div id="opening_text">
+    <p>
+      The high initial cost of many sustainability projects can often
+      deter campuses from implementing them, despite the fact that
+      such projects often have long-term cost savings. A campus
+      sustainability revolving loan fund helps overcome this challenge
+      by providing zero or low interest loans to fund money-saving
+      sustainability projects. A portion of the savings generated from
+      these projects is then reinvested into the fund until the loan
+      has been paid off, enabling the fund to help finance additional
+      sustainability projects. There are many possible ways to
+      structure campus sustainability revolving loan funds and similar
+      funds. This resource highlights several different funds that
+      might provide useful models for your own campus.
+    </p>
+    <p>
+      For additional information, see the
+      <a href="http://greenbillion.org/wp-content/uploads/2011/10/GreeningTheBottomLine.pdf">
+      Greening the Bottom Line</a> and related resources from the
+      Sustainable Endowment Institute's
+      <a href="http://greenbillion.org/about/">
+      Billion Dollar Green Challenge</a>.
+    </p>
+    <p>
+      For more on setting up revolving loan funds, see the
+      <a href="http://www.aashe.org/blog/guest-blogger-revolve-or-not-revolve">
+      AASHE Blog article</a>, "To Revolve or Not to Revolve."
+    </p>
+  </div>
+
+  <p>
+    <div id="resource_list" class="content clear-block">
+      <p>
+
+        {% for resource in object_list %}
+          <p>
+            <strong>
+              {% if resource.organization %}
+                {{ resource.organization.name }}
+              {% else %}
+                &lt;&lt;{{ resource.notes }}&gt;&gt;
+              {% endif %}
+            </strong>
+            <br/>
+            {{ resource.description }}
+          </p>
+          <ul>
+            <li>
+              <a href="{{ resource.url }}">{{ resource.title }}</a>
+            </li>
+          </ul>
+        {% endfor %}
+
+      </p>
+    </div>
+  </p>
+
+{% endblock body %}
+
