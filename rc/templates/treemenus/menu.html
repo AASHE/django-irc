@@ -9,7 +9,11 @@
   {% if menu_item.children %}
   <ul class="menu">
   {% for child_menu_item in menu_item.children %}
-  <li class="leaf"><a href="{{ child_menu_item.url }}"><span>{{ child_menu_item.caption }}</span></a></li>
+    {% if child.extension.protected %}
+    <li class="leaf"><a href="{{ child_menu_item.url }}"><span>{{ child_menu_item.caption }}</span></a><img src="http://www.aashe.org/images/lock.gif" alt="Members-only Content"/></li>
+    {% else %}
+    <li class="leaf"><a href="{{ child_menu_item.url }}"><span>{{ child_menu_item.caption }}</span></a></li>
+    {% endif %}
   {% endfor %}
   </ul>
   {% endif %}
@@ -28,12 +32,20 @@
         <ul class="menu">
         {% for child in child_menu_item.children %}
           {% if not child.children %}
-          <li class="leaf"><a href="/{{ child.url }}"><span>{{ child }}</span></a></li>
+            {% if child.extension.protected %}
+            <li class="leaf"><a href="/{{ child.url }}"><span>{{ child.caption }}</span></a><img src="http://www.aashe.org/images/lock.gif" alt="Members-only Content"/></li>
+            {% else %}
+            <li class="leaf"><a href="/{{ child.url }}"><span>{{ child.caption }}</span></a></li>
+            {% endif %}          
           {% else %}
             <li class="leaf"><span>{{ child }}</span></li>
             <ul class="menu">
             {% for second_child in child.children %}
-              <li class="leaf"><a href="/{{ second_child.url }}"><span>{{ second_child }}</span></a></li>
+              {% if second_child.extension.protected %}
+              <li class="leaf"><a href="/{{ second_child.url }}"><span>{{ second_child.caption }}</span></a><img src="http://www.aashe.org/images/lock.gif" alt="Members-only Content"/></li>
+              {% else %}
+              <li class="leaf"><a href="/{{ second_child.url }}"><span>{{ second_child.caption }}</span></a></li>
+              {% endif %}
             {% endfor %}
             </ul>
           {% endif %}
@@ -46,8 +58,11 @@
     {% if object.menuitem.children %}
     <ul class="menu">
     {% for child_menu_item in object.menuitem.children %}
+      {% if child_menu_item.extension.protected %}
+      <li class="leaf"><a href="/{{ child_menu_item.url }}"><span>{{ child_menu_item }}</span></a><img src="http://www.aashe.org/images/lock.gif" alt="Members-only Content"/></li>
+      {% else %}
       <li class="leaf"><a href="/{{ child_menu_item.url }}"><span>{{ child_menu_item }}</span></a></li>
-    {% endfor %}
+      {% endif %}    {% endfor %}
     </ul>
     {% endif %}
   {% endifequal %}
@@ -61,7 +76,7 @@
         {% for menu_item in menu.root_item.children %}
           {% if menu_item == object.menuitem %}
             <li class="expanded active-trail">
-            <a href="/{{ menu_item.url }}" title="{{ menu_item.caption }}" class="active-trail"><span>{{ menu_item.caption}}</span></a>
+            <a href="/{{ menu_item.url }}" title="{{ menu_item.caption }}" class="active-trail"><span>{{ menu_item.caption }}</span></a>
               <ul class="menu">
               {% for child_menu_item in object.menuitem.children %}
                 <li class="leaf"><a href="/{{ child_menu_item.url }}"><span>{{ child_menu_item }}</span></a></li>
