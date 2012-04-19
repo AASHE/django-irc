@@ -1,0 +1,9 @@
+Django==1.4
+-e hg+http://bitbucket.org/jesselegg/aashe-python#egg=aashe-python
+markdown
+django-treemenus
+BeautifulSoup
+Sphinx
+Fabric
+pyPdf
+requests

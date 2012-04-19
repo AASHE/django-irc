@@ -1,0 +1,41 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  {{ page_title|title }}
+{% endblock title %}
+
+{% block body %}
+
+  <div id="opening_text">
+  </div>
+
+  <p>
+    <div id="resource_list" class="content clear-block">
+      <p>
+        {% for resource in object_list %}
+            {% if with_description %}
+              <p>
+            {% endif %}
+            {% if bold_org_name %}
+              <strong>
+            {% endif %}
+            {{ resource.organization.name }}
+            {% if bold_org_name %}
+              </strong>
+            {% endif %}
+            -
+            <a href="{{ resource.url }}">{{ resource.title }}</a>
+            {% if resource.notes %}
+              {{ resource.notes }}
+            {% endif %}
+            <br/>
+            {% if with_description %}
+              {{ resource.description }}
+              </p>
+            {% endif %}
+        {% endfor %}
+      </p>
+    </div>
+  </p>
+
+{% endblock body %}

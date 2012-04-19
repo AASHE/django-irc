@@ -1,0 +1,43 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Campus Surplus Property Recycling
+{% endblock title %}
+
+{% block body %}
+
+  <div id="opening_text">
+
+    The following resource lists campuses that have programs in place
+    to reuse old material goods (furniture, equipment, etc), whether
+    through the sale, re-distribution or donation of the items.
+
+  </div>
+
+
+  <div id="resource_list">
+    <p>
+      {% regroup object_list by organization.country as country_list %}
+      {% for country in country_list %}
+        <h3>{{ country.grouper }}</h3>
+        <table>
+          <tbody>
+            <tr>
+              <th></th>
+              <th></th>
+            </tr>
+            {% for resource in country.list %}
+              <tr>
+                <td>{{ resource.organization.name }}</td>
+                <td><a href="{{ resource.url }}">{{ resource.title }}</a>
+                {{ resource.notes }}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endfor %}
+    </p>
+  </div>
+
+{% endblock body %}
