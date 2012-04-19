@@ -1,10 +1,14 @@
 from django.conf.urls.defaults import patterns, url
+from django.template.defaultfilters import slugify
 
 from rc.resources.models import ResourceArea
 from rc.resources.views import ResourceItemListView, \
      handle_missing_organizations
 from rc.resources.apps.policies import models
 
+
+def url_name(surname):
+    return 'resources:policies:' + surname
 
 def policies_for_resource_area(resource_area_name):
     '''Returns a queryset for all policies related to the ResourceArea with
@@ -38,12 +42,13 @@ def policy_url(url_string, resource_area, page_title='',
                    queryset=policies_for_resource_area(resource_area).order_by(
                        'organization__name'),
                    template_name=template_name),
-                   {'resource_area': resource_area,
-                    'page_title': page_title,
-                    'with_description': with_description,
-                    'opening_text': opening_text,
-                    'bold_org_name': bold_org_name,
-                    'member_only': member_only })
+                name=url_name(':' + slugify(resource_area)),
+                kwargs={'resource_area': resource_area,
+                        'page_title': page_title,
+                        'with_description': with_description,
+                        'opening_text': opening_text,
+                        'bold_org_name': bold_org_name,
+                        'member_only': member_only })
 
 def policy_by_country_by_org_name_url(url_string, resource_area,
                                       page_title='', opening_text='',
@@ -64,13 +69,14 @@ def policy_by_country_by_org_name_url(url_string, resource_area,
                         'organization__country',
                         'organization__name'),
                     template_name=template_name),
-                    {'resource_area': resource_area,
-                     'page_title': page_title,
-                     'opening_text': opening_text,
-                     'member_only': member_only })
+                name=url_name(':' + slugify(resource_area)),
+                kwargs={'resource_area': resource_area,
+                        'page_title': page_title,
+                        'opening_text': opening_text,
+                        'member_only': member_only })
 
 def policy_by_category_by_org_name_url(url_string, resource_area,
-                                      page_title='', member_only=False):
+                                       page_title='', member_only=False):
     '''Returns a url for policies.Policy, filtered by resource_area,
     and sorted by category and then organization__name. A template
     describing a list of Policies is used.'''
@@ -86,9 +92,10 @@ def policy_by_category_by_org_name_url(url_string, resource_area,
                     queryset=policies_for_resource_area(resource_area).order_by(
                         'category', 'organization__name'),
                     template_name=template_name),
-                    {'resource_area': resource_area,
-                     'page_title': page_title,
-                     'member_only': member_only })
+                    name=url_name(':' + slugify(resource_area)),
+                    kwargs={'resource_area': resource_area,
+                            'page_title': page_title,
+                            'member_only': member_only })
 
 
 urlpatterns = patterns('',
@@ -201,7 +208,8 @@ urlpatterns = patterns('',
             queryset=handle_missing_organizations(
                 models.FairTradePolicy.objects.order_by(
                     'organization__country', 'organization__name'))),
-            {'member_only': True}),
+            name=url_name('fair-trade'),
+            kwargs={'member_only': True}),
 
     url(r'^resources/socially-responsible-investment-policies',
         ResourceItemListView.as_view(
@@ -209,7 +217,8 @@ urlpatterns = patterns('',
             queryset=handle_missing_organizations(
                 models.ResponsibleInvestmentPolicy.objects.order_by(
                     'investment_type', 'organization__name'))),
-            {'member_only': True}),
+            name=url_name('responsible-investment'),
+            kwargs={'member_only': True}),
 
     url(r'^resources/campus-building-guidelines-and-green-building-policies',
         ResourceItemListView.as_view(
@@ -217,10 +226,11 @@ urlpatterns = patterns('',
             queryset=handle_missing_organizations(
                 models.GreenBuildingPolicy.objects.order_by(
                     'leed_level', 'organization__name'))),
-            {'member_only': True,
-             'type_list': [ level[0] for level in
-                            models.GreenBuildingPolicy.LEED_LEVELS ],
-             'type_dict': dict(models.GreenBuildingPolicy.LEED_LEVELS)}),
+            name=url_name('green-building'),
+            kwargs={'member_only': True,
+                    'type_list': [ level[0] for level in
+                                   models.GreenBuildingPolicy.LEED_LEVELS ],
+                    'type_dict': dict(models.GreenBuildingPolicy.LEED_LEVELS)}),
 
 
 
