@@ -4,7 +4,6 @@ when you run "manage.py test".
 
 Replace this with more appropriate tests for your application.
 """
-
 from django.test import TestCase, Client
 
 
@@ -33,7 +32,15 @@ class ResourceUrlsTest(TestCase):
         Tests that url is available.
         '''
         client = Client()
+        bad_urls = []
         for url in self.get_url_strings():
-            resp = client.get('/'.join(('http:/', TEST_SERVER, url)))
-            self.assertEqual(resp.status_code, 200)
-
+            if not url:  # sometimes url is ''?
+                continue
+            try:
+                resp = client.get('/'.join(('http:/', TEST_SERVER, url)))
+                if resp.status_code == 200:
+                    bad_urls.append(url)
+            except:
+                bad_urls.append(url)
+        self.assertFalse(bad_urls,
+                         msg='bad urls: {0}'.format(bad_urls))
