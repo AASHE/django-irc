@@ -1,6 +1,5 @@
-from django.db.models import get_model
 from rc.resources.apps.policies.models import *
-from rc.resources.apps.scrape.loader import GenericLoader, LoaderException
+from rc.resources.apps.scrape.loader import GenericLoader
 
 
 class BottleWaterBanLoader(GenericLoader):
@@ -24,14 +23,9 @@ class CarShareLoader(GenericLoader):
         data['title'] = data.get('institution', '')
         super(CarShareLoader, self).create_instance(data)
 
-class RecyclingWasteLoader(GenericLoader):
-    def create_instance(self, data):
-        from rc.resources.apps.operations.models import RecyclingWebsite
-        super(RecyclingWasteLoader, self).create_instance(data)
-        
 class BuildingDashboardLoader(GenericLoader):
     def create_instance(self, data):
-        from rc.resources.apps.operations.models import BuildingDashboard, BuildingDashboardPartner
+        from rc.resources.apps.operations.models import BuildingDashboardPartner
         if data.has_key('manufacturer_type'):
             partner_obj, created = BuildingDashboardPartner.objects.get_or_create(name=data['manufacturer_type'])
             data['partner'] = partner_obj
@@ -45,7 +39,7 @@ class BiodieselFleetLoader(GenericLoader):
         production_type = production_types.get(data['biodiesel_source'], '')
         data['production'] = production_type
         super(BiodieselFleetLoader, self).create_instance(data)
-        
+
 class CarBanLoader(GenericLoader):
     def create_instance(self, data):
         from rc.resources.apps.operations.models import CarBan
@@ -53,7 +47,7 @@ class CarBanLoader(GenericLoader):
         ban_type = ban_types.get(data['type'], '')
         data['type'] = ban_type
         super(CarBanLoader, self).create_instance(data)
-        
+
 class SustainableDiningInitiativesLoader(GenericLoader):
     def create_instance(self, data):
         from rc.resources.apps.operations.models import DiningInitiative
@@ -69,7 +63,7 @@ class WindTurbineLoader(GenericLoader):
         else:
             data['size'] = data['size'].replace(',', '')
         super(WindTurbineLoader, self).create_instance(data)
-        
+
 class TransitPassLoader(GenericLoader):
     def create_instance(self, data):
         from rc.resources.apps.operations.models import TransitPass
@@ -94,7 +88,7 @@ class HybridFleetLoader(GenericLoader):
         if '>' in data['number']:
             del(data['number'])
         super(HybridFleetLoader, self).create_instance(data)
-        
+
 class GreenBuildingLoader(GenericLoader):
     def create_instance(self, data):
         from rc.resources.apps.operations.models import GreenBuildingType
