@@ -1,0 +1,49 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Car Sharing on Campus
+{% endblock %}
+
+{% block body %}
+
+  <div id="opening_text">
+    <p>
+      Car sharing programs enable faculty, staff, and students to rent
+      vehicles for short periods of time. Gas, insurance, and roadside
+      assistance are all taken care of by the car sharing company. Such
+      programs reduce the need for people to bring their own vehicle to
+      campus, thereby freeing up parking spaces, and provide a
+      cost-effective alternative to car ownership. Universities often
+      subsidize participation in car sharing programs as part of a
+      comprehensive transportation demand management
+      strategy. Traditionally, for insurance purposes, car sharing has
+      been limited to people aged 21 and older, thereby limiting many
+      college students from participating. Several of car sharing
+      companies now offer programs that enable students aged 18 and
+      older to participate.
+    </p>
+    <p>
+      This resource lists existing car sharing programs on
+      campus. Programs are categorized according to the car sharing
+      partner used by each campus.
+    </p>
+  </div>
+
+  <div id="resource_list">
+    <p>
+      {% regroup object_list by partner.name as partner_list %}
+
+      {% for partner in partner_list %}
+        <h3>{{ partner.grouper }}</h3>
+        <p>
+          {% for carshare in partner.list %}
+            <a href="{{ carshare.url }}">{{ carshare.title }}</a>
+            <br/>
+          {% endfor %}
+        </p>
+      {% endfor %}
+    </p>
+  </div>
+
+{% endblock body %}
+

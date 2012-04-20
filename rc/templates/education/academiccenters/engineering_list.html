@@ -1,0 +1,29 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Academic Centers on Sustainability & Engineering
+{% endblock title %}  
+
+{% block body %}
+
+  <div id="opening_text">
+  </div>
+
+
+  <div id="resource_list" class="content clear-block">
+    <p>
+      <table>
+        <tbody>
+          {% for center in object_list %}
+            <tr>
+              <td>{{ center.organization.name }}</td>
+              <td><a href="{{ center.url }}">{{ center.title }}</a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </p>
+  </div>
+
+{% endblock body %}
+
