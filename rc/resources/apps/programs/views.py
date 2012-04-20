@@ -1,17 +1,7 @@
 from rc.resources.apps.policies.models import Policy
 from rc.resources.apps.programs.models import Program
-from rc.resources.models import ResourceArea
 from rc.resources.views import ResourceItemListView, \
      handle_missing_organizations
-
-
-def get_query_set_for_model_for_resource_area(model, resource_area,
-                                              order_by=None):
-    qs = model.objects.filter(resource_areas=resource_area)
-    if order_by:
-        qs = qs.order_by(*order_by)
-    qs = handle_missing_organizations(qs)
-    return qs
 
 
 class GreenCleaningProgramAndPolicyListView(ResourceItemListView):
@@ -26,15 +16,9 @@ class GreenCleaningProgramAndPolicyListView(ResourceItemListView):
         context = super(GreenCleaningProgramAndPolicyListView,
                         self).get_context_data(**kwargs)
 
-        context['policy_list'] = self._get_query_set(Policy)
-        context['program_list'] = self._get_query_set(Program)
+        context['policy_list'] = handle_missing_organizations(
+            Policy.objects.filter(type__type='Green Cleaning'))
+        context['program_list'] = handle_missing_organizations(
+            Program.objects.filter(type__type='Green Cleaning'))
 
         return context
-
-    def _get_query_set(self, model):
-        resource_area = ResourceArea.objects.get(area=self.resource_area_name)
-
-        qs = get_query_set_for_model_for_resource_area(
-            model=model, resource_area=resource_area,
-            order_by=('organization__country', 'organization__name'))
-        return qs

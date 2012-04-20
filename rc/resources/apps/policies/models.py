@@ -31,7 +31,7 @@ class PolicyType(models.Model):
     def __unicode__(self):
         return self.type
 
-class GreenBuildingPolicy(ResourceItem):
+class GreenBuildingPolicy(Policy):
     '''
     Green building policies require a LEED level field.
     '''
@@ -42,34 +42,28 @@ class GreenBuildingPolicy(ResourceItem):
                    ('CR', 'Certified'))
 
     leed_level = models.CharField(max_length=2, choices=LEED_LEVELS)
-    type = models.ForeignKey('PolicyType', verbose_name='policy type',
-                             null=True, blank=True)
 
     class Meta:
         verbose_name = 'green building policy'
         verbose_name_plural = 'green building policies'
 
-class FairTradePolicy(ResourceItem):
+class FairTradePolicy(Policy):
     '''
     Fair trade practices and policies.
     '''
     product_types = models.CharField(_('types of products'), blank=True,
                                      max_length=128)
-    type = models.ForeignKey('PolicyType', verbose_name='policy type',
-                             null=True, blank=True)
 
     class Meta:
         verbose_name = 'campus fair trade practice & policy'
         verbose_name_plural = 'campus fair trade practices & policies'
 
-class ResponsibleInvestmentPolicy(ResourceItem):
+class ResponsibleInvestmentPolicy(Policy):
     '''
     Socially responsible investment policies.
     '''
     investment_type = models.CharField(_('types of investment'), blank=True,
                                        max_length=128)
-    type = models.ForeignKey('PolicyType', verbose_name='policy type',
-                             null=True, blank=True)
 
     class Meta:
         verbose_name = 'socially responsible investment policy'

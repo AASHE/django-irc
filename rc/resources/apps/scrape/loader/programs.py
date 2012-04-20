@@ -1,4 +1,4 @@
-from rc.resources.apps.programs import models
+from rc.resources.apps.programs.models import ProgramType
 from rc.resources.apps.scrape.loader import GenericLoader
 
 
@@ -9,8 +9,7 @@ class ProgramLoader(GenericLoader):
         Links a ProgramType, based on data['program_type'], to the
         Program that GenericLoader.create_instance() will make.
         '''
-        type_obj, created = models.ProgramType.objects.get_or_create(
-            type=data['program_type'])
+        type_obj, _ = ProgramType.objects.get_or_create(
+            type=data.pop('program_type'))
         data['type'] = type_obj
-        del data['program_type']
         return super(ProgramLoader, self).create_instance(data)

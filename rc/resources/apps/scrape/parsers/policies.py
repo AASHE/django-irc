@@ -2,7 +2,31 @@ from base import PageParser, SimpleTableParser
 from rc.resources.apps.policies import models
 
 
-class IntegratedPestPolicies(SimpleTableParser):
+class SimplePolicyTableParser(SimpleTableParser):
+    '''Pushes a policy type into a SimpleTableParser's data dictionary.'''
+
+    def type_policies(self):
+        for policy in self.data:
+            policy['policy_type'] = self.policy_type
+
+    def parsePage(self):
+        super(SimplePolicyTableParser, self).parsePage()
+        self.type_policies()
+
+
+class PolicyPageParser(PageParser):
+    '''Pushes a policy type into a PageParser's data dictionary.'''
+
+    def type_policies(self):
+        for policy in self.data:
+            policy['policy_type'] = self.policy_type
+
+    def parsePage(self):
+        super(PolicyPageParser, self).parsePage()
+        self.type_policies()
+
+
+class IntegratedPestPolicies(SimplePolicyTableParser):
     '''
     >>> parser=IntegratedPestPolicies()
     >>> parser.parsePage()
@@ -11,8 +35,10 @@ class IntegratedPestPolicies(SimpleTableParser):
     '''
     url = 'http://www.aashe.org/resources/integrated-pest-management-policies'
     login_required = True
+    policy_type = 'Integrated Pest Management'
 
-class LicenseeCodeConduct(SimpleTableParser):
+
+class LicenseeCodeConductPolicies(SimplePolicyTableParser):
     '''
     >>> parser=LicenseeCodeConduct()
     >>> parser.parsePage()
@@ -21,8 +47,10 @@ class LicenseeCodeConduct(SimpleTableParser):
     '''
     url = 'http://www.aashe.org/resources/trademark-licensee-code-conduct'
     login_required = True
+    policy_type = 'Licensee Code of Conduct'
 
-class GreenCleaning(SimpleTableParser):
+
+class GreenCleaningPolicies(SimplePolicyTableParser):
     '''
     >>> parser = GreenCleaning()
     >>> parser.parsePage()
@@ -31,14 +59,18 @@ class GreenCleaning(SimpleTableParser):
     '''
     url = 'http://www.aashe.org/resources/green-cleaning'
     login_required = True
+    policy_type = 'Green Cleaning'
 
     def parsePage(self):
-        # parent method will get the data from the first table and stuff it into self.data
-        super(GreenCleaning, self).parsePage()
+        # parent method will get the data from the first table and
+        # stuff it into self.data
+        super(GreenCleaningPolicies, self).parsePage()
         # parse the data from the second table and stuff into self.data
         self.processTable(self.soup.findAll('table')[1])
+        self.type_policies()
 
-class RecyclingPolicy(SimpleTableParser):
+
+class RecyclingPolicies(SimplePolicyTableParser):
     '''
     >>> parser = RecyclingPolicy()
     >>> parser.parsePage()
@@ -47,8 +79,10 @@ class RecyclingPolicy(SimpleTableParser):
     '''
     url = 'http://www.aashe.org/resources/campus-recycling-and-waste-minimization-policies'
     login_required = True
+    policy_type = 'Recycling'
 
-class ApplianceProcurement(PageParser):
+
+class ApplianceProcurementPolicies(PolicyPageParser):
     '''
     >>> parser = ApplianceProcurement()
     >>> parser.parsePage()
@@ -60,9 +94,11 @@ class ApplianceProcurement(PageParser):
     url = ('http://www.aashe.org/resources/'
            'energy-efficient-appliance-procurement-policies')
     login_required = True
+    policy_type = 'Appliance Procurement'
 
     def parsePage(self):
-        paras = self.soup.find('div', {'class': 'content clear-block'}).findAll('p')
+        paras = self.soup.find('div',
+                               {'class': 'content clear-block'}).findAll('p')
         data = {}
         for para in paras:
             strong = para.find('strong')
@@ -75,8 +111,10 @@ class ApplianceProcurement(PageParser):
             data['institution'] = strong.text
             self.data.append(data)
             data = {}
+        self.type_policies()
 
-class GeneralProcurement(PageParser):
+
+class GeneralProcurementPolicies(PolicyPageParser):
     '''
     >>> parser = GeneralProcurement()
     >>> parser.parsePage()
@@ -88,8 +126,26 @@ class GeneralProcurement(PageParser):
     url = ('http://www.aashe.org/resources/'
            'campus-sustainable-procurement-policies')
     login_required = True
+    policy_type = 'General Procurement'
 
-class LivingWage(PageParser):
+    def parsePage(self):
+        paras = self.soup.findAll('p')[:-1]
+        policyData = {}
+        for p in paras:
+            try:
+                nodes = [el for el in p]
+                policyData['title'] = nodes[2].text
+                policyData['url'] = dict(nodes[2].attrs).get('href', '')
+                policyData['institution'] = nodes[0].text
+                policyData['notes'] = nodes[4].title()
+                self.data.append(policyData)
+                policyData = {}
+            except:
+                continue
+        self.type_policies()
+
+
+class LivingWagePolicies(PolicyPageParser):
     '''
     >>> parser = LivingWage()
     >>> parser.parsePage()
@@ -100,9 +156,11 @@ class LivingWage(PageParser):
     '''
     url = 'http://www.aashe.org/resources/campus-living-wage-policies'
     login_required = True
+    policy_type = 'Living Wage'
 
     def parsePage(self):
-        paras = self.soup.find('div', {'class': 'content clear-block'}).findAll('p')
+        paras = self.soup.find('div',
+                               {'class': 'content clear-block'}).findAll('p')
         data = {}
         for para in paras:
             strong = para.find('strong')
@@ -115,8 +173,10 @@ class LivingWage(PageParser):
             data['institution'] = strong.text
             self.data.append(data)
             data = {}
+        self.type_policies()
 
-class AntiIdling(PageParser):
+
+class AntiIdlingPolicies(PolicyPageParser):
     '''
     >>> parser = AntiIdling()
     >>> parser.parsePage()
@@ -127,9 +187,11 @@ class AntiIdling(PageParser):
     '''
     url = 'http://www.aashe.org/resources/campus-anti-idling-policies'
     login_required = True
+    policy_type = 'Anti-Idling'
 
     def parsePage(self):
-        paras = self.soup.find('div', {'class': 'content clear-block'}).findAll('p')
+        paras = self.soup.find('div',
+                               {'class': 'content clear-block'}).findAll('p')
         data = {}
         for para in paras:
             strong = para.find('strong')
@@ -142,8 +204,10 @@ class AntiIdling(PageParser):
             data['institution'] = strong.text
             self.data.append(data)
             data = {}
+        self.type_policies()
 
-class PaperProcurement(PageParser):
+
+class PaperProcurementPolicies(PolicyPageParser):
     '''
     >>> parser = PaperProcurement()
     >>> parser.parsePage()
@@ -154,9 +218,11 @@ class PaperProcurement(PageParser):
     '''
     url = 'http://www.aashe.org/resources/paper-procurement-policies'
     login_required = True
+    policy_type = 'Paper Procurement'
 
     def parsePage(self):
-        paras = self.soup.find('div', {'class': 'content clear-block'}).findAll('p')
+        paras = self.soup.find('div',
+                               {'class': 'content clear-block'}).findAll('p')
         data = {}
         for para in paras:
             strong = para.find('strong')
@@ -169,8 +235,10 @@ class PaperProcurement(PageParser):
             data['institution'] = strong.text
             self.data.append(data)
             data = {}
+        self.type_policies()
 
-class StormwaterPolicies(SimpleTableParser):
+
+class StormwaterPolicies(SimplePolicyTableParser):
     '''
     >>> parser = StormwaterPolicies()
     >>> parser.parsePage()
@@ -181,6 +249,7 @@ class StormwaterPolicies(SimpleTableParser):
     '''
     url = 'http://www.aashe.org/resources/campus-stormwater-policies-plans'
     login_required = True
+    policy_type = 'Stormwater'
 
     def processTableData(self, row, els):
         '''
@@ -199,8 +268,10 @@ class StormwaterPolicies(SimpleTableParser):
         self.processTable(self.soup.findAll('table')[0], headings=headings)
         # data is in the second <table> on the page
         self.processTable(self.soup.findAll('table')[1], headings=headings)
+        self.type_policies()
 
-class ResponsibleInvestmentPolicies(SimpleTableParser):
+
+class ResponsibleInvestmentPolicies(SimplePolicyTableParser):
     '''
     >>> parser = ResponsibleInvestmentPolicies()
     >>> parser.parsePage()
@@ -212,6 +283,7 @@ class ResponsibleInvestmentPolicies(SimpleTableParser):
     '''
     url = 'http://www.aashe.org/resources/socially-responsible-investment-policies'
     login_required = True
+    policy_type = 'Responsible Investment'
 
     def processTableData(self, row, els):
         '''
@@ -228,8 +300,10 @@ class ResponsibleInvestmentPolicies(SimpleTableParser):
     def parsePage(self, headings=True):
         for table in self.soup.findAll('table'):
             self.processTable(table, headings=headings)
+        self.type_policies()
 
-class EnergyConservationPolicies(PageParser):
+
+class EnergyConservationPolicies(PolicyPageParser):
     '''
     >>> parser = EnergyConservationPolicies()
     >>> parser.parsePage()
@@ -238,6 +312,7 @@ class EnergyConservationPolicies(PageParser):
     '''
     url = 'http://www.aashe.org/resources/energy-conservation-policies'
     login_required = True
+    policy_type = 'Energy Conservation'
 
     def parsePage(self):
         para = self.soup.find('div', {'class': 'content clear-block'}).find('p')
@@ -250,8 +325,10 @@ class EnergyConservationPolicies(PageParser):
             data['url'] = dict(anchor.attrs).get('href', '')
             self.data.append(data)
             data = {}
+        self.type_policies()
 
-class GeneralSustainabilityPolicies(PageParser):
+
+class GeneralSustainabilityPolicies(PolicyPageParser):
     '''
     >>> parser = SustainbilityPolicies()
     >>> parser.parsePage()
@@ -260,6 +337,7 @@ class GeneralSustainabilityPolicies(PageParser):
     '''
     url = 'http://www.aashe.org/resources/campus-sustainability-and-environmental-policies'
     login_required = True
+    policy_type = 'Sustainability'
 
     def parsePage(self):
         anchors = self.soup.find('div',
@@ -273,8 +351,10 @@ class GeneralSustainabilityPolicies(PageParser):
             data['category'] = anchor.findPrevious('h2').text
             self.data.append(data)
             data = {}
+        self.type_policies()
 
-class CampusFairTrade(SimpleTableParser):
+
+class CampusFairTradePolicies(SimplePolicyTableParser):
     '''
     >>> parser = CampusFairTrade()
     >>> parser.parsePage()
@@ -283,17 +363,21 @@ class CampusFairTrade(SimpleTableParser):
     '''
     url = 'http://www.aashe.org/resources/campus-fair-trade-practices-policies'
     login_required = True
+    policy_type = 'Campus Fair Trade'
 
     def processTableData(self, row, els):
-        policyData = super(CampusFairTrade, self).processTableData(row, els)
+        policyData = super(CampusFairTradePolicies,
+                           self).processTableData(row, els)
         policyData['product_types'] = els[5].text
         return policyData
 
     def parsePage(self, headings=True):
         for table in self.soup.findAll('table'):
             self.processTable(table, headings=headings)
+        self.type_policies()
 
-class TelecommutingPolicy(PageParser):
+
+class TelecommutingPolicies(PolicyPageParser):
     '''
     >>> parser = TelecommutingPolicy()
     >>> parser.parsePage()
@@ -302,9 +386,11 @@ class TelecommutingPolicy(PageParser):
     '''
     url = 'http://www.aashe.org/resources/telecommuting-alternative-work'
     login_required = True
+    policy_type = 'Telecommuting'
 
     def parsePage(self):
-        headers = self.soup.find('div', {'class': 'content clear-block'}).findAll('h2')
+        headers = self.soup.find('div',
+                                 {'class': 'content clear-block'}).findAll('h2')
         data = {}
         for header in headers:
             row_tags = header.nextSibling.nextSibling.findAll('tr')[1:]
@@ -316,8 +402,10 @@ class TelecommutingPolicy(PageParser):
                 data['title'] = tags[3].text
                 self.data.append(data)
                 data = {}
+        self.type_policies()
 
-class WaterConservationPolicy(PageParser):
+
+class WaterConservationPolicies(PolicyPageParser):
     '''
     >>> parser = WaterConservationPolicy()
     >>> parser.parsePage()
@@ -326,9 +414,11 @@ class WaterConservationPolicy(PageParser):
     '''
     url = 'http://www.aashe.org/resources/water-conservation-policies'
     login_required = True
+    policy_type = 'Water Conservation'
 
     def parsePage(self):
-        headers = self.soup.find('div', {'class': 'content clear-block'}).findAll('h2')
+        headers = self.soup.find('div',
+                                 {'class': 'content clear-block'}).findAll('h2')
         data = {}
         for header in headers:
             row_tags = header.nextSibling.nextSibling.findAll('tr')[1:]
@@ -340,11 +430,14 @@ class WaterConservationPolicy(PageParser):
                 data['title'] = tags[3].text
                 self.data.append(data)
                 data = {}
+        self.type_policies()
 
-class GreenBuildingPolicies(PageParser):
+
+class GreenBuildingPolicies(PolicyPageParser):
     url = ('http://www.aashe.org/resources/'
            'campus-building-guidelines-and-green-building-policies')
     login_required = True
+    policy_type = 'Green Building'
 
     def parsePage(self):
         content_block = self.soup.find('div',
@@ -361,8 +454,10 @@ class GreenBuildingPolicies(PageParser):
                 if level[1] in standard_description:
                     policy['leed_level'] = level[0]
             self.data.append(policy)
+        self.type_policies()
 
-class ElectronicWaste(SimpleTableParser):
+
+class ElectronicWastePolicies(SimplePolicyTableParser):
     '''
     >>> parser=ElectronicWaste()
     >>> parser.parsePage()
@@ -371,6 +466,7 @@ class ElectronicWaste(SimpleTableParser):
     '''
     url = 'http://www.aashe.org/resources/e-waste-programs-policies-and-events'
     login_required = True
+    policy_type = 'Electronic Waste'
 
     def processTableData(self, row, els):
         '''
@@ -392,3 +488,4 @@ class ElectronicWaste(SimpleTableParser):
         policies_table = [ t for t in tables
                            if 'policies' in header_texts(t) ][0]
         self.processTable(policies_table, headings=headings)
+        self.type_policies()
