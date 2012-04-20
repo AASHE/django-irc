@@ -1,8 +1,7 @@
 from rc.resources.apps.operations.models import ElectronicWasteEvent
 from rc.resources.apps.policies.models import Policy, ElectronicWastePolicy
 from rc.resources.apps.programs.models import Program, ElectronicWasteProgram
-from rc.resources.views import ResourceItemListView, \
-     handle_missing_organizations
+from rc.resources.views import ResourceItemListView
 
 
 class GreenCleaningProgramAndPolicyListView(ResourceItemListView):
@@ -14,10 +13,8 @@ class GreenCleaningProgramAndPolicyListView(ResourceItemListView):
         context = super(GreenCleaningProgramAndPolicyListView,
                         self).get_context_data(**kwargs)
 
-        context['policy_list'] = handle_missing_organizations(
-            Policy.objects.filter(type__type=self.type))
-        context['program_list'] = handle_missing_organizations(
-            Program.objects.filter(type__type=self.type))
+        context['policy_list'] = Policy.objects.filter(type__type=self.type)
+        context['program_list'] = Program.objects.filter(type__type=self.type)
 
         return context
 
@@ -29,11 +26,8 @@ class ElectronicWasteProgramPolicyAndEventListView(ResourceItemListView):
         context = super(ElectronicWasteProgramPolicyAndEventListView,
                         self).get_context_data(**kwargs)
 
-        context['policy_list'] = handle_missing_organizations(
-            ElectronicWastePolicy.objects.all())
-        context['program_list'] = handle_missing_organizations(
-            ElectronicWasteProgram.objects.all())
-        context['event_list'] = handle_missing_organizations(
-            ElectronicWasteEvent.objects.all())
+        context['policy_list'] = ElectronicWastePolicy.objects.all()
+        context['program_list'] = ElectronicWasteProgram.objects.all()
+        context['event_list'] = ElectronicWasteEvent.objects.all()
 
         return context

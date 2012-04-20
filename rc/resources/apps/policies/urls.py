@@ -1,8 +1,7 @@
 from django.conf.urls.defaults import patterns, url
 from django.template.defaultfilters import slugify
 
-from rc.resources.views import ResourceItemListView, \
-     handle_missing_organizations
+from rc.resources.views import ResourceItemListView
 from rc.resources.apps.policies import models
 
 
@@ -198,27 +197,24 @@ urlpatterns = patterns('',
     url(r'^resources/campus-fair-trade-practices-policies',
         view=ResourceItemListView.as_view(
             model=models.FairTradePolicy,
-            queryset=handle_missing_organizations(
-                models.FairTradePolicy.objects.order_by(
-                    'organization__country', 'organization__name'))),
+            queryset=models.FairTradePolicy.objects.order_by(
+                    'organization__country', 'organization__name')),
         name=url_name('fair-trade'),
         kwargs={'member_only': True}),
 
     url(r'^resources/socially-responsible-investment-policies',
         view=ResourceItemListView.as_view(
             model=models.ResponsibleInvestmentPolicy,
-            queryset=handle_missing_organizations(
-                models.ResponsibleInvestmentPolicy.objects.order_by(
-                    'investment_type', 'organization__name'))),
+            queryset=models.ResponsibleInvestmentPolicy.objects.order_by(
+                    'investment_type', 'organization__name')),
             name=url_name('responsible-investment'),
             kwargs={'member_only': True}),
 
     url(r'^resources/campus-building-guidelines-and-green-building-policies',
         view=ResourceItemListView.as_view(
             model=models.GreenBuildingPolicy,
-            queryset=handle_missing_organizations(
-                models.GreenBuildingPolicy.objects.order_by(
-                    'leed_level', 'organization__name'))),
+            queryset=models.GreenBuildingPolicy.objects.order_by(
+                    'leed_level', 'organization__name')),
             name=url_name('green-building'),
             kwargs={'member_only': True,
                     'type_list': [ level[0] for level in
