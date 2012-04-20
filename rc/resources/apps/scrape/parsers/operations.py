@@ -44,31 +44,6 @@ def get_url_title(url):
     return title, notes
 
 
-class GeneralProcurementPolicies(PageParser):
-    '''
-    >>> parser = GeneralProcurementPolicies()
-    >>> parser.parsePage()
-    >>> len(parser.data) != 0
-    True
-    '''
-    url = 'http://www.aashe.org/resources/campus-sustainable-procurement-policies'
-    login_required = True
-
-    def parsePage(self):
-        paras = self.soup.findAll('p')[:-1]
-        policyData = {}
-        for p in paras:
-            try:
-                nodes = [el for el in p]
-                policyData['title'] = nodes[2].text
-                policyData['url'] = dict(nodes[2].attrs).get('href', '')
-                policyData['institution'] = nodes[0].text
-                policyData['notes'] = nodes[4].title()
-                self.data.append(policyData)
-                policyData = {}
-            except:
-                continue
-
 class BottledWaterBans(PageParser):
     '''
     >>> parser = BottledWaterBans()
