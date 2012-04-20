@@ -6,11 +6,11 @@
 {% for menu_item in menu.root_item.children %}
 <ul class="menu">
   <li class="expanded"><a href="{{ menu_item.url }}">{{ menu_item.caption }}</a>
-  {% if menu_item.children %}
+  {% if menu_item.has_children %}
   <ul class="menu">
   {% for child_menu_item in menu_item.children %}
-    {% if child.extension.protected %}
-    <li class="leaf"><a href="{{ child_menu_item.url }}"><span>{{ child_menu_item.caption }}</span></a><img src="http://www.aashe.org/images/lock.gif" alt="Members-only Content"/></li>
+    {% if child_menu_item.extension.protected %}
+    <li class="leaf"><a href="{{ child_menu_item.url }}"><span>{{ child_menu_item.caption }}</span></a><img src="http://www.aashe.org/sites/all/themes/aashe10/images/icon-restricted-content.png" alt="Members-only Content"/></li>
     {% else %}
     <li class="leaf"><a href="{{ child_menu_item.url }}"><span>{{ child_menu_item.caption }}</span></a></li>
     {% endif %}
@@ -25,15 +25,15 @@
 
 {% ifequal menu_type "resource-menu" %}
   {% ifequal object.menuitem.level 2 %}
-    {% if object.menuitem.children %}
+    {% if object.menuitem.has_children %}
     {% for child_menu_item in object.menuitem.children %}
-      <h2>{{ child_menu_item }}</h2>
-      {% if child_menu_item.children %}
+      {% if child_menu_item.has_children %}
+        <h2>{{ child_menu_item }}</h2>
         <ul class="menu">
         {% for child in child_menu_item.children %}
-          {% if not child.children %}
+          {% if not child.has_children %}
             {% if child.extension.protected %}
-            <li class="leaf"><a href="/{{ child.url }}"><span>{{ child.caption }}</span></a><img src="http://www.aashe.org/images/lock.gif" alt="Members-only Content"/></li>
+            <li class="leaf"><a href="/{{ child.url }}"><span>{{ child.caption }}</span></a><img src="http://www.aashe.org/sites/all/themes/aashe10/images/icon-restricted-content.png" alt="Members-only Content"/></li>
             {% else %}
             <li class="leaf"><a href="/{{ child.url }}"><span>{{ child.caption }}</span></a></li>
             {% endif %}          
@@ -42,7 +42,7 @@
             <ul class="menu">
             {% for second_child in child.children %}
               {% if second_child.extension.protected %}
-              <li class="leaf"><a href="/{{ second_child.url }}"><span>{{ second_child.caption }}</span></a><img src="http://www.aashe.org/images/lock.gif" alt="Members-only Content"/></li>
+              <li class="leaf"><a href="/{{ second_child.url }}"><span>{{ second_child.caption }}</span></a><img src="http://www.aashe.org/sites/all/themes/aashe10/images/icon-restricted-content.png" alt="Members-only Content"/></li>
               {% else %}
               <li class="leaf"><a href="/{{ second_child.url }}"><span>{{ second_child.caption }}</span></a></li>
               {% endif %}
@@ -54,15 +54,17 @@
       {% endif %}
     {% endfor %}
     {% endif %}
-  {% else %}
-    {% if object.menuitem.children %}
+    {% if object.menuitem.has_children %}
     <ul class="menu">
     {% for child_menu_item in object.menuitem.children %}
-      {% if child_menu_item.extension.protected %}
-      <li class="leaf"><a href="/{{ child_menu_item.url }}"><span>{{ child_menu_item }}</span></a><img src="http://www.aashe.org/images/lock.gif" alt="Members-only Content"/></li>
-      {% else %}
-      <li class="leaf"><a href="/{{ child_menu_item.url }}"><span>{{ child_menu_item }}</span></a></li>
-      {% endif %}    {% endfor %}
+      {% if not child_menu_item.has_children %}
+        {% if child_menu_item.extension.protected %}
+        <li class="leaf"><a href="/{{ child_menu_item.url }}"><span>{{ child_menu_item }}</span></a><img src="http://www.aashe.org/sites/all/themes/aashe10/images/icon-restricted-content.png" alt="Members-only Content"/></li>
+        {% else %}
+        <li class="leaf"><a href="/{{ child_menu_item.url }}"><span>{{ child_menu_item }}</span></a></li>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
     </ul>
     {% endif %}
   {% endifequal %}
@@ -83,7 +85,8 @@
               {% endfor %}
               </ul>
             <li>
-          {% elif object.menuitem.parent == menu_item %}
+          {% endif %}
+          {% if menu_item == object.menuitem.parent %}
                 <li class="expanded active-trail">
                 <a href="/{{ object.menuitem.parent.url }}" title="{{ object.menuitem.parent.caption }}" class="active-trail"><span>{{ object.menuitem.parent.caption }}</span></a>
                   <ul class="menu">
@@ -96,7 +99,8 @@
                   {% endfor %}
                   </ul>
                 <li>
-          {% else %}
+          {% endif %}
+          {% if menu_item != object.menuitem or object.menuitem.parent %}
             <li class="collapsed first">
             <a href="/{{ menu_item.url }}" title="{{ menu_item.caption }}"><span>{{ menu_item.caption}}</span></a>
             </li>
