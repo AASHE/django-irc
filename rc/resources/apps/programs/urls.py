@@ -45,10 +45,18 @@ urlpatterns = patterns('',
         name=url_name('surplus-property-recycling'),
         kwargs={'member_only': True}),
 
+    url(r'^resources/e-waste-programs-policies-and-events',
+        views.ElectronicWasteProgramPolicyAndEventListView.as_view(
+            model=models.Program,
+            template_name=('programs/electronic_waste_program_policy_'
+                           'and_event_list.html')),
+        name=url_name('electronic-waste'),
+        kwargs={'member_only': True}),
+
     url(r'^resources/green-cleaning',
         views.GreenCleaningProgramAndPolicyListView.as_view(
             model=models.Program,
-            template_name=('programs/green_cleaning_programs_and_policies'
+            template_name=('programs/green_cleaning_program_and_policy'
                            '_list.html')),
         name=url_name('green-cleaning'),
         kwargs={'member_only': True}),

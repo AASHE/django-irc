@@ -1,4 +1,4 @@
-from base import PageParser, SimpleTableParser
+from base import ElectronicWasteParser, PageParser, SimpleTableParser
 from rc.resources.apps.policies import models
 
 
@@ -62,9 +62,6 @@ class GreenCleaningPolicies(SimplePolicyTableParser):
     policy_type = 'Green Cleaning'
 
     def parsePage(self):
-        # parent method will get the data from the first table and
-        # stuff it into self.data
-        super(GreenCleaningPolicies, self).parsePage()
         # parse the data from the second table and stuff into self.data
         self.processTable(self.soup.findAll('table')[1])
         self.type_policies()
@@ -457,35 +454,11 @@ class GreenBuildingPolicies(PolicyPageParser):
         self.type_policies()
 
 
-class ElectronicWastePolicies(SimplePolicyTableParser):
-    '''
-    >>> parser=ElectronicWaste()
-    >>> parser.parsePage()
-    >>> len(parser.data) != 0
-    True
-    '''
-    url = 'http://www.aashe.org/resources/e-waste-programs-policies-and-events'
-    login_required = True
+class ElectronicWastePolicies(ElectronicWasteParser):
+
     policy_type = 'Electronic Waste'
 
-    def processTableData(self, row, els):
-        '''
-        row - the <tr> element
-        tags - the elements inside the <tr> element
-        '''
-        data = {}
-        data['institution'] = els[1].text
-        data['title'] = els[3].text
-        data['url'] = dict(els[3].find('a').attrs).get('href', '')
-        data['country'] = row.findPrevious('h2').text
-        return data
-
-    def parsePage(self, headings=True):
-        def header_texts(table):
-            headers = table.findAll('th')
-            return [ h.lower() for h in headers ]
-        tables = self.soup.findAll('table')
-        policies_table = [ t for t in tables
-                           if 'policies' in header_texts(t) ][0]
-        self.processTable(policies_table, headings=headings)
-        self.type_policies()
+    def parsePage(self):
+        super(ElectronicWastePolicies, self).parsePage('policies')
+        for policy in self.data:
+            policy['policy_type'] = self.policy_type

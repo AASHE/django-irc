@@ -70,7 +70,7 @@ class ResponsibleInvestmentPolicy(Policy):
         verbose_name_plural = 'socially responsible investment policies'
 
 class ElectronicWastePolicy(Policy):
-    items = models.CharField(_('items'), blank=False, max_length=128)
+    items = models.CharField(max_length=128)
 
     class Meta:
         verbose_name = 'electronic waste policy'
