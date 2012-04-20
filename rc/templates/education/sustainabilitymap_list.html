@@ -1,0 +1,21 @@
+{% extends "resourceitem_list.html" %}
+
+{% block body %}
+
+  <div id="opening_text">
+  </div>
+
+  <p>
+    <div id="resource_list" class="content clear-block">
+      <p>
+        {% for map in object_list %}
+          {{ map.organization.name }} - 
+          <a href="{{ map.url }}">{{ map.title }}</a>
+          <br/>
+        {% endfor %}
+      </p>
+    </div>
+  </p>
+
+{% endblock body %}
+

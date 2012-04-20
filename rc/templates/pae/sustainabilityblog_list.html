@@ -1,0 +1,44 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Campus Sustainability Blogs  
+{% endblock title %}  
+
+{% block body %}
+
+  <div id="opening_text">
+
+    A blog can be a great way to disseminate information about campus
+    sustainability initiatives. This resource lists campus
+    sustainability blogs by host type.
+
+  </div>
+
+  <div id="resource_list">
+
+    <p>
+      {% regroup object_list by type as list_by_type %}
+
+      <table>
+        <tbody>
+          {% for type in list_by_type %}
+            <tr>
+              <td>
+                <strong>{{ type.grouper }}</strong>
+                <ul>
+                  {% for resource in type.list %}
+                    <li>
+                      <a href="{{ resource.url }}">{{ resource.title }}</a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </p>
+  </div>
+
+{% endblock body %}
+
