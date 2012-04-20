@@ -2,7 +2,7 @@
 
 {% block title %}
   Campus Bottle Water Bans and Reduction Campaigns
-{% endblock title %}  
+{% endblock title %}
 
 {% block body %}
 
@@ -39,10 +39,6 @@
           {% endfor %}
           <table>
             <tbody>
-              <tr>
-                <th>University</th>
-                <th>Resource</th>
-              </tr>
               {% for resource in ban.list %}
                 <tr>
                   <td>{{ resource.organization.name }}</td>
@@ -62,7 +58,7 @@
         <ul>
           <li>
             <a href="http://www.syc-cjs.org/backthetap">
-               Back the Tap: Bottled Water Free Campuses</a> 
+               Back the Tap: Bottled Water Free Campuses</a>
             (Sierra Youth Coalition)
           </li>
           <li>
@@ -82,4 +78,3 @@
   </div>
 
 {% endblock body %}
-

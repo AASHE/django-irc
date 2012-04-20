@@ -1,4 +1,4 @@
-from base import PageParser, SimpleTableParser
+from base import ElectronicWasteParser, PageParser, SimpleTableParser
 
 
 BASE_URL = 'http://www.aashe.org/resources/'
@@ -62,11 +62,12 @@ class CampusCompostingPrograms(ProgramTableParser):
     '''
     url = BASE_URL + 'campus-composting-programs'
     login_required = True
+    program_type = 'Campus Composting Program'
 
     def parsePage(self):
         table = self.soup.find('table')
         super(CampusCompostingPrograms, self).processTable(
-                table, program_type='Campus Composting Program')
+                table, program_type=self.program_type)
 
 
 class GreenOfficePrograms(ProgramTableParser):
@@ -78,22 +79,12 @@ class GreenOfficePrograms(ProgramTableParser):
     '''
     url = BASE_URL + 'green-office-programs'
     login_required = True
+    program_type = 'Green Office'
 
     def parsePage(self):
         for table in self.soup.findAll('table'):
             super(GreenOfficePrograms, self).processTable(
-                table, program_type='Green Office')
-
-
-class RecyclingWasteMinimization(SimpleTableParser):
-    '''
-    >>> parser = RecyclingWasteMinimization()
-    >>> parser.parsePage()
-    >>> len(parser.data) != 0
-    True
-    '''
-    url = BASE_URL + 'campus-recycling-and-waste-minimization-websites'
-    login_required = True
+                table, program_type=self.program_type)
 
 
 class StudentSustainabilityEducatorPrograms(PageParser):
@@ -105,6 +96,7 @@ class StudentSustainabilityEducatorPrograms(PageParser):
     '''
     url = BASE_URL + 'peer-peer-sustainability-outreach-campaigns'
     login_required = True
+    program_type = 'Student Sustainability Educator'
 
     def parsePage(self):
         content_div = self.soup.find('div', {'class': 'content clear-block'})
@@ -120,6 +112,7 @@ class StudentSustainabilityEducatorPrograms(PageParser):
             resource['title'] = anchor.text
             # anything left over is a note
             resource['notes'] = paragraph.text
+            resource['program_type'] = self.program_type
             self.data.append(resource)
 
 
@@ -132,11 +125,12 @@ class SurplusPropertyRecyclingPrograms(ProgramTableParser):
     '''
     url = BASE_URL + 'campus-surplus-recycling'
     login_required = True
+    program_type = 'Surplus Property Recycling'
 
     def parsePage(self):
         for table in self.soup.findAll('table'):
             super(SurplusPropertyRecyclingPrograms, self).processTable(
-                table, program_type='Surplus Property Recycling')
+                table, program_type=self.program_type)
 
 
 class GreenCleaningPrograms(ProgramTableParser):
@@ -148,9 +142,20 @@ class GreenCleaningPrograms(ProgramTableParser):
     '''
     url = BASE_URL + 'green-cleaning'
     login_required = True
+    program_type = 'Green Cleaning'
 
     def parsePage(self):
         # Programs are listed only in the first table on this page.
         programs_table = self.soup.find('table')
         super(GreenCleaningPrograms, self).processTable(
-                table=programs_table, program_type='Green Cleaning')
+                table=programs_table, program_type=self.program_type)
+
+
+class ElectronicWastePrograms(ElectronicWasteParser):
+
+    program_type = 'Electronic Waste'
+
+    def parsePage(self):
+        super(ElectronicWastePrograms, self).parsePage('programs')
+        for program in self.data:
+            program['program_type'] = self.program_type

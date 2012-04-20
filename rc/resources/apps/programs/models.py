@@ -10,6 +10,7 @@ class Program(ResourceItem):
         verbose_name = 'general program'
         verbose_name_plural = 'general programs'
 
+
 class ProgramType(models.Model):
     type = models.CharField(_("type of program"), max_length=128)
 
@@ -20,3 +21,7 @@ class ProgramType(models.Model):
 
     def __unicode__(self):
         return self.type
+
+
+class ElectronicWasteProgram(Program):
+    items = models.CharField(max_length=128)

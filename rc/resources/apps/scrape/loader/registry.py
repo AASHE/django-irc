@@ -34,7 +34,10 @@ etl.register(parsers.BuildingEnergyDashboard, loader.BuildingDashboardLoader, 'o
 etl.register(parsers.AlternativeTransport, loader.GenericLoader, 'operations.TransportationWebsite')
 etl.register(parsers.BottledWaterBans, loader.BottleWaterBanLoader, 'operations.BottledWaterBan')
 etl.register(parsers.CarSharing, loader.CarShareLoader, 'operations.CarShare')
-etl.register(parsers.RecyclingWasteMinimization, loader.RecyclingWasteLoader, 'operations.RecyclingWebsite')
+etl.register(parsers.RecyclingWasteMinimization, loader.GenericLoader,
+             'operations.RecyclingWebsite')
+etl.register(parsers.ElectronicWasteEvents, loader.GenericLoader,
+             'operations.ElectronicWasteEvent', reset=False)
 
 # register education
 etl.register(parsers.SustainableLivingGuide,
@@ -85,6 +88,8 @@ etl.register(parsers.AntiIdlingPolicies, loader.PolicyLoader,
              'policies.Policy', reset=False)
 etl.register(parsers.CampusFairTradePolicies, loader.PolicyLoader,
              'policies.FairTradePolicy', reset=False)
+etl.register(parsers.ElectronicWastePolicies, loader.PolicyLoader,
+             'policies.ElectronicWastePolicy', reset=False)
 etl.register(parsers.EnergyConservationPolicies, loader.PolicyLoader,
              'policies.Policy', reset=False)
 etl.register(parsers.GeneralProcurementPolicies, loader.PolicyLoader,
@@ -127,6 +132,8 @@ etl.register(parsers.BicycleSharePrograms, loader.ProgramLoader,
              'programs.Program')
 etl.register(parsers.CampusCompostingPrograms, loader.ProgramLoader,
              'programs.Program')
+etl.register(parsers.ElectronicWastePrograms, loader.ProgramLoader,
+             'programs.ElectronicWasteProgram')
 etl.register(parsers.StudentSustainabilityEducatorPrograms,
              loader.ProgramLoader, 'programs.Program')
 etl.register(parsers.SurplusPropertyRecyclingPrograms, loader.ProgramLoader,

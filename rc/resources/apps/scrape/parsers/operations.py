@@ -1,13 +1,11 @@
 import calendar
-import re
-import tempfile
 
 from BeautifulSoup import BeautifulSoup, NavigableString
 import requests
 from StringIO import StringIO
 import pyPdf
 
-from base import PageParser, SimpleTableParser
+from base import ElectronicWasteParser, PageParser, SimpleTableParser
 
 def get_url_title(url):
     """Try to load url and return a tuple of its title and any
@@ -875,3 +873,19 @@ class CommuterSurvey(SimpleTableParser):
         for surveytype in headers:
             table = surveytype.nextSibling.nextSibling
             self.processTable(table, surveytype.text)
+
+class ElectronicWasteEvents(ElectronicWasteParser):
+
+    def parsePage(self):
+        super(ElectronicWasteEvents, self).parsePage('events')
+
+class RecyclingWasteMinimization(SimpleTableParser):
+    '''
+    >>> parser = RecyclingWasteMinimization()
+    >>> parser.parsePage()
+    >>> len(parser.data) != 0
+    True
+    '''
+    url = ('http://www.aashe.org/resources/'
+           'campus-recycling-and-waste-minimization-websites')
+    login_required = True

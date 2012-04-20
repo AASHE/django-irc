@@ -17,7 +17,7 @@ class CampusGreenBuilding(ResourceItem):
     cost = models.CharField(_('building cost'), max_length=25)
     certification = models.CharField(_('certification'), max_length=50)
     key_features = models.TextField(_('key features'))
-    
+
     class Meta:
         verbose_name = 'green building on campus'
         verbose_name_plural = 'green buildings on campus'
@@ -35,24 +35,24 @@ class ClimateActionPlan(ResourceItem):
 class CAPPublication(ResourceItem):
     class Meta:
         verbose_name = 'publication on campus climate action'
-        verbose_name_plural = 'publications on campus climate action'        
+        verbose_name_plural = 'publications on campus climate action'
 
 class GlobalWarmingCommitment(ResourceItem):
     commitment = models.CharField(_('commitment (ex: 20% by 2050)'), max_length=128)
     date = models.DateField(_('date of commitment'), blank=True, null=True)
-    
+
     class Meta:
         verbose_name = 'campus global warming commitment'
-        
+
 class GHGInventory(ResourceItem):
     METHODOLOGY_TYPES = (('CA', 'Clean Air-Cool Planet Campus Carbon Calculator'),
                          ('CR', 'California Climate Action Registry'),
                          ('TS', 'Torrie Smith Associates emission Greenhouse Gas Strategy Software'),
                          ('OT', 'Individually-Derived and Other Methodologies'))
-    
+
     methodology = models.CharField(_('methodology or tool'),
                                    choices=METHODOLOGY_TYPES, max_length=2)
-    
+
     class Meta:
         verbose_name = 'campus ghg inventory'
         verbose_name_plural = 'campus ghg inventories'
@@ -75,24 +75,24 @@ class BuildingDashboard(ResourceItem):
                                 verbose_name='building energy dashboard partner',
                                 help_text="Leave blank for 'individually developed'",
                                 blank=True, null=True)
-    
+
     class Meta:
         verbose_name = 'building energy dashboard'
         verbose_name_plural = 'building energy dashboards'
 
 class BuildingDashboardPartner(models.Model):
     name = models.CharField(_('partner name'), max_length=128)
-    
+
     class Meta:
         verbose_name = 'building energy dashboard partner'
         verbose_name_plural = 'building energy dashboard partners'
-        
+
 class FuelCell(ResourceItem):
-    size = models.DecimalField(_('system size (kW)'), max_digits=6, 
+    size = models.DecimalField(_('system size (kW)'), max_digits=6,
                                  decimal_places=1)
     class Meta:
         verbose_name = 'stationary fuel cell'
-        
+
 class RenewableResearchCenter(ResourceItem):
     class Meta:
         verbose_name = 'renewable energy research center'
@@ -103,23 +103,23 @@ class EnergyWebsite(ResourceItem):
 
 class EnergyPlan(ResourceItem):
     date_published = models.DateField(_('date published'), blank=True, null=True)
-    
+
     class Meta:
         verbose_name = 'campus energy plan'
-        
+
 class EnergyPolicy(ResourceItem):
     class Meta:
         verbose_name = 'campus sustainable energy policy'
         verbose_name_plural = 'campus sustainable energy policies'
-        
+
 class WindTurbine(ResourceItem):
-    size = models.DecimalField(_('system size (kW)'), max_digits=6, 
+    size = models.DecimalField(_('system size (kW)'), max_digits=6,
                                decimal_places=1,
                                blank=True, null=True)
-    
+
     class Meta:
         verbose_name = 'campus wind turbine'
-        
+
 class SustainableLandscape(ResourceItem):
     class Meta:
         verbose_name = 'sustainable landscaping'
@@ -130,10 +130,10 @@ class PurchasingLink(ResourceItem):
                   ('OT', 'Other Links'))
     type = models.CharField(_('link type'), choices=LINK_TYPES,
                             max_length=2)
-    
+
     class Meta:
         verbose_name = 'sustainable purchasing link'
-        verbose_name_plural = 'sustainable purchasing links'        
+        verbose_name_plural = 'sustainable purchasing links'
 
 class TransportationWebsite(ResourceItem):
     class Meta:
@@ -148,7 +148,7 @@ class CarBan(ResourceItem):
                  ('EX', 'Extended Car Bans'))
     type = models.CharField(_('ban type'), choices=BAN_TYPES,
                             max_length=2)
-    
+
     class Meta:
         verbose_name = 'campus car ban'
 
@@ -161,7 +161,7 @@ class CommuterSurvey(ResourceItem):
 
     class Meta:
         verbose_name = 'campus commuter survey'
-        
+
 class BiodieselFleet(ResourceItem):
     PRODUCTION_TYPE = (('CP', 'Campus-Produced Biodiesel in Campus Fleets'),
                       ('PB', 'Purchased Biodiesel in Campus Fleets'))
@@ -173,12 +173,17 @@ class BiodieselFleet(ResourceItem):
         verbose_name = 'campus biodiesel fleet'
 
 class ElectricFleet(ResourceItem):
-    number = models.IntegerField(_('number of vehicles'), blank=True, null=True)    
+    number = models.IntegerField(_('number of vehicles'), blank=True, null=True)
     source_type = models.CharField(_('source type (article, website, etc.)'),
                                    max_length=30)
-    
+
     class Meta:
         verbose_name = 'campus electric vehicle fleet'
+
+class ElectronicWasteEvent(ResourceItem):
+
+    class Meta:
+        verbose_name = 'electronic waste event'
 
 class HybridFleet(ResourceItem):
     number = models.IntegerField(_('number of vehicles'), blank=True, null=True)
@@ -189,7 +194,7 @@ class HybridFleet(ResourceItem):
 class CarShare(ResourceItem):
     partner = models.ForeignKey('CarSharePartner',
                                 verbose_name='car share partner')
-    
+
     class Meta:
         ordering = ('title',)
         verbose_name = 'car share'
@@ -205,13 +210,13 @@ class CarSharePartner(models.Model):
 
     def __unicode__(self):
         return self.name
-        
+
 class TransitPass(ResourceItem):
     PASS_TYPES = (('UP', 'Universal Bus/Transit Pass Programs'),
                   ('BD', 'Bus/Transit Pass Discount Programs'))
     type = models.CharField(_('transit pass type'), choices=PASS_TYPES,
                             max_length=2)
-    
+
     class Meta:
         verbose_name = 'universal access transit pass'
         verbose_name_plural = 'universal access transit passes'
@@ -236,4 +241,3 @@ class RecyclingWebsite(ResourceItem):
 class WaterConservationEffort(ResourceItem):
     class Meta:
         verbose_name = 'campus water conservation effort'
-        
