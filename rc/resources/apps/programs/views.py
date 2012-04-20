@@ -6,8 +6,6 @@ from rc.resources.views import ResourceItemListView, \
 
 class GreenCleaningProgramAndPolicyListView(ResourceItemListView):
 
-    resource_area_name = 'Green Cleaning Programs & Policies'
-
     def __init__(self, *args, **kwargs):
         super(GreenCleaningProgramAndPolicyListView, self).__init__(
             *args, **kwargs)
