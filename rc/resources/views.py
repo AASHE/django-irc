@@ -1,4 +1,3 @@
-from django.utils.decorators import classonlymethod
 from django.views.generic import ListView
 
 
@@ -17,7 +16,8 @@ class ResourceItemListView(ListView):
         context = super(ResourceItemListView, self).get_context_data(
             **kwargs)
 
-        context['title'] = self.model._meta.verbose_name_plural.title()
+        if not 'title' in context.keys():
+            context['title'] = self.model._meta.verbose_name_plural.title()
 
         # So we can pass values from urls.py to templates:
         if self.kwargs:
