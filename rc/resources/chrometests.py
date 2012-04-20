@@ -32,7 +32,8 @@ def get_url_strings(urls_module):
 
 class ChromeTest(unittest.TestCase):
 
-    def setUp(self):
+    def setUp(self, delay=1):
+        self.delay = delay
 	self.browser = webdriver.Chrome()
 	self.addCleanup(self.tearDown)
 
@@ -41,6 +42,9 @@ class ChromeTest(unittest.TestCase):
 
     def test_operations_urls(self):
         self.test_urls('operations')
+
+    def test_policies_urls(self):
+        self.test_urls('policies')
 
     def test_urls(self, app_name):
         app = __import__('rc.resources.apps.' + app_name, globals(), locals(),
@@ -55,15 +59,17 @@ class ChromeTest(unittest.TestCase):
 	'''
 	for url in get_url_strings(urls_module):
 	    self.browser.get('/'.join(('http:/', TEST_SERVER, url)))
-	    time.sleep(self.delay)
+            if self.delay:
+                time.sleep(self.delay)
+            else:
+                _ = raw_input('press return to continue . . . ')
 	    self.assertTrue(bool(
 		self.browser.find_elements_by_id('resource_list')))
 
     def tearDown(self):
 	self.browser.close()
 
-    def runTest(self, delay=1):
-	self.delay=delay
+    def runTest(self):
 	self.setUp()
         try:
             for test in (self.test_education_urls,
