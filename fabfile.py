@@ -55,7 +55,7 @@ def export():
     locally instead of a server-side checkout of the repository.
     '''
     export_path = '%s_%s' % (env.branch_name,
-                             env.changeset_id)    
+                             env.changeset_id)
     tarfile = '%s.tar.gz' % export_path
     local('hg archive -r %(branch)s -t tgz %(tarfile)s' %
           {'branch': env.branch_name, 'tarfile': tarfile})
@@ -72,8 +72,8 @@ def requirements():
     the project's requirements.txt file.
     '''
     with virtualenv():
-        print(green("Updating virtualenv via requirements..."))
-        run('pip install -r %s/current/requirements.txt' % env.path)
+        print("Updating virtualenv via requirements...")
+        sudo('pip install -r %s/current/requirements.txt' % env.path)
 
 def config():
     '''
@@ -83,7 +83,7 @@ def config():
         # update "current" symbolic link to new code path
         run('rm current')
         run('ln -s %s current' % env.release_path)
-    with virtualenv():        
+    with virtualenv():
         with cd(env.release_path):
             # enter new code location, activate virtualenv and collectstatic
             run('python rc/manage.py collectstatic --settings=%s --noinput' %
@@ -95,7 +95,7 @@ def loadrc():
     '''
     Clear and load RC data.
     '''
-    with virtualenv():        
+    with virtualenv():
         with cd("%s/current/rc" % env.path):
             run('python manage.py reset operations pae education policies programs --noinput --settings=%s' %
                 env.django_settings)
@@ -107,3 +107,12 @@ def restart():
     Reboot uwsgi server.
     '''
     sudo("service uwsgi restart")
+
+def syncdb():
+    '''
+    Run "manage.py syncdb".
+    '''
+    with virtualenv():
+        with cd("%s/current/rc" % env.path):
+            run('python manage.py syncdb --noinput --settings=%s' %
+                env.django_settings)
