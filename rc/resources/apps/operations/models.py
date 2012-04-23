@@ -12,9 +12,9 @@ class GreenBuildingWebsite(ResourceItem):
 class CampusGreenBuilding(ResourceItem):
     type = models.ForeignKey('GreenBuildingType', verbose_name='building type')
     facility_name = models.CharField(_('facility name'), max_length=75)
-    year = models.CharField(_('year completed'), max_length=10)
+    year = models.CharField(_('year completed'), max_length=75)
     sqft = models.CharField(_('square footage'), max_length=25)
-    cost = models.CharField(_('building cost'), max_length=25)
+    cost = models.CharField(_('building cost'), max_length=56)
     certification = models.CharField(_('certification'), max_length=50)
     key_features = models.TextField(_('key features'))
 

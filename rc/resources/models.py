@@ -16,8 +16,8 @@ class ResourceItem(models.Model):
     Abstract base-class to support commonality between all resources
     in the the resource center.
     '''
-    title = models.CharField(_('resource title'), max_length=128)
-    url = models.URLField(_('resource url'), blank=True)
+    title = models.CharField(_('resource title'), max_length=256)
+    url = models.URLField(_('resource url'), blank=True, max_length=256)
     organization = models.ForeignKey(Organization, blank=True, null=True)
     description = models.TextField(_('resource description'), blank=True)
     created_date = models.DateTimeField(auto_now_add=True, editable=False)
