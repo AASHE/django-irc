@@ -33,18 +33,34 @@
         {% for child in child_menu_item.children %}
           {% if not child.has_children %}
             {% if child.extension.protected %}
-            <li class="leaf"><a href="/{{ child.url }}"><span>{{ child.caption }}</span></a><img src="http://www.aashe.org/sites/all/themes/aashe10/images/icon-restricted-content.png" alt="Members-only Content"/></li>
+              {% if child.url %}
+              <li class="leaf"><a href="/{{ child.url }}"><span>{{ child.caption }}</span></a><img src="http://www.aashe.org/sites/all/themes/aashe10/images/icon-restricted-content.png" alt="Members-only Content"/></li>
+              {% else %}
+              <li class="leaf"><a href="{% url child.named_url %}"><span>{{ child.caption }}</span></a><img src="http://www.aashe.org/sites/all/themes/aashe10/images/icon-restricted-content.png" alt="Members-only Content"/></li>
+              {% endif %}
             {% else %}
-            <li class="leaf"><a href="/{{ child.url }}"><span>{{ child.caption }}</span></a></li>
+              {% if child.url %}
+                <li class="leaf"><a href="/{{ child.url }}"><span>{{ child.caption }}</span></a></li>
+              {% else %}
+                 <li class="leaf"><a href="{% url child.named_url %}"><span>{{ child.caption }}</span></a></li>
+              {% endif %}
             {% endif %}          
           {% else %}
             <li class="leaf"><span>{{ child }}</span></li>
             <ul class="menu">
             {% for second_child in child.children %}
               {% if second_child.extension.protected %}
-              <li class="leaf"><a href="/{{ second_child.url }}"><span>{{ second_child.caption }}</span></a><img src="http://www.aashe.org/sites/all/themes/aashe10/images/icon-restricted-content.png" alt="Members-only Content"/></li>
+                {% if second_child.url %}
+                <li class="leaf"><a href="/{{ second_child.url }}"><span>{{ second_child.caption }}</span></a><img src="http://www.aashe.org/sites/all/themes/aashe10/images/icon-restricted-content.png" alt="Members-only Content"/></li>
+                {% else %}
+                <li class="leaf"><a href="/{% url second_child.named_url %}"><span>{{ second_child.caption }}</span></a><img src="http://www.aashe.org/sites/all/themes/aashe10/images/icon-restricted-content.png" alt="Members-only Content"/></li>
+                {% endif %}
               {% else %}
-              <li class="leaf"><a href="/{{ second_child.url }}"><span>{{ second_child.caption }}</span></a></li>
+                {% if second_child.url %}
+                <li class="leaf"><a href="/{{ second_child.url }}"><span>{{ second_child.caption }}</span></a></li>
+                {% else %}
+                <li class="leaf"><a href="{% url second_child.named_url %}"><span>{{ second_child.caption }}</span></a></li>
+                {% endif %}
               {% endif %}
             {% endfor %}
             </ul>
@@ -59,9 +75,17 @@
     {% for child_menu_item in object.menuitem.children %}
       {% if not child_menu_item.has_children %}
         {% if child_menu_item.extension.protected %}
-        <li class="leaf"><a href="/{{ child_menu_item.url }}"><span>{{ child_menu_item }}</span></a><img src="http://www.aashe.org/sites/all/themes/aashe10/images/icon-restricted-content.png" alt="Members-only Content"/></li>
+          {% if child_menu_item.url %}
+          <li class="leaf"><a href="/{{ child_menu_item.url }}"><span>{{ child_menu_item }}</span></a><img src="http://www.aashe.org/sites/all/themes/aashe10/images/icon-restricted-content.png" alt="Members-only Content"/></li>
+          {% else %}
+          <li class="leaf"><a href="{% url child_menu_item.named_url %}"><span>{{ child_menu_item }}</span></a><img src="http://www.aashe.org/sites/all/themes/aashe10/images/icon-restricted-content.png" alt="Members-only Content"/></li>
+          {% endif %}
         {% else %}
-        <li class="leaf"><a href="/{{ child_menu_item.url }}"><span>{{ child_menu_item }}</span></a></li>
+          {% if child_menu_item.url %}
+          <li class="leaf"><a href="/{{ child_menu_item.url }}"><span>{{ child_menu_item }}</span></a></li>
+          {% else %}
+          <li class="leaf"><a href="{% url child_menu_item.named_url %}"><span>{{ child_menu_item }}</span></a></li>
+          {% endif %}
         {% endif %}
       {% endif %}
     {% endfor %}
@@ -71,9 +95,17 @@
     <ul class="menu">
     {% for child_menu_item in object.menuitem.children %}
       {% if child_menu_item.extension.protected %}
-      <li class="leaf"><a href="/{{ child_menu_item.url }}"><span>{{ child_menu_item }}</span></a><img src="http://www.aashe.org/sites/all/themes/aashe10/images/icon-restricted-content.png" alt="Members-only Content"/></li>
+        {% if child_menu_item.url %}
+        <li class="leaf"><a href="/{{ child_menu_item.url }}"><span>{{ child_menu_item }}</span></a><img src="http://www.aashe.org/sites/all/themes/aashe10/images/icon-restricted-content.png" alt="Members-only Content"/></li>
+        {% else %}
+        <li class="leaf"><a href="{% url child_menu_item.named_url %}"><span>{{ child_menu_item }}</span></a><img src="http://www.aashe.org/sites/all/themes/aashe10/images/icon-restricted-content.png" alt="Members-only Content"/></li>
+        {% endif %}
       {% else %}
-      <li class="leaf"><a href="/{{ child_menu_item.url }}"><span>{{ child_menu_item }}</span></a></li>
+        {% if child_menu_item.url %}
+        <li class="leaf"><a href="/{{ child_menu_item.url }}"><span>{{ child_menu_item }}</span></a></li>
+        {% else %}
+        <li class="leaf"><a href="{% url child_menu_item.named_url %}"><span>{{ child_menu_item }}</span></a></li>
+        {% endif %}
       {% endif %}
     {% endfor %}
     </ul>
