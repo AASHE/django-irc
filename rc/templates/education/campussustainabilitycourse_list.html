@@ -1,0 +1,80 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Courses on Campus Sustainability
+{% endblock title %}
+
+{% block body %}
+
+  <div id="opening_text">
+
+    <p>
+      This resource lists courses that focus on "campus
+      sustainability" or how to make the institution more sustainable.
+      Students in these courses conduct research on and implement
+      projects that advance sustainability on campus or in the local
+      community. Examples include researching green building options,
+      helping collect data for STARS, and designing a campus bike
+      share program.  Online syllabi are linked where available;
+      otherwise please contact the instructor for a copy of the
+      syllabus.  The list is alphabetical by institution.
+    </p>
+
+    <p>
+      To suggest your course be added to this list or to update your
+      entry, contact <a href="mailto:resources@aashe.org">resources@aashe.org
+      </a>. Please send courses that include a direct focus on campus
+      sustainability, not general sustainability.
+    </p>
+
+  </div>
+
+  <p>
+    <div id="resource_list" class="content clear-block">
+
+      {% regroup object_list by organization as organization_list %}
+
+      {% for organization in organization_list %}
+        <h3>{{ organization.grouper }}</h3>
+        {% for course in organization.list %}
+          <p>
+            {% if course.url %}
+              <a href="{{ course.url }}">
+            {% endif %}
+            <strong>{{ course.title }}</strong>
+            {% if course.url %}
+              </a>
+            {% endif %}
+            <br/>
+            {% for teacher in course.teachers.all %}
+              {% if teacher.email %}
+                <a href=mailto:{{ teacher.email }}>
+              {% else %}    <!-- why won't elif work here? -->
+                {% if teacher.web_page %}
+                  <a href={{ teacher.web_page }}>
+                {% endif %}
+              {% endif %}
+              <em>{{ teacher.first_name }}
+                  {{ teacher.middle_name }}
+                  {{ teacher.last_name }}
+                {% if teacher.email or teacher.web_page %}
+                  </a>
+                {% endif %}
+                {% if teacher.title %}
+                   , {{ teacher.title }}
+                {% endif %}
+              </em>
+              <br/>
+            {% endfor %}
+            {{ course.description|safe }}
+            <a href="{{ guide.url }}">{{ guide.title }}</a>
+            <br/>
+          </p>
+        {% endfor %}
+      {% endfor %}
+
+    </div>
+  </p>
+
+{% endblock body %}
+

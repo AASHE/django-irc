@@ -1,0 +1,38 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Academic Centers on Sustainability & Education
+{% endblock title %}
+
+{% block body %}
+
+  <div id="opening_text">
+
+    This resource lists academic centers on sustainability education
+    that are housed within higher education
+    institutions. Organizations working in this field that are not
+    associated with an institution of higher education are posted in
+    our list of <a href="/resources/links-about-sustainability-and-environmental-education">
+    related links</a>.
+
+  </div>
+
+
+  <div id="resource_list" class="content clear-block">
+    <p>
+      <table>
+        <tbody>
+          <th>Institution</th>
+          <th>Academic Center</th>
+          {% for center in object_list %}
+            <tr>
+              <td>{{ center.organization.name }}</td>
+              <td><a href="{{ center.url }}">{{ center.title }}</a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </p>
+  </div>
+
+{% endblock body %}

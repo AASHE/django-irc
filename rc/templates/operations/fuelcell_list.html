@@ -1,0 +1,41 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Campus Installations of Stationary Fuel Cells
+{% endblock title %}  
+
+{% block body %}
+
+  <div id="opening_text">
+  </div>
+
+  <div id="resource_list">
+    <p>
+     <table>
+       <tbody>
+         <tr>
+           <th>Institution</th>
+           <th>System Size (kW)</th>
+           <th>Source(s)</th>
+         </tr>
+         {% for resource in object_list %}
+           <tr>
+             <td>{{ resource.organization.name }}</td>
+             <td align="center">{% if resource.size %}
+                                  {{ resource.size }}
+                                {% else %}
+                                  unknown
+                                {% endif %}</td>
+             <td><a href="{{ resource.url }}">{{ resource.title }}</a>
+                 <br/>
+                 {{ resource.notes }}
+             </td>
+           </tr>
+         {% endfor %}
+       </tbody>
+     </table>
+    </p>
+  </div>
+
+{% endblock body %}
+
