@@ -5,11 +5,6 @@ from rc.resources.views import ResourceItemListView
 from rc.resources.apps.policies import models
 
 
-def url_name(surname):
-    for tag in ('policy', 'policies'):
-        surname = surname.replace('-' + tag, '')
-    return 'resources:policies:' + surname
-
 def policy_url(url_string, policy_type, page_title='',
                with_description=False, table_list=False,
                template_name=None, opening_text='', bold_org_name=True,
@@ -34,7 +29,7 @@ def policy_url(url_string, policy_type, page_title='',
                    queryset=models.Policy.objects.filter(
                        type__type=policy_type).order_by('organization__name'),
                    template_name=template_name),
-                name=url_name(slugify(policy_type)),
+                name=slugify(policy_type),
                 kwargs={'page_title': page_title,
                         'with_description': with_description,
                         'opening_text': opening_text,
@@ -60,7 +55,7 @@ def policy_by_country_by_org_name_url(url_string, policy_type,
                         type__type=policy_type).order_by(
                             'organization__country', 'organization__name'),
                     template_name=template_name),
-                name=url_name(slugify(policy_type)),
+                name=slugify(policy_type),
                 kwargs={'page_title': page_title,
                         'opening_text': opening_text,
                         'member_only': member_only })
@@ -83,7 +78,7 @@ def policy_by_category_by_org_name_url(url_string, policy_type,
                         type__type=policy_type).order_by(
                             'category', 'organization__name'),
                     template_name=template_name),
-                    name=url_name(slugify(policy_type)),
+                    name=slugify(policy_type),
                     kwargs={'page_title': page_title,
                             'member_only': member_only })
 
@@ -199,7 +194,7 @@ urlpatterns = patterns('',
             model=models.FairTradePolicy,
             queryset=models.FairTradePolicy.objects.order_by(
                     'organization__country', 'organization__name')),
-        name=url_name('fair-trade'),
+        name='fair-trade',
         kwargs={'member_only': True}),
 
     url(r'^resources/socially-responsible-investment-policies',
@@ -207,7 +202,7 @@ urlpatterns = patterns('',
             model=models.ResponsibleInvestmentPolicy,
             queryset=models.ResponsibleInvestmentPolicy.objects.order_by(
                     'investment_type', 'organization__name')),
-            name=url_name('responsible-investment'),
+            name='responsible-investment',
             kwargs={'member_only': True}),
 
     url(r'^resources/campus-building-guidelines-and-green-building-policies',
@@ -215,12 +210,9 @@ urlpatterns = patterns('',
             model=models.GreenBuildingPolicy,
             queryset=models.GreenBuildingPolicy.objects.order_by(
                     'leed_level', 'organization__name')),
-            name=url_name('green-building'),
+            name='green-building',
             kwargs={'member_only': True,
                     'type_list': [ level[0] for level in
                                    models.GreenBuildingPolicy.LEED_LEVELS ],
                     'type_dict': dict(models.GreenBuildingPolicy.LEED_LEVELS)}),
-
-
-
     )

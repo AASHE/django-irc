@@ -5,28 +5,23 @@ from rc.resources.views import ResourceItemListView
 from rc.resources.apps.education import models
 
 
-def url_name(surname):
-    return 'resources:education:' + surname
-
 def academic_centers_url_name(center_type_code):
     academic_center_types = dict(models.AcademicCenterType.CENTER_TYPES)
-    return url_name('academic-centers:' +
-                    slugify(academic_center_types[center_type_code]))
+    return 'academic-centers-' + slugify(academic_center_types[center_type_code])
 
 urlpatterns = patterns('',
     url(r'^resources/alumni-sustainability-networks$',
         ResourceItemListView.as_view(
             model=models.SustainabilityNetwork,
             queryset=models.SustainabilityNetwork.objects.all()),
-        name=url_name('sustainability-networks')),
-
+        name='sustainability-networks'),
 
     url(r'^resources/campus-and-campus-community-gardens$',
         ResourceItemListView.as_view(
             model=models.CommunityGarden,
             queryset=models.CommunityGarden.objects.order_by(
                 'organization__country', 'organization__name')),
-        name=url_name('community-gardens'),
+        name='community-gardens',
         kwargs={'member_only': True}),
 
     url(r'^resources/campus-supported-agriculture-and-farms$',
@@ -34,7 +29,7 @@ urlpatterns = patterns('',
             model=models.CampusAgriculture,
             queryset=models.CampusAgriculture.objects.order_by(
                  'organization__country', 'organization__name')),
-        name=url_name('campus-agricultures'),
+        name='campus-agricultures',
         kwargs={'member_only': True}),
 
     url(r'^resources/campus-sustainable-living-guides$',
@@ -42,7 +37,7 @@ urlpatterns = patterns('',
             model=models.LivingGuide,
             queryset=models.LivingGuide.objects.order_by(
                  'organization__country', 'organization__name')),
-        name=url_name('living-guides'),
+        name='living-guides',
         kwargs={'member_only': True}),
 
     url(r'^resources/campus-sustainability-mapstours$',
@@ -50,14 +45,14 @@ urlpatterns = patterns('',
             model=models.SustainabilityMap,
             queryset=models.SustainabilityMap.objects.order_by(
                  'organization__name')),
-            name=url_name('sustainability-maps')),
+            name='sustainability-maps'),
 
     url(r'^resources/surveys-sustainability-awareness-attitudes-and-values$',
         ResourceItemListView.as_view(
             model=models.SurveyOfAwareness,
             queryset=models.SurveyOfAwareness.objects.order_by(
                  'organization__name')),
-        name=url_name('surveys-of-awareness'),
+        name='surveys-of-awareness',
         kwargs={'member_only': True}),
 
     url(r'^resources/sustainability-course-inventories$',
@@ -65,7 +60,7 @@ urlpatterns = patterns('',
             model=models.SustainabilityCourseInventory,
             queryset=models.SustainabilityCourseInventory.objects.order_by(
                 'organization__name')),
-        name=url_name('sustainability-course-inventories'),
+        name='sustainability-course-inventories',
         kwargs={'member_only': True}),
 
     url(r'^resources/sustainability-faculty-development-workshops$',
@@ -73,7 +68,7 @@ urlpatterns = patterns('',
             model=models.FacultyWorkshop,
             queryset=models.FacultyWorkshop.objects.order_by(
                  'organization__name')),
-        name=url_name('faculty-workshops'),
+        name='faculty-workshops',
         kwargs={'member_only': True}),
 
     url(r'^resources/sustainability-research-inventories$',
@@ -81,7 +76,7 @@ urlpatterns = patterns('',
             model=models.ResearchInventory,
             queryset=models.ResearchInventory.objects.order_by(
                  'organization__name')),
-        name=url_name('research-inventories'),
+        name='research-inventories',
         kwargs={'member_only': True}),
 
     url(r'^resources/sustainability-related-syllabi-databases$',
@@ -89,7 +84,7 @@ urlpatterns = patterns('',
             model=models.SustainabilitySyllabus,
             queryset=models.SustainabilitySyllabus.objects.order_by(
                     'organization__name')),
-        name=url_name('sustainability-syllabi'),
+        name='sustainability-syllabi',
         kwargs={'title':'Sustainability-Related Syllabi Databases',
                 'member_only': True}),
 
@@ -185,6 +180,6 @@ urlpatterns = patterns('',
                     'organization__name', 'title'),
             template_name='education/academiccenters/'
                           'campussustainabilitycourse_list.html'),
-        name=url_name('campus-sustainability-courses')),
+        name='campus-sustainability-courses'),
 
     )
