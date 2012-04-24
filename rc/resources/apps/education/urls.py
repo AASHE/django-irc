@@ -7,8 +7,7 @@ from rc.resources.apps.education import models
 
 def academic_centers_url_name(center_type_code):
     academic_center_types = dict(models.AcademicCenterType.CENTER_TYPES)
-    return 'academic-centers-' + \
-        slugify(academic_center_types[center_type_code]))
+    return 'academic-centers-' + slugify(academic_center_types[center_type_code])
 
 urlpatterns = patterns('',
     url(r'^resources/alumni-sustainability-networks$',
