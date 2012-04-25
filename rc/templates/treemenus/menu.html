@@ -6,6 +6,10 @@
   {{ object|generate_breadcrumb:request }}
 {% endifequal %}
 
+{% ifequal menu_type "content-sidebar" %}
+  {{ object|generate_sidebar:request }}
+{% endifequal %}
+
 {% ifequal menu_type "index" %}
 <div class="page-resources">
 <div id="block-menu_block-7" class="menu-block-7 menu-level-1">
@@ -59,7 +63,7 @@
                 {% if second_child.url %}
                 <li class="leaf"><a href="{{ second_child.url|prepend_slash }}"><span>{{ second_child.caption }}</span></a><img src="http://www.aashe.org/sites/all/themes/aashe10/images/icon-restricted-content.png" alt="Members-only Content"/></li>
                 {% else %}
-                <li class="leaf"><a href="/{% url second_child.named_url %}"><span>{{ second_child.caption }}</span></a><img src="http://www.aashe.org/sites/all/themes/aashe10/images/icon-restricted-content.png" alt="Members-only Content"/></li>
+                <li class="leaf"><a href="{% url second_child.named_url %}"><span>{{ second_child.caption }}</span></a><img src="http://www.aashe.org/sites/all/themes/aashe10/images/icon-restricted-content.png" alt="Members-only Content"/></li>
                 {% endif %}
               {% else %}
                 {% if second_child.url %}
