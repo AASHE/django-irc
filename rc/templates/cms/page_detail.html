@@ -3,6 +3,13 @@
 {% load markup tree_menu_tags %}
 
 {% block title %}{{ object.menu_title }}{% endblock %}
+
+{% block breadcrumb %}
+
+{% show_menu "AASHE Resource Center" "breadcrumb" %}
+
+{% endblock breadcrumb %}
+
 {% block page-title %}<h1 class="page-title">{{ object.title }}</h1>{% endblock %}
 
 {% block content %}

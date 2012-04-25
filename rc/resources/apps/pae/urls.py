@@ -26,7 +26,7 @@ urlpatterns = patterns('',
             model=models.AssessmentTool,
             queryset=models.AssessmentTool.objects.order_by(
                     'provider', 'organization__name')),
-        name='assesment-tools',
+        name='assessment-tools',
         kwargs={'member_only': True,
          'type_list': dict(models.AssessmentTool.CREATORS)}),
 
