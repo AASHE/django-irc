@@ -130,23 +130,23 @@
         {% for menu_item in menu.root_item.children %}
           {% if menu_item == object.menuitem %}
             <li class="expanded active-trail">
-            <a href="{{ menu_item.url|prepend_slash }}" title="{{ menu_item.caption }}" class="active-trail"><span>{{ menu_item.caption }}</span></a>
+            <a {% if menu_item.url %}href="{{ menu_item.url|prepend_slash }}"{% else %}href="{% url menu_item.named_url %}"{% endif %} title="{{ menu_item.caption }}" class="active-trail"><span>{{ menu_item.caption }}</span></a>
               <ul class="menu">
               {% for child_menu_item in object.menuitem.children %}
-                <li class="leaf"><a href="{{ child_menu_item.url|prepend_slash }}"><span>{{ child_menu_item }}</span></a></li>
+                <li class="leaf"><a {% if child_menu_item.url %}href="{{ child_menu_item.url|prepend_slash }}"{% else %}href="{% url child_menu_item.named_url %}"{% endif %}><span>{{ child_menu_item }}</span></a></li>
               {% endfor %}
               </ul>
             <li>
           {% endif %}
           {% if menu_item == object.menuitem.parent %}
                 <li class="expanded active-trail">
-                <a href="{{ object.menuitem.parent.url|prepend_slash }}" title="{{ object.menuitem.parent.caption }}" class="active-trail"><span>{{ object.menuitem.parent.caption }}</span></a>
+                <a {% if object.menuitem.parent.url %}href="{{ object.menuitem.parent.url|prepend_slash }}"{% else %}href="{% url object.menuitem.parent.named_url %}"{% endif %} title="{{ object.menuitem.parent.caption }}" class="active-trail"><span>{{ object.menuitem.parent.caption }}</span></a>
                   <ul class="menu">
                   {% for child_menu_item in object.menuitem.parent.children %}
                     {% if child_menu_item == object.menuitem %}
-                    <li class="leaf"><a href="{{ child_menu_item.url|prepend_slash }}" class="active-trail"><span>{{ child_menu_item }}</span></a></li>
+                    <li class="leaf"><a {% if child_menu_item.url %}href="{{ child_menu_item.url|prepend_slash }}"{% else %}href="{% url child_menu_item.named_url %}"{% endif %} class="active-trail"><span>{{ child_menu_item }}</span></a></li>
                     {% else %}
-                    <li class="leaf"><a href="{{ child_menu_item.url|prepend_slash }}"><span>{{ child_menu_item }}</span></a></li>
+                    <li class="leaf"><a {% if child_menu_item.url %}href="{{ child_menu_item.url|prepend_slash }}"{% else %}href="{% url child_menu_item.named_url %}"{% endif %}><span>{{ child_menu_item }}</span></a></li>
                     {% endif %}
                   {% endfor %}
                   </ul>
@@ -154,7 +154,7 @@
           {% endif %}
           {% if menu_item != object.menuitem and menu_item != object.menuitem.parent %}
             <li class="collapsed first">
-            <a href="{{ menu_item.url|prepend_slash }}" title="{{ menu_item.caption }}"><span>{{ menu_item.caption}}</span></a>
+            <a {% if menu_item.url %}href="{{ menu_item.url|prepend_slash }}"{% else %}href="{% url menu_item.named_url %}"{% endif %} title="{{ menu_item.caption }}"><span>{{ menu_item.caption}}</span></a>
             </li>
           {% endif %}
         {% endfor %}

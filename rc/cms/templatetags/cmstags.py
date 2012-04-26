@@ -91,3 +91,8 @@ def generate_sidebar(object, request):
         return render_to_string('treemenus/sidebar_fragment.html', {'itemslist': itemslist, 'childlist': childlist, 'activeitem': activeitem})
 
 register.filter('generate_sidebar', generate_sidebar)
+
+def resource_menu(object):
+  return render_to_string('treemenus/contentmenu_fragment.html', {'itemslist': itemslist, 'depth_to_render': depth_to_render})
+
+register.filter('resource_menu', resource_menu)
