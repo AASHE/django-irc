@@ -1,0 +1,39 @@
+{% load url from future %}
+
+<div class="block block-menu_block " id="block-menu_block-4">
+  <h2 class="block-title"><none></none></h2>
+  <div class="block-content content"><div class="menu-block-4 menu-name-menu-sitemap parent-mlid-38287 menu-level-1">
+      <ul class="menu">
+        {% for item in itemslist %}
+          {% if item != childlist.0 %}
+            {% if item.url %}
+            <li class="collapsed first"><a href="/{{ item.url }}"><span>{{ item.caption }}</span></a></li>
+            {% endif %}
+            {% if item.named_url %}
+            <li class="collapsed first"><a href="{% url item.named_url %}"><span>{{ item.caption }}</span></a></li>
+            {% endif %}
+          {% endif %}
+          {% if item == childlist.0 %}
+            {% if item.url %}
+            <li class="expanded active-trail"><a href="/{{ item.url }}" class="active-trail"><span>{{ item.caption }}</span></a>
+            {% endif %}
+            {% if item.named_url %}
+            <li class="expanded active-trail"><a href="{% url item.named_url %}" class="active-trail"><span>{{ item.caption }}</span></a>
+            {% endif %}
+            <ul class='menu'>
+            {% for child in childlist %}
+              {% if child.level > 1 %}
+                {% if child.url %}
+                <li class="leaf"><a href="/{{ child.url }}" {% if child == activeitem %}class="active-trail"{% endif %}><span>{{ child.caption }}</span></a></li>
+                {% endif %}
+                {% if child.named_url %}
+                <li class="leaf"><a href="{% url child.named_url %}" {% if child == activeitem %}class="active-trail"{% endif %}><span>{{ child.caption }}</span></a></li>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+            </ul></li>
+          {% endif %}
+        {% endfor %}
+    </ul></div>
+  </div>
+</div>
