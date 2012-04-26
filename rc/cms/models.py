@@ -43,3 +43,4 @@ class Page(models.Model):
 class MenuItemExtension(models.Model):
     menu_item = models.OneToOneField (MenuItem, related_name="extension")
     protected = models.BooleanField(default=False)
+    caption = models.CharField(ugettext_lazy('caption'), max_length=150)

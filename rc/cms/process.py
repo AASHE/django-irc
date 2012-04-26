@@ -54,7 +54,7 @@ def generate_pages():
                     title = soup.find('h1', {'class': 'page-title'}).text
                     content = soup.find('div', {'class': 'content clear-block'}).find('p').prettify()
                 except:
-                    title = item.caption
+                    title = item.extension.caption
                     content = ""
                 newpage = Page(title=title, path=item.url, published=True, content=content, menuitem=item)
                 newpage.save()
