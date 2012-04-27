@@ -125,7 +125,7 @@ def loadcms():
         with cd("%s/current/rc" % env.path):
             run('python manage.py reset cms treemenus --noinput --settings=%s' %
                 env.django_settings)
-            run('python manage.py loaddata cms/fixtures/*.json --settings=%s' %
+            run('python manage.py loaddata %s/current/rc/cms/fixtures/*.json --settings=%s' %
                     env.django_settings)
             run('python manage.py loadpages --settings=%s' %
                 env.django_settings)
