@@ -164,8 +164,9 @@ class CommuterSurvey(ResourceItem):
 
 class BiodieselFleet(ResourceItem):
     PRODUCTION_TYPE = (('CP', 'Campus-Produced Biodiesel in Campus Fleets'),
-                      ('PB', 'Purchased Biodiesel in Campus Fleets'))
-    production = models.CharField(_('production category'), choices=PRODUCTION_TYPE,
+                       ('PB', 'Purchased Biodiesel in Campus Fleets'))
+    production = models.CharField(_('production category'),
+                                  choices=PRODUCTION_TYPE,
                                   max_length=2)
     type = models.CharField(_('biodiesel type (B20, B50, etc)'), max_length=30)
 

@@ -1,8 +1,8 @@
 {% extends "resourceitem_list.html" %}
 
 {% block title %}
-  {{ page_title|title }}    
-{% endblock title %}  
+  {{ page_title|title }}
+{% endblock title %}
 
 {% block body %}
 
@@ -20,18 +20,10 @@
            <th>Campus</th>
            <th>Policy</th>
          </tr>
-         {% for resource in object_list %}
-           <tr>
-            <td>{{ resource.organization.name }}</td>
-             <td><a href="{{ resource.url }}">{{ resource.title }}</a>
-             {{ resource.notes }}
-             </td>
-           </tr>
-         {% endfor %}
+         {% include "table_rows.html" with resources=object_list %}
        </tbody>
      </table>
     </p>
   </div>
 
 {% endblock body %}
-

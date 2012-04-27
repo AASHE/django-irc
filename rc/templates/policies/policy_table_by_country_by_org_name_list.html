@@ -12,9 +12,9 @@
 
   <div id="resource_list">
     <p>
-     {% regroup object_list by organization.country as country_list %}
+     {% regroup object_list by organization.country as countries %}
 
-     {% for country in country_list %}
+     {% for country in countries %}
        <h2>{{ country.grouper }}</h2>
        <table>
          <tbody>
@@ -22,14 +22,7 @@
              <th>Institution</th>
              <th>Policy</th>
            </tr>
-           {% for resource in country.list %}
-             <tr>
-               <td>{{ resource.organization.name }}</td>
-               <td><a href="{{ resource.url }}">{{ resource.title }}</a>
-               {{ resource.notes }}
-               </td>
-             </tr>
-           {% endfor %}
+          {% include "table_rows.html" with resources=country.list %}
          </tbody>
        </table>
      {% endfor %}

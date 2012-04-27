@@ -1,11 +1,14 @@
 import calendar
+from datetime import datetime
 
-from BeautifulSoup import BeautifulSoup, NavigableString
+from BeautifulSoup import BeautifulSoup, NavigableString, Tag
 import requests
 from StringIO import StringIO
 import pyPdf
 
 from base import ElectronicWasteParser, PageParser, SimpleTableParser
+
+BASE_URL = 'http://www.aashe.org/resources/'
 
 def get_url_title(url):
     """Try to load url and return a tuple of its title and any
@@ -49,7 +52,7 @@ class BottledWaterBans(PageParser):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/bottled-water-elimination-and-reduction'
+    url = BASE_URL + 'bottled-water-elimination-and-reduction'
     login_required = True
 
     def parsePage(self):
@@ -102,11 +105,12 @@ class SustainableDiningInitiatives(PageParser):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/sustainable-dining-initiatives-campus'
+    url = BASE_URL + 'sustainable-dining-initiatives-campus'
     login_required = True
 
     def parsePage(self):
-        headers = self.soup.find('div', {'class': 'content clear-block'}).findAll('h2')
+        headers = self.soup.find('div',
+                                 {'class': 'content clear-block'}).findAll('h2')
         policyData = {}
         for header in headers:
             para = header.nextSibling.nextSibling
@@ -122,7 +126,9 @@ class SustainableDiningInitiatives(PageParser):
                     linkText = el.text
                     url = dict(el.attrs).get('href', '')
                     policyData.update({'url': url, 'title': linkText})
-                elif isinstance(el, NavigableString) and '(article)' not in el.title().lower() and '**' not in el.title().lower():
+                elif (isinstance(el, NavigableString) and
+                      '(article)' not in el.title().lower() and
+                      '**' not in el.title().lower()):
                     institution = el.title().rsplit('-', 1)[0].strip()
                     policyData['institution'] = institution
 
@@ -133,11 +139,12 @@ class SustainabilityPurchasing(PageParser):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/links-related-sustainable-purchasing-campus'
+    url = BASE_URL + 'links-related-sustainable-purchasing-campus'
     login_required = True
 
     def parsePage(self):
-        headers = self.soup.find('div', {'class': 'content clear-block'}).findAll('h2')
+        headers = self.soup.find('div', {'class':
+                                         'content clear-block'}).findAll('h2')
         policyData = {}
         for header in headers:
             para = header.nextSibling.nextSibling
@@ -153,7 +160,9 @@ class SustainabilityPurchasing(PageParser):
                     linkText = el.text
                     url = dict(el.attrs).get('href', '')
                     policyData.update({'url': url, 'title': linkText})
-                elif isinstance(el, NavigableString) and '(article)' not in el.title().lower() and '**' not in el.title().lower():
+                elif (isinstance(el, NavigableString) and
+                      '(article)' not in el.title().lower() and
+                      '**' not in el.title().lower()):
                     institution = el.title().rsplit('-', 1)[0].strip()
                     policyData['institution'] = institution
 
@@ -164,86 +173,57 @@ class AlternativeTransport(PageParser):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/campus-alternative-transportation-websites'
+    url = BASE_URL + 'campus-alternative-transportation-websites'
     login_required = True
 
     def parsePage(self):
-        para = self.soup.find('div', {'class': 'content clear-block'}).findAll('p')[1]
-        nodes = [el for el in para]
-        policyData = {}
-        for el in nodes:
-            tag = getattr(el, 'name', None)
-            if tag == 'br':
-                self.data.append(policyData)
-                policyData = {}
-                continue
-            elif tag == 'a':
-                linkText = el.text
-                url = dict(el.attrs).get('href', None)
-                policyData.update({'url': url, 'title': linkText})
-            elif isinstance(el, NavigableString):
-                institution = el.title().rsplit('-', 1)[0].strip()
-                policyData['institution'] = institution
+        paragraph = self.soup.find(
+            'div', {'class': 'content clear-block'}).findAll('p')[1]
+        for anchor in paragraph.findAll('a'):
+            try:
+                institution = anchor.previousSibling.extract().strip('\n -')
+                if (anchor.nextSibling and
+                    not isinstance(anchor.nextSibling, Tag)):
+                    notes = anchor.nextSibling.extract()
+                else:
+                    notes = ''
+                anchor = anchor.extract()
+                url = anchor['href']
+                title = anchor.text
+                self.data.append({'institution': institution,
+                                  'title': title,
+                                  'url': url,
+                                  'notes': notes})
+            except Exception as e:
+                print 'exception {0} rasied for for anchor: {0}'.format(
+                    e, anchor)
 
-class UniversalAccess(PageParser):
+class UniversalAccess(SimpleTableParser):
     '''
     >>> parser = UniversalAccess()
     >>> parser.parsePage()
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/campus-universal-transit-passes'
+    url = BASE_URL + 'campus-universal-transit-passes'
     login_required = False
 
     def parsePage(self):
         tables = self.soup.findAll('table')
-        # first table is Universal Bus/Transit Pass Programs for Canada
-        policyData = {}
-        for row in tables[0].findAll('tr'):
-            tags = [el for el in row]
-            policyData['institution'] = tags[1].text
-            policyData['url'] = dict(tags[3].first().attrs).get('href', '')
-            policyData['title'] = tags[3].text
-            policyData['type'] = 'Universal Bus/Transit Pass Programs'
-            policyData['country'] = 'Canada'
-            self.data.append(policyData)
-            policyData = {}
+        for table in tables[0:2]:
+            self.processTable(table=table,
+                              pass_type='Universal Bus/Transit Pass Programs')
+        for table in tables[2:]:
+            self.processTable(table=table,
+                              pass_type='Bus/Transit Pass Discount Programs')
 
-        # second table is Universal Bus/Transit Pass Programs for USA
-        policyData = {}
-        for row in tables[1].findAll('tr'):
-            tags = [el for el in row]
-            policyData['institution'] = tags[1].text
-            policyData['url'] = dict(tags[3].first().attrs).get('href', '')
-            policyData['title'] = tags[3].text
-            policyData['type'] = 'Universal Bus/Transit Pass Programs'
-            policyData['country'] = 'United States of America'
-            self.data.append(policyData)
-            policyData = {}
-
-        # third table is Bus/Transit Pass Discount Programs for Canada
-        policyData = {}
-        for row in tables[2].findAll('tr'):
-            tags = [el for el in row]
-            policyData['institution'] = tags[1].text
-            policyData['url'] = dict(tags[3].first().attrs).get('href', '')
-            policyData['title'] = tags[3].text
-            policyData['type'] = 'Bus/Transit Pass Discount Programs'
-            policyData['country'] = 'Canada'
-            self.data.append(policyData)
-            policyData = {}
-
-        # fourth table is Bus/Transit Pass Discount Programs for USA
-        policyData = {}
-        for row in tables[3].findAll('tr'):
-            tags = [el for el in row]
-            policyData['institution'] = tags[1].text
-            policyData['url'] = dict(tags[3].first().attrs).get('href', '')
-            policyData['title'] = tags[3].text
-            policyData['type'] = 'Bus/Transit Pass Discount Programs'
-            policyData['country'] = 'United States of America'
-            self.data.append(policyData)
-            policyData = {}
+    def processTable(self, table, pass_type):
+        transit_passes = super(UniversalAccess, self).processTable(
+            table=table, headings=False, save_resources=False)
+        for transit_pass in transit_passes:
+            transit_pass['type'] = pass_type
+        self.data.extend(transit_passes)
+        return transit_passes
 
 class CarSharing(PageParser):
     '''
@@ -252,11 +232,12 @@ class CarSharing(PageParser):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/carsharing-campus'
+    url = BASE_URL + 'carsharing-campus'
     login_required = True
 
     def parsePage(self):
-        headers = self.soup.find('div', {'class': 'content clear-block'}).findAll('h2')
+        headers = self.soup.find('div', {'class':
+                                         'content clear-block'}).findAll('h2')
         policyData = {}
         for header in headers:
             para = header.nextSibling.nextSibling
@@ -272,7 +253,8 @@ class CarSharing(PageParser):
                     linkText = el.text
                     url = dict(el.attrs).get('href', '')
                     policyData.update({'url': url, 'institution': linkText})
-                elif isinstance(el, NavigableString) and '(article)' not in el.title().lower():
+                elif (isinstance(el, NavigableString) and
+                      '(article)' not in el.title().lower()):
                     institution = el.title().rsplit('-', 1)[0].strip()
                     policyData['institution'] = institution
                 # special case for single-node paras
@@ -281,31 +263,26 @@ class CarSharing(PageParser):
                     self.data.append(policyData)
                     policyData = {}
 
-class BuildingEnergyDashboard(PageParser):
+class BuildingEnergyDashboard(SimpleTableParser):
     '''
     >>> parser=BuildingEnergyDashboard()
     >>> parser.parsePage()
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/campus-building-energy-dashboards'
+    url = BASE_URL + 'campus-building-energy-dashboards'
     login_required = True
 
     def parsePage(self):
-        headers = self.soup.find('div', {'class': 'content clear-block'}).findAll('h2')
-        data = {}
-        for header in headers:
-            row_tags = header.nextSibling.nextSibling.findAll('tr')
-            for row in row_tags:
-                tags = [el for el in row]
-                data['manufacturer_type'] = header.text
-                data['institution'] = tags[1].text
-                anchor = tags[3].find('a').extract()
-                data['url'] = anchor['href']
-                data['title'] = ' '.join((anchor.text,
-                                          tags[3].text))
-                self.data.append(data)
-                data = {}
+        content_div = self.soup.find(
+            'div', {'class': 'content clear-block'})
+        for table in content_div.findAll('table'):
+            dashboards = self.processTable(table=table, headings=False,
+                                           save_resources=False)
+            manufacturer_type = table.findPrevious('h2').text
+            for dashboard in dashboards:
+                dashboard['manufacturer_type'] = manufacturer_type
+            self.data.extend(dashboards)
 
 class BicyclePlans(SimpleTableParser):
     '''
@@ -315,48 +292,37 @@ class BicyclePlans(SimpleTableParser):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/campus-bicycle-plans'
+    url = BASE_URL + 'campus-bicycle-plans'
     login_required = True
 
     def parsePage(self):
         super(BicyclePlans, self).parsePage(headings=False)
 
-class BiodieselFleet(PageParser):
+class BiodieselFleet(SimpleTableParser):
     '''
     >>> parser=BiodieselFleet()
     >>> parser.parsePage()
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/biodiesel-campus-fleets'
+    url = BASE_URL + 'biodiesel-campus-fleets'
     login_required = True
 
-    def processTable(self, table, diesel_type, country, headings=True):
-        # get all <tr> tags from the table...
-        rows = row_tags = table.findAll('tr')
-        policyData = {}
-        # loop over each <tr> row and extract the content...
-        if headings:
-            rows = row_tags[1:]
-        for row in rows:
-            # get all the <td> tags in the <tr>...
-            tags = [el for el in row]
-            policyData['institution'] = tags[1].text
-            policyData['url'] = dict(tags[5].first().attrs)['href']
-            policyData['title'] = tags[5].text
-            policyData['country'] = country
-            policyData['biodiesel_source'] = diesel_type
-            policyData['biodiesel_type'] = tags[3].text
-            self.data.append(policyData)
-            policyData = {}
+    def processTableData(self, row):
+        fleets = super(BiodieselFleet, self).processTableData(
+            row=row, anchor_cell_num=2)
+        production_type = row.findPrevious('h2').text
+        cells = row.findAll('td')
+        for fleet in fleets:
+            fleet['type'] = cells[1].text
+            fleet['production'] = production_type
+        return fleets
 
     def parsePage(self):
-        data = {}
-        countries = headers = self.soup.find('div', {'class': 'content clear-block'}).findAll('h3')
-        for country in countries:
-            header = country.findPreviousSibling('h2')
-            table = country.nextSibling.nextSibling
-            self.processTable(table, header.text, country.text, headings=False)
+        content_div = self.soup.find('div',
+                                     {'class': 'content clear-block'})
+        for table in content_div.findAll('table'):
+            self.processTable(table=table, headings=False)
 
 class ElectricVehicleFleet(PageParser):
     '''
@@ -365,7 +331,7 @@ class ElectricVehicleFleet(PageParser):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/campus-electric-vehicle-fleets'
+    url = BASE_URL + 'campus-electric-vehicle-fleets'
     login_required = True
 
     def processTable(self, table, country, headings=True):
@@ -393,42 +359,30 @@ class ElectricVehicleFleet(PageParser):
             table = country.nextSibling.nextSibling
             self.processTable(table, country.text)
 
-class HybridVehicles(PageParser):
+class HybridVehicles(SimpleTableParser):
     '''
     >>> parser=HybridVehicles()
     >>> parser.parsePage()
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/campus-hybrid-vehicle-fleets'
+    url = BASE_URL + 'campus-hybrid-vehicle-fleets'
     login_required = True
 
-    def processTable(self, table, country, headings=True):
-        # get all <tr> tags from the table...
-        rows = row_tags = table.findAll('tr')
-        policyData = {}
-        # loop over each <tr> row and extract the content...
-        if headings:
-            rows = row_tags[1:]
-        for row in rows:
-            # get all the <td> tags in the <tr>...
-            tags = [el for el in row]
-            policyData['institution'] = tags[1].text
-            fleet_count = tags[3].text
-            policyData['number'] = fleet_count
-            policyData['url'] = dict(tags[5].first().attrs)['href']
-            policyData['source'] = tags[5].text
-            policyData['title'], policyData['notes'] = get_url_title(
-                policyData['url'])
-            policyData['country'] = country
-            self.data.append(policyData)
-            policyData = {}
+    def processTableData(self, row):
+        fleets = super(HybridVehicles, self).processTableData(row=row,
+                                                              anchor_cell_num=2)
+        cells = row.findAll('td')
+        for fleet in fleets:
+            fleet['number'] = cells[1].text
+            fleet['title'], _ = get_url_title(fleet['url'])
+        return fleets
 
     def parsePage(self):
-        headers = self.soup.find('div', {'class': 'content clear-block'}).findAll('h2')
-        for country in headers:
-            table = country.nextSibling.nextSibling
-            self.processTable(table, country.text)
+        content_div = self.soup.find('div',
+                                     {'class': 'content clear-block'})
+        for table in content_div.findAll('table'):
+            self.processTable(table=table, headings=True)
 
 class CarBan(SimpleTableParser):
     '''
@@ -437,23 +391,17 @@ class CarBan(SimpleTableParser):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/campus-car-bans'
+    url = BASE_URL + 'campus-car-bans'
     login_required = True
 
     def parsePage(self):
         tables = self.soup.findAll('table')
-        data = {}
         for table in tables:
-            for row in table.findAll('tr')[1:]:
-                tags = [el for el in row]
-                data['institution'] = tags[1].text
-                anchor = tags[3].find('a').extract()
-                data['url'] = anchor['href']
-                data['title'] = anchor.text
-                data['notes'] = tags[3].text  # any text outside anchor tag
-                data['type'] = table.findPreviousSibling('h2').text
-                self.data.append(data)
-                data = {}
+            bans = self.processTable(table=table, save_resources=False)
+            ban_type = table.findPreviousSibling('h2').text
+            for ban in bans:
+                ban['type'] = ban_type
+            self.data.extend(bans)
 
 class CampusEnergyPlan(PageParser):
     '''
@@ -462,11 +410,10 @@ class CampusEnergyPlan(PageParser):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/campus-energy-plans'
+    url = BASE_URL + 'campus-energy-plans'
     login_required = True
 
     def parsePage(self):
-        from datetime import date, datetime
         table = self.soup.findAll('table')[0]
         data = {}
         for row in table.findAll('tr')[1:]:
@@ -490,7 +437,7 @@ class CampusEnergyWebsite(SimpleTableParser):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/campus-energy-websites'
+    url = BASE_URL + 'campus-energy-websites'
     login_required = True
 
 class GHGInventory(PageParser):
@@ -500,7 +447,7 @@ class GHGInventory(PageParser):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/campus-greenhouse-gas-emissions-inventories'
+    url = BASE_URL + 'campus-greenhouse-gas-emissions-inventories'
 
     def parsePage(self):
         tables = self.soup.findAll('table')
@@ -516,55 +463,42 @@ class GHGInventory(PageParser):
                 self.data.append(data)
                 data = {}
 
-class WaterConservation(PageParser):
+class WaterConservation(SimpleTableParser):
     '''
-    >>> parser=WaterConservation()
+    >>> parser = WaterConservation()
     >>> parser.parsePage()
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/campus-water-conservation-efforts'
+    url = BASE_URL + 'campus-water-conservation-efforts'
     login_required = True
 
     def parsePage(self):
-        tables = self.soup.findAll('table')
-        data = {}
-        for table in tables:
-            for row in table.findAll('tr'):
-                tags = [el for el in row]
-                data['institution'] = tags[1].text
-                anchor = tags[3].find('a').extract()
-                data['url'] = anchor['href']
-                data['title'] = anchor.text
-                # any text left (after extracting the anchor tag) is a note
-                data['notes'] = tags[3].text
-                data['country'] = table.findPreviousSibling('h2')
-                self.data.append(data)
-                data={}
+        for table in self.soup.findAll('table'):
+            self.processTable(table=table, headings=False)
 
-class WindTurbine(PageParser):
+class WindTurbine(SimpleTableParser):
     '''
     >>> parser=WindTurbine()
     >>> parser.parsePage()
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/wind-power-campus-1'
+    url = BASE_URL + 'wind-power-campus-1'
     login_required = False
 
     def parsePage(self):
-        table = self.soup.find('table')
-        data = {}
-        for row in table.findAll('tr')[1:]:
-            tags = [el for el in row]
-            data['institution'] = tags[1].text
-            data['size'] = tags[3].text
-            data['url'] = dict(tags[5].first().attrs).get('href','')
-            data['title'], data['notes'] = get_url_title(data['url'])
-            others = [anchor['href'] for anchor in tags[5].findAll('a')[1:]]
-            data['other_urls'] = ' '.join(others)
-            self.data.append(data)
-            data={}
+        for table in self.soup.findAll('table'):
+            self.processTable(table=table, headings=True)
+
+    def processTableData(self, row):
+        resources = super(WindTurbine, self).processTableData(row=row,
+                                                              anchor_cell_num=2)
+        cells = row.findAll('td')
+        for resource in resources:
+            resource['size'] = cells[1].text
+            resource['title'], _ = get_url_title(resource['url'])
+        return resources
 
 class GenericGreenBuilding(PageParser):
     para_skip = 4
@@ -637,7 +571,7 @@ class GenericGreenBuilding(PageParser):
 
 class GreenAthleticBuilding(GenericGreenBuilding):
     '''
-    >>> parser=GreenAthleticBuilding()
+    >>> parser = GreenAthleticBuilding()
     >>> paras = parser.getParas()
     >>> tags = parser.getParagraphTags(paras[0])
     >>> len(tags) > 0
@@ -649,17 +583,17 @@ class GreenAthleticBuilding(GenericGreenBuilding):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/athletic-recreation-centers-stadiums'
+    url = BASE_URL + 'athletic-recreation-centers-stadiums'
     para_skip = 4
 
 class GreenLibrary(GenericGreenBuilding):
     '''
-    >>> parser=GreenLibrary()
+    >>> parser = GreenLibrary()
     >>> parser.parsePage()
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/green-libraries-campus'
+    url = BASE_URL + 'green-libraries-campus'
     para_skip = 4
 
 class GreenStudentCenter(GenericGreenBuilding):
@@ -669,7 +603,7 @@ class GreenStudentCenter(GenericGreenBuilding):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/green-student-centers'
+    url = BASE_URL + 'green-student-centers'
     para_skip = 4
 
 class GreenResidence(GenericGreenBuilding):
@@ -679,7 +613,7 @@ class GreenResidence(GenericGreenBuilding):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/green-residence-halls'
+    url = BASE_URL + 'green-residence-halls'
     para_skip = 4
 
     def parsePage(self):
@@ -749,17 +683,17 @@ class GreenScience(GenericGreenBuilding):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/green-science-buildings'
+    url = BASE_URL + 'green-science-buildings'
     para_skip = 4
 
 class RenewableEnergyResearchCenters(SimpleTableParser):
     '''
-    >>> parser=RenewableEnergyResearchCenters()
+    >>> parser = RenewableEnergyResearchCenters()
     >>> parser.parsePage()
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/renewable-energy-research-centers'
+    url = BASE_URL + 'renewable-energy-research-centers'
     login_required = True
 
 class FuelCells(SimpleTableParser):
@@ -769,17 +703,17 @@ class FuelCells(SimpleTableParser):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/campus-installations-stationary-fuel-cells'
+    url = BASE_URL + 'campus-installations-stationary-fuel-cells'
     login_required = True
 
-    def processTableData(self, row, tags):
-        policyData = {}
-        policyData['institution'] = tags[1].text
-        policyData['url'] = dict(tags[5].first().attrs)['href']
-        policyData['title'], policyData['notes'] = get_url_title(
-            policyData['url'])
-        policyData['size'] = tags[3].text
-        return policyData
+    def processTableData(self, row):
+        fuel_cells = super(FuelCells, self).processTableData(
+            row=row, anchor_cell_num=2)
+        size = row.findAll('td')[1].text
+        for fuel_cell in fuel_cells:
+            fuel_cell['size'] = size
+            fuel_cell['title'], _ = get_url_title(fuel_cell['url'])
+        return fuel_cells
 
 class SustainableLandscaping(SimpleTableParser):
     '''
@@ -788,7 +722,7 @@ class SustainableLandscaping(SimpleTableParser):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/sustainable-landscaping-campus'
+    url = BASE_URL + 'sustainable-landscaping-campus'
     login_required = True
 
 class WebsiteCampusGreenBuilding(PageParser):
@@ -798,7 +732,7 @@ class WebsiteCampusGreenBuilding(PageParser):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/websites-campus-green-building'
+    url = BASE_URL + 'websites-campus-green-building'
     login_required = True
 
     def parsePage(self):
@@ -822,25 +756,31 @@ class GlobalWarmingCommitment(SimpleTableParser):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/campus-global-warming-commitments'
+    url = BASE_URL + 'campus-global-warming-commitments'
     login_required = True
 
-    def processTableData(self, row, tags):
-        from datetime import date, datetime
-        commitmentData = {}
-        commitmentData['institution'] = tags[1].text
-        commitmentData['url'] = dict(tags[3].first().attrs)['href']
-        commitmentData['commitment'] = tags[3].text
-        date_string = tags[-2:-1][0].text
+    def processTableData(self, row):
+        commitments = super(GlobalWarmingCommitment, self).processTableData(row)
+        cells = row.findAll('td')
+        date_string = cells[-1].text
         try:
             month = date_string.split()[0]
             year = date_string.split()[-1]
             month_num = list(calendar.month_abbr).index(month[0:3])
-            commitmentData['date'] = datetime(month=month_num, year=int(year),
-                                              day=1)
+            commitment_date = datetime(month=month_num, year=int(year),
+                                       day=1)
         except:
-            commitmentData['notes'] = 'unparsed commitment date: ' + date_string
-        return commitmentData
+            commitment_date = None
+        for commitment in commitments:
+            # GlobalWarmingCommitments have a commitment field where
+            # other resource items have a title.
+            commitment['commitment'] = commitment.pop('title')
+            if commitment_date:
+                commitment['date'] = commitment_date
+            else:
+                commitment['notes'] = ('unparsed commitment date: ' +
+                                       date_string)
+        return commitments
 
 class CommuterSurvey(SimpleTableParser):
     '''
@@ -849,27 +789,19 @@ class CommuterSurvey(SimpleTableParser):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/campus-commuter-surveys'
+    url = BASE_URL + 'campus-commuter-surveys'
     login_required = True
 
-    def processTable(self, table, surveytype, headings=True):
-        # get all <tr> tags from the table...
-        rows = row_tags = table.findAll('tr')
-        policyData = {}
-        # loop over each <tr> row and extract the content...
-        if headings:
-            rows = row_tags[1:]
-        for row in rows:
-            # get all the <td> tags in the <tr>...
-            tags = [el for el in row]
-            policyData['institution'] = tags[1].text
-            policyData['url'] = dict(tags[3].first().attrs).get('href', '')
-            policyData['type'] = surveytype
-            self.data.append(policyData)
-            policyData = {}
+    def processTable(self, table, surveytype):
+        surveys = super(CommuterSurvey, self).processTable(
+            table=table, save_resources=False)
+        for survey in surveys:
+            survey['type'] = surveytype
+        self.data.extend(surveys)
 
     def parsePage(self):
-        headers = self.soup.find('div', {'class': 'content clear-block'}).findAll('h2')
+        headers = self.soup.find('div',
+                                 {'class': 'content clear-block'}).findAll('h2')
         for surveytype in headers:
             table = surveytype.nextSibling.nextSibling
             self.processTable(table, surveytype.text)
@@ -886,6 +818,5 @@ class RecyclingWasteMinimization(SimpleTableParser):
     >>> len(parser.data) != 0
     True
     '''
-    url = ('http://www.aashe.org/resources/'
-           'campus-recycling-and-waste-minimization-websites')
+    url = BASE_URL + 'campus-recycling-and-waste-minimization-websites'
     login_required = True

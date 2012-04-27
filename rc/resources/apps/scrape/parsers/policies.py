@@ -1,6 +1,8 @@
 from base import ElectronicWasteParser, PageParser, SimpleTableParser
 from rc.resources.apps.policies import models
 
+BASE_URL = 'http://www.aashe.org/resources/'
+
 
 class SimplePolicyTableParser(SimpleTableParser):
     '''Pushes a policy type into a SimpleTableParser's data dictionary.'''
@@ -33,7 +35,7 @@ class IntegratedPestPolicies(SimplePolicyTableParser):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/integrated-pest-management-policies'
+    url = BASE_URL + 'integrated-pest-management-policies'
     login_required = True
     policy_type = 'Integrated Pest Management'
 
@@ -45,7 +47,7 @@ class LicenseeCodeConductPolicies(SimplePolicyTableParser):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/trademark-licensee-code-conduct'
+    url = BASE_URL + 'trademark-licensee-code-conduct'
     login_required = True
     policy_type = 'Licensee Code of Conduct'
 
@@ -57,12 +59,12 @@ class GreenCleaningPolicies(SimplePolicyTableParser):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/green-cleaning'
+    url = BASE_URL + 'green-cleaning'
     login_required = True
     policy_type = 'Green Cleaning'
 
     def parsePage(self):
-        # parse the data from the second table and stuff into self.data
+        # Only the 2nd table has policy info.
         self.processTable(self.soup.findAll('table')[1])
         self.type_policies()
 
@@ -74,7 +76,7 @@ class RecyclingPolicies(SimplePolicyTableParser):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/campus-recycling-and-waste-minimization-policies'
+    url = BASE_URL + 'campus-recycling-and-waste-minimization-policies'
     login_required = True
     policy_type = 'Recycling'
 
@@ -88,8 +90,7 @@ class ApplianceProcurementPolicies(PolicyPageParser):
     >>> parser.data[0]['description'] != ''
     True
     '''
-    url = ('http://www.aashe.org/resources/'
-           'energy-efficient-appliance-procurement-policies')
+    url = BASE_URL + 'energy-efficient-appliance-procurement-policies'
     login_required = True
     policy_type = 'Appliance Procurement'
 
@@ -120,8 +121,7 @@ class GeneralProcurementPolicies(PolicyPageParser):
     >>> parser.data[0]['description'] != ''
     True
     '''
-    url = ('http://www.aashe.org/resources/'
-           'campus-sustainable-procurement-policies')
+    url = BASE_URL + 'campus-sustainable-procurement-policies'
     login_required = True
     policy_type = 'General Procurement'
 
@@ -151,7 +151,7 @@ class LivingWagePolicies(PolicyPageParser):
     >>> parser.data[0]['description'] != ''
     True
     '''
-    url = 'http://www.aashe.org/resources/campus-living-wage-policies'
+    url = BASE_URL + 'campus-living-wage-policies'
     login_required = True
     policy_type = 'Living Wage'
 
@@ -182,7 +182,7 @@ class AntiIdlingPolicies(PolicyPageParser):
     >>> parser.data[0]['description'] != ''
     True
     '''
-    url = 'http://www.aashe.org/resources/campus-anti-idling-policies'
+    url = BASE_URL + 'campus-anti-idling-policies'
     login_required = True
     policy_type = 'Anti-Idling'
 
@@ -213,7 +213,7 @@ class PaperProcurementPolicies(PolicyPageParser):
     >>> parser.data[0]['description'] != ''
     True
     '''
-    url = 'http://www.aashe.org/resources/paper-procurement-policies'
+    url = BASE_URL + 'paper-procurement-policies'
     login_required = True
     policy_type = 'Paper Procurement'
 
@@ -241,30 +241,15 @@ class StormwaterPolicies(SimplePolicyTableParser):
     >>> parser.parsePage()
     >>> len(parser.data) != 0
     True
-    >>> parser.data[0]['country'] in ('United States', 'Australia')
-    True
+    >>> parser.data[0]['country'] in ('United States', 'Australia')    True
     '''
-    url = 'http://www.aashe.org/resources/campus-stormwater-policies-plans'
+    url = BASE_URL + 'campus-stormwater-policies-plans'
     login_required = True
     policy_type = 'Stormwater'
 
-    def processTableData(self, row, els):
-        '''
-        row - the <tr> element
-        tags - the elements inside the <tr> element
-        '''
-        data = {}
-        data['institution'] = els[1].text
-        data['title'] = els[3].text
-        data['url'] = dict(els[3].find('a').attrs).get('href', '')
-        data['country'] = row.findPrevious('h2').text
-        return data
-
     def parsePage(self, headings=True):
-        # data is in the first <table> on the page
-        self.processTable(self.soup.findAll('table')[0], headings=headings)
-        # data is in the second <table> on the page
-        self.processTable(self.soup.findAll('table')[1], headings=headings)
+        for table in self.soup.findAll('table')[0:2]:
+            self.processTable(table, headings=headings)
         self.type_policies()
 
 
@@ -274,29 +259,23 @@ class ResponsibleInvestmentPolicies(SimplePolicyTableParser):
     >>> parser.parsePage()
     >>> len(parser.data) != 0
     True
-    >>> parser.data[0]['type'] in ('Independent Policies on Responsible Investment',
-     'Overall Investment Policies that Include Sustainability Considerations', 'Policies and Special Funds Managed by Students')
-    True
     '''
-    url = 'http://www.aashe.org/resources/socially-responsible-investment-policies'
+    url = BASE_URL + 'socially-responsible-investment-policies'
     login_required = True
     policy_type = 'Responsible Investment'
 
-    def processTableData(self, row, els):
-        '''
-        row - the <tr> element
-        tags - the elements inside the <tr> element
-        '''
-        data = {}
-        data['institution'] = els[1].text
-        data['title'] = els[3].text
-        data['url'] = dict(els[3].find('a').attrs).get('href', '')
-        data['investment_type'] = row.findPrevious('h2').text
-        return data
+    def processTable(self, table, headings, investment_type):
+        policies = super(ResponsibleInvestmentPolicies, self).processTable(
+            table=table, headings=headings, save_resources=False)
+        for policy in policies:
+            policy['investment_type'] = investment_type
+        self.data.extend(policies)
 
-    def parsePage(self, headings=True):
+    def parsePage(self):
         for table in self.soup.findAll('table'):
-            self.processTable(table, headings=headings)
+            investment_type = table.findPrevious('h2').text
+            self.processTable(table=table, headings=True,
+                              investment_type=investment_type)
         self.type_policies()
 
 
@@ -307,7 +286,7 @@ class EnergyConservationPolicies(PolicyPageParser):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/energy-conservation-policies'
+    url = BASE_URL + 'energy-conservation-policies'
     login_required = True
     policy_type = 'Energy Conservation'
 
@@ -332,7 +311,7 @@ class GeneralSustainabilityPolicies(PolicyPageParser):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/campus-sustainability-and-environmental-policies'
+    url = BASE_URL + 'campus-sustainability-and-environmental-policies'
     login_required = True
     policy_type = 'Sustainability'
 
@@ -358,15 +337,17 @@ class CampusFairTradePolicies(SimplePolicyTableParser):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/campus-fair-trade-practices-policies'
+    url = BASE_URL + 'campus-fair-trade-practices-policies'
     login_required = True
     policy_type = 'Campus Fair Trade'
 
-    def processTableData(self, row, els):
-        policyData = super(CampusFairTradePolicies,
-                           self).processTableData(row, els)
-        policyData['product_types'] = els[5].text
-        return policyData
+    def processTableData(self, row):
+        policies = super(CampusFairTradePolicies, self).processTableData(row)
+        cells = row.findAll('td')
+        product_types = cells[-1].text
+        for policy in policies:
+            policy['product_types'] = product_types
+        return policies
 
     def parsePage(self, headings=True):
         for table in self.soup.findAll('table'):
@@ -381,7 +362,7 @@ class TelecommutingPolicies(PolicyPageParser):
     >>> len(parser.data) != 0
     TRUE
     '''
-    url = 'http://www.aashe.org/resources/telecommuting-alternative-work'
+    url = BASE_URL + 'telecommuting-alternative-work'
     login_required = True
     policy_type = 'Telecommuting'
 
@@ -402,37 +383,28 @@ class TelecommutingPolicies(PolicyPageParser):
         self.type_policies()
 
 
-class WaterConservationPolicies(PolicyPageParser):
+class WaterConservationPolicies(SimplePolicyTableParser):
     '''
     >>> parser = WaterConservationPolicy()
     >>> parser.parsePage()
     >>> len(parser.data) != 0
     TRUE
     '''
-    url = 'http://www.aashe.org/resources/water-conservation-policies'
+    url = BASE_URL + 'water-conservation-policies'
     login_required = True
     policy_type = 'Water Conservation'
 
     def parsePage(self):
-        headers = self.soup.find('div',
-                                 {'class': 'content clear-block'}).findAll('h2')
-        data = {}
-        for header in headers:
-            row_tags = header.nextSibling.nextSibling.findAll('tr')[1:]
-            for row in row_tags:
-                tags = [el for el in row]
-                data['country'] = header.text
-                data['institution'] = tags[1].text
-                data['url'] = dict(tags[3].find('a').attrs).get('href', '')
-                data['title'] = tags[3].text
-                self.data.append(data)
-                data = {}
+        content_div = self.soup.find('div',
+                                     {'class': 'content clear-block'})
+        tables = content_div.findAll('table')
+        for table in tables:
+            self.processTable(table, headings=True)
         self.type_policies()
 
 
 class GreenBuildingPolicies(PolicyPageParser):
-    url = ('http://www.aashe.org/resources/'
-           'campus-building-guidelines-and-green-building-policies')
+    url = BASE_URL + 'campus-building-guidelines-and-green-building-policies'
     login_required = True
     policy_type = 'Green Building'
 

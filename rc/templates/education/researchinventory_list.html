@@ -25,16 +25,10 @@
             <th>Institution</th>
             <th>Research Inventory</th>
           </tr>
-          {% for inventory in object_list %}
-            <tr>
-              <td>{{ inventory.organization.name }}</td>
-              <td><a href="{{ inventory.url }}">{{ inventory.title }}</a></td>
-            </tr>
-          {% endfor %}
+          {% include "table_rows.html" with resources=object_list %}
         </tbody>
       </table>
     </p>
   </div>
 
 {% endblock body %}
-

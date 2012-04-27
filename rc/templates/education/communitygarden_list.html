@@ -25,14 +25,7 @@
               <th>University</th>
               <th>Resource</th>
             </tr>
-            {% for resource in country.list %}
-              <tr>
-                <td>{{ resource.organization.name }}</td>
-                <td><a href="{{ resource.url }}">{{ resource.title }}</a>
-                {{ resource.notes }}
-                </td>
-              </tr>
-            {% endfor %}
+            {% include "table_rows.html" with resources=country.list %}
           </tbody>
         </table>
       {% endfor %}
@@ -40,4 +33,3 @@
   </div>
 
 {% endblock body %}
-

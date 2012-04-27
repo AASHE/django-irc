@@ -1,8 +1,9 @@
+import string
 import urllib, urllib2
+
 from BeautifulSoup import BeautifulSoup
-
-
 from django.conf import settings
+
 username = settings.AASHE_ACCOUNT_USERNAME
 password = settings.AASHE_ACCOUNT_PASSWORD
 
@@ -40,38 +41,58 @@ class PageParser(object):
 
 class SimpleTableParser(PageParser):
 
-    def processTable(self, table, headings=True):
+    def processTable(self, table, headings=True, save_resources=True):
+        '''If save_resource is True, the resources parsed get popped into
+           self.data.  If not, they don't.
+        '''
         # get all <tr> tags from the table...
         rows = row_tags = table.findAll('tr')
-        policyData = {}
         # loop over each <tr> row and extract the content...
         if headings:
             rows = row_tags[1:]
+        table_resources = []
         for row in rows:
-            # get all the <td> tags in the <tr>...
-            tags = [el for el in row]
-            policyData = self.processTableData(row, tags)
-            if policyData:  # if row is empty, policyData is None
-                self.data.append(policyData)
-            policyData = {}
+            resource_items = self.processTableData(row)
+            if resource_items:  # if row is empty, resource_items is, too
+                table_resources.extend(resource_items)
+        if save_resources:
+            self.data.extend(table_resources)
+        return table_resources
 
-    def processTableData(self, row, els):
+    def processTableData(self, row, institution_cell_num=0, anchor_cell_num=1):
         '''
         Overload this method in sub-classes to customize the table
         extraction process.
 
         row - the <tr> element
-        els - the elements inside the <tr> element, not technically
-               "tags", because this is including text node elements, etc.
+        institution_cell_num - index of cell that contains institution name
+        anchor_cell_num - index of cell that contains resource url(s)
         '''
-        policyData = {}
-        policyData['institution'] = els[1].text
-        anchor = els[3].find('a').extract()
-        policyData['url'] = anchor['href']
-        policyData['title'] = anchor.text
-        if els[3].text:
-            policyData['notes'] = els[3].text
-        return policyData
+        cells = row.findAll('td')
+        institution = cells[institution_cell_num].text
+        # Multiple resource items for the same organization can be included
+        # in the same table row.  Multiple anchors in a table cell indicate
+        # this.  So we scrape these resources individually.
+        resource_items = list()
+        while True:
+            try:
+                anchor = cells[anchor_cell_num].find('a').extract()
+            except AttributeError:
+                break
+            else:
+                resource_item = {}
+                resource_item['institution'] = institution
+                resource_item['url'] = anchor['href']
+                resource_item['title'] = anchor.text
+                resource_items.append(resource_item)
+        # Anything left (except a bunch of punctuation marks, or just
+        # ('and') after extracting the link(s) text goes into the notes
+        # field (of the last resource_item).
+        if (cells[anchor_cell_num].text.strip(string.punctuation) and
+            cells[anchor_cell_num].text.strip(string.punctuation).strip() !=
+            'and'):
+            resource_items[-1]['notes'] = cells[anchor_cell_num].text
+        return resource_items
 
     def parsePage(self, headings=True):
         # data is in the first <table> on the page
@@ -92,28 +113,14 @@ class ElectronicWasteParser(SimpleTableParser):
     url = 'http://www.aashe.org/resources/e-waste-programs-policies-and-events'
     login_required = True
 
-    def processTableData(self, row, els):
+    def processTableData(self, row):
         '''
         row - the <tr> element
-        els - the elements of row
         '''
-        # sometimes an empty row is inserted into a table.  it doesn't
-        # show to the viewer, on the page, but it screws this up.
-        if not row.text:
-            return
-        cells = row.findAll('td')
-        data = {}
-        data['institution'] = cells[0].text
-        anchor = cells[1].find('a').extract()
-        data['url'] = anchor['href']
-        data['title'] = anchor.text
-        # notes are in the third column, or tucked into the second column,
-        # after the anchor:
-        try:
-            data['notes'] = cells[2].text
-        except IndexError:
-            data['notes'] = cells[1].text
-        return data
+        resources = super(ElectronicWasteParser, self).processTableData(row)
+        if resources and len(row.findAll('td')) > 2:
+            resources[-1]['items'] = row.findAll('td')[2].text
+        return resources
 
     def parsePage(self, resource_name=None):
         def header_texts(table):

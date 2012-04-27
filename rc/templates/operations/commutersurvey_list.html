@@ -2,7 +2,7 @@
 
 {% block title %}
   Campus Commuter Surveys
-{% endblock title %}  
+{% endblock title %}
 
 {% block body %}
 
@@ -25,9 +25,9 @@
 
       {% for survey in type_list %}
         {% comment %}
-          Surveys of type 'RG' (Rules and Guidelines for 
+          Surveys of type 'RG' (Rules and Guidelines for
           Gathering Information) come after all the other types.
-        {% endcomment %}          
+        {% endcomment %}
         {% if survey.grouper != 'RG' %}
           {% for key, value in survey_types.items %}
             {% if key == survey.grouper %}
@@ -38,15 +38,9 @@
             <tbody>
               <tr>
                 <th>Institution</th>
+                <th>Source</th>
               </tr>
-              {% for resource in survey.list %}
-                <tr>
-                  <td><a href="{{ resource.url }}">
-                        {{ resource.organization.name }}</a>
-                      {{ resource.notes }}
-                  </td>
-                </tr>
-              {% endfor %}
+              {% include "table_rows.html" with resources=survey.list %}
             </tbody>
           </table>
         {% endif %}
@@ -54,7 +48,7 @@
 
       {% comment %}
         Now tack on the Rules and Guidelines for Gathering Information:
-      {% endcomment %}          
+      {% endcomment %}
       {% for survey in type_list %}
         {% if survey.grouper == 'RG' %}
           {% for key, value in survey_types.items %}
@@ -66,15 +60,9 @@
             <tbody>
               <tr>
                 <th>Institution</th>
+                <th>Source</th>
               </tr>
-              {% for resource in survey.list %}
-                <tr>
-                  <td><a href="{{ resource.url }}">
-                        {{ resource.organization.name }}</a>
-                      {{ resource.notes }}
-                  </td>
-                </tr>
-              {% endfor %}
+              {% include "table_rows.html" with resources=survey.list %}
             </tbody>
           </table>
         {% endif %}
@@ -83,4 +71,3 @@
   </div>
 
 {% endblock body %}
-

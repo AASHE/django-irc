@@ -10,26 +10,11 @@ class ProgramTableParser(SimpleTableParser):
     login_required = False
 
     def processTable(self, table, program_type, headings=True):
-        '''
-        Same as SimpleTableParser.processTable(), except this passes
-        program_type to self.processTableData().
-        '''
-        rows = table.findAll('tr')
-        if headings:
-            rows = rows[1:]
-        for row in rows:
-            policyData = {}
-            policyData = self.processTableData(row, program_type)
-            self.data.append(policyData)
-
-    def processTableData(self, row, program_type):
-        '''
-        Tacks program_type on to each proto-Program that's parsed.
-        '''
-        els = [ el for el in row ]
-        policyData = super(ProgramTableParser, self).processTableData(row, els)
-        policyData['program_type'] = program_type
-        return policyData
+        programs = super(ProgramTableParser, self).processTable(
+            table=table, headings=headings, save_resources=False)
+        for program in programs:
+            program['program_type'] = program_type
+        self.data.extend(programs)
 
 
 class BicycleSharePrograms(ProgramTableParser):

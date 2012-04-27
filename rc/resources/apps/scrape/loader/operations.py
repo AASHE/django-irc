@@ -35,8 +35,9 @@ class BuildingDashboardLoader(GenericLoader):
 class BiodieselFleetLoader(GenericLoader):
     def create_instance(self, data):
         from rc.resources.apps.operations.models import BiodieselFleet
-        production_types = dict([(value, key) for key, value in BiodieselFleet.PRODUCTION_TYPE])
-        production_type = production_types.get(data['biodiesel_source'], '')
+        production_types = dict([(value, key) for key, value
+                                 in BiodieselFleet.PRODUCTION_TYPE])
+        production_type = production_types.get(data['production'], '')
         data['production'] = production_type
         super(BiodieselFleetLoader, self).create_instance(data)
 
@@ -67,7 +68,8 @@ class WindTurbineLoader(GenericLoader):
 class TransitPassLoader(GenericLoader):
     def create_instance(self, data):
         from rc.resources.apps.operations.models import TransitPass
-        pass_types = dict([(value, key) for key, value in TransitPass.PASS_TYPES])
+        pass_types = dict([(value, key) for key, value
+                           in TransitPass.PASS_TYPES])
         pass_type = pass_types.get(data['type'], '')
         data['type'] = pass_type
         super(TransitPassLoader, self).create_instance(data)

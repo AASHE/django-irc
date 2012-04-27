@@ -2,7 +2,7 @@
 
 {% block title %}
   Campus Installations of Stationary Fuel Cells
-{% endblock title %}  
+{% endblock title %}
 
 {% block body %}
 
@@ -18,24 +18,26 @@
            <th>System Size (kW)</th>
            <th>Source(s)</th>
          </tr>
-         {% for resource in object_list %}
+         {% regroup object_list by organization.name as org_list %}
+         {% for org in org_list %}
            <tr>
-             <td>{{ resource.organization.name }}</td>
-             <td align="center">{% if resource.size %}
-                                  {{ resource.size }}
-                                {% else %}
-                                  unknown
-                                {% endif %}</td>
-             <td><a href="{{ resource.url }}">{{ resource.title }}</a>
-                 <br/>
-                 {{ resource.notes }}
-             </td>
+             <td>{{ org.grouper }}</td>
+             {% if org.grouper %}
+               {% for resource in org.list %}
+                 {% if forloop.last %}
+                   <td align="center">
+                     {% firstof resource.size 'unknown' %}</td>
+                 {% endif %}
+               {% endfor %}
+             {% else %}
+               <td/>
+             {% endif %}
+             {% include "links_table_cell.html" with resources=org.list %}
            </tr>
-         {% endfor %}
+           {% endfor %}
        </tbody>
      </table>
     </p>
   </div>
 
 {% endblock body %}
-

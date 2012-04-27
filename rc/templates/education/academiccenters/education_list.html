@@ -22,14 +22,11 @@
     <p>
       <table>
         <tbody>
-          <th>Institution</th>
-          <th>Academic Center</th>
-          {% for center in object_list %}
-            <tr>
-              <td>{{ center.organization.name }}</td>
-              <td><a href="{{ center.url }}">{{ center.title }}</a></td>
-            </tr>
-          {% endfor %}
+          <tr>
+            <th>Institution</th>
+            <th>Academic Center</th>
+          </tr>
+          {% include "table_rows.html" with resources=object_list %}
         </tbody>
       </table>
     </p>

@@ -2,7 +2,7 @@
 
 {% block title %}
   Academic Centers on Sustainability & Architechture, Design
-{% endblock title %}  
+{% endblock title %}
 
 {% block body %}
 
@@ -14,18 +14,14 @@
     <p>
       <table>
         <tbody>
-          <th>Institution</th>
-          <th>Sustainable Design Center</th>
-          {% for center in object_list %}
-            <tr>
-              <td>{{ center.organization.name }}</td>
-              <td><a href="{{ center.url }}">{{ center.title }}</a></td>
-            </tr>
-          {% endfor %}
+          <tr>
+            <th>Institution</th>
+            <th>Sustainable Design Center</th>
+          </tr>
+          {% include "table_rows.html" with resources=object_list %}
         </tbody>
       </table>
     </p>
   </div>
 
 {% endblock body %}
-

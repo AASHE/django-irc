@@ -24,12 +24,7 @@
               <th>Institution</th>
               <th>Survey</th>
             </tr>
-            {% for survey in object_list %}
-              <tr>
-                <td>{{ survey.organization.name }}</td>
-                <td><a href="{{ survey.url }}">{{ survey.title }}</a></td>
-              </tr>
-            {% endfor %}
+            {% include "table_rows.html" with resources=object_list %}
           </tbody>
         </table>
       </p>
@@ -37,4 +32,3 @@
   </p>
 
 {% endblock body %}
-

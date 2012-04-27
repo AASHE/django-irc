@@ -17,7 +17,8 @@ def green_building_url(url_string, building_type, image_url=None,
                            type__type=building_type).order_by(
                                'type', 'certification', 'organization__name'),
                    template_name='operations/campusgreenbuilding_list.html'),
-               name='green-buildings:' + slugify(building_type).replace('green-', ''),
+               name=('green-buildings:' +
+                     slugify(building_type).replace('green-', '')),
                kwargs={'member_only': True,
                        'cert_order': ('LEED Platinum', 'LEED Gold',
                                       'LEED Silver', 'LEED Certified',

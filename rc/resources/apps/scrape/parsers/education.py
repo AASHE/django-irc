@@ -2,7 +2,7 @@
 import copy
 import urllib
 
-from BeautifulSoup import BeautifulSoup, NavigableString, Tag
+from BeautifulSoup import NavigableString, Tag
 
 from base import PageParser, SimpleTableParser
 
@@ -17,35 +17,10 @@ class CampusAgriculture(SimpleTableParser):
     url = 'http://www.aashe.org/resources/campus-supported-agriculture-and-farms'
     login_required = True
 
-    def process_table(self, table, country):
-        # get all <tr> tags from the table...
-        row_tags = table.findAll('tr')
-        policyData = {}
-        # loop over each <tr> row and extract the content...
-        for row in row_tags[1:]:
-            # get all the <td> tags in the <tr>...
-            tags = [el for el in row]
-            policyData['institution'] = tags[1].text
-            last_cell = row.findAll('td')[-1]
-            link = last_cell.findNext('a').extract()
-            policyData['url'] = link['href']
-            policyData['title'] = link.text
-            # sometimes there's a little text after the link:
-            left_over_text = str(last_cell).strip('<td>').strip('</')
-            if left_over_text:
-                policyData['notes'] = 'text after link: ' + left_over_text
-            policyData['country'] = country
-            self.data.append(policyData)
-            policyData = {}        
+    def parsePage(self, headings=True):
+        for table in self.soup.findAll('table'):
+            self.processTable(table=table, headings=headings)
 
-    def parsePage(self, debug=False):
-        if debug:
-            import pdb; pdb.set_trace()
-        # first table on page is Canada, second is USA
-        canada_table = self.soup.findAll('table')[0]
-        us_table = self.soup.findAll('table')[1]
-        self.process_table(canada_table, 'Canada')
-        self.process_table(us_table, 'United States of America')
 
 class SustainableLivingGuide(PageParser):
     '''
@@ -57,76 +32,30 @@ class SustainableLivingGuide(PageParser):
     url = 'http://www.aashe.org/resources/campus-sustainable-living-guides'
     login_required = True
 
-    def parsePara(self, para):
-        policyData = {}
-        for el in para:
-            tag = getattr(el, 'name', None)
-            if tag == 'br':
-                self.data.append(policyData)
-                policyData = {}
-                continue
-            elif tag == 'a':
-                linkText = el.text
-                url = dict(el.attrs).get('href', None)
-                policyData.update({'url': url, 'title': linkText})
-            elif isinstance(el, NavigableString):
-                if 'institution' not in policyData.keys():
-                    institution = el.title().rsplit('-', 1)[0].strip()
-                    policyData['institution'] = institution
+    def parseParagraph(self, paragraph):
+        for anchor in paragraph.findAll('a'):
+            try:
+                institution = anchor.previousSibling.extract().strip('\n -')
+                if (anchor.nextSibling and
+                    not isinstance(anchor.nextSibling, Tag)):
+                    notes = anchor.nextSibling.extract()
                 else:
-                    policyData['notes'] = 'text after link: ' + el.strip()
-    
-    def parsePage(self, debug=False):
-        if debug:
-            import pdb; pdb.set_trace()
-        # parse the first paragraph (Canada)
-        self.parsePara(self.soup.findAll('p')[0])
-        # parse the second paragraph (USA)
-        self.parsePara(self.soup.findAll('p')[1])        
-
-class SustainabilityLivingGuide(PageParser):
-    '''
-    >>> parser = SustainabilityLivingGuide()
-    >>> parser.parsePage()
-    >>> len(parser.data) != 0
-    True
-    '''
-    url = 'http://www.aashe.org/resources/campus-sustainable-living-guides'
-    login_required = True
+                    notes = ''
+                anchor = anchor.extract()
+                url = anchor['href']
+                title = anchor.text
+                self.data.append({'institution': institution,
+                                  'title': title,
+                                  'url': url,
+                                  'notes': notes})
+            except Exception as e:
+                print 'exception {0} rasied for for anchor: {0}'.format(
+                    e, anchor)
 
     def parsePage(self):
-        paras = self.soup.findAll('p')
-        guideData = {}
-        canada, usa = 0, 1
-        canada_nodes = [el for el in paras[canada]]
-        usa_nodes = [el for el in paras[usa]]        
-        for el in canada_nodes:
-            tag = getattr(el, 'name', None)
-            if tag == 'br':
-                self.data.append(guideData)
-                guideData = {}
-                continue            
-            elif tag == 'a':
-                linkText = el.text
-                url = dict(el.attrs).get('href', None)
-                guideData.update({'url': url, 'title': linkText})
-            elif isinstance(el, NavigableString):
-                institution = el.title().rsplit('-', 1)[0].strip()
-                guideData['institution'] = institution
-
-        for el in usa_nodes:
-            tag = getattr(el, 'name', None)
-            if tag == 'br':
-                self.data.append(guideData)
-                guideData = {}
-                continue
-            elif tag == 'a':
-                linkText = el.text
-                url = dict(el.attrs).get('href', None)
-                guideData.update({'url': url, 'title': linkText})
-            elif isinstance(el, NavigableString) and '(pdf)' not in el.title().lower():
-                institution = el.title().rsplit('-', 1)[0].strip()
-                guideData['institution'] = institution
+        content_div = self.soup.find('div', {'class': 'content clear-block'})
+        for paragraph in content_div.findAll('p'):
+            self.parseParagraph(paragraph)
 
 class CampusGardens(SimpleTableParser):
     '''
@@ -138,27 +67,11 @@ class CampusGardens(SimpleTableParser):
     url = 'http://www.aashe.org/resources/campus-and-campus-community-gardens'
     login_required = True
 
-    def parsePage(self, headings=True, debug=False):
-        if debug:
-            import pdb; pdb.set_trace()
+    def parsePage(self, headings=True):
         for table in self.soup.findAll('table'):
             self.processTable(table, headings=headings)
 
-    def processTableData(self, row, tags):
-        # get rid of bothersome NavigableStrings:
-        tags = [ t for t in tags if isinstance(t, Tag) ]
-        gardenData = {}
-        gardenData['institution'] = tags[0].text
-        gardenLink = tags[-1].find('a').extract()
-        gardenData['url'] = gardenLink['href']
-        gardenData['title'] = gardenLink.text
-        # sometimes there's a bit of text after the link -- this goes
-        # in the notes field:
-        if tags[-1].text:
-            gardenData['notes'] = 'text after link: {0}'.format(tags[-1].text)
-        return gardenData
-                
-class AcademicCentersParser(PageParser):
+class AcademicCentersParser(SimpleTableParser):
     '''Base parser for Academic Centers resources.
 
     Subclass for each type of Academic Center, and provide values
@@ -166,29 +79,17 @@ class AcademicCentersParser(PageParser):
     '''
     login_required = True
 
-    def processTable(self, table):
-        # get all <tr> tags from the table...
-        row_tags = table.findAll('tr')
-        policyData = {}
-        # loop over each <tr> row and extract the content...
-        for row in row_tags[1:]:
-            # get all the <td> tags in the <tr>...
-            tags = [el for el in row]
-            policyData['institution'] = tags[1].text
-            policyData['url'] = dict(tags[3].first().attrs)['href']
-            policyData['title'] = tags[3].text
-            policyData['category'] = self.category            
-            self.data.append(policyData)
-            policyData = {}
-    
-    def parsePage(self, all_tables=False):
-        if not all_tables:
-            # data is in the first <table> on the page
-            self.processTable(self.soup.findAll('table')[0])    
-        else:
-            # data is in the many <table>s on the page
-            for table in self.soup.findAll('table'):    
-                self.processTable(table)
+    def processTable(self, table, headings=True):
+        super(AcademicCentersParser, self).processTable(table, headings)
+        # tuck policy category into each scraped policy
+        for policy in self.data:
+            policy['category'] = self.category
+
+    def parsePage(self, all_tables=False, headings=True):
+        for table in self.soup.findAll('table'):
+            self.processTable(table=table, headings=headings)
+            if not all_tables:
+                return
 
 class AcademicCentersAgriculture(AcademicCentersParser):
     '''
@@ -199,7 +100,10 @@ class AcademicCentersAgriculture(AcademicCentersParser):
     '''
     url = 'http://www.aashe.org/resources/academic-centers-and-research-initiatives-sustainable-agriculture'
     category = 'AG'
-    
+
+    def parsePage(self):
+        super(AcademicCentersAgriculture, self).parsePage(headings=False)
+
 class AcademicCentersArchitecture(AcademicCentersParser):
     '''
     >>> parser = AcademicCentersArchitecture()
@@ -209,7 +113,7 @@ class AcademicCentersArchitecture(AcademicCentersParser):
     '''
     url = 'http://www.aashe.org/resources/design_centers.php'
     category = 'AR'
-    
+
 class AcademicCentersBusiness(AcademicCentersParser):
     '''
     >>> parser = AcademicCentersBusiness()
@@ -219,17 +123,17 @@ class AcademicCentersBusiness(AcademicCentersParser):
     '''
     url = 'http://www.aashe.org/resources/business_centers.php'
     category = 'BS'
-    
+
 class AcademicCentersDevelopmentStudies(AcademicCentersParser):
     '''
-    >>> parser = 
+    >>> parser =
     >>> parser.parsePage()
     >>> len(parser.data) != 0
     True
     '''
     url = 'http://www.aashe.org/resources/sustainable_development_centers.php'
     category = 'DS'
-    
+
 class AcademicCentersEconomics(AcademicCentersParser):
     '''
     >>> parser = AcademicCentersEconomics()
@@ -242,7 +146,7 @@ class AcademicCentersEconomics(AcademicCentersParser):
 
     def parsePage(self):
         super(AcademicCentersEconomics, self).parsePage(all_tables=True)
-    
+
 class AcademicCentersEducation(AcademicCentersParser):
     '''
     >>> parser = AcademicCentersEducation()
@@ -252,7 +156,7 @@ class AcademicCentersEducation(AcademicCentersParser):
     '''
     url = 'http://www.aashe.org/resources/education_centers.php'
     category = 'ED'
-    
+
 class AcademicCentersEngineering(AcademicCentersParser):
     '''
     >>> parser = AcademicCentersEngineering()
@@ -262,7 +166,10 @@ class AcademicCentersEngineering(AcademicCentersParser):
     '''
     url = 'http://www.aashe.org/resources/engineeringcenters.php'
     category = 'EN'
-    
+
+    def parsePage(self):
+        super(AcademicCentersEngineering, self).parsePage(headings=False)
+
 class AcademicCentersLaw(AcademicCentersParser):
     '''
     >>> parser = AcademicCentersLaw()
@@ -308,7 +215,7 @@ class CampusSustainabilityCourses(PageParser):
         teachers and description.  E.g. Aquinas College courses.
         '''
         course_elements = list()
-        titles = [ t for t in title_element.contents 
+        titles = [ t for t in title_element.contents
                    if t.string  and t.string.strip() ]
         if len(titles) > 1:
             # need to return a number of title elements, each
@@ -331,7 +238,7 @@ class CampusSustainabilityCourses(PageParser):
         '''Given a title_element, return the corresponding course element.
         '''
         return title_element.findPrevious('p')
-    
+
     def parseCourse(self, element):
         '''Parse course info from element.'''
         course = dict()
@@ -364,23 +271,23 @@ class CampusSustainabilityCourses(PageParser):
                 pass  # not a BeautifulSoup.Tag
             description = ' '.join((description, str(part).strip()))
         return description
-    
+
     def parseTeacher(self, anchor, text):
         '''Return a dict of teacher info parsed from an anchor tag and a
         string.'''
         if not text:  # some data is unexpectedly formatted or missing
-            return 
+            return
 
         # initialize teacher fields that might not be present so they'll
         # exist when the loader tries to access them:
         teacher = dict(email='', web_page='', middle_name='',
                        title='', department='')
-        
+
         protocol, resource = anchor['href'].split(':')
         if protocol.lower() == 'mailto':
             teacher['email'] = urllib.unquote(resource).strip()
         elif protocol.lower() == 'http':
-            teacher['web_page'] = ':'.join((protocol, 
+            teacher['web_page'] = ':'.join((protocol,
                                             urllib.unquote(resource).strip()))
 
         names = anchor.text.split()
@@ -394,7 +301,7 @@ class CampusSustainabilityCourses(PageParser):
         teacher['title'] = text.strip()
 
         return teacher
-    
+
     def parseTeachers(self, element, course):
         '''Return a list of teacher info parsed from a course element.
 
@@ -412,7 +319,7 @@ class CampusSustainabilityCourses(PageParser):
                     teachers.append(teacher)
                 else:
                     course['notes'] = '\n'.join(
-                        (course.setdefault('notes', ''), 
+                        (course.setdefault('notes', ''),
                          "Can't parse a teacher from '{0}'".format(a.parent)))
         return teachers
 
@@ -425,12 +332,10 @@ class CampusSustainabilityCourses(PageParser):
 
         Schools are a dict with a school_name and a list of courses.
         '''
-        if trace:
-            import pdb; pdb.set_trace()
         for school_element in self.soup.findAll('h2', {'class': None}):
             school = dict(school_name=school_element.text, courses=list())
             next_sibling = school_element.findNextSibling()
-            while (next_sibling and 
+            while (next_sibling and
                    next_sibling.name.lower() == 'p' and
                    next_sibling.text > ''):  # skip empty paragraphs
                 # some courses share the same description and teachers,
@@ -443,7 +348,7 @@ class CampusSustainabilityCourses(PageParser):
                     course = self.parseCourse(course_element)
                     school['courses'].append(course)
                 next_sibling = next_sibling.findNextSibling()
-            self.data.append(school)            
+            self.data.append(school)
 
     def titleElement(self, course_element):
         '''Return the title element parsed from a course element.'''
@@ -469,9 +374,7 @@ class SustainabilitySyllabi(PageParser):
     url = 'http://www.aashe.org/resources/sustainability-related-syllabi-databases'
     login_required = True
 
-    def parsePage(self, debug=False):
-        if debug:
-            import pdb; pdb.set_trace()
+    def parsePage(self):
         paras = self.soup.findAll('p')[1:-5]
         syllabiData = {}
         for p in paras:
@@ -493,7 +396,7 @@ class FacultyDevelopmentWorkshops(SimpleTableParser):
     '''
     url = 'http://www.aashe.org/resources/sustainability-faculty-development-workshops'
     login_required = True
-            
+
 class SurveysAwarenessAttitudes(SimpleTableParser):
     '''
     >>> parser = SurveysAwarenessAttitudes()
@@ -521,12 +424,12 @@ class SustainabilityNetworks(PageParser):
             anchor = li.find('a').extract()
             network['url'] = anchor['href']
             network['title'] = anchor.text
-            # maybe we'll get a lucky match:            
-            network['institution'] = network['title'].split()[0]  
+            # maybe we'll get a lucky match:
+            network['institution'] = network['title'].split()[0]
             if li.text:
                 network['description'] = li.text
             self.data.append(network)
-        
+
 class SustainabilityMaps(PageParser):
     '''
     >>> parser = AlumniSustainabilityNetworks()
@@ -549,4 +452,3 @@ class SustainabilityMaps(PageParser):
             if p.contents:  # except for the first resource listed
                 p.contents.pop()
             self.data.append(map)
-        

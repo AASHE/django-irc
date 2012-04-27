@@ -11,7 +11,7 @@
       <em>
         "Never mind what you've heard about global warming as a
         slow-motion emergency that would take decades to play
-        out. Suddenly and unexpectedly, the crisis is upon us." 
+        out. Suddenly and unexpectedly, the crisis is upon us."
       </em>
       - <a href="http://www.time.com/time/archive/preview/0,10987,1176980,00.html">Time Magazine</a>
     </p>
@@ -58,13 +58,29 @@
               <th>Commitment</th>
               <th>Date of Commitment</th>
             </tr>
-            {% for resource in object_list %}
+            {% regroup object_list by organization.name as org_list %}
+            {% for org in org_list %}
               <tr>
-                <td>{{ resource.organization.name }}</td>
-                <td><a href="{{ resource.url }}">{{ resource.commitment }}</a>
-                </td>
-                <td> {{ resource.date|date:"F Y" }}
-                     {{ resource.notes }}
+                <td>{{ org.grouper }}</td>
+                <td>
+                  {% for resource in org.list %}
+                    <a href="{{ resource.url }}">
+                    {% if not forloop.last %}
+                      {{ resource.commitment }};</a>
+                    {% else %}
+                      {{ resource.commitment }}</a>
+                      {% comment %}
+                        Resources not connected to an organization
+                        are grouped together; doesn't make sense
+                        to show the notes and date for the last one in
+                        that group.
+                      {% endcomment %}
+                      {% if resource.organization %}
+                        {{ resource.notes }}
+                       <td>{{ resource.date|date:"F Y" }}</td>
+                      {% endif %}
+                    {% endif %}
+                  {% endfor %}
                 </td>
               </tr>
             {% endfor %}
@@ -75,4 +91,3 @@
   </p>
 
 {% endblock body %}
-

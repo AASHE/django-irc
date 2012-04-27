@@ -2,7 +2,7 @@
 
 {% block title %}
   Campus Car Bans
-{% endblock title %}  
+{% endblock title %}
 
 {% block body %}
 
@@ -33,14 +33,7 @@
                 <th>Institution</th>
                 <th>Policy</th>
               </tr>
-              {% for resource in ban.list %}
-                <tr>
-                  <td>{{ resource.organization.name }}</td>
-                  <td><a href="{{ resource.url }}">{{ resource.title }}</a>
-                  {{ resource.notes }}
-                  </td>
-                </tr>
-              {% endfor %}
+              {% include "table_rows.html" with resources=ban.list %}
             </tbody>
           </table>
         </p>
@@ -50,4 +43,3 @@
   </div>
 
 {% endblock body %}
-

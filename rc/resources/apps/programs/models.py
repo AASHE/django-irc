@@ -9,6 +9,7 @@ class Program(ResourceItem):
     class Meta:
         verbose_name = 'general program'
         verbose_name_plural = 'general programs'
+        ordering = ('organization__name', 'title')
 
 
 class ProgramType(models.Model):

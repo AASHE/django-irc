@@ -22,19 +22,9 @@
             <th>Institution</th>
             <th>Research Center</th>
           </tr>
-        {% for resource in object_list %}
-          <tr>
-            <td>{{ resource.organization.name }}</td>
-            <td><a href="{{ resource.url }}">{{ resource.title }}</a>
-              {% if resource.notes %}
-                [{{ resource.notes }}]
-              {% endif %}
-            </td>
-          </tr>
-        {% endfor %}
+          {% include "table_rows.html" with resources=object_list %}
       </table>
     </div>
   </p>
 
 {% endblock body %}
-

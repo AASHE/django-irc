@@ -39,14 +39,7 @@
           {% endfor %}
           <table>
             <tbody>
-              {% for resource in ban.list %}
-                <tr>
-                  <td>{{ resource.organization.name }}</td>
-                  <td><a href="{{ resource.url }}">{{ resource.title }}</a>
-                  {{ resource.notes }}
-                  </td>
-                </tr>
-              {% endfor %}
+              {% include "table_rows.html" with resources=ban.list %}
             </tbody>
           </table>
         </p>

@@ -1,6 +1,8 @@
 from base import PageParser, SimpleTableParser
 
 
+BASE_URL = 'http://www.aashe.org/resources/'
+
 class SustainabilityPlan(SimpleTableParser):
     '''
     >>> parser = SustainabilityPlan()
@@ -8,7 +10,7 @@ class SustainabilityPlan(SimpleTableParser):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/campus-sustainability-plans'
+    url = BASE_URL + 'campus-sustainability-plans'
     login_required = True
 
 class AlumniSustainabilityFunds(SimpleTableParser):
@@ -18,19 +20,8 @@ class AlumniSustainabilityFunds(SimpleTableParser):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/alumni-sustainability-funds'
+    url = BASE_URL + 'alumni-sustainability-funds'
     login_required = True
-
-    def processTableData(self, row, els):
-        policyData = {}
-        policyData['institution'] = els[1].text
-        anchor = els[3].find('a').extract()
-        policyData['url'] = anchor['href']
-        policyData['title'] = anchor.text
-        policyData['notes'] = els[3].text
-        return policyData
-
-        policyData['url'] = anchor['href']
 
 class CampusMasterPlan(PageParser):
     '''
@@ -39,9 +30,9 @@ class CampusMasterPlan(PageParser):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/master-plans-incorporate-sustainability'
+    url = BASE_URL + 'master-plans-incorporate-sustainability'
     login_required = True
-    
+
     def parsePage(self):
         paras = self.soup.find('div', {'class': 'content clear-block'}).findAll('p')
         data = {}
@@ -69,7 +60,7 @@ class AssessmentTools(PageParser):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/campus-sustainability-assessment-tools'
+    url = BASE_URL + 'campus-sustainability-assessment-tools'
     login_required = True
 
     def parsePage(self):
@@ -96,7 +87,7 @@ class SustainabilityBlog(PageParser):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/campus-sustainability-blogs'
+    url = BASE_URL + 'campus-sustainability-blogs'
     login_required = True
 
     def parsePage(self):
@@ -118,9 +109,9 @@ class RevolvingFund(PageParser):
     >>> len(parser.data) != 0
     True
     '''
-    url = 'http://www.aashe.org/resources/campus-sustainability-revolving-loan-funds'
+    url = BASE_URL + 'campus-sustainability-revolving-loan-funds'
     login_required = True
-    
+
     def parsePage(self):
         uls = self.soup.find('div', {'class': 'content clear-block'}).findAll('ul')
         data = {}
@@ -136,4 +127,3 @@ class RevolvingFund(PageParser):
             data['description'] = textEl
             self.data.append(data)
             data = {}
-

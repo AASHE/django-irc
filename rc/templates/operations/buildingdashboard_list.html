@@ -29,13 +29,7 @@
           <h3>{{ partner.grouper }}</h3>
           <table>
             <tbody>
-              {% for dashboard in partner.list %}
-                <tr>
-                  <td>{{ dashboard.organization.name }}</td>
-                  <td><a href="{{ dashboard.url }}">{{ dashboard.title }}</a>
-                  </td>
-                </tr>
-              {% endfor %}
+              {% include "table_rows.html" with resources=partner.list %}
             </tbody>
           </table>
         {% endif %}
@@ -43,19 +37,13 @@
 
       {% comment %}
         Put individually developed dashboards at the end of the page.
-      {% endcomment %}        
+      {% endcomment %}
       {% for partner in partner_list %}
         {% if partner.grouper == 'Individually developed dashboards' %}
           <h3>{{ partner.grouper }}</h3>
           <table>
             <tbody>
-              {% for dashboard in partner.list %}
-                <tr>
-                  <td>{{ dashboard.organization.name }}</td>
-                  <td><a href="{{ dashboard.url }}">{{ dashboard.title }}</a>
-                  </td>
-                </tr>
-              {% endfor %}
+              {% include "table_rows.html" with resources=partner.list %}
             </tbody>
           </table>
         {% endif %}
@@ -64,4 +52,3 @@
   </div>
 
 {% endblock body %}
-

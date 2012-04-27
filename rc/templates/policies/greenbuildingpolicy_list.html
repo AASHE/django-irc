@@ -46,16 +46,20 @@
             {% for key, value in type_dict.items %}
               {% if key == type.grouper %}
                 <h2>LEED {{ value }}</h2>
+                {% with leed_level=key %}
+                  {% for resource in type.list %}
+                    {% if resource.leed_level = leed_level %}
+                      <p>
+                        <strong>{{ resource.organization.name }}</strong> -
+                        <a href="{{ resource.url }}">{{ resource.title }}</a>
+                        {{ resource.notes }}
+                        <br/>
+                        {{ resource.description }}
+                      </p>
+                    {% endif %}
+                  {% endfor %}
+                {%endwith%}
               {% endif %}
-            {% endfor %}
-            {% for resource in type.list %}
-              <p>
-                <strong>{{ resource.organization.name }}</strong> -
-                <a href="{{ resource.url }}">{{ resource.title }}</a>
-                {{ resource.notes }}
-                <br/>
-                {{ resource.description }}
-              </p>
             {% endfor %}
           {% endif %}
         {% endfor %}

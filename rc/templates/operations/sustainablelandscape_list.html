@@ -22,14 +22,7 @@
               <th>Institution</th>
               <th>Policy/Program</th>
             </tr>
-            {% for resource in object_list %}
-              <tr>
-                <td>{{ resource.organization.name }}</td>
-                <td><a href="{{ resource.url }}">{{ resource.title }}</a>
-                    {{ resource.notes }}
-                </td>
-              </tr>
-            {% endfor %}
+            {% include "table_rows.html" with resources=object_list %}
           </tbody>
         </table>
       </p>
@@ -37,4 +30,3 @@
   </p>
 
 {% endblock body %}
-

@@ -1,8 +1,8 @@
 {% extends "resourceitem_list.html" %}
 
 {% block title %}
-  Campus Sustainability Assessment Tools  
-{% endblock title %}  
+  Campus Sustainability Assessment Tools
+{% endblock title %}
 
 {% block body %}
 
@@ -24,9 +24,11 @@
           {% endfor %}
           {% for resource in type.list %}
             <p>
-              <a href="{{ resource.url }}">{{ resource.title }}</a>
+              <strong>
+                <a href="{{ resource.url }}">{{ resource.title }}</a>
+              </strong>
               <br/>
-              <em>{{ resource.organization.name }}</em>
+              <em>{% firstof resource.organization.name 'unknown org'%}</em>
               <br/>
               {{ resource.description }}
               <br/>
@@ -40,4 +42,3 @@
   </div>
 
 {% endblock body %}
-

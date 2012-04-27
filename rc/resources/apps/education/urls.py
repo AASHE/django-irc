@@ -126,7 +126,7 @@ urlpatterns = patterns('',
                           'developmentstudies_list.html'),
         name=academic_centers_url_name('DS')),
 
-    url('^resources/academic-centers-ecological-economics',
+   url('^resources/academic-centers-ecological-economics',
         ResourceItemListView.as_view(
             model=models.AcademicCenter,
             queryset=models.AcademicCenter.objects.filter(
