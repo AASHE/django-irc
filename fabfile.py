@@ -116,3 +116,16 @@ def syncdb():
         with cd("%s/current/rc" % env.path):
             run('python manage.py syncdb --noinput --settings=%s' %
                 env.django_settings)
+                
+def loadcms():
+    '''
+    Clear and load cms data.
+    '''
+    with virtualenv():
+        with cd("%s/current/rc" % env.path):
+            run('python manage.py reset cms treemenus --noinput --settings=%s' %
+                env.django_settings)
+            run('python manage.py loaddata cms/fixtures/*.json --noinput --settings=%s' %
+                    env.django_settings)
+            run('python manage.py loadpages --noinput --settings=%s' %
+                env.django_settings)
