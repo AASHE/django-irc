@@ -175,8 +175,6 @@ class BiodieselFleet(ResourceItem):
 
 class ElectricFleet(ResourceItem):
     number = models.IntegerField(_('number of vehicles'), blank=True, null=True)
-    source_type = models.CharField(_('source type (article, website, etc.)'),
-                                   max_length=30)
 
     class Meta:
         verbose_name = 'campus electric vehicle fleet'
