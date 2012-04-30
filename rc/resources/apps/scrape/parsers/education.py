@@ -383,7 +383,7 @@ class SustainabilitySyllabi(PageParser):
             syllabiData['url'] = link['href']
             syllabiData['title'] = link.text
             syllabiData['institution'] = nodes[0].text
-            syllabiData['description'] = nodes[5].title()
+            syllabiData['description'] = nodes[5].strip()
             self.data.append(syllabiData)
             syllabiData = {}
 

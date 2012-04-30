@@ -134,7 +134,7 @@ class GeneralProcurementPolicies(PolicyPageParser):
                 policyData['title'] = nodes[2].text
                 policyData['url'] = dict(nodes[2].attrs).get('href', '')
                 policyData['institution'] = nodes[0].text
-                policyData['notes'] = nodes[4].title()
+                policyData['notes'] = nodes[4]
                 self.data.append(policyData)
                 policyData = {}
             except:
