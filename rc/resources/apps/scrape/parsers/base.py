@@ -43,7 +43,8 @@ class SimpleTableParser(PageParser):
 
     def processTable(self, table, headings=True, save_resources=True):
         '''If save_resource is True, the resources parsed get popped into
-           self.data.  If not, they don't.
+           self.data.  If not, the caller should append() or extend() them
+           into self.data.
         '''
         # get all <tr> tags from the table...
         rows = row_tags = table.findAll('tr')
