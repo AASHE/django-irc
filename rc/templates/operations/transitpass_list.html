@@ -8,28 +8,22 @@
 
   <div id="opening_text">
 
-    Universal Bus/Transit Passes (U-Passes) provide students (and
-    sometimes faculty and staff) with unlimited local transit service
-    24 hours per day with no fares required. The most common source of
-    funding for U-Pass programs is student fees; however, many
+    This resource lists Universal Bus/Transit Pass (U-Pass) programs
+    on campus. U-Passes provide students - and sometimes faculty and
+    staff - with unrestricted local transit service 24 hours per
+    day. The most common source of funding is student fees; but many
     programs are also funded by parking fees and general funds. These
-    programs have proved very effective in both increasing public
+    programs have proven very effective in increasing public
     transportation use and decreasing single occupancy vehicle
-    commutes to campus.
+    commutes to campus. Programs below are categorized according to
+    whether the pass entitles the bearer to unlimited free rides or a
+    50% or greater discount.
 
-    This resource lists existing U-pass programs on campus. Programs
-    are categorized according to whether the pass entitles the student
-    and/or faculty and staff member to unlimited free rides or a 50%
-    or greater pass discount. Campuses that have been identified by
-    AASHE staff as having particularly informative websites have been
-    highlighted.
   </div>
 
   <div id="resource_list">
     <p>
       {% regroup object_list by type as list_by_type %}
-
-{{ type_list }}
 
       {% for type in list_by_type %}
         <p>
