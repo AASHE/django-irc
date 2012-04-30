@@ -88,7 +88,7 @@ urlpatterns = patterns('',
     policy_url(
         r'^resources/energy-efficient-appliance-procurement-policies',
         policy_type='Appliance Procurement',
-        page_title='Energy Efficient Applicance Procurement Policies',
+        page_title='Energy Efficient Appliance Procurement Policies',
         with_description=True,
         member_only=True),
 
