@@ -324,7 +324,7 @@ class BiodieselFleet(SimpleTableParser):
         for table in content_div.findAll('table'):
             self.processTable(table=table, headings=False)
 
-class ElectricVehicleFleet(PageParser):
+class ElectricVehicleFleet(SimpleTableParser):
     '''
     >>> parser=ElectricVehicleFleet()
     >>> parser.parsePage()
@@ -334,30 +334,20 @@ class ElectricVehicleFleet(PageParser):
     url = BASE_URL + 'campus-electric-vehicle-fleets'
     login_required = True
 
-    def processTable(self, table, country, headings=True):
-        # get all <tr> tags from the table...
-        rows = row_tags = table.findAll('tr')
-        policyData = {}
-        # loop over each <tr> row and extract the content...
-        if headings:
-            rows = row_tags[1:]
-        for row in rows:
-            # get all the <td> tags in the <tr>...
-            tags = [el for el in row]
-            policyData['institution'] = tags[1].text
-            policyData['number'] = tags[3].text
-            policyData['url'] = dict(tags[5].first().attrs).get('href', '')
-            policyData['source_type'] = tags[5].text
-            policyData['title'] = policyData['institution']
-            policyData['country'] = country
-            self.data.append(policyData)
-            policyData = {}
+    def processTableData(self, row):
+        resources = super(ElectricVehicleFleet, self).processTableData(
+            row=row, anchor_cell_num=2)
+        cells = row.findAll('td')
+        for resource in resources:
+            resource['number'] = cells[1].text
+            resource['title'], _ = get_url_title(resource['url'])
+        return resources
 
     def parsePage(self):
-        headers = self.soup.find('div', {'class': 'content clear-block'}).findAll('h3')
-        for country in headers:
-            table = country.nextSibling.nextSibling
-            self.processTable(table, country.text)
+        content_div = self.soup.find('div',
+                                     {'class': 'content clear-block'})
+        for table in content_div.findAll('table'):
+            self.processTable(table=table, headings=True)
 
 class HybridVehicles(SimpleTableParser):
     '''
