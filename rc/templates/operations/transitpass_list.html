@@ -1,0 +1,55 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Campus Universal Transit Passes
+{% endblock title %}
+
+{% block body %}
+
+  <div id="opening_text">
+
+    Universal Bus/Transit Passes (U-Passes) provide students (and
+    sometimes faculty and staff) with unlimited local transit service
+    24 hours per day with no fares required. The most common source of
+    funding for U-Pass programs is student fees; however, many
+    programs are also funded by parking fees and general funds. These
+    programs have proved very effective in both increasing public
+    transportation use and decreasing single occupancy vehicle
+    commutes to campus.
+
+    This resource lists existing U-pass programs on campus. Programs
+    are categorized according to whether the pass entitles the student
+    and/or faculty and staff member to unlimited free rides or a 50%
+    or greater pass discount. Campuses that have been identified by
+    AASHE staff as having particularly informative websites have been
+    highlighted.
+  </div>
+
+  <div id="resource_list">
+    <p>
+      {% regroup object_list by type as list_by_type %}
+
+{{ type_list }}
+
+      {% for type in list_by_type %}
+        <p>
+          {% for key, value in type_list.items %}
+            {% if key == type.grouper %}
+              <h2>{{ value }}</h2>
+            {% endif %}
+          {% endfor %}
+          {% regroup type.list by organization.country as country_list %}
+          {% for country in country_list %}
+            <h3>{{ country.grouper }}</h3>
+            <table>
+              <tbody>
+                {% include "table_rows.html" with resources=country.list %}
+              </tbody>
+            </table>
+          {% endfor %}
+        </p>
+      {% endfor %}
+    </p>
+  </div>
+
+{% endblock body %}
