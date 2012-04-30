@@ -80,7 +80,7 @@ urlpatterns = patterns('',
         ResourceItemListView.as_view(
             model=models.CarBan,
             queryset=models.CarBan.objects.order_by(
-                    'type', 'organization__name')),
+                    '-type', 'organization__name')),
         name='car-bans',
         kwargs={'ban_types': dict(models.CarBan.BAN_TYPES)}),
 
