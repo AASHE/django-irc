@@ -2,7 +2,7 @@
 
 {% block title %}
   Sustainable Dining Initiatives on Campus
-{% endblock title %}  
+{% endblock title %}
 
 {% block body %}
 
@@ -31,16 +31,18 @@
               <h2>{{ value }}</h2>
             {% endif %}
           {% endfor %}
-          {% for resource in owner.list %}
-            {{ resource.organization.name }} -
-            <a href="{{ resource.url }}">{{ resource.title }}</a>
-            {{ resource.notes }}
-            <br/>
-          {% endfor %}
+          <table>
+            <tbody>
+              <tr>
+                <th>Institution</th>
+                <th>Inititative<th>
+              </tr>
+             {% include "table_rows.html" with resources=owner.list %}
+            </tbody>
+          </table>
         {% endfor %}
       </p>
     </p>
   </div>
 
 {% endblock body %}
-
