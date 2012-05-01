@@ -423,7 +423,7 @@ class SustainabilityNetworks(PageParser):
             network = dict()
             anchor = li.find('a').extract()
             network['url'] = anchor['href']
-            network['title'] = anchor.text
+            network['title'] = anchor.text.strip()
             # maybe we'll get a lucky match:
             network['institution'] = network['title'].split()[0]
             if li.text:
