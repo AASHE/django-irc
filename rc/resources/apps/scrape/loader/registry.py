@@ -29,7 +29,7 @@ etl.register(parsers.GreenLibrary, loader.GreenBuildingLoader,
 etl.register(parsers.GreenStudentCenter, loader.GreenBuildingLoader,
              'operations.CampusGreenBuilding')
 etl.register(parsers.GreenResidence, loader.GreenBuildingLoader,
-             'operations.CampusGreenBuilding')
+             'operations.GreenResidenceHall')
 etl.register(parsers.GreenScience, loader.GreenBuildingLoader,
              'operations.CampusGreenBuilding')
 # END Green Buildings

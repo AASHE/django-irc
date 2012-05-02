@@ -22,6 +22,9 @@ class CampusGreenBuilding(ResourceItem):
         verbose_name = 'green building on campus'
         verbose_name_plural = 'green buildings on campus'
 
+class GreenResidenceHall(CampusGreenBuilding):
+    beds = models.CharField(_('beds'), max_length=24)
+
 class GreenBuildingType(models.Model):
     type = models.CharField(_('campus green building type'), max_length=75)
 
