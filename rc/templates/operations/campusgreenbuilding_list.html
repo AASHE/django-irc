@@ -2,7 +2,7 @@
 
 {% block title %}
   {{ title|title }}
-{% endblock title %}  
+{% endblock title %}
 
 {% block body %}
 
@@ -12,7 +12,7 @@
       <em>{{ image_caption }} </em>
     </span>
   {% endif %}
-  
+
   <div id="opening_text">
     <p>
       This resource lists "green" {% firstof buildings_name "buildings" %}
@@ -56,31 +56,34 @@
                 special handling of 'not certified' type:
               {% endcomment %}
               <h3>
-                {% if cert_type != "not certified" %} 
+                {% if cert_type != "not certified" %}
                   {{ certification.grouper }}
                 {% else %}
                   Uncertified Green Buildings
                 {% endif %}
-              </h3>              
+              </h3>
               {% for resource in certification.list %}
-                <p>                
+                <p>
                   <strong>
                     {% if resource.organization.name %}
                       {{ resource.organization.name }}
                     {% else %}
                       </strong>[{{ resource.notes }}]<strong>
-                    {% endif %}                      
+                    {% endif %}
                   </strong>
                   <br/>
                   <strong>{{ resource.facility_name }}</strong> <br/>
                   <em>Completed:</em> {{ resource.year }} <br/>
                   <em>SqFt:</em> {{ resource.sqft }} <br/>
                   <em>Cost:</em> {{ resource.cost }} <br/>
+                  {% if resource.beds %}
+                     <em>Beds:</em> {{ resource.beds }} <br/>
+                  {% endif %}
                   <em>Certification:</em>
                   {{ resource.certification }} <br/>
                   <em>Key Features:</em>
                   {{ resource.key_features }} <br/>
-                  <em>More information:</em> 
+                  <em>More information:</em>
                   <a href="{{ resource.url }}">{{ resource.title }}</a>
                 </p>
               {% endfor %}
@@ -93,4 +96,3 @@
   </div>
 
 {% endblock body %}
-
