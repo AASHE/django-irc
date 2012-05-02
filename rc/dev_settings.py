@@ -1,4 +1,3 @@
-import os, sys
 from settings import *
 
 
