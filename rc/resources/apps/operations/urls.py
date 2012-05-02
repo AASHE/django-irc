@@ -7,13 +7,13 @@ from rc.resources.apps.operations import models
 
 def green_building_url(url_string, building_type, image_url=None,
                        image_alt=None, image_caption=None,
-                       buildings_name=None):
+                       buildings_name=None, model=models.CampusGreenBuilding):
     if not buildings_name:
         buildings_name = ' '.join(building_type.split()[1:]).lower()
     return url(url_string,
                ResourceItemListView.as_view(
-                   model=models.CampusGreenBuilding,
-                   queryset=models.CampusGreenBuilding.objects.filter(
+                   model=model,
+                   queryset=model.objects.filter(
                            type__type=building_type).order_by(
                                'type', 'certification', 'organization__name'),
                    template_name='operations/campusgreenbuilding_list.html'),
@@ -109,7 +109,15 @@ urlpatterns = patterns('',
         name='energy-plans',
         kwargs={'member_only': True}),
 
-    url(r'^resources/campus-global-warming-commitments',
+    url(r'^resources/campus-energy-plans',
+        ResourceItemListView.as_view(
+            model=models.EnergyPlan,
+            queryset=models.EnergyPlan.objects.order_by(
+                    'organization__name')),
+        name='energy-plans',
+        kwargs={'member_only': True}),
+
+    url(r'^resources/campus-energy-websites',
         ResourceItemListView.as_view(
             model=models.GlobalWarmingCommitment,
             queryset=models.GlobalWarmingCommitment.objects.order_by(
@@ -238,7 +246,8 @@ urlpatterns = patterns('',
         building_type='Green Residence Halls',
         image_url='http://www.aashe.org/files/ashdown_house_mit.jpg',
         image_alt='MIT Ashdown House',
-        image_caption='MIT Ashdown House'),
+        image_caption='MIT Ashdown House',
+        model=models.GreenResidenceHall),
 
     green_building_url(
         url_string=r'^resources/green-science-buildings',
