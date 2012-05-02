@@ -44,3 +44,11 @@ class MenuItemExtension(models.Model):
     menu_item = models.OneToOneField (MenuItem, related_name="extension")
     protected = models.BooleanField(default=False)
     caption = models.CharField(ugettext_lazy('caption'), max_length=150)
+    
+    def caption_with_spacer(self):
+            spacer = ''
+            for i in range(0, self.menu_item.level):
+                spacer += u'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+            if self.menu_item.level > 0:
+                spacer += u'|-&nbsp;'
+            return spacer + self.caption
