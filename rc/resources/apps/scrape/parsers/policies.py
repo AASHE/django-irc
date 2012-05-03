@@ -291,16 +291,14 @@ class EnergyConservationPolicies(PolicyPageParser):
     policy_type = 'Energy Conservation'
 
     def parsePage(self):
-        para = self.soup.find('div', {'class': 'content clear-block'}).find('p')
-        data = {}
-        for br in para.findAll('br'):
-            anchor = br.previousSibling
-            textEl = br.previousSibling.previousSibling
-            data['institution'] = textEl.strip(' - ')
-            data['title'] = anchor.text
-            data['url'] = dict(anchor.attrs).get('href', '')
-            self.data.append(data)
+        content_div = self.soup.find('div',
+                                     {'class': 'content clear-block'})
+        for anchor in content_div.findAll('a'):
             data = {}
+            data['institution'] = anchor.previousSibling.strip(' - ')
+            data['title'] = anchor.text
+            data['url'] = anchor['href']
+            self.data.append(data)
         self.type_policies()
 
 
