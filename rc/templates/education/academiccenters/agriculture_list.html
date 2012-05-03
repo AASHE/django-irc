@@ -1,0 +1,23 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Academic Centers on Sustainable Agriculture
+{% endblock title %}
+
+{% block body %}
+
+  <div id="opening_text">
+  </div>
+
+
+  <div id="resource_list" class="content clear-block">
+    <p>
+      <table>
+        <tbody>
+          {% include "table_rows.html" with resources=object_list %}
+        </tbody>
+      </table>
+    </p>
+  </div>
+
+{% endblock body %}

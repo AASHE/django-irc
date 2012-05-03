@@ -1,0 +1,37 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Socially Responsible Investment Policies
+{% endblock title %}
+
+{% block body %}
+
+  <div id="opening_text">
+
+    This resource highlights colleges and universities that have
+    adopted formal policies or guidelines on responsible
+    investment. Such policies can help institutions ensure that their
+    investment practices align with and advance their commitments to
+    sustainability.
+
+  </div>
+
+  <div id="resource_list">
+    <p>
+      {% regroup object_list by investment_type as types %}
+      {% for type in types %}
+        <h2>{{ type.grouper }}</h2>
+        <table>
+          <tbody>
+            <tr>
+              <th>Institution</th>
+              <th>Investment</th>
+            </tr>
+            {% include "table_rows.html" with resources=type.list %}
+          </tbody>
+        </table>
+      {% endfor %}
+    </p>
+  </div>
+
+{% endblock body %}

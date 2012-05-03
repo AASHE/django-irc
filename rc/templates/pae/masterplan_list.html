@@ -1,0 +1,41 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Master Plans that Incorporate Sustainability
+{% endblock title %}
+
+{% block body %}
+
+  <div id="opening_text">
+  </div>
+
+  <p>
+    <div id="resource_list" class="content clear-block">
+      <p>
+
+        {% regroup object_list by minor_reference_only as list_by_ref_type %}
+
+        {% for ref_type in list_by_ref_type %}
+          {% if ref_type.grouper %}
+            <p>
+              <h2>Plans that make minor reference to sustainability</h2>
+            </p>
+          {% endif %}
+          {% for resource in ref_type.list %}
+            <p>
+              <strong>{{ resource.organization.name }}</strong> -
+              <a href="{{ resource.url }}">{{ resource.title }}</a>
+              {% if resource.notes %}
+                [{{ resource.notes }}]
+              {% endif %}
+              <br/>
+              {{ resource.description }}
+            </p>
+          {% endfor %}
+        {% endfor %}
+      </p>
+    </div>
+  </p>
+
+{% endblock body %}
+
