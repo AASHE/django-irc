@@ -44,7 +44,9 @@ urlpatterns = patterns('',
             queryset=models.BottledWaterBan.objects.order_by(
                     'type', 'organization__name')),
         name='bottled-water-bans',
-        kwargs={'ban_types': dict(models.BottledWaterBan.BAN_TYPES),
+        kwargs={'type_list': [ level[0] for level in
+                               models.BottledWaterBan.BAN_TYPES ],
+                'type_dict': dict(models.BottledWaterBan.BAN_TYPES),
                 'member_only': True}),
 
     url(r'^resources/campus-building-energy-dashboards',

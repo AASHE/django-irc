@@ -17,8 +17,15 @@
   <p>
     <div id="types_menu">
       <ul>
-        {% for type, name in ban_types.items %}
-          <li><a href="#{{ type }}">{{ name }}</a></li>
+        {% comment %}
+          Display in BottleWaterBan.BAN_TYPES order.
+        {% endcomment %}
+        {% for type_code in type_list %}
+          {% for type, name in type_dict.items %}
+            {% if type == type_code %}
+              <li><a href="#{{ type }}">{{ name }}</a></li>
+            {% endif %}
+          {% endfor %}
         {% endfor %}
         <li><a href="#additional_resources">Additional Resources</a></li>
       </ul>
@@ -27,22 +34,30 @@
 
   <div id="resource_list">
     <p>
-      {% regroup object_list by type as type_list %}
+      {% regroup object_list by type as list_by_type %}
 
-      {% for ban in type_list %}
-        <p>
-          <a name="{{ ban.grouper }}"/>
-          {% for key, value in ban_types.items %}
-            {% if key == ban.grouper %}
-              <h2>{{ value }}</h2>
-            {% endif %}
-          {% endfor %}
-          <table>
-            <tbody>
-              {% include "table_rows.html" with resources=ban.list %}
-            </tbody>
-          </table>
-        </p>
+      {% comment %}
+        Display in BottleWaterBan.BAN_TYPES order.
+      {% endcomment %}
+
+      {% for type_code in type_list %}
+        {% for ban in list_by_type %}
+          {% if ban.grouper == type_code %}
+            {% for key, value in type_dict.items %}
+              {% if key == ban.grouper %}
+                <p>
+                  <a name="{{ ban.grouper }}"/>
+                  <h2>{{ value }}</h2>
+                  <table>
+                    <tbody>
+                      {% include "table_rows.html" with resources=ban.list %}
+                    </tbody>
+                  </table>
+                </p>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        {% endfor %}
         <br/>
       {% endfor %}
       <a name="additional_resources"/>
