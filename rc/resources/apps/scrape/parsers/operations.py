@@ -134,26 +134,13 @@ class SustainabilityPurchasing(PageParser):
     def parsePage(self):
         headers = self.soup.find('div', {'class':
                                          'content clear-block'}).findAll('h2')
-        policyData = {}
         for header in headers:
-            para = header.nextSibling.nextSibling
-            elements = [el for el in para]
-            for el in elements:
-                tag = getattr(el, 'name', None)
-                if tag == 'br':
-                    policyData['type'] = header.text
-                    self.data.append(policyData)
-                    policyData = {}
-                    continue
-                elif tag == 'a':
-                    linkText = el.text
-                    url = dict(el.attrs).get('href', '')
-                    policyData.update({'url': url, 'title': linkText})
-                elif (isinstance(el, NavigableString) and
-                      '(article)' not in el.title().lower() and
-                      '**' not in el.title().lower()):
-                    institution = el.title().rsplit('-', 1)[0].strip()
-                    policyData['institution'] = institution
+            for anchor in header.findNextSibling('p').findAll('a'):
+                self.data.append(
+                    {'url': anchor['href'],
+                     'title': anchor.text,
+                     'institution': anchor.previousSibling.strip(' - '),
+                     'type': header.text})
 
 class AlternativeTransport(PageParser):
     '''
