@@ -2,7 +2,7 @@
 
 {% block title %}
   Wind Power on Campus
-{% endblock title %}  
+{% endblock title %}
 
 {% block body %}
 
@@ -20,14 +20,14 @@
        <tbody>
          <tr>
            <th>Institution</th>
-           <th>System Size (KW)</th>
+           <th>System Size (kW)</th>
            <th>Source(s)</th>
          </tr>
          {% for resource in object_list %}
            <tr>
              <td>{{ resource.organization.name }}</td>
              <td align="center">{% if resource.size %}
-                                  {{ resource.size }}
+                                  {{ resource.size|floatformat }}
                                 {% else %}
                                   unknown
                                 {% endif %}</td>
@@ -43,4 +43,3 @@
   </div>
 
 {% endblock body %}
-
