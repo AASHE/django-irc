@@ -123,7 +123,7 @@ urlpatterns = patterns('',
             model=models.EnergyWebsite,
             queryset=models.EnergyWebsite.objects.order_by(
                     'organization__name')),
-            name='campus-energy-websites'),
+            name='energy-websites'),
 
     url(r'^resources/campus-global-warming-commitments',
         ResourceItemListView.as_view(
