@@ -160,7 +160,7 @@ urlpatterns = patterns('',
         ResourceItemListView.as_view(
             model=models.WindTurbine,
             queryset=models.WindTurbine.objects.order_by(
-                    'organization__country', 'organization__name')),
+                    '-size', 'organization__name')),
         name='wind-turbines',
         kwargs={'member_only': True}),
 
