@@ -238,30 +238,12 @@ class CarSharing(PageParser):
     def parsePage(self):
         headers = self.soup.find('div', {'class':
                                          'content clear-block'}).findAll('h2')
-        policyData = {}
         for header in headers:
-            para = header.nextSibling.nextSibling
-            elements = [el for el in para]
-            for el in elements:
-                tag = getattr(el, 'name', None)
-                if tag == 'br':
-                    policyData['partner'] = header.text
-                    self.data.append(policyData)
-                    policyData = {}
-                    continue
-                elif tag == 'a':
-                    linkText = el.text
-                    url = dict(el.attrs).get('href', '')
-                    policyData.update({'url': url, 'institution': linkText})
-                elif (isinstance(el, NavigableString) and
-                      '(article)' not in el.title().lower()):
-                    institution = el.title().rsplit('-', 1)[0].strip()
-                    policyData['institution'] = institution
-                # special case for single-node paras
-                if len(elements) == 1:
-                    policyData['partner'] = header.text
-                    self.data.append(policyData)
-                    policyData = {}
+            para = header.findNextSibling('p')
+            for anchor in para.findAll('a'):
+                self.data.append({'partner': header.text,
+                                  'url': anchor['href'],
+                                  'institution': anchor.text})
 
 class BuildingEnergyDashboard(SimpleTableParser):
     '''
