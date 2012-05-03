@@ -24,22 +24,50 @@
     <p>
       {% regroup object_list by ownership as owner_list %}
 
+      {% comment %}
+        Put self-operated initiatives first.
+      {% endcomment %}
       {% for owner in owner_list %}
         <p>
-          {% for key, value in owners.items %}
-            {% if key == owner.grouper %}
-              <h2>{{ value }}</h2>
-            {% endif %}
-          {% endfor %}
-          <table>
-            <tbody>
-              <tr>
-                <th>Institution</th>
-                <th>Inititative<th>
-              </tr>
-             {% include "table_rows.html" with resources=owner.list %}
-            </tbody>
-          </table>
+          {% if owner.grouper == 'SO' %}
+            {% for key, value in owners.items %}
+              {% if key == owner.grouper %}
+                <h2>{{ value }}</h2>
+              {% endif %}
+            {% endfor %}
+            <table>
+              <tbody>
+                <tr>
+                  <th>Institution</th>
+                  <th>Inititative<th>
+                </tr>
+               {% include "table_rows.html" with resources=owner.list %}
+              </tbody>
+            </table>
+          {% endif %}
+        {% endfor %}
+
+      {% comment %}
+        Now all the other (non self-operated) initiatives:
+      {% endcomment %}
+      {% for owner in owner_list %}
+        <p>
+          {% if owner.grouper != 'SO' %}
+            {% for key, value in owners.items %}
+              {% if key == owner.grouper %}
+                <h2>{{ value }}</h2>
+              {% endif %}
+            {% endfor %}
+            <table>
+              <tbody>
+                <tr>
+                  <th>Institution</th>
+                  <th>Inititative<th>
+                </tr>
+               {% include "table_rows.html" with resources=owner.list %}
+              </tbody>
+            </table>
+          {% endif %}
         {% endfor %}
       </p>
     </p>
