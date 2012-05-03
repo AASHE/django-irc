@@ -365,7 +365,6 @@ class HybridVehicles(SimpleTableParser):
         cells = row.findAll('td')
         for fleet in fleets:
             fleet['number'] = cells[1].text
-            fleet['title'], _ = get_url_title(fleet['url'])
         return fleets
 
     def parsePage(self):
