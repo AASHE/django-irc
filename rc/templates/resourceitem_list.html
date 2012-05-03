@@ -1,5 +1,19 @@
 {% extends "aashe/base.html" %}
 
+{% load markup tree_menu_tags %}
+
+{% block breadcrumb %}
+
+{% show_menu "AASHE Resource Center" "breadcrumb" %}
+
+{% endblock breadcrumb %}
+
+{% block right %}
+
+{% show_menu "AASHE Resource Center" "content-sidebar" %}
+
+{% endblock right %}
+
 {% block content %}
  
     <h1>   
