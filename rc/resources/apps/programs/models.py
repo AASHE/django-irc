@@ -25,4 +25,4 @@ class ProgramType(models.Model):
 
 
 class ElectronicWasteProgram(Program):
-    items = models.CharField(max_length=128)
+    items = models.CharField(max_length=255)

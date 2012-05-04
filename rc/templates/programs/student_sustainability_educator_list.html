@@ -37,16 +37,15 @@
   <div id="resource_list">
 
     <p>
-      {% for resource in object_list %}
-        <p>
-          <strong>
-            {% firstof resource.organization.name "?" %}
-          </strong>
-          <br/>
-          <a href="{{ resource.url }}">{{ resource.title }}</a>
-          {{ resource.notes }}
-        </p>
-      {% endfor %}
+      <table>
+        <tbody>
+          <tr>
+            <th>Institution</th>
+            <th>Program</th>
+          </tr>
+          {% include "table_rows.html" with resources=object_list %}
+        </tbody>
+      </table>
     </p>
   </div>
 
