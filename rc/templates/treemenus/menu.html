@@ -56,7 +56,7 @@
               {% endif %}
             {% endif %}          
           {% else %}
-            <li class="leaf"><span>{{ child }}</span></li>
+            <li class="leaf"><span>{{ child.extension.caption }}</span></li>
             <ul class="menu">
             {% for second_child in child.children %}
               {% if second_child.extension.protected %}
