@@ -1,0 +1,47 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Wind Power on Campus
+{% endblock title %}
+
+{% block body %}
+
+  <div id="opening_text">
+
+    This resource lists wind turbine installations on campus
+    lands. The turbines listed are not necessarily owned by the
+    institutions upon whose land they are installed.
+
+  </div>
+
+  <div id="resource_list">
+    <p>
+      <table>
+        <tbody>
+          <tr>
+            <th>Institution</th>
+            <th>System Size (kW)</th>
+            <th>Source(s)</th>
+          </tr>
+          {% regroup object_list by organization.name as org_list %}
+          {% for org in org_list %}
+            <tr>
+              <td>{{ org.grouper }}</td>
+              {% for resource in org.list %}
+                {% if forloop.first %}
+                  <td align="center">{% if resource.size %}
+                                       {{ resource.size|floatformat }}
+                                     {% else %}
+                                       unknown
+                                     {% endif %}</td>
+                {% endif %}
+              {% endfor %}
+              {% include "links_table_cell.html" with resources=org.list %}
+            </tr>
+          {% endfor %}
+       </tbody>
+     </table>
+    </p>
+  </div>
+
+{% endblock body %}

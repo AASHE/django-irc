@@ -1,0 +1,61 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Campus Fair Trade Practices & Policies
+{% endblock title %}
+
+{% block body %}
+
+  <div id="opening_text">
+
+    This resource is a list of colleges and universities in
+    the US and Canada that have Fairtrade policies in place
+    for purchasing goods that are certified Fairtrade for use
+    in their dining facilities and campus stores. Many
+    campuses in the United Kingdom also have policies in
+    place, for a resource on those campuses, please visit
+    <a href="http://www.internationalcounselor.org/archives/499">
+    visit here</a>.
+
+  </div>
+
+  <div id="resource_list">
+    <p>
+      {% regroup object_list by organization.country as countries %}
+
+     {% for country in countries %}
+       <h3>{{ country.grouper }}</h3>
+       <table>
+         <tbody>
+           <tr>
+             <th>Instititution</th>
+             <th>Policy</th>
+             <th>Product Types</th>
+           </tr>
+           {% regroup country.list by organization.name as org_list %}
+           {% for org in org_list %}
+             <tr>
+               <td>{{ org.grouper }}</td>
+               {% include "links_table_cell.html" with resources=org.list %}
+               {% for resource in org.list %}
+                 {% if forloop.last %}
+                   {% comment %}
+                     Resources not connected to an organization
+                     are grouped together; doesn't make sense
+                     to show the product_types for the last one in
+                     that group.
+                   {% endcomment %}
+                   {% if resource.organization %}
+                     <td>{{ resource.product_types }}</td>
+                   {% endif %}
+                 {% endif %}
+               {% endfor %}
+             </tr>
+           {% endfor %}
+         </tbody>
+       </table>
+     {% endfor %}
+    </p>
+  </div>
+
+{% endblock body %}
