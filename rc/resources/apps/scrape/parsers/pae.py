@@ -127,3 +127,29 @@ class RevolvingFund(PageParser):
             data['description'] = textEl
             self.data.append(data)
             data = {}
+
+class StudentFees(PageParser):
+    '''
+    >>> parser = StudentFees()
+    >>> parser.parsePage()
+    >>> len(parser.data) != 0
+    True
+    '''
+    url = (BASE_URL + 'mandatory-student-fees-renewable-energy-and-' +
+           'energy-efficiency')
+    login_required = False
+
+    def parsePage(self):
+        content_div = self.soup.find('div', {'class': 'content clear-block'})
+        for org_name in content_div.findAll('strong'):
+            description_element = org_name.parent.findNextSibling('p')
+            fee_list = description_element.findNextSibling('ul')
+            fees = list()
+            for fee in fee_list.findAll('li'):
+                anchor = fee.find('a')
+                fees.append({'institution': org_name.text,
+                             'url': anchor['href'],
+                             'title': anchor.text})
+            self.data.append({'institution': org_name.text,
+                              'description': description_element.text,
+                              'fees': fees})

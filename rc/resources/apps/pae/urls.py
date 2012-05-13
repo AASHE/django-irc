@@ -2,6 +2,7 @@ from django.conf.urls.defaults import patterns, url
 
 from rc.resources.views import ResourceItemListView
 from rc.resources.apps.pae import models
+from rc.resources.apps.pae.views import StudentFeeListView
 
 
 urlpatterns = patterns('',
@@ -52,5 +53,13 @@ urlpatterns = patterns('',
                     'organization__name', 'title')),
         name='revolving-loan-funds',
         kwargs={'member_only': True}),
+
+    url(r'^resources/mandatory-student-fees-renewable-energy-and-energy-efficiency',
+        StudentFeeListView.as_view(
+            model=models.StudentFeesDescription,
+            queryset=models.StudentFee.objects.order_by(
+                    'organization__name')),
+        name='student-fees',
+        kwargs={'member_only': False}),
 
     )
