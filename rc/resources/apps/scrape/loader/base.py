@@ -37,8 +37,7 @@ class GenericLoader(BaseLoader):
     Tries to match an organization to each resource, where
     data['institution'] ~= organization.name
     '''
-    def create_instance(self, data):
-        init_args = {}
+    def match_institution(self, data):
         if data.has_key('institution'):
             try:
                 inst_query = data['institution'].strip().lower()
@@ -52,6 +51,10 @@ class GenericLoader(BaseLoader):
                 except KeyError:
                     data['notes'] = note_line
                 del data['institution']
+
+    def create_instance(self, data):
+        init_args = {}
+        self.match_institution(data)
         # iterate over all the keys in the dictionary provided by
         # the parser... any keys that are fields on the model, use
         # to construct a new instance of the model
