@@ -1,6 +1,9 @@
 from gettext import gettext as _
+
 from django.db import models
+
 from rc.resources.models import ResourceItem
+from aashe.organization.models import Organization
 
 
 class AssessmentTool(ResourceItem):
@@ -8,7 +11,7 @@ class AssessmentTool(ResourceItem):
                 ('OT', 'Assessment Tools from Other Organizations'))
     provider = models.CharField(_('tool provider'), choices=CREATORS,
                                 max_length=2, default='AA')
-    
+
     class Meta:
         verbose_name = 'campus sustainability assessment tool'
 
@@ -24,8 +27,8 @@ class SustainabilityWebsite(ResourceItem):
         verbose_name = 'campus sustainability website'
 
 class SustainabilityBlog(ResourceItem):
-    type = models.CharField(max_length=128)    
-    
+    type = models.CharField(max_length=128)
+
     class Meta:
         verbose_name = 'campus sustainability blog'
 
@@ -46,3 +49,10 @@ class StudentFee(ResourceItem):
         verbose_name = 'student fee for sustainability'
         verbose_name_plural = 'student fees for sustainability'
 
+class StudentFeesDescription(models.Model):
+    '''Organizations can have many StudentFees, but there's a description
+    shared by them all.  StudentFeesDescription contains that description.
+    '''
+    description = models.TextField(_('student fees description'), blank=True)
+    organization = models.ForeignKey(Organization, blank=True, null=True)
+    notes = models.TextField(_('internal notes'), blank=True)
