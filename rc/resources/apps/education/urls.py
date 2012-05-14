@@ -46,8 +46,9 @@ urlpatterns = patterns('',
         ResourceItemListView.as_view(
             model=models.SustainabilityMap,
             queryset=models.SustainabilityMap.objects.order_by(
-                 'organization__name')),
-            name='sustainability-maps'),
+                 'organization__country', 'organization__name')),
+            name='sustainability-maps',
+            kwargs={'title': 'Campus Sustainability Maps and Tours'}),
 
     url(r'^resources/surveys-sustainability-awareness-attitudes-and-values$',
         ResourceItemListView.as_view(

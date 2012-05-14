@@ -8,14 +8,20 @@
   <p>
     <div id="resource_list" class="content clear-block">
       <p>
-        {% for map in object_list %}
-          {{ map.organization.name }} - 
-          <a href="{{ map.url }}">{{ map.title }}</a>
-          <br/>
+        {% regroup object_list by organization.country as country_list %}
+
+        {% for country in country_list %}
+          <h3>{{ country.grouper }}</h3>
+            <p>
+              {% for guide in country.list %}
+                {{ guide.organization.name }} -
+                <a href="{{ guide.url }}">{{ guide.title }}</a>
+                <br/>
+              {% endfor %}
+            </p>
         {% endfor %}
       </p>
     </div>
   </p>
 
 {% endblock body %}
-
