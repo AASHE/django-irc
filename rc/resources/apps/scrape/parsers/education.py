@@ -2,7 +2,7 @@
 import copy
 import urllib
 
-from BeautifulSoup import NavigableString, Tag
+from BeautifulSoup import Tag
 
 from base import PageParser, SimpleTableParser
 
