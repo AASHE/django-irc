@@ -7,7 +7,7 @@ DATABASES = {
         'NAME': 'django_irc_dev',
         'USER': 'django_irc_dev',
         'PASSWORD': 'te86FRas',
-        'HOST': '10.176.140.223',
+        'HOST': 'rc2-dev.aashe.org',
         'PORT': '',
         }
     }
