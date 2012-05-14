@@ -447,93 +447,48 @@ class WindTurbine(SimpleTableParser):
             resource['title'], _ = get_url_title(resource['url'])
         return resources
 
-class GenericGreenBuilding(PageParser):
+class GreenBuilding(PageParser):
     para_skip = 4
     login_required = True
 
     def getParas(self):
-        return self.soup.find('div', {'class': 'content clear-block'}).findAll('p')[self.para_skip:]
-
-    def getParagraphTags(self, paragraph):
-        return [el for el in paragraph]
-
-    def getTagElements(self, tag):
-        return [el for el in tag]
+        return self.soup.find('div',
+                              {'class': 'content clear-block'}).findAll(
+                                  'p')[self.para_skip:]
 
     def parsePage(self):
-        # skip first `para_skip` paragraphs
         paras = self.getParas()
-        data = {}
         for para in paras:
-            tags = self.getParagraphTags(para)
-            #tags = [el for el in para]
-            els = self.getTagElements(tags[0])
-            #els = [el for el in tags[1]]
-            inst = els[0]
-            data['institution'] = inst.strip()
-            try:
-                facility = els[2]
-                data['facility_name'] = facility.strip()
-            except:
-                data['facility_name'] = ''
-            try:
-                year = tags[4] or ''
-                data['year'] = year.strip()
-            except:
-                data['year'] = ''
-            try:
-                sqft = tags[8] or ''
-                data['sqft'] = sqft.strip()
-            except:
-                data['sqft'] = ''
-            try:
-                cost = tags[12] or ''
-                data['cost'] = cost.strip()
-            except:
-                data['cost'] = ''
-            try:
-                cert = tags[16] or ''
-                data['certification'] = cert.strip()
-            except:
-                data['certification'] = ''
-            try:
-                key_feat = tags[20] or ''
-                data['key_features'] = key_feat.strip()
-            except:
-                data['key_features'] = ''
-            try:
-                anchor = tags[26]
-                if isinstance(anchor, NavigableString):
-                    data['url'] = ''
-                    data['title'] = data['institution'] + data['year']
-                else:
-                    data['url'] = dict(tags[26].attrs).get('href', '')
-                    data['title'] = tags[26].text
-            except:
-                data['url'] = ''
-                data['title'] = data['institution'] + data['year']
-            data['type'] = self.soup.find('h1', {'class': 'page-title'}).text
-            self.data.append(data)
             data = {}
+            strong_element = para.find('strong')
+            if not strong_element:
+                continue
+            data['institution'] = strong_element.contents[0].strip()
+            data['facility_name'] = strong_element.contents[-1].strip()
+            ems = para.findAll('em')
+            for em in ems[:-1]:  # skip last one ('More Information')
+                key = em.text.strip(':').lower().replace(' ', '_')
+                try:
+                    data[key] = em.nextSibling.strip()
+                except TypeError:
+                    # must be a <br/>, right?
+                    data[key] = ''
+            data['type'] = para.findPrevious('h2').text
+            for anchor in para.findAll('a'):
+                data['url'] = anchor['href']
+                data['title'] = anchor.text
+                self.data.append(data)
 
-class GreenAthleticBuilding(GenericGreenBuilding):
+class GreenAthleticBuilding(GreenBuilding):
     '''
     >>> parser = GreenAthleticBuilding()
-    >>> paras = parser.getParas()
-    >>> tags = parser.getParagraphTags(paras[0])
-    >>> len(tags) > 0
-    True
-    >>> els = parser.getTagElements(tags[0])
-    >>> len(els) > 0
-    True
     >>> parser.parsePage()
     >>> len(parser.data) != 0
     True
     '''
     url = BASE_URL + 'athletic-recreation-centers-stadiums'
-    para_skip = 4
 
-class GreenLibrary(GenericGreenBuilding):
+class GreenLibrary(GreenBuilding):
     '''
     >>> parser = GreenLibrary()
     >>> parser.parsePage()
@@ -541,9 +496,8 @@ class GreenLibrary(GenericGreenBuilding):
     True
     '''
     url = BASE_URL + 'green-libraries-campus'
-    para_skip = 4
 
-class GreenStudentCenter(GenericGreenBuilding):
+class GreenStudentCenter(GreenBuilding):
     '''
     >>> parser = GreenStudentCenter()
     >>> parser.parsePage()
@@ -551,9 +505,8 @@ class GreenStudentCenter(GenericGreenBuilding):
     True
     '''
     url = BASE_URL + 'green-student-centers'
-    para_skip = 4
 
-class GreenResidence(GenericGreenBuilding):
+class GreenResidence(GreenBuilding):
     '''
     >>> parser = GreenResidence()
     >>> parser.parsePage()
@@ -561,69 +514,29 @@ class GreenResidence(GenericGreenBuilding):
     True
     '''
     url = BASE_URL + 'green-residence-halls'
-    para_skip = 4
 
-    def parsePage(self):
-        paras = self.getParas()
-        data = {}
-        for para in paras:
-            #tags = [el for el in para]
-            tags = self.getParagraphTags(para)
-            #els = [el for el in tags[1]]
-            els = self.getTagElements(tags[0])
-            inst = els[0]
-            data['institution'] = inst.strip()
-            try:
-                facility = els[2]
-                data['facility_name'] = facility.strip()
-            except:
-                data['facility_name'] = ''
-            try:
-                year = tags[4] or ''
-                data['year'] = year.strip()
-            except:
-                data['year'] = ''
-            try:
-                sqft = tags[8] or ''
-                data['sqft'] = sqft.strip()
-            except:
-                data['sqft'] = ''
-            try:
-                cost = tags[12] or ''
-                data['cost'] = cost.strip()
-            except:
-                data['cost'] = ''
-            try:
-                beds = tags[16] or ''
-                data['beds'] = beds.strip()
-            except:
-                data['beds'] = ''
-            try:
-                cert = tags[20] or ''
-                data['certification'] = cert.strip()
-            except:
-                data['certification'] = ''
-            try:
-                key_feat = tags[24] or ''
-                data['key_features'] = key_feat.strip()
-            except:
-                data['key_features'] = ''
-            try:
-                anchor = tags[30]
-                if isinstance(anchor, NavigableString):
-                    data['url'] = ''
-                    data['title'] = data['institution'] + data['year']
-                else:
-                    data['url'] = dict(anchor.attrs).get('href', '')
-                    data['title'] = anchor.text
-            except:
-                data['url'] = ''
-                data['title'] = data['institution'] + data['year']
-            data['type'] = self.soup.find('h1', {'class': 'page-title'}).text
-            self.data.append(data)
-            data = {}
+    # def parsePage(self):
+    #     paras = self.getParas()
+    #     for para in paras:
+    #         data = {}
+    #         strong_element = para.find('strong')
+    #         data['institution'] = strong_element.contents[0].strip()
+    #         data['facility_name'] = strong_element.contents[-1].strip()
+    #         ems = para.findAll('em')
+    #         for em in ems[:-1]:  # skip last one ('More Information')
+    #             key = em.text.strip(':').lower().replace(' ', '_')
+    #             try:
+    #                 data[key] = em.nextSibling.strip()
+    #             except TypeError:
+    #                 # must be a <br/>, right?
+    #                 data[key] = ''
+    #         data['type'] = para.findPrevious('h2').text
+    #         for anchor in para.findAll('a'):
+    #             data['url'] = anchor['href']
+    #             data['title'] = anchor.text
+    #             self.data.append(data)
 
-class GreenScience(GenericGreenBuilding):
+class GreenScience(GreenBuilding):
     '''
     >>> parser = GreenScience()
     >>> parser.parsePage()
@@ -631,7 +544,6 @@ class GreenScience(GenericGreenBuilding):
     True
     '''
     url = BASE_URL + 'green-science-buildings'
-    para_skip = 4
 
 class RenewableEnergyResearchCenters(SimpleTableParser):
     '''
