@@ -15,7 +15,14 @@
       <p>
         {% for syllabus in object_list %}
           <p>
-            <em>{{ syllabus.organization.name }}</em>
+            {% if syllabus.organization %}
+              <em>{{ syllabus.organization.name }}</em>
+            {% else %}
+              Not matched to any institution.
+              {% if syllabus.notes %}
+                <em>{{ syllabus.notes }}</em>
+              {% endif %}
+            {% endif %}
             <br/>
             <a href="{{ syllabus.url }}">
               <strong>{{ syllabus.title }}</strong>
@@ -29,4 +36,3 @@
   </p>
 
 {% endblock body %}
-
