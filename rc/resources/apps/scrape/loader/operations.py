@@ -101,7 +101,10 @@ class GreenBuildingLoader(GenericLoader):
                 type_obj = GreenBuildingType.objects.create(
                     type=data['type'])
             data['type'] = type_obj
-        super(GreenBuildingLoader, self).create_instance(data)
+        building_obj = super(GreenBuildingLoader, self).create_instance(data)
+        for link in data['_links']:
+            link_obj = building_obj.links.create(**link)
+        return building_obj
 
 class CommuterSurveyLoader(GenericLoader):
     def create_instance(self, data):

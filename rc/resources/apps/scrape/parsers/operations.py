@@ -473,11 +473,17 @@ class GreenBuilding(PageParser):
                 except TypeError:
                     # must be a <br/>, right?
                     data[key] = ''
-            data['type'] = para.findPrevious('h2').text
+            data['type'] = self.soup.find('h1', {'class': 'page-title'}).text
+            # Links are collected in an element called '_links'.  If it's
+            # called 'links', the generic loader will pass the values to
+            # the model's constructor, and that'll confuse it.  Named '_links',
+            # we can handle these after the generic loader creates the
+            # green building.
+            data['_links'] = list()
             for anchor in para.findAll('a'):
-                data['url'] = anchor['href']
-                data['title'] = anchor.text
-                self.data.append(data)
+                data['_links'].append({ 'title': anchor.text,
+                                       'url': anchor['href'] })
+            self.data.append(data)
 
 class GreenAthleticBuilding(GreenBuilding):
     '''

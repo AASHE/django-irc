@@ -12,7 +12,7 @@ class GreenBuildingWebsite(ResourceItem):
 class CampusGreenBuilding(ResourceItem):
     type = models.ForeignKey('GreenBuildingType', verbose_name='building type')
     facility_name = models.CharField(_('facility name'), max_length=128)
-    year = models.CharField(_('year completed'), max_length=128)
+    completed = models.CharField(_('when completed'), max_length=128)
     sqft = models.CharField(_('square footage'), max_length=56)
     cost = models.CharField(_('building cost'), max_length=56)
     certification = models.CharField(_('certification'), max_length=128)
@@ -21,6 +21,15 @@ class CampusGreenBuilding(ResourceItem):
     class Meta:
         verbose_name = 'green building on campus'
         verbose_name_plural = 'green buildings on campus'
+
+class CampusGreenBuildingLink(models.Model):
+    '''CampusGreenBuildings can have a number of links.  These are
+    represented by CampusGreenBuildingLinks.
+    '''
+    title = models.CharField(_('resource title'), max_length=256)
+    url = models.URLField(_('resource url'), blank=True, max_length=256)
+    resource_item = models.ForeignKey(CampusGreenBuilding,
+                                      related_name='links')
 
 class GreenResidenceHall(CampusGreenBuilding):
     beds = models.CharField(_('beds'), max_length=56)
