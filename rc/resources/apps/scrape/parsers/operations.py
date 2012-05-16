@@ -1,7 +1,7 @@
 import calendar
 from datetime import datetime
 
-from BeautifulSoup import BeautifulSoup, NavigableString, Tag
+from BeautifulSoup import BeautifulSoup, Tag
 import requests
 from StringIO import StringIO
 import pyPdf
@@ -274,6 +274,7 @@ class BiodieselFleet(SimpleTableParser):
         for fleet in fleets:
             fleet['type'] = cells[1].text
             fleet['production'] = production_type
+            fleet['title'], _ = get_url_title(fleet['url'])
         return fleets
 
     def parsePage(self):
@@ -323,6 +324,7 @@ class HybridVehicles(SimpleTableParser):
         cells = row.findAll('td')
         for fleet in fleets:
             fleet['number'] = cells[1].text
+            fleet['title'], _ = get_url_title(fleet['url'])
         return fleets
 
     def parsePage(self):
@@ -662,6 +664,7 @@ class CommuterSurvey(SimpleTableParser):
             table=table, save_resources=False)
         for survey in surveys:
             survey['type'] = surveytype
+            survey['title'], _ = get_url_title(survey['url'])
         self.data.extend(surveys)
 
     def parsePage(self):
