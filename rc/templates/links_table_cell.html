@@ -21,7 +21,7 @@
 <td>
   {% for resource in resources %}
     <a href="{{ resource.url }}">{% if not forloop.last %}
-                                   {{ resource.title }};</a>
+                                   {{ resource.title }}</a><br/>
                                  {% else %}
                                    {{ resource.title }}</a>
                                    {% comment %}
