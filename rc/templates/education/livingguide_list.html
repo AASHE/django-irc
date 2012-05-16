@@ -2,9 +2,6 @@
 
 {% block body %}
 
-  <div id="opening_text">
-  </div>
-
   <p>
     <div id="resource_list" class="content clear-block">
 
@@ -14,7 +11,7 @@
         <h3>{{ country.grouper }}</h3>
           <p>
             {% for guide in country.list %}
-              {{ guide.organization.name }} - 
+              {{ guide.organization.name }} -
               <a href="{{ guide.url }}">{{ guide.title }}</a>
               <br/>
             {% endfor %}
@@ -25,4 +22,3 @@
   </p>
 
 {% endblock body %}
-

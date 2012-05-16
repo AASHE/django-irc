@@ -6,7 +6,7 @@
 
 {% block body %}
 
-  <div id="opening_text">
+  <p>
 
     This resource contains campus websites describing their
     alternative transportation programs. In cases where an institution
@@ -14,13 +14,13 @@
     alternative transportation programs underway, a link to the
     parking or transportation office has been included.
 
-  </div>
+  </p>
 
   <p>
     <div id="resource_list" class="content clear-block">
       <p>
         {% for alttrans in object_list %}
-              {{ alttrans.organization.name }} - 
+              {{ alttrans.organization.name }} -
           <a href="{{ alttrans.url }}">{{ alttrans.title }}</a>
           <br/>
         {% endfor %}
@@ -29,4 +29,3 @@
   </p>
 
 {% endblock body %}
-

@@ -1,20 +1,17 @@
 {% extends "resourceitem_list.html" %}
 
 {% block title %}
-  
+
 {% endblock title %}
 
 {% block body %}
-
-  <div id="opening_text">
-  </div>
 
   <p>
     <div id="resource_list" class="content clear-block">
       <p>
 
         {% for resource in object_list %}
-          {{ resource.organization.name }} -           
+          {{ resource.organization.name }} -
           <a href="{{ resource.url }}">{{ resource.title }}</a>
           {% if resource.notes %}
             [{{ resource.notes }}]
@@ -27,4 +24,3 @@
   </p>
 
 {% endblock body %}
-

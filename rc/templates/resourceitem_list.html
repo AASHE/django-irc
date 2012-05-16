@@ -4,26 +4,30 @@
 
 {% block breadcrumb %}
 
-{% show_menu "AASHE Resource Center" "breadcrumb" %}
+  {% show_menu "AASHE Resource Center" "breadcrumb" %}
 
 {% endblock breadcrumb %}
 
 {% block right %}
 
-{% show_menu "AASHE Resource Center" "content-sidebar" %}
+  {% show_menu "AASHE Resource Center" "content-sidebar" %}
 
 {% endblock right %}
 
 {% block content %}
- 
-    <h1>   
+
+  <div id="content">
+
+    <h1>
       {% block title %}
         {{ title }}
       {% endblock title %}
     </h1>
 
+    <div class="content clear-block">
+
     {% if member_only %}
-	  <div id="restricted-text" class="accessible">	
+	  <div id="restricted-text" class="accessible">
 	    You are viewing member-only content.
 	  </div>
 	{% endif %}
@@ -42,7 +46,10 @@
 		  </p>
         </div>
       </div>
-    </div><!-- #content-footer -->	  
-	  
-{% endblock %}
+    </div><!-- #content-footer -->
 
+  </div><!-- .content.clear-block -->
+
+  </div><!-- #content -->
+
+{% endblock %}
