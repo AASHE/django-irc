@@ -71,7 +71,6 @@ urlpatterns = patterns('',
                     type__type='Student Sustainability Educator').order_by(
                     'organization__name'),
             template_name='programs/student_sustainability_educator_list.html'),
-        name='student-sustainability-educator',
-        kwargs={'member_only': True}),
+        name='student-sustainability-educator'),
 
         )
