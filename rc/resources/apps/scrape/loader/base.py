@@ -61,7 +61,10 @@ class GenericLoader(BaseLoader):
         for key in data.keys():
             if key in self.model._meta.get_all_field_names() and data[key]:
                 if type(data[key]) is str:
-                    data[key] = unicode(data[key])
+                    try:
+                        data[key] = unicode(data[key])
+                    except UnicodeDecodeError:
+                        pass  # probably already utf-8 . . . right?
                 init_args.update({key: data[key]})
         obj = self.model(**init_args)
         obj.save()
