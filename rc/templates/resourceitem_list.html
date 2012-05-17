@@ -4,8 +4,9 @@
 
 {% block breadcrumb %}
 
+<ul>
   {% show_menu "AASHE Resource Center" "breadcrumb" %}
-
+</ul>
 {% endblock breadcrumb %}
 
 {% block right %}
@@ -15,9 +16,6 @@
 {% endblock right %}
 
 {% block content %}
-
-  <div id="content">
-
     <h1>
       {% block title %}
         {{ title }}
@@ -49,7 +47,5 @@
     </div><!-- #content-footer -->
 
   </div><!-- .content.clear-block -->
-
-  </div><!-- #content -->
 
 {% endblock %}

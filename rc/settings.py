@@ -8,7 +8,9 @@ TEMPLATE_DEBUG = DEBUG
 SITE_ROOT = os.path.split(os.path.dirname(os.path.realpath(__file__)))[0]
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+    ('Jesse Legg', 'jesse.legg@aashe.org'),
+    ('Bob Erb', 'bob.erb@aashe.org'),
+    ('Matt Thomas', 'mthomas@aashe.org')
 )
 
 MANAGERS = ADMINS
@@ -35,7 +37,7 @@ DEFAULT_CHARSET = 'utf-8'
 # timezone as the operating system.
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'America/New_York'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -105,6 +107,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'aashe.aasheauth.middleware.AASHEAccountMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
@@ -129,8 +132,10 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
     'django.contrib.markup',
-    'aashe.aashetheme',
+    #'aashe.aashetheme',
+    'aashe.aashestrap',
     'aashe.organization',
+    'aashe.aasheauth',
     'treemenus',
     'rc.cms',
     'rc.resources',
@@ -150,7 +155,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.static",
     "django.contrib.messages.context_processors.messages",
     "django.core.context_processors.request"
-  # ...
 )
 
 # A sample logging configuration. The only tangible logging
@@ -178,3 +182,13 @@ LOGGING = {
 
 AASHE_ACCOUNT_USERNAME = 'releaser@aashe.org'
 AASHE_ACCOUNT_PASSWORD = 'releaseme'
+
+AUTHENTICATION_BACKENDS = ('aashe.aasheauth.backends.AASHEBackend',
+                           'django.contrib.auth.backends.ModelBackend',)
+
+# Production Drupal Services settings
+AASHE_DRUPAL_URI = "http://www.aashe.org/services/xmlrpc"
+AASHE_DRUPAL_KEY = "15cf217790e3d45199aeb862f73ab2ff"
+AASHE_DRUPAL_KEY_DOMAIN = "acupcc.aashe.org"
+AASHE_DRUPAL_COOKIE_SESSION = "SESS0e65dd9c18edb0e7e84759989a5ca2d3"
+AASHE_DRUPAL_COOKIE_DOMAIN = ".aashe.org"
