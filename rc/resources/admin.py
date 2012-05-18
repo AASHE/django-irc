@@ -8,8 +8,8 @@ class ResourceItemAdmin(admin.ModelAdmin):
     list_editable = ['published']
     search_fields = ['title', 'organization__name', 'description', 'notes']
     
-    def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        if db_field.name == 'organization':
-            kwargs['queryset'] = Organization.objects.filter(sector='Campus')
-        return super(ResourceItemAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+    # def formfield_for_foreignkey(self, db_field, request, **kwargs):
+    #     if db_field.name == 'organization':
+    #         kwargs['queryset'] = Organization.objects.filter(sector='Campus')
+    #     return super(ResourceItemAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
     
