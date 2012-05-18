@@ -30,9 +30,7 @@
                 <td>{{ resource.organization.name }}</td>
                 <td><a href="{{ resource.url }}">{{ resource.title }}</a>
                 </td>
-                <td> {{ resource.date_published|date:"F Y" }}
-                     {{ resource.notes }}
-                </td>
+                <td>{{ resource.date_published|date:"F Y" }}</td>
               </tr>
             {% endfor %}
           </tbody>

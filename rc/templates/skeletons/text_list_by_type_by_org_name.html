@@ -21,7 +21,6 @@
           {% for resource in type.list %}
             {{ resource.organization.name }} -
             <a href="{{ resource.url }}">{{ resource.title }}</a>
-            {{ resource.notes }}
             <br/>
           {% endfor %}
         {% endfor %}

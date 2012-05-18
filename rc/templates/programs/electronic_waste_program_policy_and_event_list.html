@@ -37,7 +37,6 @@
                 <td>{{ resource.organization.name }}</td>
                 <td><a href="{{ resource.url }}">{{ resource.title }}</a></td>
                 <td>{{ resource.items|safe }}
-                    {{ resource.notes }}
                 </td>
               </tr>
             {% endfor %}
@@ -57,7 +56,6 @@
                 <td>{{ resource.organization.name }}</td>
                 <td><a href="{{ resource.url }}">{{ resource.title }}</a>
                 <td>{{ resource.items|safe }}
-                    {{ resource.notes }}
                 </td>
               </tr>
             {% endfor %}
@@ -75,7 +73,6 @@
               <tr>
                 <td>{{ resource.organization.name }}</td>
                 <td><a href="{{ resource.url }}">{{ resource.title }}
-                    {{ resource.notes }}
                 </td>
               </tr>
             {% endfor %}

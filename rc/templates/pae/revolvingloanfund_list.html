@@ -41,11 +41,7 @@
         {% for resource in object_list %}
           <p>
             <strong>
-              {% if resource.organization %}
-                {{ resource.organization.name }}
-              {% else %}
-                &lt;&lt;{{ resource.notes }}&gt;&gt;
-              {% endif %}
+              {{ resource.organization.name }}
             </strong>
             <br/>
             {{ resource.description }}

@@ -13,9 +13,6 @@
         {% for resource in object_list %}
           {{ resource.organization.name }} -
           <a href="{{ resource.url }}">{{ resource.title }}</a>
-          {% if resource.notes %}
-            [{{ resource.notes }}]
-          {% endif %}
           <br/>
         {% endfor %}
 

@@ -20,9 +20,6 @@
           {% for fee in unmatched_fees %}
             <li>
               <a href="{{ fee.url }}">{{ fee.title }}</a>
-              {% if fee.notes %}
-                [{{ fee.notes }}]
-              {% endif %}
             </li>
           {% endfor %}
           </ul>
@@ -47,9 +44,6 @@
               {% for fee in resource.fees %}
                 <li>
                   <a href="{{ fee.url }}">{{ fee.title }}</a>
-                  {% if fee.notes %}
-                    [{{ fee.notes }}]
-                  {% endif %}
                 </li>
               {% endfor %}
             {% endfor %}
