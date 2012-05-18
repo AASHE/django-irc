@@ -45,7 +45,7 @@ def get_url_title(url):
     return title, notes
 
 
-class BottledWaterBans(PageParser):
+class BottledWaterBans(SimpleTableParser):
     '''
     >>> parser = BottledWaterBans()
     >>> parser.parsePage()
@@ -57,46 +57,22 @@ class BottledWaterBans(PageParser):
 
     def parsePage(self):
         tables = self.soup.findAll('table')
-        # first table is 'Campus-wide bans'
-        policyData = {}
-        for row in tables[0].findAll('tr'):
-            tags = [el for el in row]
-            policyData['institution'] = tags[1].text
-            policyData['url'] = dict(tags[3].first().attrs).get('href', '')
-            policyData['title'] = tags[3].text
-            policyData['type'] = 'Campus-Wide Bans'
-            self.data.append(policyData)
-            policyData = {}
+        self.processTable(table=tables[0],
+                          ban_type='Campus-Wide Bans')
+        self.processTable(table=tables[1],
+                          ban_type='Area, School and Department Specific Bans')
+        self.processTable(table=tables[2],
+                          ban_type='Student Campaigns to Ban Bottled Water')
+        self.processTable(table=tables[3],
+                          ban_type='Awareness and Reduction Campaigns')
 
-        # second table is Area, School and Department Specific Bans
-        for row in tables[1].findAll('tr'):
-            tags = [el for el in row]
-            policyData['institution'] = tags[1].text
-            policyData['url'] = dict(tags[3].first().attrs).get('href', '')
-            policyData['title'] = tags[3].text
-            policyData['type'] = 'Area, School and Department Specific Bans'
-            self.data.append(policyData)
-            policyData = {}
-
-        # third table is Student Campaigns to Ban Bottled Water
-        for row in tables[2].findAll('tr'):
-            tags = [el for el in row]
-            policyData['institution'] = tags[1].text
-            policyData['url'] = dict(tags[3].first().attrs).get('href', '')
-            policyData['title'] = tags[3].text
-            policyData['type'] = 'Student Campaigns to Ban Bottled Water'
-            self.data.append(policyData)
-            policyData = {}
-
-        # fourth table is Awareness and Reduction Campaigns
-        for row in tables[3].findAll('tr'):
-            tags = [el for el in row]
-            policyData['institution'] = tags[1].text
-            policyData['url'] = dict(tags[3].first().attrs).get('href', '')
-            policyData['title'] = tags[3].text
-            policyData['type'] = 'Awareness and Reduction Campaigns'
-            self.data.append(policyData)
-            policyData = {}
+    def processTable(self, table, ban_type):
+        bans = super(BottledWaterBans, self).processTable(
+            table=table, headings=True, save_resources=False)
+        for ban in bans:
+            ban['type'] = ban_type
+        self.data.extend(bans)
+        return bans
 
 class SustainableDiningInitiatives(PageParser):
     '''
