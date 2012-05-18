@@ -1,0 +1,26 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Campus Sustainable Energy Policies
+{% endblock title %}
+
+{% block body %}
+
+  <p>
+    <div id="resource_list" class="content clear-block">
+      <p>
+
+        {% for resource in object_list %}
+          {{ resource.organization.name }} -
+          <a href="{{ resource.url }}">{{ resource.title }}</a>
+          {% if resource.notes %}
+            [{{ resource.notes }}]
+          {% endif %}
+          <br/>
+        {% endfor %}
+
+      </p>
+    </div>
+  </p>
+
+{% endblock body %}

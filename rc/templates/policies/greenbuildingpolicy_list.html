@@ -1,0 +1,87 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Campus Building Guidelines and Green Building Policies
+{% endblock title %}
+
+{% block body %}
+
+  <p>
+    In recognition of the significant environmental and health
+    impacts associated with buildings as well as the long-term cost
+    savings from better design, colleges and universities are
+    increasingly adopting green building policies. In many cases,
+    campuses are committing to meeting standards set by the U.S
+    Green Building Council's <a href="http://www.leedbuilding.org">
+    LEED (Leadership in Energy and Environmental Design)</a> Green
+    Building Rating System.
+  </p>
+  <p>
+    Below is a list of campus green building policies grouped by
+    LEED standard where relevant, or ordered alphabetically by
+    campus in an "other" category.
+  </p>
+  <p>
+    Users may also wish to visit the
+    <a href="http://acupcc.aashe.org/statistics-tangible.php">
+    ACUPCC&nbsp;Reporting System</a> which includes statistics on
+    signatory campuses that have chosen to establish a policy that
+    all new campus construction will be built to at least the U.S.
+    Green Building Council's LEED Silver standard or equivalent.
+  </p>
+
+  <div id="resource_list">
+
+    <p>
+      {% regroup object_list by leed_level as list_by_type %}
+
+      {% comment %}
+        Sort in GreenBuildingPolicy.LEED_LEVEL order.
+      {% endcomment %}
+      {% for leed_level_code in type_list %}
+        {% for type in list_by_type %}
+          {% if type.grouper == leed_level_code %}
+            {% for key, value in type_dict.items %}
+              {% if key == type.grouper %}
+                <h2>LEED {{ value }}</h2>
+                {% with leed_level=key %}
+                  {% for resource in type.list %}
+                    {% if resource.leed_level = leed_level %}
+                      <p>
+                        <strong>{{ resource.organization.name }}</strong> -
+                        <a href="{{ resource.url }}">{{ resource.title }}</a>
+                        {{ resource.notes }}
+                        <br/>
+                        {{ resource.description }}
+                      </p>
+                    {% endif %}
+                  {% endfor %}
+                {%endwith%}
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+
+      {% comment %}
+        Put the ones w/o a specified leed_level at the end.
+      {% endcomment %}
+      {% for type in list_by_type %}
+        {% if type.grouper == "" %}
+          <h2>Other Standards and Guidelines</h2>
+          {% for resource in type.list %}
+            <p>
+              <strong>{{ resource.organization.name }}</strong> -
+              <a href="{{ resource.url }}">{{ resource.title }}</a>
+              {{ resource.notes }}
+              <br/>
+              {{ resource.description }}
+            </p>
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+
+    </p>
+  </div>
+
+{% endblock body %}

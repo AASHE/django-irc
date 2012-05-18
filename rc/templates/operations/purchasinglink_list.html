@@ -1,0 +1,31 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Links Related to Sustainable Purchasing on Campus
+{% endblock title %}
+
+{% block body %}
+
+  <div id="resource_list">
+    <p>
+      {% regroup object_list by type as list_by_type %}
+
+      {% for type in list_by_type %}
+        <p>
+          {% for key, value in type_list.items %}
+            {% if key == type.grouper %}
+              <h2>{{ value }}</h2>
+            {% endif %}
+          {% endfor %}
+          {% for resource in type.list %}
+            {{ resource.organization.name }} -
+            <a href="{{ resource.url }}">{{ resource.title }}</a>
+            {{ resource.notes }}
+            <br/>
+          {% endfor %}
+        {% endfor %}
+      </p>
+    </p>
+  </div>
+
+{% endblock body %}

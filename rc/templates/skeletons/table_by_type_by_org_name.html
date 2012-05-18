@@ -1,0 +1,42 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+
+{% endblock title %}
+
+{% block body %}
+
+  <div id="resource_list">
+    <p>
+      {% regroup object_list by type as list_by_type %}
+
+      {% for type in list_by_type %}
+        <p>
+          {% for key, value in type_list.items %}
+            {% if key == type.grouper %}
+              <h2>{{ value }}</h2>
+            {% endif %}
+          {% endfor %}
+          <table>
+            <tbody>
+              <tr>
+                <th></th>
+                <th></th>
+              </tr>
+              {% for resource in type.list %}
+                <tr>
+                  <td>{{ resource.organization.name }}</td>
+                  <td><a href="{{ resource.url }}">{{ resource.title }}</a>
+                  {{ resource.notes }}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </p>
+        <br/>
+      {% endfor %}
+    </p>
+  </div>
+
+{% endblock body %}

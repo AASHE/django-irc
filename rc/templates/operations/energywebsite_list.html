@@ -1,0 +1,35 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Campus Sustainable Energy Management Websites
+{% endblock title %}
+
+{% block body %}
+
+  <p>
+
+    This resource lists campus webpages that describe the
+    institution's energy conservation and renewable energy
+    initiatives.  In cases where multiple webpages exist, we have
+    linked to the one that links to the others or appears to provide
+    the most information.
+
+  </p>
+
+  <p>
+    <div id="resource_list" class="content clear-block">
+      <p>
+        <table>
+          <tbody>
+            <tr>
+              <th>Institution</th>
+              <th>Website</th>
+            </tr>
+            {% include "table_rows.html" with resources=object_list %}
+          </tbody>
+        </table>
+      </p>
+    </div>
+  </p>
+
+{% endblock body %}

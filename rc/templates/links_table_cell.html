@@ -1,0 +1,38 @@
+{% comment %}
+
+  Describes a table cell that contains the url of all resources in
+  resources, separated by semicolons.  After the urls, the notes field
+  of the last resource is printed.  Really need a better solution for
+  notes than that -- what if > 1 resource has notes?  What if the resource
+  with the notes isn't the last one?
+
+  Usage (from table_row.html):
+
+    {% regroup object_list by organization.name as org_list %}
+    {% for org in org_list %}
+      <tr>
+        <td>{{ org.grouper }}</td>
+        {% include ".../links_table_cell.html" with resources=org.list %}
+      </tr>
+    {% endfor %}
+
+{% endcomment %}
+
+<td>
+  {% for resource in resources %}
+    <a href="{{ resource.url }}">{% if not forloop.last %}
+                                   {{ resource.title }}</a><br/>
+                                 {% else %}
+                                   {{ resource.title }}</a>
+                                   {% comment %}
+                                     Resources not connected to an organization
+                                     are grouped together; doesn't make sense
+                                     to show the notes for the last one in
+                                     that group.
+                                   {% endcomment %}
+                                   {% if resource.organization %}
+                                     {{ resource.notes }}
+                                   {% endif %}
+                                 {% endif %}
+  {% endfor %}
+</td>

@@ -1,0 +1,63 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Dedicated Student Fees for Renewable Energy and Energy Efficiency
+{% endblock title %}
+
+{% block body %}
+
+  <p>
+    <div id="resource_list" class="content clear-block">
+      <p>
+        {% comment %}
+          First show fees NOT matched to institutions.
+        {% endcomment %}
+        {% if unmatched_fees %}
+          <p>
+            <strong>Fees unmatched to an institution</strong>
+          </p>
+          <ul>
+          {% for fee in unmatched_fees %}
+            <li>
+              <a href="{{ fee.url }}">{{ fee.title }}</a>
+              {% if fee.notes %}
+                [{{ fee.notes }}]
+              {% endif %}
+            </li>
+          {% endfor %}
+          </ul>
+        {% endif %}
+
+        {% comment %}
+          Now show fees matched to institutions.
+        {% endcomment %}
+
+        {% regroup matched_descriptions by organization.name as org_list %}
+
+        {% for org in org_list %}
+          {% if org.grouper %}
+            <p>
+              <strong>{{ org.grouper }}</strong>
+            </p>
+            {% for resource in org.list %}
+              <p>
+                {{ resource.description }}
+              </p>
+              <ul>
+              {% for fee in resource.fees %}
+                <li>
+                  <a href="{{ fee.url }}">{{ fee.title }}</a>
+                  {% if fee.notes %}
+                    [{{ fee.notes }}]
+                  {% endif %}
+                </li>
+              {% endfor %}
+            {% endfor %}
+            </ul>
+          {% endif %}
+        {% endfor %}
+      </p>
+    </div>
+  </p>
+
+{% endblock body %}

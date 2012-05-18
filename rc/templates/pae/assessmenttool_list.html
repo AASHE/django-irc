@@ -1,0 +1,39 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Campus Sustainability Assessment Tools
+{% endblock title %}
+
+{% block body %}
+
+  <div id="resource_list">
+
+    <p>
+      {% regroup object_list by provider as list_by_type %}
+      {% for type in list_by_type %}
+        <p>
+          {% for key, value in type_list.items %}
+            {% if key == type.grouper %}
+              <h2>{{ value }}</h2>
+            {% endif %}
+          {% endfor %}
+          {% for resource in type.list %}
+            <p>
+              <strong>
+                <a href="{{ resource.url }}">{{ resource.title }}</a>
+              </strong>
+              <br/>
+              <em>{% firstof resource.organization.name 'unknown org'%}</em>
+              <br/>
+              {{ resource.description }}
+              <br/>
+              [{{ resource.notes }}]
+            </p>
+          {% endfor %}
+        </p>
+        {% endfor %}
+      </p>
+    </p>
+  </div>
+
+{% endblock body %}
