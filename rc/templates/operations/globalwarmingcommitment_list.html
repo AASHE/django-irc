@@ -63,23 +63,23 @@
                 <td>
                   {% for resource in org.list %}
                     <a href="{{ resource.url }}">
-                    {% if not forloop.last %}
-                      {{ resource.commitment }};</a>
-                    {% else %}
-                      {{ resource.commitment }}</a>
-                      {% comment %}
-                        Resources not connected to an organization
-                        are grouped together; doesn't make sense
-                        to show the notes and date for the last one in
-                        that group.
-                      {% endcomment %}
-                      {% if resource.organization %}
-                        {{ resource.notes }}
-                       <td>{{ resource.date|date:"F Y" }}</td>
-                      {% endif %}
+                      {{ resource.commitment }}
+                    </a><br/>
+                    {% comment %}
+                      We list every commitment in one cell, but only
+                      one date -- the most recent date of an institution's
+                      commitments (assuming these resources are ordered
+                      by ascending date).  Why?  'Cause it's easier than
+                      tracking the dates of multiple resources, and only
+                      printing the unique values in that list.
+                    {% endcomment %}
+                    {% if forloop.last %}
+                      </td>
+                      <td>
+                        {{ resource.date|date:"F Y" }}
+                      </td>
                     {% endif %}
                   {% endfor %}
-                </td>
               </tr>
             {% endfor %}
           </tbody>

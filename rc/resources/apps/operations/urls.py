@@ -129,7 +129,7 @@ urlpatterns = patterns('',
         ResourceItemListView.as_view(
             model=models.GlobalWarmingCommitment,
             queryset=models.GlobalWarmingCommitment.objects.order_by(
-                    'organization__name')),
+                    'organization__name', 'date')),
             name='global-warming-commitments'),
 
     url(r'^resources/campus-hybrid-vehicle-fleets',
