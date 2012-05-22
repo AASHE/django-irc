@@ -52,9 +52,11 @@ def generate_pages():
                 # TODO: Get content above first H2
                 try:
                     title = soup.find('h1', {'class': 'page-title'}).text
-                    content = soup.find('div', {'class': 'content clear-block'}).find('p').prettify()
                 except:
                     title = item.extension.caption
+                try:
+                    content = soup.find('div', {'class': 'content clear-block'}).find('p').prettify()
+                except:
                     content = ""
                 newpage = Page(title=title, path=item.url, published=True, content=content, menuitem=item)
                 newpage.save()

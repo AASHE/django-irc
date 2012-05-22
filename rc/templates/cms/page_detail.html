@@ -12,12 +12,26 @@
 
 {% endblock breadcrumb %}
 
+{% block content %}
+
 {% block page-title %}<h1 class="page-title">{{ object.title }}</h1>{% endblock %}
 
-{% block content %}
 {{ page.content|markdown }}
 
-{% show_menu "AASHE Resource Center" "resource-menu" %}  
+{% show_menu "AASHE Resource Center" "resource-menu" %}
+
+<div id="content-footer">
+  <div class="block block-block " id="block-block-43">
+    <div class="block-content content">
+      <p>
+    <em>Please email <a href="mailto:resources@aashe.org">
+            resources@aashe.org</a> with any suggestions, additions or
+        updates.
+    </em>
+  </p>
+    </div>
+  </div>
+</div><!-- #content-footer -->
 
 {% endblock content %}
 

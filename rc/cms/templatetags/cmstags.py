@@ -28,6 +28,8 @@ def generate_breadcrumb(object, request):
           itemslist = [first, second]
         else:
           itemslist = [first]
+        # show the page title, not the menuitem title for the last item
+        itemslist[-1].caption = object.title
         return render_to_string('treemenus/breadcrumb_fragment.html', {'itemslist': itemslist})
     else:
         view = resolve(request.path)
