@@ -56,7 +56,11 @@
               {% endif %}
             {% endif %}          
           {% else %}
-            <li class="leaf"><span>{{ child.extension.caption }}</span></li>
+            {% if child.url %}
+              <li class="leaf"><a href="{{ child.url|prepend_slash }}"><span>{{ child.extension.caption }}</span></a></li>
+            {% else %}
+              <li class="leaf"><span>{{ child.extension.caption }}</span></li>
+            {% endif %}
             <ul class="menu">
             {% for second_child in child.children %}
               {% if second_child.extension.protected %}
