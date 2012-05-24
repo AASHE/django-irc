@@ -7,27 +7,27 @@
         {% for item in itemslist %}
           {% if item != childlist.0 %}
             {% if item.url %}
-            <li class="collapsed first"><a href="/{{ item.url }}"><span>{{ item.extension.caption }}</span></a></li>
+            <li class="collapsed first"><a href="/{{ item.url }}" class="{% if item.extension.protected %}restricted-content{% endif %}"><span>{{ item.extension.caption }}</span></a></li>
             {% endif %}
             {% if item.named_url %}
-            <li class="collapsed first"><a href="{% url item.named_url %}"><span>{{ item.extension.caption }}</span></a></li>
+            <li class="collapsed first"><a href="{% url item.named_url %}" class="{% if item.extension.protected %}restricted-content{% endif %}"><span>{{ item.extension.caption }}</span></a></li>
             {% endif %}
           {% endif %}
           {% if item == childlist.0 %}
             {% if item.url %}
-            <li class="expanded active-trail"><a href="/{{ item.url }}" class="active-trail"><span>{{ item.extension.caption }}</span></a>
+            <li class="expanded active-trail"><a href="/{{ item.url }}" class="{% if item.extension.protected %}restricted-content{% endif %} active-trail"><span>{{ item.extension.caption }}</span></a>
             {% endif %}
             {% if item.named_url %}
-            <li class="expanded active-trail"><a href="{% url item.named_url %}" class="active-trail"><span>{{ item.extension.caption }}</span></a>
+            <li class="expanded active-trail"><a href="{% url item.named_url %}" class="{% if item.extension.protected %}restricted-content{% endif %} active-trail"><span>{{ item.extension.caption }}</span></a>
             {% endif %}
             <ul class='menu'>
             {% for child in childlist %}
               {% if child.level > 1 %}
                 {% if child.url %}
-                <li class="leaf"><a href="/{{ child.url }}" {% if child == activeitem %}class="active-trail"{% endif %}><span>{{ child.extension.caption }}</span></a></li>
+                <li class="leaf"><a href="/{{ child.url }}" class="{% if child.extension.protected %}restricted-content{% endif %}{% if child == activeitem %} active-trail{% endif %}"><span>{{ child.extension.caption }}</span></a></li>
                 {% endif %}
                 {% if child.named_url %}
-                <li class="leaf"><a href="{% url child.named_url %}" {% if child == activeitem %}class="active-trail"{% endif %}><span>{{ child.extension.caption }}</span></a></li>
+                <li class="leaf"><a href="{% url child.named_url %}" class="{% if child.extension.protected %}restricted-content{% endif %}{% if child == activeitem %} active-trail{% endif %}"><span>{{ child.extension.caption }}</span></a></li>
                 {% endif %}
               {% endif %}
             {% endfor %}
