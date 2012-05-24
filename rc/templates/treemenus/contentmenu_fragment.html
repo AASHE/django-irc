@@ -10,9 +10,9 @@
         {% if not child.has_children %}
           {% if child.extension.protected %}
             {% if child.url %}
-            <li class="leaf"><a href="{{ child.url|prepend_slash }}"><span>{{ child.extension.caption }}</span></a><img src="http://www.aashe.org/sites/all/themes/aashe10/images/icon-restricted-content.png" alt="Members-only Content"/></li>
+            <li class="leaf"><a href="{{ child.url|prepend_slash }}" class="restricted-content"><span>{{ child.extension.caption }}</span></a></li>
             {% else %}
-            <li class="leaf"><a href="{% url child.named_url %}"><span>{{ child.extension.caption }}</span></a><img src="http://www.aashe.org/sites/all/themes/aashe10/images/icon-restricted-content.png" alt="Members-only Content"/></li>
+            <li class="leaf"><a href="{% url child.named_url %}" class="restricted-content"><span>{{ child.extension.caption }}</span></a></li>
             {% endif %}
           {% else %}
             {% if child.url %}
@@ -27,9 +27,9 @@
           {% for second_child in child.children %}
             {% if second_child.extension.protected %}
               {% if second_child.url %}
-              <li class="leaf"><a href="{{ second_child.url|prepend_slash }}"><span>{{ second_child.extension.caption }}</span></a><img src="http://www.aashe.org/sites/all/themes/aashe10/images/icon-restricted-content.png" alt="Members-only Content"/></li>
+              <li class="leaf"><a href="{{ second_child.url|prepend_slash }}" class="restricted-content"><span>{{ second_child.extension.caption }}</span></a></li>
               {% else %}
-              <li class="leaf"><a href="{% url second_child.named_url %}"><span>{{ second_child.extension.caption }}</span></a><img src="http://www.aashe.org/sites/all/themes/aashe10/images/icon-restricted-content.png" alt="Members-only Content"/></li>
+              <li class="leaf"><a href="{% url second_child.named_url %}" class="restricted-content"><span>{{ second_child.extension.caption }}</span></a></li>
               {% endif %}
             {% else %}
               {% if second_child.url %}
@@ -52,9 +52,9 @@
     {% if not child_menu_item.has_children %}
       {% if child_menu_item.extension.protected %}
         {% if child_menu_item.url %}
-        <li class="leaf"><a href="{{ child_menu_item.url|prepend_slash }}"><span>{{ child_menu_item }}</span></a><img src="http://www.aashe.org/sites/all/themes/aashe10/images/icon-restricted-content.png" alt="Members-only Content"/></li>
+        <li class="leaf"><a href="{{ child_menu_item.url|prepend_slash }}" class="restricted-content"><span>{{ child_menu_item }}</span></a></li>
         {% else %}
-        <li class="leaf"><a href="{% url child_menu_item.named_url %}"><span>{{ child_menu_item }}</span></a><img src="http://www.aashe.org/sites/all/themes/aashe10/images/icon-restricted-content.png" alt="Members-only Content"/></li>
+        <li class="leaf"><a href="{% url child_menu_item.named_url %}" class="restricted-content"><span>{{ child_menu_item }}</span></a></li>
         {% endif %}
       {% else %}
         {% if child_menu_item.url %}
@@ -72,9 +72,9 @@
   {% for child_menu_item in object.menuitem.children %}
     {% if child_menu_item.extension.protected %}
       {% if child_menu_item.url %}
-      <li class="leaf"><a href="{{ child_menu_item.url|prepend_slash }}"><span>{{ child_menu_item }}</span></a><img src="http://www.aashe.org/sites/all/themes/aashe10/images/icon-restricted-content.png" alt="Members-only Content"/></li>
+      <li class="leaf"><a href="{{ child_menu_item.url|prepend_slash }}" class="restricted-content"><span>{{ child_menu_item }}</span></a></li>
       {% else %}
-      <li class="leaf"><a href="{% url child_menu_item.named_url %}"><span>{{ child_menu_item }}</span></a><img src="http://www.aashe.org/sites/all/themes/aashe10/images/icon-restricted-content.png" alt="Members-only Content"/></li>
+      <li class="leaf"><a href="{% url child_menu_item.named_url %}" class="restricted-content"><span>{{ child_menu_item }}</span></a></li>
       {% endif %}
     {% else %}
       {% if child_menu_item.url %}
