@@ -1,5 +1,7 @@
 from django.core.urlresolvers import reverse
 from django.views.generic import ListView
+from django.utils.decorators import classonlymethod
+from aashe.aasheauth.decorators import members_only
 
 
 class ResourceItemListView(ListView):

@@ -15,7 +15,7 @@
 <div id="block-menu_block-7" class="menu-block-7 menu-level-1">
 {% for menu_item in menu.root_item.children %}
 <ul class="menu">
-  <li class="expanded"><a href="{{ menu_item.url|prepend_slash }}">{{ menu_item.extension.caption }}</a>
+  <li class="expanded"><a href="{{ menu_item.url|prepend_slash }}"><span>{{ menu_item.extension.caption }}</span></a>
   {% if menu_item.has_children %}
   <ul class="menu">
   {% for child_menu_item in menu_item.children %}

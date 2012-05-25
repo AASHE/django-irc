@@ -3,6 +3,7 @@ from django.template.defaultfilters import slugify
 
 from rc.resources.views import ResourceItemListView
 from rc.resources.apps.education import models
+from aashe.aasheauth.decorators import members_only
 
 
 def academic_centers_url_name(center_type_code):
@@ -59,10 +60,10 @@ urlpatterns = patterns('',
         kwargs={'member_only': True}),
 
     url(r'^resources/sustainability-course-inventories$',
-        ResourceItemListView.as_view(
+        members_only(ResourceItemListView.as_view(
             model=models.SustainabilityCourseInventory,
             queryset=models.SustainabilityCourseInventory.objects.order_by(
-                'organization__name')),
+                'organization__name'))),
         name='sustainability-course-inventories',
         kwargs={'member_only': True}),
 
