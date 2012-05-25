@@ -86,45 +86,45 @@ def policy_by_category_by_org_name_url(url_string, policy_type,
 urlpatterns = patterns('',
 
     policy_url(
-        r'^resources/energy-efficient-appliance-procurement-policies',
+        r'^energy-efficient-appliance-procurement-policies',
         policy_type='Appliance Procurement',
         page_title='Energy Efficient Appliance Procurement Policies',
         with_description=True,
         member_only=True),
 
     policy_by_country_by_org_name_url(
-        url_string=r'^resources/campus-stormwater-policies-plans',
+        url_string=r'^campus-stormwater-policies-plans',
         policy_type='Stormwater',
         page_title='Campus Stormwater Policies / Plans',
         opening_text="""
             This resource lists campus stormwater policies and
             procedures that exist independently of water conservation
             policies, which can be found within general <a
-            href="/resources/campus-water-conservation-policies">Campus
+            href="/campus-water-conservation-policies">Campus
             Water Conservation Policies</a>.
             """,
         member_only=True),
 
-    policy_url(url_string=r'^resources/energy-conservation-policies',
+    policy_url(url_string=r'^energy-conservation-policies',
                policy_type='Energy Conservation',
                page_title='Campus Sustainable Energy Policies',
                bold_org_name=False),
 
     policy_url(
-        r'^resources/campus-sustainable-procurement-policies',
+        r'^campus-sustainable-procurement-policies',
         policy_type='General Procurement',
         with_description=True,
         page_title='Campus Sustainable Procurement Policies',
         member_only=True),
 
     policy_by_category_by_org_name_url(
-        r'^resources/campus-sustainability-and-environmental-policies',
+        r'^campus-sustainability-and-environmental-policies',
         policy_type='Sustainability',
         page_title='Campus Sustainability and Environmental Policies',
         member_only=True),
 
     policy_by_country_by_org_name_url(
-        url_string=r'^resources/telecommuting-alternative-work',
+        url_string=r'^telecommuting-alternative-work',
         policy_type='Telecommuting',
         page_title='Telecommuting (Alternative Work) Policies',
         opening_text="""This resource is a list of college and
@@ -134,53 +134,53 @@ urlpatterns = patterns('',
         member_only=True),
 
     policy_by_country_by_org_name_url(
-        url_string=r'^resources/water-conservation-policies',
+        url_string=r'^water-conservation-policies',
         policy_type='Water Conservation',
         opening_text="""This resource lists campus water conservation
                         policies and procedures that exist
                         independently of another policy or plan. More
                         water conservation policies can be found
-                        within <a href="/resources/general_policies.php">
+                        within <a href="/general_policies.php">
                         Campus Sustainability Policies - General</a>.""",
         member_only=True),
 
     policy_url(
-        r'^resources/campus-living-wage-policies',
+        r'^campus-living-wage-policies',
         policy_type='Living Wage',
         with_description=True,
         page_title='Campus Living Wage Policies',
         member_only=True),
 
     policy_url(
-        r'^resources/campus-anti-idling-policies',
+        r'^campus-anti-idling-policies',
         policy_type='Anti-Idling',
         page_title='Campus Anti-Idling Policies',
         with_description=True,
         member_only=True),
 
     policy_url(
-        r'^resources/paper-procurement-policies',
+        r'^paper-procurement-policies',
         policy_type='Paper Procurement',
         page_title='Paper Procurement Policies',
         with_description=True,
         member_only=True),
 
     policy_url(
-        r'^resources/integrated-pest-management-policies',
+        r'^integrated-pest-management-policies',
         policy_type='Integrated Pest Management',
         page_title='Integrated Pest Management Policies',
         table_list=True,
         member_only=True),
 
     policy_url(
-        r'^resources/trademark-licensee-code-conduct',
+        r'^trademark-licensee-code-conduct',
         policy_type='Licensee Code of Conduct',
         page_title='Trademark Licensee Code of Conduct',
         table_list=True,
         member_only=True),
 
     policy_url(
-        r'^resources/campus-recycling-and-waste-minimization-policies',
+        r'^campus-recycling-and-waste-minimization-policies',
         policy_type='Recycling',
         page_title='Campus Recycling and Waste Minimization Policies',
         table_list=True,
@@ -189,7 +189,7 @@ urlpatterns = patterns('',
                         recycling.""",
         member_only=True),
 
-    url(r'^resources/campus-fair-trade-practices-policies',
+    url(r'^campus-fair-trade-practices-policies',
         view=ResourceItemListView.as_view(
             model=models.FairTradePolicy,
             queryset=models.FairTradePolicy.objects.order_by(
@@ -197,7 +197,7 @@ urlpatterns = patterns('',
         name='fair-trade',
         kwargs={'member_only': True}),
 
-    url(r'^resources/socially-responsible-investment-policies',
+    url(r'^socially-responsible-investment-policies',
         view=ResourceItemListView.as_view(
             model=models.ResponsibleInvestmentPolicy,
             queryset=models.ResponsibleInvestmentPolicy.objects.order_by(
@@ -205,7 +205,7 @@ urlpatterns = patterns('',
             name='responsible-investment',
             kwargs={'member_only': True}),
 
-    url(r'^resources/campus-building-guidelines-and-green-building-policies',
+    url(r'^campus-building-guidelines-and-green-building-policies',
         view=ResourceItemListView.as_view(
             model=models.GreenBuildingPolicy,
             queryset=models.GreenBuildingPolicy.objects.order_by(

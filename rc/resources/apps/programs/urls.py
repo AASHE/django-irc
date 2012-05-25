@@ -6,7 +6,7 @@ from rc.resources.apps.programs import models, views
 
 urlpatterns = patterns('',
 
-    url(r'^resources/bicycle-share-programs',
+    url(r'^bicycle-share-programs',
         ResourceItemListView.as_view(
             model=models.Program,
             queryset=models.Program.objects.filter(
@@ -18,7 +18,7 @@ urlpatterns = patterns('',
         name='bicycle-share-and-rental',
         kwargs={'member_only': True}),
 
-    url(r'^resources/campus-composting-programs',
+    url(r'^campus-composting-programs',
         ResourceItemListView.as_view(
             model=models.Program,
             queryset=models.Program.objects.filter(
@@ -28,7 +28,7 @@ urlpatterns = patterns('',
         name='campus-composting',
         kwargs={'member_only': True}),
 
-    url(r'^resources/campus-surplus-recycling',
+    url(r'^campus-surplus-recycling',
         ResourceItemListView.as_view(
             model=models.Program,
             queryset=models.Program.objects.filter(
@@ -38,7 +38,7 @@ urlpatterns = patterns('',
         name='surplus-property-recycling',
         kwargs={'member_only': True}),
 
-    url(r'^resources/e-waste-programs-policies-and-events',
+    url(r'^e-waste-programs-policies-and-events',
         views.ElectronicWasteProgramPolicyAndEventListView.as_view(
             model=models.Program,
             template_name=('programs/electronic_waste_program_policy_'
@@ -46,7 +46,7 @@ urlpatterns = patterns('',
         name='electronic-waste',
         kwargs={'member_only': True}),
 
-    url(r'^resources/green-cleaning',
+    url(r'^green-cleaning',
         views.GreenCleaningProgramAndPolicyListView.as_view(
             model=models.Program,
             template_name=('programs/green_cleaning_program_and_policy'
@@ -54,7 +54,7 @@ urlpatterns = patterns('',
         name='green-cleaning',
         kwargs={'member_only': True}),
 
-    url(r'^resources/green-office-programs',
+    url(r'^green-office-programs',
         ResourceItemListView.as_view(
             model=models.Program,
             queryset=models.Program.objects.filter(
@@ -64,7 +64,7 @@ urlpatterns = patterns('',
         name='green-office',
         kwargs={'member_only': True}),
 
-    url(r'^resources/peer-peer-sustainability-outreach-campaigns',
+    url(r'^peer-peer-sustainability-outreach-campaigns',
         ResourceItemListView.as_view(
             model=models.Program,
             queryset=models.Program.objects.filter(
