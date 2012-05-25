@@ -33,14 +33,14 @@ def dev():
     env.activate = 'source %s/env/bin/activate' % env.path
     
     
-def dev():
+def production():
     '''
     Configure the fabric environment for the dev server(s).
     '''
     env.user = 'releaser'
     env.hosts = ['www.aashe.org']
     env.path = '/var/www/django_projects/aashe-rc'
-    env.django_settings = 'rc.production_settings'
+    env.django_settings = 'rc.live_settings'
     env.activate = 'source %s/env/bin/activate' % env.path
 
 def deploy():
