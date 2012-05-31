@@ -147,9 +147,8 @@ INSTALLED_APPS = (
     'rc.resources.apps.operations',
     'rc.resources.apps.pae',
     'rc.resources.apps.scrape',
-    'rc.academic_programs',
-    'csvimport'
-)
+    'rc.academic_programs'
+    )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.auth.context_processors.auth",
