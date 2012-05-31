@@ -1,0 +1,124 @@
+{% extends "aashestrap/base_resources.html" %}
+
+{% load markup tree_menu_tags %}
+
+{% block breadcrumb %}
+  <ul>
+    {% show_menu "AASHE Resource Center" "breadcrumb" %}
+  </ul>
+{% endblock breadcrumb %}
+
+{% block right %}
+
+  {% show_menu "AASHE Resource Center" "content-sidebar" %}
+
+{% endblock right %}
+
+{% block content %}
+
+    <h1>
+      {% block title %}
+        {{ title }}
+      {% endblock title %}
+    </h1>
+
+    <div class="content clear-block">
+
+    {% if member_only %}
+	  <div id="restricted-text" class="accessible">
+	    You are viewing member-only content.
+	  </div>
+    {% endif %}
+
+    {% if request.user.is_authenticated %}
+          <div id="admin-controls" style="background-color: #ddd;">
+            <p style="padding: 2px;">Admin controls: <a href="{{ admin_changelist_url }}">Edit in Admin</a></p>
+          </div>
+    {% endif %}
+    
+    <h2>Academic Programs</h2>
+    <ol class="views-items academic-programs">
+      {% for program in object_list %}
+              <li>  
+      <div class="title">
+        <a href="changme">{{ program.title }}</a>
+      </div>
+
+      <div class="created">
+        {{ program.created_date }}
+      </div>
+
+      <div class="field-program-type-value">
+        <label>Degree Type:</label>
+        {{ program.type }}
+      </div>
+
+      <div class="field-program-distance-value">
+        <label>Distance or Local:</label>
+        {{ program.distance_ed }}
+      </div>
+
+      <div class="field-campus-value">
+        <label>Institution(s):</label>
+        {% for org in program.organization %}
+          {{ org.name }}
+        {% endfor %}
+      </div>
+
+      <div class="field-program-discipline-value">
+        <label>Program Discipline:</label>
+          {{ program.discipline }}
+        </div>
+
+      <div class="phpcode">
+      <label>Location:</label>
+        {% for org in program.organization %}
+          {{ org.city }}, {{ org.province }}
+        {% endfor %}
+      </div>
+
+      <div class="view-node">
+       <a href="changme">Program Overview</a></div>
+
+      <div class="field-program-url-url">
+      <a href="{{ program.homepage }}">Link to Program</a></div>
+      
+    </li>
+    {% endfor %}
+    </ul>
+    
+     {% if is_paginated %}
+            <div class="pagination">
+                <span class="page-links">
+                    {% if page_obj.has_previous %}
+                        <a href="/resources/academic-programs/search?page={{ page_obj.previous_page_number }}">previous</a>
+                    {% endif %}
+                    <span class="page-current">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                    </span>
+                    {% if page_obj.has_next %}
+                        <a href="/resources/academic-programs/search?page={{ page_obj.next_page_number }}">next</a>
+                    {% endif %}
+                </span>
+            </div>
+    {% endif %}
+  
+    {% block body %}
+	  {% endblock body %}
+
+    <div id="content-footer">
+      <div class="block block-block " id="block-block-43">
+        <div class="block-content content">
+          <p>
+		    <em>Please email <a href="mailto:resources@aashe.org">
+                resources@aashe.org</a> with any suggestions, additions or
+		        updates.
+		    </em>
+		  </p>
+        </div>
+      </div>
+    </div><!-- #content-footer -->
+
+  </div><!-- .content.clear-block -->
+
+{% endblock %}
