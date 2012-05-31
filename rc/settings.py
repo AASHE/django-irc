@@ -146,8 +146,7 @@ INSTALLED_APPS = (
     'rc.resources.apps.education',
     'rc.resources.apps.operations',
     'rc.resources.apps.pae',
-    'rc.resources.apps.scrape',
-    'rc.academic_programs'
+    'rc.resources.apps.scrape'
     )
 
 TEMPLATE_CONTEXT_PROCESSORS = (

@@ -7,4 +7,3 @@ Sphinx
 Fabric
 pyPdf
 requests
-django-csv-importer
