@@ -35,7 +35,7 @@ def generate_breadcrumb(object, request):
         try:
             view = resolve(request.path)
         except:
-            path = request.path[9:]
+            path = request.path[11:]
             view = resolve(path)
         named_url = view.url_name
         try:
