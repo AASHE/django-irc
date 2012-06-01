@@ -32,11 +32,8 @@ def generate_breadcrumb(object, request):
         itemslist[-1].caption = object.title
         return render_to_string('treemenus/breadcrumb_fragment.html', {'itemslist': itemslist})
     else:
-        try:
-            view = resolve(request.path)
-        except:
-            path = request.path[11:]
-            view = resolve(path)
+        # this doesn't work anymore
+        view = resolve(request.path)
         named_url = view.url_name
         try:
             menuitem = MenuItem.objects.filter(named_url=named_url)[0]
