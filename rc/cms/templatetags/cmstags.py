@@ -33,7 +33,12 @@ def generate_breadcrumb(object, request):
         return render_to_string('treemenus/breadcrumb_fragment.html', {'itemslist': itemslist})
     else:
         # this doesn't work anymore
-        view = resolve(request.path)
+        # view = resolve(request.path)
+        # this removes the resources/ from the path
+        new_path = request.path.split('/')
+        resolve_path = new_path[2]
+        resolve_path = "/%s" % resolve_path
+        view = resolve(resolve_path)
         named_url = view.url_name
         try:
             menuitem = MenuItem.objects.filter(named_url=named_url)[0]
@@ -62,7 +67,11 @@ def generate_sidebar(object, request):
     # this is for views and other objects without MenuItem foreign keys
     else:
         # get view and named url
-        view = resolve(request.path)
+        # see comments in generate_breadcrumb
+        new_path = request.path.split('/')
+        resolve_path = new_path[2]
+        resolve_path = "/%s" % resolve_path
+        view = resolve(resolve_path)
         named_url = view.url_name
         try:
             menuitem = MenuItem.objects.filter(named_url=named_url)[0]
