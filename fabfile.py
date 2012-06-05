@@ -5,6 +5,7 @@ from contextlib import contextmanager as _contextmanager
 
 env.project_name = 'aashe-rc'
 env.repos = 'ssh://hg@bitbucket.org/jesselegg/aashe-rc'
+env.uwsgi_service_name = 'uwsgi'
 
 @_contextmanager
 def virtualenv():
@@ -31,7 +32,7 @@ def dev():
     env.path = '/var/www/django_projects/aashe-rc'
     env.django_settings = 'rc.dev_settings'
     env.activate = 'source %s/env/bin/activate' % env.path
-    
+    env.uwsgi_service_name = 'uwsgi'
     
 def production():
     '''
@@ -42,6 +43,7 @@ def production():
     env.path = '/var/www/django_projects/aashe-rc'
     env.django_settings = 'rc.live_settings'
     env.activate = 'source %s/env/bin/activate' % env.path
+    env.uwsgi_service_name = 'aashe-rc'
 
 def deploy():
     '''
@@ -117,7 +119,7 @@ def restart():
     '''
     Reboot uwsgi server.
     '''
-    sudo("service uwsgi restart")
+    sudo("service %s restart" % env.uwsgi_service_name)
 
 def syncdb():
     '''

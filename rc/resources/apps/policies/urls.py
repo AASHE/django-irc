@@ -4,6 +4,8 @@ from django.template.defaultfilters import slugify
 from rc.resources.views import ResourceItemListView
 from rc.resources.apps.policies import models
 
+from aashe.aasheauth.decorators import members_only
+
 
 def policy_url(url_string, policy_type, page_title='',
                with_description=False, table_list=False,
@@ -23,12 +25,15 @@ def policy_url(url_string, policy_type, page_title='',
         else:
             template_name = 'policies/policy_table_by_org_name_list.html'
 
-    return url(url_string,
-               ResourceItemListView.as_view(
-                   model=models.Policy,
-                   queryset=models.Policy.objects.filter(
-                       type__type=policy_type).order_by('organization__name'),
-                   template_name=template_name),
+    view = ResourceItemListView.as_view(
+        model=models.Policy,
+        queryset=models.Policy.objects.filter(
+            type__type=policy_type).order_by('organization__name'),
+        template_name=template_name)
+    if member_only:
+        view = members_only(view)
+
+    return url(url_string, view,
                 name=slugify(policy_type),
                 kwargs={'page_title': page_title,
                         'with_description': with_description,
@@ -48,13 +53,16 @@ def policy_by_country_by_org_name_url(url_string, policy_type,
     if not page_title:
         page_title = policy_type + ' policies'
 
-    return url(url_string,
-               ResourceItemListView.as_view(
-                    model=models.Policy,
-                    queryset=models.Policy.objects.filter(
-                        type__type=policy_type).order_by(
-                            'organization__country', 'organization__name'),
-                    template_name=template_name),
+    view = ResourceItemListView.as_view(
+        model=models.Policy,
+        queryset=models.Policy.objects.filter(
+            type__type=policy_type).order_by(
+            'organization__country', 'organization__name'),
+        template_name=template_name)
+    if member_only:
+        view = members_only(view)
+
+    return url(url_string, view,
                 name=slugify(policy_type),
                 kwargs={'page_title': page_title,
                         'opening_text': opening_text,
@@ -71,16 +79,18 @@ def policy_by_category_by_org_name_url(url_string, policy_type,
     if not page_title:
         page_title = policy_type + ' Policies'
 
-    return url(url_string,
-               ResourceItemListView.as_view(
-                    model=models.Policy,
-                    queryset=models.Policy.objects.filter(
-                        type__type=policy_type).order_by(
-                            'category', 'organization__name'),
-                    template_name=template_name),
-                    name=slugify(policy_type),
-                    kwargs={'page_title': page_title,
-                            'member_only': member_only })
+    view = ResourceItemListView.as_view(
+        model=models.Policy,
+        queryset=models.Policy.objects.filter(
+            type__type=policy_type).order_by(
+            'category', 'organization__name'),
+        template_name=template_name)
+    if member_only:
+        view = members_only(view)
+        
+    return url(url_string, view, name=slugify(policy_type),
+               kwargs={'page_title': page_title,
+                       'member_only': member_only })
 
 
 urlpatterns = patterns('',

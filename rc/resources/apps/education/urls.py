@@ -10,7 +10,8 @@ def academic_centers_url_name(center_type_code):
     academic_center_types = dict(models.AcademicCenterType.CENTER_TYPES)
     return 'academic-centers-' + slugify(academic_center_types[center_type_code])
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     url(r'^alumni-sustainability-networks$',
         ResourceItemListView.as_view(
             model=models.SustainabilityNetwork,
@@ -18,44 +19,44 @@ urlpatterns = patterns('',
         name='sustainability-networks'),
 
     url(r'^campus-and-campus-community-gardens$',
-        ResourceItemListView.as_view(
+        members_only(ResourceItemListView.as_view(
             model=models.CommunityGarden,
             queryset=models.CommunityGarden.objects.order_by(
-                'organization__country', 'organization__name')),
+                'organization__country', 'organization__name'))),
         name='community-gardens',
         kwargs={'title': 'Campus and Campus-Community Gardens',
                 'member_only': True}),
 
     url(r'^campus-supported-agriculture-and-farms$',
-        ResourceItemListView.as_view(
+        members_only(ResourceItemListView.as_view(
             model=models.CampusAgriculture,
             queryset=models.CampusAgriculture.objects.order_by(
-                 'organization__country', 'organization__name')),
+                 'organization__country', 'organization__name'))),
         name='campus-agricultures',
         kwargs={'title': 'Campus Supported Agriculture and Farms',
                 'member_only': True}),
 
     url(r'^campus-sustainable-living-guides$',
-        ResourceItemListView.as_view(
+        members_only(ResourceItemListView.as_view(
             model=models.LivingGuide,
             queryset=models.LivingGuide.objects.order_by(
-                 'organization__country', 'organization__name')),
+                 'organization__country', 'organization__name'))),
         name='living-guides',
         kwargs={'member_only': True}),
 
     url(r'^campus-sustainability-mapstours$',
-        ResourceItemListView.as_view(
+        members_only(ResourceItemListView.as_view(
             model=models.SustainabilityMap,
             queryset=models.SustainabilityMap.objects.order_by(
-                 'organization__country', 'organization__name')),
+                 'organization__country', 'organization__name'))),
             name='sustainability-maps',
             kwargs={'title': 'Campus Sustainability Maps and Tours'}),
 
     url(r'^surveys-sustainability-awareness-attitudes-and-values$',
-        ResourceItemListView.as_view(
+        members_only(ResourceItemListView.as_view(
             model=models.SurveyOfAwareness,
             queryset=models.SurveyOfAwareness.objects.order_by(
-                 'organization__name')),
+                 'organization__name'))),
         name='surveys-of-awareness',
         kwargs={'member_only': True}),
 
@@ -68,26 +69,26 @@ urlpatterns = patterns('',
         kwargs={'member_only': True}),
 
     url(r'^sustainability-faculty-development-workshops$',
-        ResourceItemListView.as_view(
+        members_only(ResourceItemListView.as_view(
             model=models.FacultyWorkshop,
             queryset=models.FacultyWorkshop.objects.order_by(
-                 'organization__name')),
+                 'organization__name'))),
         name='faculty-workshops',
         kwargs={'member_only': True}),
 
     url(r'^sustainability-research-inventories$',
-        ResourceItemListView.as_view(
+        members_only(ResourceItemListView.as_view(
             model=models.ResearchInventory,
             queryset=models.ResearchInventory.objects.order_by(
-                 'organization__name')),
+                 'organization__name'))),
         name='research-inventories',
         kwargs={'member_only': True}),
 
     url(r'^sustainability-related-syllabi-databases$',
-        ResourceItemListView.as_view(
+        members_only(ResourceItemListView.as_view(
             model=models.SustainabilitySyllabus,
             queryset=models.SustainabilitySyllabus.objects.order_by(
-                    'organization__name')),
+                    'organization__name'))),
         name='sustainability-syllabi',
         kwargs={'title':'Sustainability-Related Syllabi Databases',
                 'member_only': True}),

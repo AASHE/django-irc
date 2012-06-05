@@ -4,6 +4,8 @@ from django.template.defaultfilters import slugify
 from rc.resources.views import ResourceItemListView
 from rc.resources.apps.operations import models
 
+from aashe.aasheauth.decorators import members_only
+
 
 def green_building_url(url_string, building_type, image_url=None,
                        image_alt=None, image_caption=None,
@@ -11,12 +13,12 @@ def green_building_url(url_string, building_type, image_url=None,
     if not buildings_name:
         buildings_name = ' '.join(building_type.split()[1:]).lower()
     return url(url_string,
-               ResourceItemListView.as_view(
+               members_only(ResourceItemListView.as_view(
                    model=model,
                    queryset=model.objects.filter(
                            type__type=building_type).order_by(
                                'type', 'certification', 'organization__name'),
-                   template_name='operations/campusgreenbuilding_list.html'),
+                   template_name='operations/campusgreenbuilding_list.html')),
                name=slugify(building_type),
                kwargs={'member_only': True,
                        'cert_order': ('LEED Platinum', 'LEED Gold',
@@ -31,18 +33,18 @@ def green_building_url(url_string, building_type, image_url=None,
 urlpatterns = patterns('',
 
     url(r'^campus-alternative-transportation-websites',
-        ResourceItemListView.as_view(
+        members_only(ResourceItemListView.as_view(
             model=models.TransportationWebsite,
             queryset=models.TransportationWebsite.objects.order_by(
-                    'organization__name')),
+                    'organization__name'))),
         name='transportation-websites',
         kwargs={'member_only': True}),
 
     url(r'^bottled-water-elimination-and-reduction',
-        ResourceItemListView.as_view(
+        members_only(ResourceItemListView.as_view(
             model=models.BottledWaterBan,
             queryset=models.BottledWaterBan.objects.order_by(
-                    'type', 'organization__name')),
+                    'type', 'organization__name'))),
         name='bottled-water-bans',
         kwargs={'type_list': [ level[0] for level in
                                models.BottledWaterBan.BAN_TYPES ],
@@ -50,30 +52,30 @@ urlpatterns = patterns('',
                 'member_only': True}),
 
     url(r'^campus-building-energy-dashboards',
-        ResourceItemListView.as_view(
+        members_only(ResourceItemListView.as_view(
             model=models.BuildingDashboard,
             queryset=models.BuildingDashboard.objects.order_by(
-                    'partner__name', 'organization__name')),
+                    'partner__name', 'organization__name'))),
         name='building-dashboards',
         kwargs={'title': 'Campus Building Energy Dashboards',
                 'member_only': True}),
 
     url(r'^biodiesel-campus-fleets',
-        ResourceItemListView.as_view(
+        members_only(ResourceItemListView.as_view(
             model=models.BiodieselFleet,
             queryset=models.BiodieselFleet.objects.order_by(
                     'production', 'organization__country',
-                    'organization__name')),
+                    'organization__name'))),
         name='biodiesel-fleets',
         kwargs={'member_only': True,
                 'production_types':
                 dict(models.BiodieselFleet.PRODUCTION_TYPE)}),
 
     url(r'^campus-bicycle-plans',
-        ResourceItemListView.as_view(
+        members_only(ResourceItemListView.as_view(
             model=models.BicyclePlan,
             queryset=models.BicyclePlan.objects.order_by(
-                    'organization__name')),
+                    'organization__name'))),
         name='bicycle-plans',
         kwargs={'member_only': True}),
 
@@ -86,35 +88,35 @@ urlpatterns = patterns('',
         kwargs={'ban_types': dict(models.CarBan.BAN_TYPES)}),
 
     url(r'^campus-commuter-surveys',
-        ResourceItemListView.as_view(
+        members_only(ResourceItemListView.as_view(
             model=models.CommuterSurvey,
             queryset=models.CommuterSurvey.objects.order_by(
-                    'type', 'organization__name')),
+                    'type', 'organization__name'))),
         name='commuter-surveys',
         kwargs={'survey_types': dict(models.CommuterSurvey.SURVEY_TYPES),
                 'member_only': True}),
 
     url(r'^campus-electric-vehicle-fleets',
-        ResourceItemListView.as_view(
+        members_only(ResourceItemListView.as_view(
             model=models.ElectricFleet,
             queryset=models.ElectricFleet.objects.order_by(
-                    'organization__country', 'organization__name')),
+                    'organization__country', 'organization__name'))),
         name='electric-fleets',
         kwargs={'member_only': True}),
 
     url(r'^campus-energy-plans',
-        ResourceItemListView.as_view(
+        members_only(ResourceItemListView.as_view(
             model=models.EnergyPlan,
             queryset=models.EnergyPlan.objects.order_by(
-                    'organization__name')),
+                    'organization__name'))),
         name='energy-plans',
         kwargs={'member_only': True}),
 
     url(r'^campus-energy-plans',
-        ResourceItemListView.as_view(
+        members_only(ResourceItemListView.as_view(
             model=models.EnergyPlan,
             queryset=models.EnergyPlan.objects.order_by(
-                    'organization__name')),
+                    'organization__name'))),
         name='energy-plans',
         kwargs={'member_only': True}),
 
@@ -133,50 +135,50 @@ urlpatterns = patterns('',
             name='global-warming-commitments'),
 
     url(r'^campus-hybrid-vehicle-fleets',
-        ResourceItemListView.as_view(
+        members_only(ResourceItemListView.as_view(
             model=models.HybridFleet,
             queryset=models.HybridFleet.objects.order_by(
-                    'organization__country', 'organization__name')),
+                    'organization__country', 'organization__name'))),
         name='hybrid-fleets',
         kwargs={'member_only': True}),
 
     url(r'^campus-recycling-and-waste-minimization-websites',
-        ResourceItemListView.as_view(
+        members_only(ResourceItemListView.as_view(
             model=models.RecyclingWebsite,
             queryset=models.RecyclingWebsite.objects.order_by(
-                    'organization__name')),
+                    'organization__name'))),
         name='recycling-websites',
         kwargs={'member_only': True}),
 
     url(r'^campus-water-conservation-efforts',
-        ResourceItemListView.as_view(
+        members_only(ResourceItemListView.as_view(
             model=models.WaterConservationEffort,
             queryset=models.WaterConservationEffort.objects.order_by(
-                    'organization__country', 'organization__name')),
+                    'organization__country', 'organization__name'))),
         name='water-conservation-efforts',
         kwargs={'member_only': True}),
 
     url(r'^wind-power-campus-1',
-        ResourceItemListView.as_view(
+        members_only(ResourceItemListView.as_view(
             model=models.WindTurbine,
             queryset=models.WindTurbine.objects.order_by(
-                    '-size', 'organization__name')),
+                    '-size', 'organization__name'))),
         name='wind-turbines',
         kwargs={'member_only': True}),
 
     url(r'^carsharing-campus',
-        ResourceItemListView.as_view(
+        members_only(ResourceItemListView.as_view(
             model=models.CarShare,
             queryset=models.CarShare.objects.order_by(
-                    'partner__name', 'organization__name')),
+                    'partner__name', 'organization__name'))),
         name='car-shares',
         kwargs={'member_only': True}),
 
     url(r'^renewable-energy-research-centers',
-        ResourceItemListView.as_view(
+        members_only(ResourceItemListView.as_view(
             model=models.RenewableResearchCenter,
             queryset=models.RenewableResearchCenter.objects.order_by(
-                    'organization__name')),
+                    'organization__name'))),
         name='renewable-research-centers',
         kwargs={'member_only': True}),
 
@@ -188,10 +190,10 @@ urlpatterns = patterns('',
             name='fuel-cells'),
 
     url(r'^sustainable-dining-initiatives-campus',
-        ResourceItemListView.as_view(
+        members_only(ResourceItemListView.as_view(
             model=models.DiningInitiative,
             queryset=models.DiningInitiative.objects.order_by(
-                    'ownership', 'organization__name')),
+                    'ownership', 'organization__name'))),
         name='dining-initiatives',
         kwargs={'owners': dict(models.DiningInitiative.OWNERS),
                 'member_only': True}),
@@ -204,10 +206,10 @@ urlpatterns = patterns('',
         name='sustainable-landscapes'),
 
     url(r'^links-related-sustainable-purchasing-campus',
-        ResourceItemListView.as_view(
+        members_only(ResourceItemListView.as_view(
             model=models.PurchasingLink,
             queryset=models.PurchasingLink.objects.order_by(
-                    'type', 'organization__name')),
+                    'type', 'organization__name'))),
         name='purchasing-links',
         kwargs={'type_list': dict(models.PurchasingLink.LINK_TYPES),
                 'member_only': True}),
