@@ -14,7 +14,8 @@ class Policy(ResourceItem):
     '''
     type = models.ForeignKey('PolicyType', verbose_name='policy type',
                              null=True, blank=True)
-    category = models.CharField(_("category"), max_length=128, null=True)
+    category = models.CharField(_("category"), max_length=128,
+                                null=True, blank=True)
 
     class Meta:
         verbose_name = 'general policy'
