@@ -70,7 +70,7 @@
                 <li class="leaf"><a href="{% url second_child.named_url %}" class="restricted-content"><span>{{ second_child.extension.caption }}</span></a></li>
                 {% endif %}
               {% else %}
-                {% if not second_child.has_children() %}
+                {% if not second_child.has_children %}
                 {% if second_child.url %}
                 <li class="leaf"><a href="{{ second_child.url|prepend_slash }}"><span>{{ second_child.extension.caption }}</span></a></li>
                 {% endif %}
