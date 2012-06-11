@@ -77,7 +77,19 @@
                 <li class="leaf"><a href="{% url second_child.named_url %}"><span>{{ second_child.extension.caption }}</span></a></li>
                 {% endif %}
                 {% if not second_child.url and not second_child.named_url %}
-                <li class="leaf"><span>{{ second_child.extension.caption }}</span>/li>
+                <li class="leaf"><span>{{ second_child.extension.caption }}</span></li>
+                {% if second_child.has_children %}
+                {% for child in second_child.children %}
+                  {% if child.url %}
+                  <li class="leaf"><a href="{{ child.url|prepend_slash }}"><span>{{ child.extension.caption }}</span></a></li>
+                  {% endif %}
+                  {% if second_child.named_url %}
+                  <li class="leaf"><a href="{% url child.named_url %}"><span>{{ child.extension.caption }}</span></a></li>
+                  {% endif %}
+                  {% if not child.url and not child.named_url %}
+                  <li class="leaf"><span>{{ second_child.extension.caption }}</span></li>
+                  {% endif %}
+                {% endfor %}  
                 {% endif %}
               {% endif %}
             {% endfor %}
@@ -128,6 +140,17 @@
         {% if not child_menu_item.url and not child_menu_item.named_url %}       
         <li class="leaf"><span>{{ child_menu_item.extension.caption }}</span></li>
         {% if child_menu_item.has_children %}
+        {% for child in second_child.children %}
+          {% if child.url %}
+          <li class="leaf"><a href="{{ child.url|prepend_slash }}"><span>{{ child.extension.caption }}</span></a></li>
+          {% endif %}
+          {% if second_child.named_url %}
+          <li class="leaf"><a href="{% url child.named_url %}"><span>{{ child.extension.caption }}</span></a></li>
+          {% endif %}
+          {% if not child.url and not child.named_url %}
+          <li class="leaf"><span>{{ second_child.extension.caption }}</span></li>
+          {% endif %}
+        {% endfor %}
         {% endif %}
         {% endif %}
       {% endif %}
