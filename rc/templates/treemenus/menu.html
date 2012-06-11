@@ -79,6 +79,7 @@
                 {% if not second_child.url and not second_child.named_url %}
                 <li class="leaf"><span>{{ second_child.extension.caption }}</span></li>
                 {% if second_child.has_children %}
+                <ul class="menu">
                 {% for child in second_child.children %}
                   {% if child.url %}
                   <li class="leaf"><a href="{{ child.url|prepend_slash }}"><span>{{ child.extension.caption }}</span></a></li>
@@ -89,7 +90,9 @@
                   {% if not child.url and not child.named_url %}
                   <li class="leaf"><span>{{ second_child.extension.caption }}</span></li>
                   {% endif %}
-                {% endfor %}  
+                </ul>
+                {% endfor %}
+                {% endif %}  
                 {% endif %}
               {% endif %}
             {% endfor %}
