@@ -144,7 +144,7 @@
         <li class="leaf"><span>{{ child_menu_item.extension.caption }}</span></li>
         {% if child_menu_item.has_children %}
         <ul class="menu">
-        {% for child in second_child.children %}
+        {% for child in child_menu_item.children %}
           {% if child.url %}
           <li class="leaf"><a href="{{ child.url|prepend_slash }}"><span>{{ child.extension.caption }}</span></a></li>
           {% endif %}
