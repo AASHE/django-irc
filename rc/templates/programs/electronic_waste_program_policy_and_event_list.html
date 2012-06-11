@@ -1,0 +1,85 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  E-Waste Programs, Policies, and Events
+{% endblock title %}
+
+{% block body %}
+
+  <p>
+
+    This resource list recognizes institutions that have e-waste
+    recycling and/or reuse programs, policies or events. E-waste
+    typically contains toxic components, such as lead and mercury that
+    can contaminate soil and groundwater and have detrimental human
+    health impacts if handled improperly. At the same time, e-waste
+    contains components that can be recycled. Computers, cellular
+    phones, and other electronic materials can be donated or re-sold
+    at reduced cost to non-profit organizations and community
+    groups. The "Item(s)" column represents only examples of those
+    items that an institution is recycling, and the website should be
+    referenced for more details and/or comprehensive list.
+
+  </p>
+
+  <p>
+    <div id="resource_list" class="content clear-block">
+      <p>
+        <table>
+          <tbody>
+            <tr>
+              <th>Institution</th>
+              <th>Program</th>
+              <th>Item(s)</th>
+            </tr>
+            {% for resource in program_list %}
+              <tr>
+                <td>{{ resource.organization.name }}</td>
+                <td><a href="{{ resource.url }}">{{ resource.title }}</a></td>
+                <td>{{ resource.items|safe }}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </p>
+      <p>
+        <table>
+          <tbody>
+            <tr>
+              <th>Institution</th>
+              <th>Policy</th>
+              <th>Item(s)</th>
+            </tr>
+            {% for resource in policy_list %}
+              <tr>
+                <td>{{ resource.organization.name }}</td>
+                <td><a href="{{ resource.url }}">{{ resource.title }}</a>
+                <td>{{ resource.items|safe }}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </p>
+      <p>
+        <table>
+          <tbody>
+            <tr>
+              <th>Institution</th>
+              <th>Event</th>
+              </tr>
+            {% for resource in event_list %}
+              <tr>
+                <td>{{ resource.organization.name }}</td>
+                <td><a href="{{ resource.url }}">{{ resource.title }}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </p>
+    </div>
+  </p>
+
+{% endblock body %}

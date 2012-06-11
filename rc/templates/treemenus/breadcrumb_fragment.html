@@ -1,0 +1,19 @@
+{% load url from future %}
+
+<li class="first"><a href="/">Home</a></li>
+<li><a href="/resources" title="AASHE&#039;s Resource Center" class="">Resources</a></li>
+{% for item in itemslist %}
+  {% if forloop.last %} 
+  <li class="last">
+    {{ item.caption }}
+  </li>
+  {% else %}
+  <li>
+    {% if item.url %}
+    <a href="/{{ item.url }}">{{ item }}</a>
+    {% else %}
+    <a href="/{% url item.named_url %}">{{ item }}</a>
+    {% endif %}
+  </li>
+  {% endif %}
+{% endfor %}

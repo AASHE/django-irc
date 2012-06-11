@@ -1,0 +1,62 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Green Cleaning Programs & Policies
+{% endblock title %}
+
+{% block body %}
+
+  <p>
+
+    This resources lists campus green cleaning programs and policies
+    that exist independently of other campus sustainability
+    plans. Programs are listed first, followed by policies. In
+    addition, green cleaning policy sections may be found
+    within <a href="/resources/general_policies.php">Campus Sustainability
+    Policies</a> or <a href="/resources/procurement_policies.php">Campus
+    Sustainable Procurement Policies</a>.
+
+  </p>
+
+  <p>
+    <div id="resource_list" class="content clear-block">
+    <h2>Programs</h2>
+    <p>
+      <table>
+        <tbody>
+          <tr>
+            <th>Institution</th>
+            <th>Program</th>
+          </tr>
+          {% for resource in program_list %}
+            <tr>
+              <td>{{ resource.organization.name }}</td>
+              <td><a href="{{ resource.url }}">{{ resource.title }}</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </p>
+    <h2>Policies</h2>
+    <p>
+      <table>
+        <tbody>
+          <tr>
+            <th>Institution</th>
+            <th>Policy</th>
+          </tr>
+          {% for resource in policy_list %}
+            <tr>
+              <td>{{ resource.organization.name }}</td>
+              <td><a href="{{ resource.url }}">{{ resource.title }}</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </p>
+    </div>
+  </p>
+
+{% endblock body %}

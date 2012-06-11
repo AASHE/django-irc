@@ -1,0 +1,32 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Sustainable Landscaping on Campus
+{% endblock title %}
+
+{% block body %}
+
+  <p>
+
+    This resource contains links to information about sustainable
+    landscaping practices, policies, and plans.
+
+  </p>
+
+  <p>
+    <div id="resource_list" class="content clear-block">
+      <p>
+        <table>
+          <tbody>
+            <tr>
+              <th>Institution</th>
+              <th>Policy/Program</th>
+            </tr>
+            {% include "table_rows.html" with resources=object_list %}
+          </tbody>
+        </table>
+      </p>
+    </div>
+  </p>
+
+{% endblock body %}
