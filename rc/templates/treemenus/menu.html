@@ -88,7 +88,7 @@
                   <li class="leaf"><a href="{% url child.named_url %}"><span>{{ child.extension.caption }}</span></a></li>
                   {% endif %}
                   {% if not child.url and not child.named_url %}
-                  <li class="leaf"><span>{{ second_child.extension.caption }}</span></li>
+                  <li class="leaf"><span>{{ child.extension.caption }}</span></li>
                   {% endif %}
                 {% endfor %}
                 </ul>
@@ -141,7 +141,7 @@
         <li class="leaf"><a href="{% url child_menu_item.named_url %}"><span>{{ child_menu_item.extension.caption }}</span></a></li>
         {% endif %}
         {% if not child_menu_item.url and not child_menu_item.named_url %}       
-        <li class="leaf"><span>Matt {{ child_menu_item.extension.caption }}</span></li>
+        <li class="leaf"><span>{{ child_menu_item.extension.caption }}</span></li>
         {% if child_menu_item.has_children %}
         <ul class="menu">
         {% for child in second_child.children %}
@@ -152,7 +152,22 @@
           <li class="leaf"><a href="{% url child.named_url %}"><span>{{ child.extension.caption }}</span></a></li>
           {% endif %}
           {% if not child.url and not child.named_url %}
-          <li class="leaf"><span>{{ second_child.extension.caption }}</span></li>
+          <li class="leaf"><span>{{ child.extension.caption }}</span></li>
+          {% if child.has_children %}
+          <ul class="menu">
+          {% for child in second_child.children %}
+            {% if child.url %}
+            <li class="leaf"><a href="{{ child.url|prepend_slash }}"><span>{{ child.extension.caption }}</span></a></li>
+            {% endif %}
+            {% if second_child.named_url %}
+            <li class="leaf"><a href="{% url child.named_url %}"><span>{{ child.extension.caption }}</span></a></li>
+            {% endif %}
+            {% if not child.url and not child.named_url %}
+            <li class="leaf"><span>{{ child.extension.caption }}</span></li>
+            {% endif %}
+          {% endfor %}
+          </ul>
+          {% endif %}
           {% endif %}
         {% endfor %}
         </ul>
