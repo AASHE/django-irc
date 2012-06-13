@@ -23,3 +23,15 @@ STATIC_URL = 'http://media.aashe.org/resources/'
 # Make sure to use a trailing slash.
 # Examples: "http://foo.com/static/admin/", "/static/admin/".
 ADMIN_MEDIA_PREFIX = 'http://media.aashe.org/resources/admin/'
+
+# Settings for aashe.organization.sync and ISS replication
+AASHE_ISS_DATABASE = {
+    'ENGINE': 'django.db.backends.mysql',
+    'NAME': 'iss',
+    'USER': 'django_irc',
+    'PASSWORD': 'RHEzfK3Jn75JDVUt',
+    'HOST': '10.176.128.183',
+    'PORT': '',
+    }
+AASHE_ISS_ORG_TABLE = 'organizations'
+AASHE_ISS_DELETION_TABLE = 'acct_deletions'
