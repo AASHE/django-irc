@@ -97,7 +97,7 @@ def update_symlinks():
             run('rm %s' % previous_path)
         if exists('current'):
             # get the real directory pointed to by current
-            current_path = run('ls -l current').split()[8]
+            current_path = run('ls -l current').split()[9]
             # make current the new previous
             run('ln -s %s previous' % current_path)
             run('rm current')
