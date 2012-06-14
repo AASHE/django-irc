@@ -74,6 +74,7 @@ def export():
     local('hg archive -r %(branch)s -t tgz %(tarfile)s' %
           {'branch': env.branch_name, 'tarfile': tarfile})
     put(tarfile, env.path)
+    local("rm %s" % tarfile)
     with cd(env.path):
         # extract tarfile to export path
         run('tar xvzf %s' % tarfile)
