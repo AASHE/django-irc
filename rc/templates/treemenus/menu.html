@@ -45,13 +45,13 @@
             {% if child.extension.protected %}
               {% if child.url %}
               <li class="leaf"><a href="{{ child.url|prepend_slash }}" class="restricted-content"><span>{{ child.extension.caption }}</span></a></li>
-              {% else %}
+              {% elif child.named_url %}
               <li class="leaf"><a href="{% url child.named_url %}" class="restricted-content"><span>{{ child.extension.caption }}</span></a></li>
               {% endif %}
             {% else %}
               {% if child.url %}
                 <li class="leaf"><a href="{{ child.url|prepend_slash }}"><span>{{ child.extension.caption }}</span></a></li>
-              {% else %}
+              {% elif child.named_url %}
                  <li class="leaf"><a href="{% url child.named_url %}"><span>{{ child.extension.caption }}</span></a></li>
               {% endif %}
             {% endif %}          
@@ -66,13 +66,13 @@
               {% if second_child.extension.protected %}
                 {% if second_child.url %}
                 <li class="leaf"><a href="{{ second_child.url|prepend_slash }}" class="restricted-content"><span>{{ second_child.extension.caption }}</span></a></li>
-                {% else %}
+                {% elif second_child.named_url %}
                 <li class="leaf"><a href="{% url second_child.named_url %}" class="restricted-content"><span>{{ second_child.extension.caption }}</span></a></li>
                 {% endif %}
               {% else %}
                 {% if second_child.url %}
                 <li class="leaf"><a href="{{ second_child.url|prepend_slash }}"><span>{{ second_child.extension.caption }}</span></a></li>
-                {% else %}
+                {% elif second_child.named_url %}
                 <li class="leaf"><a href="{% url second_child.named_url %}"><span>{{ second_child.extension.caption }}</span></a></li>
                 {% endif %}
               {% endif %}
@@ -91,13 +91,13 @@
         {% if child_menu_item.extension.protected %}
           {% if child_menu_item.url %}
           <li class="leaf"><a href="{{ child_menu_item.url|prepend_slash }}" class="restricted-content"><span>{{ child_menu_item.extension.caption }}</span></a></li>
-          {% else %}
+          {% elif child_menu_item.named_url %}
           <li class="leaf"><a href="{% url child_menu_item.named_url %}" class="restricted-content"><span>{{ child_menu_item.extension.caption }}</span></a></li>
           {% endif %}
         {% else %}
           {% if child_menu_item.url %}
           <li class="leaf"><a href="{{ child_menu_item.url|prepend_slash }}"><span>{{ child_menu_item.extension.caption }}</span></a></li>
-          {% else %}
+          {% elif child_menu_item.named_url %}
           <li class="leaf"><a href="{% url child_menu_item.named_url %}"><span>{{ child_menu_item.extension.caption }}</span></a></li>
           {% endif %}
         {% endif %}
@@ -111,13 +111,13 @@
       {% if child_menu_item.extension.protected %}
         {% if child_menu_item.url %}
         <li class="leaf"><a href="{{ child_menu_item.url|prepend_slash }}" class="restricted-content"><span>{{ child_menu_item.extension.caption }}</span></a></li>
-        {% else %}
+        {% elif child_menu_item.named_url %}
         <li class="leaf"><a href="{% url child_menu_item.named_url %}" class="restricted-content"><span>{{ child_menu_item.extension.caption }}</span></a></li>
         {% endif %}
       {% else %}
         {% if child_menu_item.url %}
         <li class="leaf"><a href="{{ child_menu_item.url|prepend_slash }}"><span>{{ child_menu_item.extension.caption }}</span></a></li>
-        {% else %}        
+        {% elif child_menu_item.named_url %}        
         <li class="leaf"><a href="{% url child_menu_item.named_url %}"><span>{{ child_menu_item.extension.caption }}</span></a></li>
         {% endif %}
       {% endif %}
@@ -134,23 +134,23 @@
         {% for menu_item in menu.root_item.children %}
           {% if menu_item == object.menuitem %}
             <li class="expanded active-trail">
-            <a {% if menu_item.url %}href="{{ menu_item.url|prepend_slash }}"{% else %}href="{% url menu_item.named_url %}"{% endif %} title="{{ menu_item.extension.caption }}" class="{% if menu_item.extension.protected %}restricted-content{% endif %} active-trail"><span>{{ menu_item.extension.caption }}</span></a>
+            <a {% if menu_item.url %}href="{{ menu_item.url|prepend_slash }}"{% elif menu_item.named_url %}href="{% url menu_item.named_url %}"{% endif %} title="{{ menu_item.extension.caption }}" class="{% if menu_item.extension.protected %}restricted-content{% endif %} active-trail"><span>{{ menu_item.extension.caption }}</span></a>
               <ul class="menu">
               {% for child_menu_item in object.menuitem.children %}
-                <li class="leaf"><a {% if child_menu_item.url %}href="{{ child_menu_item.url|prepend_slash }}"{% else %}href="{% url child_menu_item.named_url %}"{% endif %} class="{% if child_menu_item.extension.protected %}restricted-content{% endif %}"><span>{{ child_menu_item.extension.caption }}</span></a></li>
+                <li class="leaf"><a {% if child_menu_item.url %}href="{{ child_menu_item.url|prepend_slash }}"{% elif child_menu_item.named_url %}href="{% url child_menu_item.named_url %}"{% endif %} class="{% if child_menu_item.extension.protected %}restricted-content{% endif %}"><span>{{ child_menu_item.extension.caption }}</span></a></li>
               {% endfor %}
               </ul>
             <li>
           {% endif %}
           {% if menu_item == object.menuitem.parent %}
                 <li class="expanded active-trail">
-                <a {% if object.menuitem.parent.url %}href="{{ object.menuitem.parent.url|prepend_slash }}"{% else %}href="{% url object.menuitem.parent.named_url %}"{% endif %} title="{{ object.menuitem.parent.extension.caption }}" class="{% if object.menuitem.parent.extension.protected %}restricted-content{% endif %} active-trail"><span>{{ object.menuitem.parent.extension.caption }}</span></a>
+                <a {% if object.menuitem.parent.url %}href="{{ object.menuitem.parent.url|prepend_slash }}"{% elif object.menuitem.parent.named_url %}href="{% url object.menuitem.parent.named_url %}"{% endif %} title="{{ object.menuitem.parent.extension.caption }}" class="{% if object.menuitem.parent.extension.protected %}restricted-content{% endif %} active-trail"><span>{{ object.menuitem.parent.extension.caption }}</span></a>
                   <ul class="menu">
                   {% for child_menu_item in object.menuitem.parent.children %}
                     {% if child_menu_item == object.menuitem %}
-                    <li class="leaf"><a {% if child_menu_item.url %}href="{{ child_menu_item.url|prepend_slash }}"{% else %}href="{% url child_menu_item.named_url %}"{% endif %} class="{% if child_menu_item.extension.protected %}restricted-content{% endif %} active-trail"><span>{{ child_menu_item.extension.caption }}</span></a></li>
+                    <li class="leaf"><a {% if child_menu_item.url %}href="{{ child_menu_item.url|prepend_slash }}"{% elif child_menu_item.named_url %}href="{% url child_menu_item.named_url %}"{% endif %} class="{% if child_menu_item.extension.protected %}restricted-content{% endif %} active-trail"><span>{{ child_menu_item.extension.caption }}</span></a></li>
                     {% else %}
-                    <li class="leaf"><a {% if child_menu_item.url %}href="{{ child_menu_item.url|prepend_slash }}"{% else %}href="{% url child_menu_item.named_url %}"{% endif %} class="{% if menu_item.extension.protected %}restricted-content{% endif %}"><span>{{ child_menu_item.extension.caption }}</span></a></li>
+                    <li class="leaf"><a {% if child_menu_item.url %}href="{{ child_menu_item.url|prepend_slash }}"{% elif child_menu_item.named_url %}href="{% url child_menu_item.named_url %}"{% endif %} class="{% if menu_item.extension.protected %}restricted-content{% endif %}"><span>{{ child_menu_item.extension.caption }}</span></a></li>
                     {% endif %}
                   {% endfor %}
                   </ul>
@@ -158,7 +158,7 @@
           {% endif %}
           {% if menu_item != object.menuitem and menu_item != object.menuitem.parent %}
             <li class="collapsed first">
-            <a {% if menu_item.url %}href="{{ menu_item.url|prepend_slash }}"{% else %}href="{% url menu_item.named_url %}"{% endif %} title="{{ menu_item.extension.caption }}" class="{% if menu_item.extension.protected %}restricted-content{% endif %}"><span>{{ menu_item.extension.caption}}</span></a>
+            <a {% if menu_item.url %}href="{{ menu_item.url|prepend_slash }}"{% elif menu_item.named_url %}href="{% url menu_item.named_url %}"{% endif %} title="{{ menu_item.extension.caption }}" class="{% if menu_item.extension.protected %}restricted-content{% endif %}"><span>{{ menu_item.extension.caption}}</span></a>
             </li>
           {% endif %}
         {% endfor %}
