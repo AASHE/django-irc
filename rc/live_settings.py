@@ -2,6 +2,9 @@ from settings import *
 
 DEBUG = False
 
+# Email address the project will use to send notifications from
+DEFAULT_FROM_EMAIL = 'www-data@aashe.org'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
