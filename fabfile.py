@@ -94,7 +94,7 @@ def update_symlinks():
         if exists('previous'):
             previous_path = run('readlink previous')
             run('rm previous')
-            run('rm %s' % previous_path)
+            run('rm -rf %s' % previous_path)
         if exists('current'):
             # get the real directory pointed to by current
             current_path = run('readlink current')
