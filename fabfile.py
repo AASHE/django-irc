@@ -92,12 +92,12 @@ def requirements():
 def update_symlinks():
     with cd(env.path):
         if exists('previous'):
-            previous_path = run('ls -l previous').split()[8]
+            previous_path = run('readlink previous')
             run('rm previous')
             run('rm %s' % previous_path)
         if exists('current'):
             # get the real directory pointed to by current
-            current_path = run('ls -l current').split()[9]
+            current_path = run('readlink current')
             # make current the new previous
             run('ln -s %s previous' % current_path)
             run('rm current')
