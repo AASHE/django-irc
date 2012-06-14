@@ -1,0 +1,73 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Campus Commuter Surveys
+{% endblock title %}
+
+{% block body %}
+
+  <p>
+
+    Calculating greenhouse gas emissions from faculty, staff and
+    student commuting can be difficult. Many campuses have
+    successfully collected such data with commuter surveys. This
+    resource is a list of examples from various campuses. For
+    additional help please
+    see <a href="http://www.aashe.org/blog/guidance-scope-3-emissions-pt-1-commuting">Guidance
+    on Scope 3 Emissions: Pt. 1: Commuting</a> in AASHE's Campus
+    Sustainability Perspectives blog.
+
+  </p>
+
+  <div id="resource_list">
+    <p>
+      {% regroup object_list by type as type_list %}
+
+      {% for survey in type_list %}
+        {% comment %}
+          Surveys of type 'RG' (Rules and Guidelines for
+          Gathering Information) come after all the other types.
+        {% endcomment %}
+        {% if survey.grouper != 'RG' %}
+          {% for key, value in survey_types.items %}
+            {% if key == survey.grouper %}
+              <h2>{{ value }}</h2>
+            {% endif %}
+          {% endfor %}
+          <table>
+            <tbody>
+              <tr>
+                <th>Institution</th>
+                <th>Survey</th>
+              </tr>
+              {% include "table_rows.html" with resources=survey.list %}
+            </tbody>
+          </table>
+        {% endif %}
+      {% endfor %}
+
+      {% comment %}
+        Now tack on the Rules and Guidelines for Gathering Information:
+      {% endcomment %}
+      {% for survey in type_list %}
+        {% if survey.grouper == 'RG' %}
+          {% for key, value in survey_types.items %}
+            {% if key == survey.grouper %}
+              <h2>{{ value }}</h2>
+            {% endif %}
+          {% endfor %}
+          <table>
+            <tbody>
+              <tr>
+                <th>Institution</th>
+                <th>Source</th>
+              </tr>
+              {% include "table_rows.html" with resources=survey.list %}
+            </tbody>
+          </table>
+        {% endif %}
+      {% endfor %}
+    </p>
+  </div>
+
+{% endblock body %}
