@@ -46,7 +46,7 @@
             {% for key, value in type_dict.items %}
               {% if key == ban.grouper %}
                 <p>
-                  <a name="{{ ban.grouper }}"/>
+                  <a name="{{ ban.grouper }}"></a>
                   <h2>{{ value }}</h2>
                   <table>
                     <tbody>
@@ -60,7 +60,7 @@
         {% endfor %}
         <br/>
       {% endfor %}
-      <a name="additional_resources"/>
+      <a name="additional_resources"></a>
       <h2>Additional Resources</h2>
       <p>
         <ul>
@@ -84,5 +84,4 @@
       </p>
     </p>
   </div>
-
 {% endblock body %}
