@@ -1,0 +1,55 @@
+{% extends "aashe/base.html" %}
+
+{% load markup tree_menu_tags %}
+
+{% block title %}{{ title }}{% endblock title %}
+
+{% block breadcrumb %}
+  <ul>
+    {% show_menu "AASHE Resource Center" "breadcrumb" %}
+  </ul>
+{% endblock breadcrumb %}
+
+{% block right %}
+
+  {% show_menu "AASHE Resource Center" "content-sidebar" %}
+
+{% endblock right %}
+
+{% block content %}
+
+    <h1>{{ title }}</h1>
+
+    <div class="content clear-block">
+
+    {% if member_only %}
+	  <div id="restricted-text" class="accessible">
+	    You are viewing member-only content.
+	  </div>
+    {% endif %}
+
+    {% if request.user.is_authenticated %}
+          <div id="admin-controls" style="background-color: #ddd;">
+            <p style="padding: 2px;">Admin controls: <a href="{{ admin_changelist_url }}">Edit in Admin</a></p>
+          </div>
+    {% endif %}
+
+    {% block body%}
+	{% endblock body %}
+
+    <div id="content-footer">
+      <div class="block block-block " id="block-block-43">
+        <div class="block-content content">
+          <p>
+		    <em>Please email <a href="mailto:resources@aashe.org">
+                resources@aashe.org</a> with any suggestions, additions or
+		        updates.
+		    </em>
+		  </p>
+        </div>
+      </div>
+    </div><!-- #content-footer -->
+
+  </div><!-- .content.clear-block -->
+
+{% endblock %}
