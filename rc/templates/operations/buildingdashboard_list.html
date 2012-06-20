@@ -1,0 +1,54 @@
+{% extends "resourceitem_list.html" %}
+
+{% block body %}
+
+  <p>
+
+    This resource lists building energy dashboards in use at different
+    colleges and universities. Campus building energy dashboards
+    monitor the energy consumption of a facility. Energy dashboards
+    can present the data to users in an interactive way. They may be
+    physically available as touchscreens installed at kiosks in or
+    near the facility being monitored, or made available online as a
+    website. Programs are categorized according to the energy
+    dashboard partner used by each campus, followed by individually
+    developed energy dashboards.
+
+  </p>
+
+  <div id="resource_list">
+    <p>
+      {% regroup object_list by partner.name as partner_list %}
+
+      {% for partner in partner_list %}
+        {% comment %}
+          Skip individually developed dashboards; they got at the end
+          of the page.
+        {% endcomment %}
+        {% if partner.grouper != 'Individually developed dashboards' %}
+          <h3>{{ partner.grouper }}</h3>
+          <table>
+            <tbody>
+              {% include "table_rows.html" with resources=partner.list %}
+            </tbody>
+          </table>
+        {% endif %}
+      {% endfor %}
+
+      {% comment %}
+        Put individually developed dashboards at the end of the page.
+      {% endcomment %}
+      {% for partner in partner_list %}
+        {% if partner.grouper == 'Individually developed dashboards' %}
+          <h3>{{ partner.grouper }}</h3>
+          <table>
+            <tbody>
+              {% include "table_rows.html" with resources=partner.list %}
+            </tbody>
+          </table>
+        {% endif %}
+      {% endfor %}
+    </p>
+  </div>
+
+{% endblock body %}

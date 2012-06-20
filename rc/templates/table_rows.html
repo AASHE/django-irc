@@ -1,0 +1,34 @@
+{% comment %}
+
+  Describes a number of table rows that display an organization's name
+  in the first cell, and the urls for all that organization's
+  resources in the second cell.
+
+  Resources are provided in the resources variable.
+
+  Usage (from economics_list.html):
+
+    {% regroup object_list by organization.country as country_list %}
+
+    {% for country in country_list %}
+      <h3>{{ country.grouper }}</h3>
+      <table>
+        <tbody>
+          <tr>
+            <th>Institution</th>
+            <th>Centers and Initiatives</th>
+          </tr>
+          {% include "table_rows.html" with resources=country.list %}
+        </tbody>
+      </table>
+    {% endfor %}
+
+{% endcomment %}
+
+{% regroup resources by organization.name as org_list %}
+{% for org in org_list %}
+  <tr>
+    <td>{{ org.grouper }}</td>
+    {% include "links_table_cell.html" with resources=org.list %}
+  </tr>
+{% endfor %}

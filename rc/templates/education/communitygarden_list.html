@@ -1,0 +1,37 @@
+{% extends "resourceitem_list.html" %}
+
+{% block body %}
+
+  <p>
+
+    This resource lists campus and campus-community gardens that use
+    organic gardening techniques and have a student learning
+    component. Additionally, refer to
+    <a href="http://www.bamco.com/uploads/documents/student_garden_guide_final_-_food_service.pdf">
+    Bon Appetit's Student Gardens Guide</a>
+    and <a href="http://www.youtube.com/watch?v=2eAYgF57Vrw">related
+    video</a> for information and guidance on establishing a garden on
+    your campus.
+
+  </p>
+
+  <div id="resource_list">
+    <p>
+      {% regroup object_list by organization.country as country_list %}
+
+      {% for country in country_list %}
+        <h3>{{ country.grouper }}</h3>
+        <table>
+          <tbody>
+            <tr>
+              <th>University</th>
+              <th>Resource</th>
+            </tr>
+            {% include "table_rows.html" with resources=country.list %}
+          </tbody>
+        </table>
+      {% endfor %}
+    </p>
+  </div>
+
+{% endblock body %}
