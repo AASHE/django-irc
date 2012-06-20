@@ -1,0 +1,40 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Campus Hybrid Vehicle Fleets
+{% endblock title %}
+
+{% block body %}
+
+  <div id="resource_list">
+    <p>
+      {% regroup object_list by organization.country as country_list %}
+
+      {% for country in country_list %}
+        <h3>{{ country.grouper }}</h3>
+        <table>
+          <tbody>
+            <tr>
+              <th>Institution</th>
+              <th>Number of Hybrid Vehicles in Fleet</th>
+              <th>Source(s)</th>
+            </tr>
+            {% regroup country.list by organization.name as org_list %}
+            {% for org in org_list %}
+              <tr>
+                <td>{{ org.grouper }}</td>
+                {% for fleet in org.list %}
+                  {% if forloop.last %}
+                    <td align="center">{% firstof fleet.number 'unknown' %}</td>
+                  {% endif %}</td>
+                {% endfor %}
+                {% include "links_table_cell.html" with resources=org.list %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endfor %}
+    </p>
+  </div>
+
+{% endblock body %}

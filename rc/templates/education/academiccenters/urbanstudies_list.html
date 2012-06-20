@@ -1,0 +1,24 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Campus Centers and Institutes on Urban Studies &amp; Sustainability
+{% endblock title %}
+
+{% block body %}
+
+  <div id="resource_list" class="content clear-block">
+    <p>
+      <table>
+        <table>
+          <tbody>
+          <tr>
+            <th>Institution</th>
+            <th>Center/Institute</th>
+          </tr>
+          {% include "table_rows.html" with resources=object_list %}
+        </tbody>
+      </table>
+    </p>
+  </div>
+
+{% endblock body %}
