@@ -15,29 +15,30 @@ def prepend_slash(value):
 register.filter('prepend_slash', prepend_slash)
 
 def generate_breadcrumb(object, request):
-    if hasattr(object, 'menuitem') and object.menuitem != None:
-        menuitem = object.menuitem
-        menu = menuitem.menu
-        itemslist = []
-        itemslist.append(menuitem)
-        while menuitem != menu.root_item:
-            menuitem = menuitem.parent
-            itemslist.insert(0, menuitem)
-        try:
-            first, second, third = itemslist[1], itemslist[2], itemslist[-1]
-            if second != third:
-                itemslist = [first, second, third]
-            else:
-                itemslist = [first]
-        except:
-            first, second = itemslist[1], itemslist[-1]
-            if first != second:
-              itemslist = [first, second]
-            else:
-              itemslist = [first]
-        # show the page title, not the menuitem title for the last item
-        itemslist[-1].extension.caption = object.title
-        return render_to_string('treemenus/breadcrumb_fragment.html', {'itemslist': itemslist})
+    if hasattr(object, 'menuitem'):
+        if object.menuitem != None:
+            menuitem = object.menuitem
+            menu = menuitem.menu
+            itemslist = []
+            itemslist.append(menuitem)
+            while menuitem != menu.root_item:
+                menuitem = menuitem.parent
+                itemslist.insert(0, menuitem)
+            try:
+                first, second, third = itemslist[1], itemslist[2], itemslist[-1]
+                if second != third:
+                    itemslist = [first, second, third]
+                else:
+                    itemslist = [first]
+            except:
+                first, second = itemslist[1], itemslist[-1]
+                if first != second:
+                  itemslist = [first, second]
+                else:
+                  itemslist = [first]
+            # show the page title, not the menuitem title for the last item
+            itemslist[-1].extension.caption = object.title
+            return render_to_string('treemenus/breadcrumb_fragment.html', {'itemslist': itemslist})
     else:
         # this doesn't work anymore
         # view = resolve(request.path)
