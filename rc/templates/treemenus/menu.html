@@ -20,18 +20,18 @@
   <ul class="menu">
   {% for child_menu_item in menu_item.children %}
     {% if child_menu_item.extension.protected %}
-    {% if child.url %}
+    {% if child_menu_item.url %}
     <li class="leaf"><a href="{{ child_menu_item.url|prepend_slash }}" class="restricted-content"><span>{{ child_menu_item.extension.caption }}</span></a></li>
     {% endif %}
-    {% if child.named_url %}
-    <li class="leaf"><a href="{% url child.named_url %}" class="restricted-content"><span>{{ child_menu_item.extension.caption }}</span></a></li>
+    {% if child_menu_item.named_url %}
+    <li class="leaf"><a href="{% url child_menu_item.named_url %}" class="restricted-content"><span>{{ child_menu_item.extension.caption }}</span></a></li>
     {% endif %}
     {% else %}
-    {% if child.url %}
+    {% if child_menu_item.url %}
     <li class="leaf"><a href="{{ child_menu_item.url|prepend_slash }}"><span>{{ child_menu_item.extension.caption }}</span></a></li>
     {% endif %}
-    {% if child.named_url %}
-    <li class="leaf"><a href="{% url child.named_url %}"><span>{{ child_menu_item.extension.caption }}</span></a></li>
+    {% if child_menu_item.named_url %}
+    <li class="leaf"><a href="{% url child_menu_item.named_url %}"><span>{{ child_menu_item.extension.caption }}</span></a></li>
     {% endif %}
     {% endif %}
   {% endfor %}
