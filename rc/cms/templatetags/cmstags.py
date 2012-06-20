@@ -23,9 +23,9 @@ def generate_breadcrumb(object, request):
         while menuitem != menu.root_item:
             menuitem = menuitem.parent
             itemslist.insert(0, menuitem)
-        first, second = itemslist[1], itemslist[-1]
+        first, second, third = itemslist[1], itemslist[2], itemslist[-1]
         if first != second:
-          itemslist = [first, second]
+          itemslist = [first, second, third]
         else:
           itemslist = [first]
         # show the page title, not the menuitem title for the last item
@@ -48,9 +48,9 @@ def generate_breadcrumb(object, request):
             while menuitem != menu.root_item:
                 menuitem = menuitem.parent
                 itemslist.insert(0, menuitem)
-            first, second = itemslist[1], itemslist[-1]
+            first, second, third = itemslist[1], itemslist[2], itemslist[-1]
             if first != second:
-              itemslist = [first, second]
+              itemslist = [first, second, third]
             else:
               itemslist = [first]
             return render_to_string('treemenus/breadcrumb_fragment.html', {'itemslist': itemslist})
