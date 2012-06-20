@@ -5,7 +5,7 @@
 {% for item in itemslist %}
   {% if forloop.last %} 
   <li class="last">
-    {{ item.caption }}
+    {{ item.extension.caption }}
   </li>
   {% else %}
   <li>
