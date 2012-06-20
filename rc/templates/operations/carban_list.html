@@ -21,7 +21,7 @@
 
       {% for ban in type_list %}
         <p>
-          <a name="{{ ban.grouper }}"/>
+          <a name="{{ ban.grouper }}" />
           {% for key, value in ban_types.items %}
             {% if key == ban.grouper %}
               <h2>{{ value }}</h2>
@@ -31,7 +31,7 @@
             <tbody>
               <tr>
                 <th>Institution</th>
-                <th>Policy</th>
+                <th>Source</th>
               </tr>
               {% include "table_rows.html" with resources=ban.list %}
             </tbody>
