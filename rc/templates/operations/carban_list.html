@@ -1,0 +1,45 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Campus Car Bans
+{% endblock title %}
+
+{% block body %}
+
+  <p>
+
+    The following resource is list of institutions that have first
+    year student car bans followed by campuses that have wider bans
+    which include sophomores, residents in general, or some other
+    category of student.
+
+  </p>
+
+  <div id="resource_list">
+    <p>
+      {% regroup object_list by type as type_list %}
+
+      {% for ban in type_list %}
+        <p>
+          <a name="{{ ban.grouper }}"/>
+          {% for key, value in ban_types.items %}
+            {% if key == ban.grouper %}
+              <h2>{{ value }}</h2>
+            {% endif %}
+          {% endfor %}
+          <table>
+            <tbody>
+              <tr>
+                <th>Institution</th>
+                <th>Policy</th>
+              </tr>
+              {% include "table_rows.html" with resources=ban.list %}
+            </tbody>
+          </table>
+        </p>
+        <br/>
+      {% endfor %}
+    </p>
+  </div>
+
+{% endblock body %}

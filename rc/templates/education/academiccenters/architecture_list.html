@@ -1,0 +1,23 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Academic Centers on Sustainability & Architechture, Design
+{% endblock title %}
+
+{% block body %}
+
+  <div id="resource_list" class="content clear-block">
+    <p>
+      <table>
+        <tbody>
+          <tr>
+            <th>Institution</th>
+            <th>Sustainable Design Center</th>
+          </tr>
+          {% include "table_rows.html" with resources=object_list %}
+        </tbody>
+      </table>
+    </p>
+  </div>
+
+{% endblock body %}

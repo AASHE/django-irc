@@ -1,0 +1,30 @@
+{% extends "resourceitem_list.html" %}
+
+
+{% block body %}
+
+  <p>
+
+    The following resource is a list of institutions that have giving
+    programs which allow alumni to contribute to campus sustainability
+    initiative
+
+  </p>
+
+  <p>
+    <div id="resource_list" class="content clear-block">
+      <p>
+        <table>
+          <tbody>
+            <tr>
+              <th>Institution</th>
+              <th>Fund</th>
+            </tr>
+            {% include "table_rows.html" with resources=object_list %}
+          </tbody>
+        </table>
+      </p>
+    </div>
+  </p>
+
+{% endblock body %}

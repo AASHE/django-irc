@@ -1,0 +1,30 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Academic Centers on Sustainability & Law
+{% endblock title %}
+
+{% block body %}
+
+  <p>
+    <div id="resource_list">
+
+      {% regroup object_list by organization.country as countries %}
+
+      {% for country in countries %}
+        <h3>{{ country.grouper }}</h3>
+        <table>
+          <tbody>
+            <tr>
+              <th>Institution</th>
+              <th>Academic Center</th>
+            </tr>
+            {% include "table_rows.html" with resources=country.list %}
+          </tbody>
+        </table>
+      {% endfor %}
+
+    </div>
+  </p>
+
+{% endblock body %}
