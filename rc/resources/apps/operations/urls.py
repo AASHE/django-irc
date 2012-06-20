@@ -226,12 +226,6 @@ urlpatterns = patterns('',
         name='transit-passes',
         kwargs={'type_list': dict(models.TransitPass.PASS_TYPES)}),
 
-    url(r'^websites-campus-green-building',
-        ResourceItemListView.as_view(
-            model=models.GreenBuildingWebsite,
-            queryset=models.GreenBuildingWebsite.objects.order_by('title')),
-        name='green-building-websites'),
-
     green_building_url(
         url_string=r'^athletic-recreation-centers-stadiums',
         building_type='Green Athletic Buildings',
