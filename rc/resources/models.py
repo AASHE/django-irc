@@ -38,4 +38,7 @@ class ResourceItem(models.Model):
         super(ResourceItem, self).save()
 
     def __unicode__(self):
-        return self.title
+        if self.title:
+            return self.title
+        else:
+            return u'<%s: %s>' % (self.__class__.__name__, self.pk)

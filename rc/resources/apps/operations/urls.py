@@ -49,6 +49,7 @@ urlpatterns = patterns('',
         kwargs={'type_list': [ level[0] for level in
                                models.BottledWaterBan.BAN_TYPES ],
                 'type_dict': dict(models.BottledWaterBan.BAN_TYPES),
+                'title': 'Campus Bottled Water Bans and Reduction Campaigns',
                 'member_only': True}),
 
     url(r'^campus-building-energy-dashboards',
