@@ -224,7 +224,7 @@
                 <a {% if object.menuitem.parent.parent.url %}href="{{ object.menuitem.parent.parent.url|prepend_slash }}"{% else %}href="{% url object.menuitem.parent.parent.named_url %}"{% endif %} title="{{ object.menuitem.parent.parent.extension.caption }}" class="{% if object.menuitem.parent.parent.extension.protected %}restricted-content{% endif %} active-trail"><span>{{ object.menuitem.parent.parent.extension.caption }}</span></a>
                   <ul class="menu">
                   {% for child_menu_item in object.menuitem.parent.parent.children %}
-                    {% if child_menu_item == object.menuitem %}
+                    {% if child_menu_item == object.menuitem.parent %}
                     <li class="leaf"><a {% if child_menu_item.url %}href="{{ child_menu_item.url|prepend_slash }}"{% else %}href="{% url child_menu_item.named_url %}"{% endif %} class="{% if child_menu_item.extension.protected %}restricted-content{% endif %} active-trail"><span>{{ child_menu_item.extension.caption }}</span></a></li>
                     {% else %}
                     <li class="leaf"><a {% if child_menu_item.url %}href="{{ child_menu_item.url|prepend_slash }}"{% else %}href="{% url child_menu_item.named_url %}"{% endif %} class="{% if menu_item.extension.protected %}restricted-content{% endif %}"><span>{{ child_menu_item.extension.caption }}</span></a></li>
@@ -238,7 +238,7 @@
                 <a {% if object.menuitem.parent.parent.parent.url %}href="{{ object.menuitem.parent.parent.parent.url|prepend_slash }}"{% else %}href="{% url object.menuitem.parent.parent.named_url %}"{% endif %} title="{{ object.menuitem.parent.parent.parent.extension.caption }}" class="{% if object.menuitem.parent.parent.parent.extension.protected %}restricted-content{% endif %} active-trail"><span>{{ object.menuitem.parent.parent.parent.extension.caption }}</span></a>
                   <ul class="menu">
                   {% for child_menu_item in object.menuitem.parent.parent.parent.children %}
-                    {% if child_menu_item == object.menuitem %}
+                    {% if child_menu_item == object.menuitem.parent.parent %}
                     <li class="leaf"><a {% if child_menu_item.url %}href="{{ child_menu_item.url|prepend_slash }}"{% else %}href="{% url child_menu_item.named_url %}"{% endif %} class="{% if child_menu_item.extension.protected %}restricted-content{% endif %} active-trail"><span>{{ child_menu_item.extension.caption }}</span></a></li>
                     {% else %}
                     <li class="leaf"><a {% if child_menu_item.url %}href="{{ child_menu_item.url|prepend_slash }}"{% else %}href="{% url child_menu_item.named_url %}"{% endif %} class="{% if menu_item.extension.protected %}restricted-content{% endif %}"><span>{{ child_menu_item.extension.caption }}</span></a></li>
