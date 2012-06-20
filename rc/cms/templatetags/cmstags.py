@@ -15,7 +15,7 @@ def prepend_slash(value):
 register.filter('prepend_slash', prepend_slash)
 
 def generate_breadcrumb(object, request):
-    if hasattr(object, 'menuitem'):
+    if hasattr(object, 'menuitem') and object.menuitem != None:
         menuitem = object.menuitem
         menu = menuitem.menu
         itemslist = []
