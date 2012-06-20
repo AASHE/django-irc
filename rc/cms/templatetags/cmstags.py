@@ -43,8 +43,12 @@ def generate_breadcrumb(object, request):
         # view = resolve(request.path)
         # this removes the resources/ from the path
         new_path = request.path.split('/')
-        resolve_path = new_path[2]
-        resolve_path = "/%s" % resolve_path
+        # TODO: This is pretty ugly stuff that follows, fix someday...
+        try:
+            resolve_path = new_path[2]
+            resolve_path = "/%s" % resolve_path
+        except:
+            resolve_path = request.path
         view = resolve(resolve_path)
         named_url = view.url_name
         try:
@@ -76,8 +80,12 @@ def generate_sidebar(object, request):
         # get view and named url
         # see comments in generate_breadcrumb
         new_path = request.path.split('/')
-        resolve_path = new_path[2]
-        resolve_path = "/%s" % resolve_path
+        # TODO: This is pretty ugly stuff that follows, fix someday...
+        try:
+            resolve_path = new_path[2]
+            resolve_path = "/%s" % resolve_path
+        except:
+            resolve_path = request.path
         view = resolve(resolve_path)
         named_url = view.url_name
         try:

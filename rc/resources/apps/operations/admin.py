@@ -3,9 +3,8 @@ from rc.resources.admin import ResourceItemAdmin
 from rc.resources.apps.operations.models import *
 
 
-class BottledWaterBanAdmin(admin.ModelAdmin):
-    list_display = ('__unicode__', 'type', 'published')
-    list_filter = ('type',)
+class BottledWaterBanAdmin(ResourceItemAdmin):
+    list_filter = ('type', 'published',)
 admin.site.register(BottledWaterBan, BottledWaterBanAdmin)
 
 class CarShareAdmin(admin.ModelAdmin):
