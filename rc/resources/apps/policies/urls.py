@@ -111,7 +111,7 @@ urlpatterns = patterns('',
             This resource lists campus stormwater policies and
             procedures that exist independently of water conservation
             policies, which can be found within general <a
-            href="/campus-water-conservation-policies">Campus
+            href="/resources/water-conservation-policies">Campus
             Water Conservation Policies</a>.
             """,
         member_only=True),

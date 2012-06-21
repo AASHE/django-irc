@@ -23,8 +23,8 @@
                 <a href="{{ resource.url }}">{{ resource.title }}</a>
               </strong>
               <br/>
-              <em>{% firstof resource.organization.name 'unknown org'%}</em>
-              <br/>
+              <!-- <em>{% firstof resource.organization.name 'unknown org'%}</em>
+              <br/> -->
               {{ resource.description }}
             </p>
           {% endfor %}
