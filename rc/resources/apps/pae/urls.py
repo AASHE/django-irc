@@ -22,6 +22,7 @@ urlpatterns = patterns('',
             queryset=models.MasterPlan.objects.order_by(
                     'minor_reference_only', 'organization__name'))),
         name='master-plans',
+        title='Campus Master Plans that Incorporate Sustainability',
         kwargs={'member_only': True}),
 
     url(r'^campus-sustainability-assessment-tools',
