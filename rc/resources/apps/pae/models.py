@@ -56,3 +56,5 @@ class StudentFeesDescription(models.Model):
     description = models.TextField(_('student fees description'), blank=True)
     organization = models.ForeignKey(Organization, blank=True, null=True)
     notes = models.TextField(_('internal notes'), blank=True)
+    class Meta:
+        verbose_name = 'description of student fee for sustainability'
