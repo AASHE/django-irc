@@ -15,7 +15,8 @@ class CarShareAdmin(admin.ModelAdmin):
     list_display = ('__unicode__', 'partner')
     list_filter = ('partner',)
 admin.site.register(CarShare, CarShareAdmin)
-    
+
+admin.site.register(ElectronicWasteEvent, ResourceItemAdmin)
 admin.site.register(GreenBuildingWebsite, ResourceItemAdmin)
 admin.site.register(GreenBuildingType)
 admin.site.register(ClimateActionPlan, ResourceItemAdmin)

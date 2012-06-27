@@ -14,6 +14,7 @@ admin.site.register(GreenBuildingPolicy, GreenBuildingPolicyAdmin)
 admin.site.register(Policy, PolicyAdmin)
 admin.site.register(ResponsibleInvestmentPolicy, PolicyAdmin)
 admin.site.register(FairTradePolicy, PolicyAdmin)
+admin.site.register(ElectronicWastePolicy, PolicyAdmin)
 
 class PolicyTypeAdmin(admin.ModelAdmin):
     list_display = ('__unicode__', 'type')
