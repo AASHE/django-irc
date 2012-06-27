@@ -45,5 +45,5 @@ admin.site.register(WaterConservationEffort, ResourceItemAdmin)
 class CampusGreenBuildingAdmin(ResourceItemAdmin):
     exclude = ('title',)
 admin.site.register(CampusGreenBuilding, CampusGreenBuildingAdmin)
-admin.site.register(GreenResidenceHall, CampusGreenBuildingAdmin)
+admin.site.register(GreenResidenceHall, ResourceItemAdmin)
 
