@@ -41,9 +41,6 @@ admin.site.register(CarSharePartner)
 admin.site.register(TransitPass, ResourceItemAdmin)
 admin.site.register(RecyclingWebsite, ResourceItemAdmin)
 admin.site.register(WaterConservationEffort, ResourceItemAdmin)
-
-class CampusGreenBuildingAdmin(ResourceItemAdmin):
-    exclude = ('title',)
-admin.site.register(CampusGreenBuilding, CampusGreenBuildingAdmin)
+admin.site.register(CampusGreenBuilding, ResourceItemAdmin)
 admin.site.register(GreenResidenceHall, ResourceItemAdmin)
 
