@@ -40,6 +40,17 @@ def production():
     Configure the fabric environment for the dev server(s).
     '''
     env.user = 'releaser'
+    env.hosts = ['new.aashe.org']
+    env.path = '/var/www/django_projects/aashe-rc'
+    env.django_settings = 'rc.new_settings'
+    env.activate = 'source %s/env/bin/activate' % env.path
+    env.uwsgi_service_name = 'aashe-rc'
+    
+def production():
+    '''
+    Configure the fabric environment for the dev server(s).
+    '''
+    env.user = 'releaser'
     env.hosts = ['www.aashe.org']
     env.path = '/var/www/django_projects/aashe-rc'
     env.django_settings = 'rc.live_settings'
