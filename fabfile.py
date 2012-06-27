@@ -35,7 +35,7 @@ def dev():
     env.activate = 'source %s/env/bin/activate' % env.path
     env.uwsgi_service_name = 'uwsgi'
     
-def production():
+def new():
     '''
     Configure the fabric environment for the dev server(s).
     '''
