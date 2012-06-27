@@ -7,13 +7,16 @@ class BottledWaterBanAdmin(ResourceItemAdmin):
     list_filter = ('type', 'published',)
 admin.site.register(BottledWaterBan, BottledWaterBanAdmin)
 
+class CampusGreenBuildingAdmin(ResourceItemAdmin):
+    exclude = ('title',)
+admin.site.register(CampusGreenBuilding, CampusGreenBuildingAdmin)
+
 class CarShareAdmin(admin.ModelAdmin):
     list_display = ('__unicode__', 'partner')
     list_filter = ('partner',)
 admin.site.register(CarShare, CarShareAdmin)
     
 admin.site.register(GreenBuildingWebsite, ResourceItemAdmin)
-admin.site.register(CampusGreenBuilding, ResourceItemAdmin)
 admin.site.register(GreenBuildingType)
 admin.site.register(ClimateActionPlan, ResourceItemAdmin)
 admin.site.register(CAPPublication, ResourceItemAdmin)
