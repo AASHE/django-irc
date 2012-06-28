@@ -48,6 +48,6 @@ class CampusGreenBuildingAdmin(ResourceItemAdmin):
     list_filter = ('type', 'published')
 admin.site.register(CampusGreenBuilding, CampusGreenBuildingAdmin)
 admin.site.register(GreenResidenceHall, ResourceItemAdmin)
-admin.site.register(GreenBuildingLink)
+admin.site.register(CampusGreenBuildingLink)
 
 
