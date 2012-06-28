@@ -44,7 +44,7 @@ admin.site.register(WaterConservationEffort, ResourceItemAdmin)
 
 class CampusGreenBuildingAdmin(ResourceItemAdmin):
     exclude = ('title',)
-    list_display = ('__unicode__', 'facility_name', 'organization', 'notes', 'url', 'published')
+    list_display = ('facility_name', 'organization', 'notes', 'url', 'published')
     list_filter = ('type', 'published')
 admin.site.register(CampusGreenBuilding, CampusGreenBuildingAdmin)
 admin.site.register(GreenResidenceHall, ResourceItemAdmin)
