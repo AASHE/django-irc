@@ -13,5 +13,5 @@ admin.site.register(RevolvingLoanFund, ResourceItemAdmin)
 admin.site.register(StudentFee, ResourceItemAdmin)
 
 class StudentFeesDescriptionAdmin(ResourceItemAdmin):
-    list_display = ('description, ''organization', 'notes')
+    list_display = ('description', 'organization', 'notes')
 admin.site.register(StudentFeesDescription, StudentFeesDescriptionAdmin)
