@@ -74,7 +74,8 @@ urlpatterns = patterns(
             queryset=models.FacultyWorkshop.objects.order_by(
                  'organization__name'))),
         name='faculty-workshops',
-        kwargs={'member_only': True}),
+        kwargs={'member_only': True,
+                'title': 'Campus-led Faculty Development Workshops on Sustainability'}),
 
     url(r'^sustainability-research-inventories$',
         members_only(ResourceItemListView.as_view(
