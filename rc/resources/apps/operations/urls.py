@@ -253,9 +253,9 @@ urlpatterns = patterns('',
         building_type='Green Residence Halls',
         image_url='http://www.aashe.org/files/ashdown_house_mit.jpg',
         image_alt='MIT Ashdown House',
-        image_caption='MIT Ashdown House'
-        # Model not in use, dunno why (mt)
-        # model=models.GreenResidenceHall
+        image_caption='MIT Ashdown House',
+        # Model is empty, dunno why (mt)
+        model=models.GreenResidenceHall
         ),
 
     green_building_url(
