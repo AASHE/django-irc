@@ -44,6 +44,7 @@ admin.site.register(WaterConservationEffort, ResourceItemAdmin)
 
 class CampusGreenBuildingAdmin(ResourceItemAdmin):
     exclude = ('title',)
+    list_filter = ('type', 'published')
 admin.site.register(CampusGreenBuilding, CampusGreenBuildingAdmin)
 admin.site.register(GreenResidenceHall, ResourceItemAdmin)
 
