@@ -9,13 +9,20 @@
   <p>
     <div id="resource_list" class="content clear-block">
       <p>
-
+        <table>
+          <tbody>
+            <tr>
+              <th>Institution</th>
+              <th>Energy Policy</th>
+            </tr>
         {% for resource in object_list %}
-          {{ resource.organization.name }} -
-          <a href="{{ resource.url }}">{{ resource.title }}</a>
-          <br/>
+          <tr>
+          <td>{{ resource.organization.name }}</td>
+          <td><a href="{{ resource.url }}">{{ resource.title }}</a></td>
+          </tr>
         {% endfor %}
-
+        </tbody>
+        </table>
       </p>
     </div>
   </p>

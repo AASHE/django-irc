@@ -206,7 +206,7 @@ urlpatterns = patterns('',
             queryset=models.FairTradePolicy.objects.order_by(
                     'organization__country', 'organization__name')),
         name='fair-trade',
-        kwargs={'member_only': True, 'title': 'Campus Fair trade Practices and Policies'}),
+        kwargs={'member_only': True, 'title': 'Campus Fair Trade Practices and Policies'}),
 
     url(r'^socially-responsible-investment-policies',
         view=ResourceItemListView.as_view(
