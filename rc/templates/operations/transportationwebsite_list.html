@@ -19,11 +19,20 @@
   <p>
     <div id="resource_list" class="content clear-block">
       <p>
+        <table>
+          <tbody>
+            <tr>
+              <th>Institution</th>
+              <th>Transportation Website</th>
+            </tr>
         {% for alttrans in object_list %}
-              {{ alttrans.organization.name }} -
-          <a href="{{ alttrans.url }}">{{ alttrans.title }}</a>
-          <br/>
+            <tr>
+              <td>{{ alttrans.organization.name }}</td>
+              <td><a href="{{ alttrans.url }}">{{ alttrans.title }}</a></td>
+            </tr>
         {% endfor %}
+          </tbody>
+        </table>
       </p>
     </div>
   </p>

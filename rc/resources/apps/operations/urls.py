@@ -165,7 +165,8 @@ urlpatterns = patterns('',
             queryset=models.WindTurbine.objects.order_by(
                     '-size', 'organization__name'))),
         name='wind-turbines',
-        kwargs={'member_only': True}),
+        kwargs={'member_only': True,
+                'title': 'Wind Turbine Installations on Campus'}),
 
     url(r'^carsharing-campus',
         members_only(ResourceItemListView.as_view(
