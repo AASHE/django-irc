@@ -119,7 +119,8 @@ urlpatterns = patterns('',
     policy_url(url_string=r'^energy-conservation-policies',
                policy_type='Energy Conservation',
                page_title='Campus Sustainable Energy Policies',
-               bold_org_name=False),
+               bold_org_name=False,
+               template_name='policies/energypolicy_list.html'),
 
     policy_url(
         r'^campus-sustainable-procurement-policies',
