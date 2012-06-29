@@ -37,7 +37,7 @@ urlpatterns = patterns('',
                     'organization__country', 'organization__name'),
             template_name=('programs/campus_surplus_recycling_list.html')),
         name='surplus-property-recycling',
-        kwargs={'member_only': True, 'title': 'Campus Surplus Recycling Programs'}),
+        kwargs={'member_only': True, 'title': 'Campus Surplus Property Recycling Programs'}),
 
     url(r'^e-waste-programs-policies-and-events',
         views.ElectronicWasteProgramPolicyAndEventListView.as_view(

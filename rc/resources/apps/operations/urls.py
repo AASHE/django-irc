@@ -149,7 +149,8 @@ urlpatterns = patterns('',
             queryset=models.RecyclingWebsite.objects.order_by(
                     'organization__name'))),
         name='recycling-websites',
-        kwargs={'member_only': True}),
+        kwargs={'title': 'Campus Recycling & Waste Minimization Websites',
+                'member_only': True}),
 
     url(r'^campus-water-conservation-efforts',
         members_only(ResourceItemListView.as_view(

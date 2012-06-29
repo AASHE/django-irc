@@ -195,6 +195,7 @@ urlpatterns = patterns(
                     'organization__name', 'title'),
             template_name='education/academiccenters/'
                           'campussustainabilitycourse_list.html'),
-        name='campus-sustainability-courses'),
+        name='campus-sustainability-courses',
+        kwargs={'title': "Courses Focusing on Campus Sustainability",}),
 
     )
