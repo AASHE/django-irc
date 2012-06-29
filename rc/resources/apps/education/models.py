@@ -49,6 +49,9 @@ class CampusSustainabilityCourseTeacher(models.Model):
     class Admin:
         list_display = ('last_name', 'first_name', 'title',
                         'email', 'web_page', 'department')
+                        
+    def __unicode__(self):
+        return (self.first_name + self.last_name)
 
 class CampusSustainabilityCourse(ResourceItem):
     department_number = models.CharField(_('department and number'),
