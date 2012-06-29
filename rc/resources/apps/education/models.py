@@ -51,7 +51,7 @@ class CampusSustainabilityCourseTeacher(models.Model):
                         'email', 'web_page', 'department')
                         
     def __unicode__(self):
-        return (self.first_name + self.last_name)
+        return (self.first_name + ' ' + self.last_name)
 
 class CampusSustainabilityCourse(ResourceItem):
     department_number = models.CharField(_('department and number'),

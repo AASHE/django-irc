@@ -58,6 +58,9 @@ class GlobalWarmingCommitment(ResourceItem):
 
     class Meta:
         verbose_name = 'campus global warming commitment'
+    
+    def __unicode__(self):
+        return self.commitment
 
 class GHGInventory(ResourceItem):
     METHODOLOGY_TYPES = (('CA', 'Clean Air-Cool Planet Campus Carbon Calculator'),
