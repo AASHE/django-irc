@@ -15,11 +15,16 @@ admin.site.register(CampusAgriculture, ResourceItemAdmin)
 admin.site.register(LivingGuide, ResourceItemAdmin)
 admin.site.register(SustainabilityMap, ResourceItemAdmin)
 admin.site.register(StudentPeerOutreach, ResourceItemAdmin)
-admin.site.register(CampusSustainabilityCourse, ResourceItemAdmin)
-admin.site.register(CampusSustainabilityCourseTeacher)
 admin.site.register(SustainabilityCourseInventory, ResourceItemAdmin)
 admin.site.register(SustainabilitySyllabus, ResourceItemAdmin)
 admin.site.register(FacultyWorkshop, ResourceItemAdmin)
 admin.site.register(SurveyOfAwareness, ResourceItemAdmin)
 admin.site.register(ResearchInventory, ResourceItemAdmin)
 admin.site.register(AcademicCenterType)
+
+class CampusSustainabilityCourseTeacherAdmin(admin.ModelAdmin):
+    list_display = ('last_name', 'first_name', 'title',
+                    'email', 'web_page', 'department''last_name', 'first_name', 'title',)
+                    
+admin.site.register(CampusSustainabilityCourse, ResourceItemAdmin)
+admin.site.register(CampusSustainabilityCourseTeacher, CampusSustainabilityCourseTeacherAdmin)

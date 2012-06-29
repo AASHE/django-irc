@@ -52,7 +52,7 @@ class CampusSustainabilityCourseTeacher(models.Model):
 
 class CampusSustainabilityCourse(ResourceItem):
     department_number = models.CharField(_('department and number'),
-                                         max_length=75)
+                                         max_length=75, blank=True, null=True)
     teachers = models.ManyToManyField(CampusSustainabilityCourseTeacher)
 
     class Meta:
