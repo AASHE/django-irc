@@ -102,7 +102,8 @@ urlpatterns = patterns(
                     type__type='AG').order_by('organization__name'),
             template_name='education/academiccenters/'
                           'agriculture_list.html'),
-        name=academic_centers_url_name('AG')),
+        name=academic_centers_url_name('AG'),
+        kwargs={'title': "Campus Centers and Institutes on Agriculture & Sustainability",}),
 
     url('^sustainable-design-academic-centers',
         ResourceItemListView.as_view(
@@ -111,7 +112,8 @@ urlpatterns = patterns(
                     type__type='AR').order_by('organization__name'),
             template_name='education/academiccenters/'
                           'architecture_list.html'),
-        name=academic_centers_url_name('AR')),
+        name=academic_centers_url_name('AR'),
+        kwargs={'title': "Campus Centers and Institutes on Architecture & Sustainability",}),
 
     url('^business-school-academic-centers-and-'
         'research-initiatives-sustainability',
@@ -121,7 +123,8 @@ urlpatterns = patterns(
                     type__type='BS').order_by('organization__name'),
             template_name='education/academiccenters/'
                           'business_list.html'),
-            name=academic_centers_url_name('BS')),
+            name=academic_centers_url_name('BS'),
+            kwargs={'title': "Campus Centers and Institutes on Business & Sustainability",}),
 
     url('^research-centers-sustainable-development',
         ResourceItemListView.as_view(
@@ -130,7 +133,8 @@ urlpatterns = patterns(
                     type__type='DS').order_by('organization__name'),
             template_name='education/academiccenters/'
                           'developmentstudies_list.html'),
-        name=academic_centers_url_name('DS')),
+        name=academic_centers_url_name('DS'),
+        kwargs={'title': "Campus Centers and Institutes on Development Studies & Sustainability",}),
 
    url('^academic-centers-ecological-economics',
         ResourceItemListView.as_view(
@@ -140,7 +144,8 @@ urlpatterns = patterns(
                                               'organization__name'),
             template_name='education/academiccenters/'
                           'economics_list.html'),
-        name=academic_centers_url_name('EC')),
+        name=academic_centers_url_name('EC'),
+        kwargs={'title': "Campus Centers and Institutes on Economics & Sustainability",}),
 
     url('^'
         'academic-centers-sustainability-and-environmental-education',
@@ -150,7 +155,8 @@ urlpatterns = patterns(
                     type__type='ED').order_by('organization__name'),
             template_name='education/academiccenters/'
                           'education_list.html'),
-        name=academic_centers_url_name('ED')),
+        name=academic_centers_url_name('ED'),
+        kwargs={'title': "Campus Centers and Institutes on Education & Sustainability",}),
 
     url('^sustainable-engineering-academic-centers',
         ResourceItemListView.as_view(
@@ -159,7 +165,8 @@ urlpatterns = patterns(
                     type__type='EN').order_by('organization__name'),
             template_name='education/academiccenters/'
                           'engineering_list.html'),
-        name=academic_centers_url_name('EN')),
+        name=academic_centers_url_name('EN'),
+        kwargs={'title': "Campus Centers and Institutes on Engineering & Sustainability",}),
 
     url('^academic-centers-focused-environmental-law',
         ResourceItemListView.as_view(
@@ -168,7 +175,8 @@ urlpatterns = patterns(
                     type__type='LW').order_by('organization__country',
                                               'organization__name'),
             template_name='education/academiccenters/law_list.html'),
-        name=academic_centers_url_name('LW')),
+        name=academic_centers_url_name('LW'),
+        kwargs={'title': "Campus Centers and Institutes on Law & Sustainability",}),
 
     url('^academic-centers-and-research-inititatives-urban-studies',
         ResourceItemListView.as_view(
@@ -177,7 +185,8 @@ urlpatterns = patterns(
                     type__type='US').order_by('organization__name'),
             template_name='education/academiccenters/'
                           'urbanstudies_list.html'),
-        name=academic_centers_url_name('US')),
+        name=academic_centers_url_name('US'),
+        kwargs={'title': "Campus Centers and Institutes on Urban Studies & Sustainability",}),
 
     url('^courses-campus-sustainability',
         ResourceItemListView.as_view(
