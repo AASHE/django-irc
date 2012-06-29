@@ -21,10 +21,5 @@ admin.site.register(FacultyWorkshop, ResourceItemAdmin)
 admin.site.register(SurveyOfAwareness, ResourceItemAdmin)
 admin.site.register(ResearchInventory, ResourceItemAdmin)
 admin.site.register(AcademicCenterType)
-
-class CampusSustainabilityCourseTeacherAdmin(admin.ModelAdmin):
-    list_display = ('last_name', 'first_name', 'title',
-                    'email', 'web_page', 'department''last_name', 'first_name', 'title',)
-                    
 admin.site.register(CampusSustainabilityCourse, ResourceItemAdmin)
-admin.site.register(CampusSustainabilityCourseTeacher, CampusSustainabilityCourseTeacherAdmin)
+admin.site.register(CampusSustainabilityCourseTeacher)
