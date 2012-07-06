@@ -18,7 +18,11 @@
 
 {% block content %}
 
+    {% if page_title %}
     <h1>{{ page_title|title }}</h1>
+    {% else %}
+    <h1>{{ title }}</h1>
+    {% endif %}
 
     <div class="content clear-block">
 

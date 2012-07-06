@@ -148,6 +148,7 @@ urlpatterns = patterns('',
     policy_by_country_by_org_name_url(
         url_string=r'^water-conservation-policies',
         policy_type='Water Conservation',
+        page_title='Campus Water Conservation Policies',
         opening_text="""This resource lists campus water conservation
                         policies and procedures that exist
                         independently of another policy or plan. More
