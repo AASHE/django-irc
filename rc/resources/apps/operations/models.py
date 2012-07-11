@@ -22,7 +22,7 @@ class CampusGreenBuilding(ResourceItem):
     completed = models.CharField(_('when completed'), max_length=128)
     sqft = models.CharField(_('square footage'), max_length=56)
     cost = models.CharField(_('building cost'), max_length=56)
-    certification = models.CharField(_('certification'), choices=METHODOLOGY_TYPES, max_length=128)
+    certification = models.CharField(_('certification'), choices=CERT_TYPES, max_length=128)
     key_features = models.TextField(_('key features'))
 
     class Meta:
