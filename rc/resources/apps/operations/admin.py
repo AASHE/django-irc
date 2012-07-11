@@ -49,7 +49,7 @@ class CampusGreenBuildingAdmin(ResourceItemAdmin):
 class GreenResidenceAdmin(ResourceItemAdmin):
     exclude = ('title',)
     list_display = ('facility_name', 'beds', 'certification', 'organization', 'notes', 'url', 'published')
-    list_filter = ('published')
+    list_filter = ('published',)
 admin.site.register(CampusGreenBuilding, CampusGreenBuildingAdmin)
 admin.site.register(GreenResidenceHall, GreenResidenceAdmin)
 admin.site.register(CampusGreenBuildingLink)
