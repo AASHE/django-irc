@@ -37,6 +37,9 @@ class CampusGreenBuildingLink(models.Model):
     url = models.URLField(_('resource url'), blank=True, max_length=256)
     resource_item = models.ForeignKey(CampusGreenBuilding,
                                       related_name='links')
+                                      
+    def __unicode__(self):
+      return self.title
 
 class GreenResidenceHall(CampusGreenBuilding):
     beds = models.CharField(_('beds'), max_length=56)

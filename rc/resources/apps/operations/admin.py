@@ -42,14 +42,20 @@ admin.site.register(TransitPass, ResourceItemAdmin)
 admin.site.register(RecyclingWebsite, ResourceItemAdmin)
 admin.site.register(WaterConservationEffort, ResourceItemAdmin)
 
+class GreenBuildingLinkExtensionInline(admin.StackedInline):
+    model = CampusGreenBuildingLink
+    max_num = 1
 class CampusGreenBuildingAdmin(ResourceItemAdmin):
     exclude = ('title',)
     list_display = ('facility_name','certification', 'organization', 'notes', 'url', 'published')
     list_filter = ('type', 'published')
+    inlines = [GreenBuildingLinkExtensionInline,]
 class GreenResidenceAdmin(ResourceItemAdmin):
     exclude = ('title',)
     list_display = ('facility_name', 'beds', 'certification', 'organization', 'notes', 'url', 'published')
     list_filter = ('published',)
+    inlines = [GreenBuildingLinkExtensionInline,]
+
 admin.site.register(CampusGreenBuilding, CampusGreenBuildingAdmin)
 admin.site.register(GreenResidenceHall, GreenResidenceAdmin)
 admin.site.register(CampusGreenBuildingLink)
