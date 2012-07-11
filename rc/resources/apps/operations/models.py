@@ -15,15 +15,15 @@ class CampusGreenBuilding(ResourceItem):
                    ('SL', 'LEED Silver'),
                    ('BZ', 'LEED Bronze'),
                    ('CR', 'LEED Certified'),
-                   ('OT', 'Other'))
+                   ('NC', 'Not Certified/Unknown'),)
     
     type = models.ForeignKey('GreenBuildingType', verbose_name='building type')
-    facility_name = models.CharField(_('facility name'), max_length=128)
-    completed = models.CharField(_('when completed'), max_length=128)
-    sqft = models.CharField(_('square footage'), max_length=56)
-    cost = models.CharField(_('building cost'), max_length=56)
-    certification = models.CharField(_('certification'), max_length=128)
-    key_features = models.TextField(_('key features'))
+    facility_name = models.CharField(_('facility name'), max_length=128, blank=True)
+    completed = models.CharField(_('when completed'), max_length=128, blank=True)
+    sqft = models.CharField(_('square footage'), max_length=56, blank=True)
+    cost = models.CharField(_('building cost'), max_length=56, blank=True)
+    certification = models.CharField(_('certification'), choices=LEED_LEVELS, max_length=128)
+    key_features = models.TextField(_('key features'), blank=True)
 
     class Meta:
         verbose_name = 'green building on campus'

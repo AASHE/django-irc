@@ -47,18 +47,11 @@
 
       <h2>Leed Certified Green Buildings</h2>
 
-      {% for cert_type in cert_order %}
+      {% for key, value in cert_order.items %}
         {% for certification in list_by_certification %}
-          {% if cert_type == certification.grouper %}
-            {% comment %}
-              special handling of 'not certified' type:
-            {% endcomment %}
+          {% if key == certification.grouper %}
             <h3>
-              {% if cert_type != "not certified" %}
-                {{ certification.grouper }}
-              {% else %}
-                Uncertified Green Buildings
-              {% endif %}
+              {{ value }}
             </h3>
             {% for resource in certification.list %}
               <p>
@@ -66,7 +59,12 @@
                   {{ resource.organization.name }}
                 </strong>
                 <br/>
-                <strong>{{ resource.facility_name }}</strong> <br/>
+                <strong>
+                {% if resource.url %}<a href="{{ resource.url }}">{{ resource.facility_name }}</a>
+                {% else %}{{ resource.facility_name }}
+                {% endif %}
+                </strong>
+                <br />
                 <em>Completed:</em> {{ resource.completed }} <br/>
                 <em>SqFt:</em> {{ resource.sqft }} <br/>
                 <em>Cost:</em> {{ resource.cost }} <br/>
@@ -74,7 +72,7 @@
                    <em>Beds:</em> {{ resource.beds }} <br/>
                 {% endif %}
                 <em>Certification:</em>
-                {{ resource.certification }} <br/>
+                {{ resource.get_certification_display }} <br/>
                 <em>Key Features:</em>
                 {{ resource.key_features }} <br/>
                 <em>More information:</em>
