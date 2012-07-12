@@ -10,12 +10,13 @@ class GreenBuildingWebsite(ResourceItem):
         verbose_name_plural = 'websites on campus green building'
 
 class CampusGreenBuilding(ResourceItem):
-    LEED_LEVELS = (('PL', 'LEED Platinum'),
-                   ('GL', 'LEED Gold'),
-                   ('SL', 'LEED Silver'),
-                   ('BZ', 'LEED Bronze'),
-                   ('CR', 'LEED Certified'),
-                   ('NC', 'Not Certified/Unknown'),)
+    LEED_LEVELS = (('AP', 'LEED Platinum'),
+                    ('BG', 'LEED Gold'),
+                    ('CS', 'LEED Silver'),
+                    ('DB', 'LEED Bronze'),
+                    ('EC', 'LEED Certified'),
+                    ('FC', 'Other Certification'),
+                    ('GN', 'Non-Certified or Certification Unknown'))
     
     type = models.ForeignKey('GreenBuildingType', verbose_name='building type')
     facility_name = models.CharField(_('facility name'), max_length=128, blank=True)

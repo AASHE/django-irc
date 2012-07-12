@@ -46,13 +46,15 @@
       {% regroup object_list by certification as list_by_certification %}
 
       <h2>Leed Certified Green Buildings</h2>
-
-      {% for key, value in cert_order.items %}
-        {% for certification in list_by_certification %}
-          {% if key == certification.grouper %}
+      
+      {% for certification in list_by_certification %}
+            {% for key, value in cert_order.items %}
+            {% if key == certification.grouper %}
             <h3>
               {{ value }}
             </h3>
+            {% endif %}
+            {% endfor %}
             {% for resource in certification.list %}
               <p>
                 <strong>
@@ -81,8 +83,6 @@
                 {% endfor %}
               </p>
             {% endfor %}
-          {% endif %}
-        {% endfor %}
       {% endfor %}
 
     </p>
