@@ -17,7 +17,6 @@ admin.site.register(GreenBuildingWebsite, ResourceItemAdmin)
 admin.site.register(GreenBuildingType)
 admin.site.register(ClimateActionPlan, ResourceItemAdmin)
 admin.site.register(CAPPublication, ResourceItemAdmin)
-admin.site.register(GlobalWarmingCommitment, ResourceItemAdmin)
 admin.site.register(GHGInventory, ResourceItemAdmin)
 admin.site.register(DiningInitiative, ResourceItemAdmin)
 admin.site.register(BuildingDashboard, ResourceItemAdmin)
@@ -60,4 +59,8 @@ admin.site.register(CampusGreenBuilding, CampusGreenBuildingAdmin)
 admin.site.register(GreenResidenceHall, GreenResidenceAdmin)
 admin.site.register(CampusGreenBuildingLink)
 
+class GlobalWarmingCommitmentAdmin(ResourceItemAdmin):
+    exclude = ('title',)
+
+admin.site.register(GlobalWarmingCommitment, GlobalWarmingCommitmentAdmin)
 
