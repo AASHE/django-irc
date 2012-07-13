@@ -43,6 +43,11 @@
           </tbody>
         </table>
       </p>
+      {% if request.user.is_authenticated %}
+        <div id="admin-controls" style="background-color: #ddd;">
+          <p style="padding: 2px;">Admin controls: <a href="  {% url admin:policies_electronicwastepolicy_changelist %}{{ object.id }}">Edit in Admin</a></p>
+        </div>
+      {% endif %}
       <p>
         <table>
           <tbody>
@@ -62,6 +67,9 @@
           </tbody>
         </table>
       </p>
+      <div id="admin-controls" style="background-color: #ddd;">
+        <p style="padding: 2px;">Admin controls: <a href="  {% url admin:operations_electronicwasteevent_changelist %}{{ object.id }}">Edit in Admin</a></p>
+      </div>
       <p>
         <table>
           <tbody>
