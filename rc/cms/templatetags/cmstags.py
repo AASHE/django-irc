@@ -16,6 +16,7 @@ register.filter('prepend_slash', prepend_slash)
 
 def generate_breadcrumb(object, request):
     if hasattr(object, 'menuitem'):
+        # For cms.pages, which have a menu item
         if object.menuitem != None:
             menuitem = object.menuitem
             menu = menuitem.menu
@@ -26,10 +27,10 @@ def generate_breadcrumb(object, request):
                 itemslist.insert(0, menuitem)
             try:
                 first, second, third = itemslist[1], itemslist[2], itemslist[-1]
-                if second != third:
-                    itemslist = [first, second, third]
-                else:
-                    itemslist = [first]
+                # if second != third:
+                itemslist = [first, second, third]
+                # else:
+                #    itemslist = [first]
             except:
                 first, second = itemslist[1], itemslist[-1]
                 if first != second:
