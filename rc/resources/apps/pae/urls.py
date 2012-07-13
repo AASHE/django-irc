@@ -63,6 +63,6 @@ urlpatterns = patterns('',
             queryset=models.StudentFee.objects.order_by(
                     'organization__name')),
         name='student-fees',
-        kwargs={'member_only': False}),
+        kwargs={'member_only': False, 'title': 'Dedicated Student Fees for Sustainability'}),
 
     )
