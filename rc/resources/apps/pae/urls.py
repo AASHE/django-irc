@@ -54,12 +54,8 @@ urlpatterns = patterns('',
             queryset=models.RevolvingLoanFund.objects.order_by(
                     'organization__name', 'title'))),
         name='revolving-loan-funds',
-<<<<<<< local
-        kwargs={'member_only': True, 'title': 'Campus Sustainability Revolving Loan Fund'}),
-=======
         kwargs={'title': 'Campus Sustainability Revolving Loan Funds',
                 'member_only': True}),
->>>>>>> other
 
     url(r'^mandatory-student-fees-renewable-energy-and-energy-efficiency',
         StudentFeeListView.as_view(

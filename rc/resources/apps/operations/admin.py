@@ -43,12 +43,14 @@ admin.site.register(WaterConservationEffort, ResourceItemAdmin)
 
 class GreenBuildingLinkExtensionInline(admin.StackedInline):
     model = CampusGreenBuildingLink
-    max_num = 1
+    extra = 1
+
 class CampusGreenBuildingAdmin(ResourceItemAdmin):
     exclude = ('title',)
     list_display = ('facility_name','certification', 'organization', 'notes', 'url', 'published')
     list_filter = ('type', 'published')
     inlines = [GreenBuildingLinkExtensionInline,]
+
 class GreenResidenceAdmin(ResourceItemAdmin):
     exclude = ('title',)
     list_display = ('facility_name', 'beds', 'certification', 'organization', 'notes', 'url', 'published')
