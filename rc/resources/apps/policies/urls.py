@@ -138,7 +138,7 @@ urlpatterns = patterns('',
     policy_by_country_by_org_name_url(
         url_string=r'^telecommuting-alternative-work',
         policy_type='Telecommuting',
-        page_title='Telecommuting (Alternative Work) Policies',
+        page_title='Telecommuting Policies',
         opening_text="""This resource is a list of college and
                         university telecommuting policies that
                         facilitate alternative work arrangements for a

@@ -196,8 +196,10 @@ class BiodieselFleet(ResourceItem):
                        ('PB', 'Purchased Biodiesel in Campus Fleets'))
     production = models.CharField(_('production category'),
                                   choices=PRODUCTION_TYPE,
-                                  max_length=2)
-    type = models.CharField(_('biodiesel type (B20, B50, etc)'), max_length=30)
+                                  max_length=2,
+                                  blank=True)
+    type = models.CharField(_('biodiesel type (B20, B50, etc)'), max_length=30,
+                            blank=True)
 
     class Meta:
         verbose_name = 'campus biodiesel fleet'
