@@ -214,6 +214,7 @@ urlpatterns = patterns('',
                     'type', 'organization__name'))),
         name='purchasing-links',
         kwargs={'type_list': dict(models.PurchasingLink.LINK_TYPES),
+                'title': 'Sustainable Purchasing Initiatives on Campus',
                 'member_only': True}),
 
     url(r'^campus-universal-transit-passes',
