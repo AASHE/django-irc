@@ -43,7 +43,7 @@ class CampusGreenBuildingLink(models.Model):
       return self.title
 
 class GreenResidenceHall(CampusGreenBuilding):
-    beds = models.CharField(_('beds'), max_length=56)
+    beds = models.CharField(_('beds'), blank=True, max_length=56)
 
 class GreenBuildingType(models.Model):
     type = models.CharField(_('campus green building type'), max_length=75)
