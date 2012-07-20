@@ -106,7 +106,7 @@ urlpatterns = patterns('',
     policy_by_country_by_org_name_url(
         url_string=r'^campus-stormwater-policies-plans',
         policy_type='Stormwater',
-        page_title='Campus Stormwater Policies / Plans',
+        page_title='Campus Stormwater Initiatives',
         opening_text="""
             This resource lists campus stormwater policies and
             procedures that exist independently of water conservation
