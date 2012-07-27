@@ -6,4 +6,4 @@ class ResourceItemLinklist(Linklist):
     object_filter = {'active': True}
     html_fields = ['description', 'url',]
         
-linklists = {'Pages': PageLinklist}
+linklists = {'Resource Items': ResourceItemLinklist}
