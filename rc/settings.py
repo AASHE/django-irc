@@ -140,6 +140,7 @@ INSTALLED_APPS = (
     'aashe.organization',
     'aashe.aasheauth',
     'treemenus',
+    'linkcheck',
     'rc.cms',
     'rc.resources',
     'rc.resources.apps.policies',
