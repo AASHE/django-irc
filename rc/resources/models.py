@@ -1,9 +1,15 @@
+import imp
+from django.conf import settings
+
 from datetime import datetime
 from gettext import gettext as _
 
 from django.db import models
 
 from aashe.organization.models import Organization
+
+from django.utils.importlib import import_module
+
 
 
 class ResourceItemManager(models.Manager):

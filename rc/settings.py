@@ -1,7 +1,6 @@
 # Django settings for rc project.
 import os, sys
 
-
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -141,6 +140,8 @@ INSTALLED_APPS = (
     'aashe.aasheauth',
     'treemenus',
     'linkcheck',
+    #'linkcheck.tests.sampleapp',
+    'django_cron',
     'rc.cms',
     'rc.resources',
     'rc.resources.apps.policies',

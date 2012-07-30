@@ -1,9 +1,9 @@
 from linkcheck import Linklist
-from resources.models import ResourceItem
-
+from rc.resources.models import ResourceItem
+        
 class ResourceItemLinklist(Linklist):
     model = ResourceItem
-    object_filter = {'active': True}
+    object_filter = {}
     url_fields = ['url',]
         
 linklists = {'Resource Items': ResourceItemLinklist}
