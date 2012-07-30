@@ -4,6 +4,6 @@ from resources.models import ResourceItem
 class ResourceItemLinklist(Linklist):
     model = ResourceItem
     object_filter = {'active': True}
-    html_fields = ['description', 'url',]
+    url_fields = ['url',]
         
 linklists = {'Resource Items': ResourceItemLinklist}
