@@ -7,4 +7,3 @@ Sphinx
 Fabric
 pyPdf
 requests
--e hg+https://github.com/andybak/django-linkcheck#egg=django-linkcheck
