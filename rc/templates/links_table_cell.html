@@ -1,0 +1,26 @@
+{% comment %}
+
+  Describes a table cell that contains the url of all resources in
+  resources, separated by <br/>s.
+
+  Usage (from table_row.html):
+
+    {% regroup object_list by organization.name as org_list %}
+    {% for org in org_list %}
+      <tr>
+        <td>{{ org.grouper }}</td>
+        {% include ".../links_table_cell.html" with resources=org.list %}
+      </tr>
+    {% endfor %}
+
+{% endcomment %}
+
+<td>
+  {% for resource in resources %}
+    <a href="{{ resource.url }}">{% if not forloop.last %}
+                                   {{ resource.title }}</a><br/>
+                                 {% else %}
+                                   {{ resource.title }}</a>
+                                 {% endif %}
+  {% endfor %}
+</td>

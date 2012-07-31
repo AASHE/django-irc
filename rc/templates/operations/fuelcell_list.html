@@ -1,0 +1,43 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Campus Installations of Stationary Fuel Cells
+{% endblock title %}
+
+{% block body %}
+<p>
+  This resource lists active fuel cell power systems on campus, arranged by size (in kW). Fuel cells convert chemical into electrical energy from a fuel and oxidant source reaction. While similar to batteries, fuel cells can continuously generate electrical energy as long as sources are supplied. Fuel cell power systems are becoming increasingly popular on college campuses, especially when paired with co-generation technology to generate electricity and heat more efficiently. To learn more about fuel cell technology, please visit NREL’s <a href="http://www.nrel.gov/applying_technologies/climate_neutral/fuel_cells.html">campus fuel cells web page</a>.
+</p>
+
+  <div id="resource_list">
+    <p>
+     <table>
+       <tbody>
+         <tr>
+           <th>Institution</th>
+           <th>System Size (kW)</th>
+           <th>Source</th>
+         </tr>
+         {% regroup object_list by organization.name as org_list %}
+         {% for org in org_list %}
+           <tr>
+             <td>{{ org.grouper }}</td>
+             {% if org.grouper %}
+               {% for resource in org.list %}
+                 {% if forloop.last %}
+                   <td align="center">
+                     {% firstof resource.size|floatformat 'unknown' %}</td>
+                 {% endif %}
+               {% endfor %}
+             {% else %}
+               <td/>
+             {% endif %}
+             {% include "links_table_cell.html" with resources=org.list %}
+           </tr>
+           {% endfor %}
+       </tbody>
+     </table>
+    </p>
+  </div>
+
+{% endblock body %}
