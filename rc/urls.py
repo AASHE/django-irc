@@ -4,7 +4,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    (r'^admin/linkcheck', include('linkcheck.urls')),
+    # (r'^admin/linkcheck', include('linkcheck.urls')),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
     (r'^', include('rc.cms.urls')),
