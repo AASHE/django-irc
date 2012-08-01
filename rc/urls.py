@@ -1,9 +1,6 @@
 from django.conf.urls.defaults import patterns, include, url
 from django.contrib import admin
 
-import django_cron
-
-# django_cron.autodiscover()
 admin.autodiscover()
 
 

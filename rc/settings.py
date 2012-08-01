@@ -6,6 +6,8 @@ TEMPLATE_DEBUG = DEBUG
 
 SITE_ROOT = os.path.split(os.path.dirname(os.path.realpath(__file__)))[0]
 
+SITE_DOMAIN = 'www.aashe.org'
+
 ADMINS = (
     ('Jesse Legg', 'jesse.legg@aashe.org'),
     ('Bob Erb', 'bob.erb@aashe.org'),
@@ -141,7 +143,6 @@ INSTALLED_APPS = (
     'treemenus',
     'linkcheck',
     #'linkcheck.tests.sampleapp',
-    'django_cron',
     'rc.cms',
     'rc.resources',
     'rc.resources.apps.policies',
