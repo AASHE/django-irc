@@ -40,6 +40,9 @@ class Page(models.Model):
             self.pub_date = None
         super(Page, self).save()
         
+    def get_absolute_url(self):
+        return ('path')
+        
 class MenuItemExtension(models.Model):
     menu_item = models.OneToOneField (MenuItem, related_name="extension")
     protected = models.BooleanField(default=False)

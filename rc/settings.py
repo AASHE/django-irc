@@ -1,11 +1,12 @@
 # Django settings for rc project.
 import os, sys
 
-
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 SITE_ROOT = os.path.split(os.path.dirname(os.path.realpath(__file__)))[0]
+
+SITE_DOMAIN = 'www.aashe.org'
 
 ADMINS = (
     ('Jesse Legg', 'jesse.legg@aashe.org'),
@@ -140,7 +141,7 @@ INSTALLED_APPS = (
     'aashe.organization',
     'aashe.aasheauth',
     'treemenus',
-    # 'linkcheck',
+    'linkcheck',
     'rc.cms',
     'rc.resources',
     'rc.resources.apps.policies',
