@@ -175,10 +175,10 @@ urlpatterns = patterns('',
         kwargs={'member_only': True}),
 
     url(r'^renewable-energy-research-centers',
-        members_only(ResourceItemListView.as_view(
+        ResourceItemListView.as_view(
             model=models.RenewableResearchCenter,
             queryset=models.RenewableResearchCenter.objects.order_by(
-                    'organization__name'))),
+                    'organization__name')),
         name='renewable-research-centers',
         kwargs={'member_only': True}),
 
