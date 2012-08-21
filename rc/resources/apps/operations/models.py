@@ -117,7 +117,7 @@ class BuildingDashboardPartner(models.Model):
         verbose_name_plural = 'building energy dashboard partners'
 
     def __unicode__(self):
-        return name
+        return self.name
 
 class FuelCell(ResourceItem):
     size = models.DecimalField(_('system size (kW)'), max_digits=6,
