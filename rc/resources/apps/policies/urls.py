@@ -4,9 +4,6 @@ from django.template.defaultfilters import slugify
 from rc.resources.views import ResourceItemListView
 from rc.resources.apps.policies import models
 
-from aashe.aasheauth.decorators import members_only
-
-
 def policy_url(url_string, policy_type, page_title='',
                with_description=False, table_list=False,
                template_name=None, opening_text='', bold_org_name=True,
@@ -30,8 +27,6 @@ def policy_url(url_string, policy_type, page_title='',
         queryset=models.Policy.objects.filter(
             type__type=policy_type).order_by('organization__name'),
         template_name=template_name)
-    if member_only:
-        view = members_only(view)
 
     return url(url_string, view,
                 name=slugify(policy_type),
@@ -60,9 +55,7 @@ def policy_by_country_by_org_name_url(url_string, policy_type,
             type__type=policy_type).order_by(
             'organization__country', 'organization__name'),
         template_name=template_name)
-    if member_only:
-        view = members_only(view)
-
+    
     return url(url_string, view,
                 name=slugify(policy_type),
                 kwargs={'page_title': page_title,
@@ -86,8 +79,6 @@ def policy_by_category_by_org_name_url(url_string, policy_type,
             type__type=policy_type).order_by(
             'category', 'organization__name'),
         template_name=template_name)
-    if member_only:
-        view = members_only(view)
         
     return url(url_string, view, name=slugify(policy_type),
                kwargs={'page_title': page_title,
