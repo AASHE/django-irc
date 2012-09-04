@@ -30,7 +30,7 @@ class ResourceItemListView(ListView):
         member = False
         
         if self.request.session.has_key(SESSION_USER_DICT_KEY):
-            user_dict = request.session.get(SESSION_USER_DICT_KEY)
+            user_dict = self.request.session.get(SESSION_USER_DICT_KEY)
             for role in MEMBER_ROLES:
                 if role in user_dict['roles'].values():
                     member = True
