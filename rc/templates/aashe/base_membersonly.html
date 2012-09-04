@@ -34,7 +34,7 @@
 
     {% block body %}
     <div class="content clear-block">
-      <p>Only AASHE members can access our resource of {{ title }}. If you are from a member institution, <a href="/user/login">please sign-in to your AASHE Account</a>. <a href="http://www.aashe.org/membership">Click here to become an AASHE member!</a></p>
+      <p>Only AASHE members can access our resource, "{% if page_title %}{{ page_title|title }}{% else %}{{ title }}{% endif %}." If you are from a member institution, <a href="/user/login">please sign-in to your AASHE Account</a>. Otherwise <a href="http://www.aashe.org/membership">click here to become an AASHE member!</a></p>
     </div>
     {% endblock body %}
 
