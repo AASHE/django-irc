@@ -27,7 +27,15 @@ class SustainabilityWebsite(ResourceItem):
         verbose_name = 'campus sustainability website'
 
 class SustainabilityBlog(ResourceItem):
-    type = models.CharField(max_length=128)
+    BLOG_TYPES = (('Blogs hosted by Businesses',
+                   'Blogs hosted by Businesses'),
+                  ('Blogs hosted by Campuses and Campus Organizations',
+                   'Blogs hosted by Campuses and Campus Organizations'),
+                  ('Blogs hosted by Individuals',
+                   'Blogs hosted by Individuals'),
+                  ('Blogs hosted by Non-profits',
+                   'Blogs hosted by Non-profits'))
+    type = models.CharField(max_length=128, choices=BLOG_TYPES)
 
     class Meta:
         verbose_name = 'campus sustainability blog'

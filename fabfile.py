@@ -48,7 +48,7 @@ def new():
     
 def production():
     '''
-    Configure the fabric environment for the dev server(s).
+    Configure the fabric environment for the production server(s).
     '''
     env.user = 'releaser'
     env.hosts = ['www.aashe.org']
@@ -99,7 +99,7 @@ def requirements():
     '''
     with virtualenv():
         print("Updating virtualenv via requirements...")
-        sudo('pip install -r %s/current/requirements.txt' % env.path)
+        run('pip install -r %s/current/requirements.txt' % env.path)
 
 def update_symlinks():
     with cd(env.path):
