@@ -39,4 +39,4 @@ AASHE_ISS_DATABASE = {
 AASHE_ISS_ORG_TABLE = 'organizations'
 AASHE_ISS_DELETION_TABLE = 'acct_deletions'
 
-# AASHE_DRUPAL_REQUIRED_ROLES = ('staff', 'content administrator')
+AASHE_DRUPAL_REQUIRED_ROLES = ('Staff', 'Content Administrator')
