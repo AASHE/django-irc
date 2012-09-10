@@ -16,7 +16,7 @@
 
 {% block page-title %}<h1 class="page-title">{{ object.title }}</h1>{% endblock %}
 
-{% if request.user.is_authenticated %}
+{% if request.user.is_staff %}
       <div id="admin-controls" style="background-color: #ddd;">
         <p style="padding: 2px;">Admin controls: <a href="  {% url admin:cms_page_changelist %}{{ object.id }}">Edit in Admin</a></p>
       </div>
