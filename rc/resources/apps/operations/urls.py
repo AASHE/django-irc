@@ -178,7 +178,7 @@ urlpatterns = patterns('',
             queryset=models.RenewableResearchCenter.objects.order_by(
                     'organization__name')),
         name='renewable-research-centers',
-        kwargs={'member_only': True}),
+        kwargs={'title': 'Renewable Energy Research Centers'}),
 
     url(r'^campus-installations-stationary-fuel-cells',
         ResourceItemListView.as_view(
