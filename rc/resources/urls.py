@@ -1,4 +1,6 @@
-from django.conf.urls.defaults import patterns, include
+from django.conf.urls.defaults import patterns, include, url
+from rc.resources.apps.officers.models import *
+from rc.resources.apps.officers.views import *
 
 urlpatterns = patterns('',
     (r'^', include('rc.resources.apps.officers.urls')),
