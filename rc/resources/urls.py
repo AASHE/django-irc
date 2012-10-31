@@ -1,6 +1,7 @@
 from django.conf.urls.defaults import patterns, include
 
 urlpatterns = patterns('',
+    (r'^', include('rc.resources.apps.officers.urls')),
     (r'^', include('rc.resources.apps.education.urls')),
     (r'^', include('rc.resources.apps.operations.urls')),
     (r'^', include('rc.resources.apps.pae.urls')),
