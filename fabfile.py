@@ -155,6 +155,24 @@ def syncdb():
             run('python manage.py syncdb --noinput --settings=%s' %
                 env.django_settings)
 
+def findlinks():
+    '''
+    Run "manage.py syncdb".
+    '''
+    with virtualenv():
+        with cd("%s/current/rc" % env.path):
+            run('python manage.py findlinks --noinput --settings=%s' %
+                env.django_settings)
+
+def checklinks():
+    '''
+    Run "manage.py syncdb".
+    '''
+    with virtualenv():
+        with cd("%s/current/rc" % env.path):
+            run('python manage.py checklinks --noinput --settings=%s' %
+                env.django_settings)
+
 def loadcms():
     '''
     Clear and load cms data.
