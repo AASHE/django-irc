@@ -1,9 +1,10 @@
 #!/bin/sh
 # Cron script to perform link checking on aashe-rc
+# on the production server
 
-export DJANGO_SETTINGS_MODULE=rc.live_settings
+DJANGO_SETTINGS_MODULE=live_settings
 SITE_ROOT=/var/www/django_projects/aashe-rc
+VIRTUALENV=$SITE_ROOT/env/bin/python
 
-source $SITE_ROOT/env/bin/activate
-$SITE_ROOT/current/rc/manage.py findlinks
-$SITE_ROOT/current/rc/manage.py checklinks
+$VIRTUALENV $SITE_ROOT/current/rc/manage.py findlinks --settings=$DJANGO_SETTINGS_MODULE
+$VIRTUALENV $SITE_ROOT/current/rc/manage.py checklinks --settings=$DJANGO_SETTINGS_MODULE
