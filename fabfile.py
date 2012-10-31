@@ -161,7 +161,7 @@ def findlinks():
     '''
     with virtualenv():
         with cd("%s/current/rc" % env.path):
-            run('python manage.py findlinks --noinput --settings=%s' %
+            run('python manage.py findlinks --settings=%s' %
                 env.django_settings)
 
 def checklinks():
@@ -170,7 +170,7 @@ def checklinks():
     '''
     with virtualenv():
         with cd("%s/current/rc" % env.path):
-            run('python manage.py checklinks --noinput --settings=%s' %
+            run('python manage.py checklinks --settings=%s' %
                 env.django_settings)
 
 def loadcms():
