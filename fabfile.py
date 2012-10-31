@@ -157,7 +157,7 @@ def syncdb():
 
 def findlinks():
     '''
-    Run "manage.py syncdb".
+    Run "manage.py findlinks".
     '''
     with virtualenv():
         with cd("%s/current/rc" % env.path):
@@ -166,7 +166,7 @@ def findlinks():
 
 def checklinks():
     '''
-    Run "manage.py syncdb".
+    Run "manage.py checklinks".
     '''
     with virtualenv():
         with cd("%s/current/rc" % env.path):
