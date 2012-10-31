@@ -1,0 +1,47 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Sustainable Purchasing Initiatives on Campus
+{% endblock title %}
+
+{% block body %}
+
+<p>This resource lists sustainable purchasing programs and policies at higher education institutions.  For additional guidance, see:
+
+  <ul>
+    <li><a href="http://www.responsiblepurchasing.org/purchasing_guides/all/">Responsible Purchasing Network’s Purchasing Guides</a></li>
+    <li><a href="http://www.epa.gov/oppt/epp/">U.S. EPA’s Environmentally Preferable Purchasing Site</a></li>
+    <li><a href="http://www.epa.gov/epawaste/conserve/tools/cpg/index.htm">U.S. EPA’s Comprehensive Procurement Guideline Site</a></li>
+  </ul>
+</p>
+
+  <div id="resource_list">
+    <p>
+      {% regroup object_list by type as list_by_type %}
+
+      {% for type in list_by_type %}
+      <p>
+          {% for key, value in type_list.items %}
+            {% if key == type.grouper %}
+              <h2>{{ value }}</h2>
+            {% endif %}
+          {% endfor %}
+          <table>
+            <tbody>
+              <tr>
+                <th>Institution</th>
+                <th>Initiative</th>
+              </tr>
+          {% for resource in type.list %}
+            <tr><td>{{ resource.organization.name }}</td>
+            <td><a href="{{ resource.url }}">{{ resource.title }}</a></td>
+          </tr>
+          {% endfor %}
+          </tbody>
+          </table>
+        {% endfor %}
+      </p>
+    </p>
+  </div>
+
+{% endblock body %}
