@@ -1,0 +1,27 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Campus Sustainability Officers
+{% endblock title %}
+
+{% block body %}
+
+<p>This directory lists paid sustainability officers in the U.S. and Canada. Positions focused almost entirely on waste reduction and recycling, or environmental compliance are not included. In cases where multiple people at an institution meet the criteria, only one is listed.  Links to articles about the appointment of each campus sustainability officer are included when available, as they often provide useful information about how and why the position was created.</p>
+
+<p>The goals of this list are to: 1) provide an accurate accounting of the number of schools that have hired at least one full-time staff member devoted to environmental stewardship or sustainability, and 2) connect campus sustainability professionals with each other to facilitate sharing of knowledge and resources. Other individuals may use this list to contact campus sustainability professionals about establishing such a position on their own campus, or to get their advice on particular initiatives.</p>
+
+<p><strong>This directory is not to be used for solicitation purposes.</strong></p>
+
+
+  <div id="resource_list">
+    <p>
+      {% for officer in object_list %}
+        <p>
+          <strong>{{ officer.organization.name }}</strong><br />
+          {{ officer.prefix }} {{ officer.first_name }} {{ officer.middle_name }} {{ officer.last_name }}<br />
+        </p>
+      {% endfor %}
+    </p>
+  </div>
+
+{% endblock body %}

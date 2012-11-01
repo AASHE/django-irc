@@ -1,0 +1,35 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Campus Recycling & Waste Minimization Websites
+{% endblock title %}
+
+{% block body %}
+
+  <p>
+
+    This resource directs you to College and University recycling and
+    waste minimization websites. A waste management program must have
+    elements of source reduction, waste minimization or reduction,
+    waste stream diversion, or recycling to be included in the
+    resource.
+
+  </p>
+
+  <p>
+    <div id="resource_list" class="content clear-block">
+      <p>
+        <table>
+          <tbody>
+            <tr>
+              <th>Institution</th>
+              <th>Website</th>
+            </tr>
+            {% include "table_rows.html" with resources=object_list %}
+          </tbody>
+        </table>
+      </p>
+    </div>
+  </p>
+
+{% endblock body %}

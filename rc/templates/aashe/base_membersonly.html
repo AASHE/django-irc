@@ -1,0 +1,50 @@
+{% extends "aashe/base.html" %}
+
+{% load markup tree_menu_tags %}
+
+{% block title %}{{ title }}{% endblock title %}
+
+{% block breadcrumb %}
+  <ul>
+    {% show_menu "AASHE Resource Center" "breadcrumb" %}
+  </ul>
+{% endblock breadcrumb %}
+
+{% block right %}
+
+  {% show_menu "AASHE Resource Center" "content-sidebar" %}
+
+{% endblock right %}
+
+{% block content %}
+
+    {% if page_title %}
+    <h1>{{ page_title|title }}</h1>
+    {% else %}
+    <h1>{{ title }}</h1>
+    {% endif %}
+
+    <div class="content clear-block">
+
+    {% if request.user.is_authenticated %}
+          <div id="admin-controls" style="background-color: #ddd;">
+            <p style="padding: 2px;">Admin controls: <a href="{{ admin_changelist_url }}">Edit in Admin</a></p>
+          </div>
+    {% endif %}
+
+    {% block body %}
+    <div class="content clear-block">
+      <p>Only AASHE members can access the resource, "{% if page_title %}{{ page_title|title }}{% else %}{{ title }}{% endif %}." If you are from a member institution, <a href="/user/login">please sign-in to your AASHE Account</a>. Otherwise <a href="http://www.aashe.org/membership">click here to become an AASHE member!</a></p>
+    </div>
+    {% endblock body %}
+
+    <div id="content-footer">
+      <div class="block block-block " id="block-block-43">
+        <div class="block-content content">
+        </div>
+      </div>
+    </div><!-- #content-footer -->
+
+  </div><!-- .content.clear-block -->
+
+{% endblock %}

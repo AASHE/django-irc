@@ -1,0 +1,91 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Campus Bottled Water Bans and Reduction Campaigns
+{% endblock title %}
+
+{% block body %}
+
+  <p>
+
+    This resource lists institutions that have banned bottled water or
+    have active campaigns to reduce their sale and consumption. Click
+    link below to go to the desired section.
+
+  </p>
+
+  <p>
+    <div id="types_menu">
+      <ul>
+        {% comment %}
+          Display in BottleWaterBan.BAN_TYPES order.
+        {% endcomment %}
+        {% for type_code in type_list %}
+          {% for type, name in type_dict.items %}
+            {% if type == type_code %}
+              <li><a href="#{{ type }}">{{ name }}</a></li>
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+        <li><a href="#additional_resources">Additional Resources</a></li>
+      </ul>
+    </div>
+  </p>
+
+  <div id="resource_list">
+    <p>
+      {% regroup object_list by type as list_by_type %}
+
+      {% comment %}
+        Display in BottleWaterBan.BAN_TYPES order.
+      {% endcomment %}
+
+      {% for type_code in type_list %}
+        {% for ban in list_by_type %}
+          {% if ban.grouper == type_code %}
+            {% for key, value in type_dict.items %}
+              {% if key == ban.grouper %}
+                <p>
+                  <a name="{{ ban.grouper }}"></a>
+                  <h2>{{ value }}</h2>
+                  <table>
+                    <tbody>
+                        <tr>
+                          <th>Institution</th>
+                          <th>Source</th>
+                        </tr>
+                      {% include "table_rows.html" with resources=ban.list %}
+                    </tbody>
+                  </table>
+                </p>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        {% endfor %}
+        <br/>
+      {% endfor %}
+      <a name="additional_resources"></a>
+      <h2>Additional Resources</h2>
+      <p>
+        <ul>
+          <li>
+            <a href="http://www.syc-cjs.org/backthetap">
+               Back the Tap: Bottled Water Free Campuses</a>
+            (Sierra Youth Coalition)
+          </li>
+          <li>
+            <a href="http://www.stopcorporateabuse.org/students-think-outside-bottle">
+              Corporate Accountability International: Think Outside the
+              Bottle</a>
+            (Corporate Accountability International)
+          </li>
+          <li>
+            <a href="http://www.foodandwaterwatch.org/water/take-back-the-tap/">
+              Take Back the Tap</a>
+            (Food &amp; Water Watch)
+          </li>
+        </ul>
+      </p>
+    </p>
+  </div>
+{% endblock body %}

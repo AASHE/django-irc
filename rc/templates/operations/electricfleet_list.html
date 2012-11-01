@@ -1,0 +1,43 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Campus Electric Vehicle Fleets
+{% endblock title %}
+
+{% block body %}
+
+  <div id="resource_list">
+    <p>
+      {% regroup object_list by organization.country as countries %}
+
+      {% for country in countries %}
+        <h3>{{ country.grouper }}</h3>
+        <table>
+          <tbody>
+            <tr>
+              <th>Institution</th>
+              <th>Number of Electric Vehicles in Fleet</th>
+              <th>Source</th>
+            </tr>
+            {% regroup country.list by organization.name as orgs %}
+            {% for org in orgs %}
+              <tr>
+                <td>{{ org.grouper }}</td>
+                {% comment %}
+                  All the electric fleet resources for an organization
+                  have the same number, so we just find the last one
+                  and display its number.
+                {% endcomment %}
+                {% with one_resource=org.list|last %}
+                  <td align="center">{{ one_resource.number }}</td>
+                {% endwith %}
+                {% include "links_table_cell.html" with resources=org.list %}
+              </tr>
+            {% endfor %}
+         </tbody>
+       </table>
+     {% endfor %}
+    </p>
+  </div>
+
+{% endblock body %}
