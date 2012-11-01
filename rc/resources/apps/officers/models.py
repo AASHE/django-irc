@@ -12,7 +12,6 @@ class CampusSustainabilityOfficer(models.Model):
     organization = models.ForeignKey(Organization, blank=True, null=True)
 
     class Meta:
-        ordering = ('full_name')
         verbose_name = 'campus sustainability officer'
         verbose_name_plural = 'campus sustainability officers'
 
