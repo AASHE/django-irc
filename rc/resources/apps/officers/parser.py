@@ -1,13 +1,11 @@
 import re
 import string
-import urllib, urllib2
 
 from aashe.organization.models import Organization
 from BeautifulSoup import BeautifulSoup
 from django.conf import settings
-
-from rc.resources.apps.scrape.parsers import *
-
+from rc.resources.apps.scrape.parsers.base import PageParser
+from rc.resources.apps.officers.models import CampusSustainabilityOfficer
 
 class OfficerParser(PageParser):
     '''
@@ -20,43 +18,66 @@ class OfficerParser(PageParser):
     login_required = True
     
     def parsePage(self):
-        html = urllib.urlopen(self.url).read()
-        soup = BeautifulSoup(html)
         data = {}
-        content = soup.find('div', {'class': 'content clear-block'})
-        import pdb
-        pdb.set_trace()
-        for element in content.findAll('p'):
-            data = element
+        self.soup.prettify()
+        content = self.soup.find('div', {'class': 'content clear-block'})
+        paras = content.findAll('p')
+        for element in paras[3:]:
+            # org name is always first strong tag
+            data['organization_name'] = element.find('strong').text
+            try:
+              # full name is always first a after org name
+              anchor = element.find('a')
+              data['full_name'] = anchor.text
+              data['title'] = dict(anchor.attrs).get('href','').replace('mailto:', '')
+              # title is always after name
+              title = anchor.nextSibling.nextSibling
+              data['title'] = title.replace('\n', '')
+            # exception for texas a&m, whose email address isn't on the directory
+            except:
+              pass
+              
+            try:
+              # this is where things get tricky, next could be department or phone number
+              first_suspect = title.nextSibling.nextSibling
+              if first_suspect.replace('\n', '').startswith("("):
+                data['phone'] = first_suspect.replace('\n', '')
+              else:
+                data['department'] = first_suspect.replace('\n', '')
+                try: 
+                  if first_suspect.nextSibling.nextSibling.replace('\n', '').startswith("("):
+                    data['phone'] = first_suspect.nextSibling.nextSibling.replace('\n', '')
+                except:
+                  pass
+              # ignore multiple urls
+              data['web_page'] = anchor.findNextSibling('a')
+            except:
+              pass
+            
+            # do not remove
             self.data.append(data)
-            print element.text
             data = {}
-            # do stuff
-            # anchor = element.find('a')
-            #             br = element.find('br')
-            #             foundin = element.find('span', {'class': 'searchreturndetails'})
-            #             text = foundin.nextSibling.nextSibling
-            #             data['title'] = anchor.text
-            #             data['link'] = dict(anchor.attrs).get('href','')
-            #             data['desc'] = text
-            #             data['category'] = foundin.text
-            #             print data['title']
-            #             self.data.append(data)
-            #             data = {}
     
               
 
-# Loader for data parsed by SercParser
+# Loader for data parsed by OfficerParser
 class OfficerLoader(object):
   '''
-  from commons.apps.scrape.parsers.serc import *
-  loader = SercLoader()
+  from rc.resources.apps.officers.parser import OfficerLoader
+  loader = OfficerLoader()
   loader.save()
   '''
   
   def save(self):
       parser = OfficerParser()
-      parser.process()
-      #for element in parser.data:
-          # create or update material objects
+      parser.parsePage()
+      for element in parser.data:
+        # create or update officer objects
+          obj, created = CampusSustainabilityOfficer.objects.get_or_create(full_name=element['full_name'],
+                          defaults={'title': element['title'],
+                                    'email': element['email'],
+                                    'phone': element['phone'],
+                                    'organization': organization,
+                                    'web_page': element['web_page']})
+          obj.save()
           
