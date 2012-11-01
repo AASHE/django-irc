@@ -6,9 +6,10 @@ from aashe.organization.models import Organization
 class CampusSustainabilityOfficer(models.Model):
     full_name = models.CharField(_('officer full name'), max_length=155, blank=True)
     title = models.CharField(_('officer title'), max_length=150, blank=True)
+    department = models.CharField(_('officer department'), max_length=150, blank=True)
     email = models.EmailField(('officer email'), max_length=255)
     phone = models.CharField(_('officer phone number'), max_length=75, blank=True)
-    web_page = models.CharField(('sustainability office web page'), max_length=75, blank=True)
+    web_page = models.CharField(('sustainability office web page'), max_length=255, blank=True)
     organization = models.ForeignKey(Organization, blank=True, null=True)
 
     class Meta:

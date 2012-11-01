@@ -17,8 +17,17 @@
     <p>
       {% for officer in object_list %}
         <p>
-          <strong>{{ officer.organization.name }}</strong><br />
-          {{ officer.prefix }} {{ officer.first_name }} {{ officer.middle_name }} {{ officer.last_name }}<br />
+          <strong>{{ officer.organization.picklist_name }}</strong><br />
+          {{ officer.full_name }}<br />
+          {{ officer.title }}<br />
+          {% if officer.department %}
+            {{ officer.department }}<br />
+          {% endif %}
+          {% if officer.phone %}
+            {{ officer.phone }}<br />
+          {% endif %}
+            {% if officer.web_page %}<br />
+          {% endif %}
         </p>
       {% endfor %}
     </p>

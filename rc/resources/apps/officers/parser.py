@@ -29,7 +29,7 @@ class OfficerParser(PageParser):
               # full name is always first a after org name
               anchor = element.find('a')
               data['full_name'] = anchor.text
-              data['title'] = dict(anchor.attrs).get('href','').replace('mailto:', '')
+              data['email'] = dict(anchor.attrs).get('href','').replace('mailto:', '')
               # title is always after name
               title = anchor.nextSibling.nextSibling
               data['title'] = title.replace('\n', '')
@@ -50,7 +50,8 @@ class OfficerParser(PageParser):
                 except:
                   pass
               # ignore multiple urls
-              data['web_page'] = anchor.findNextSibling('a')
+              page = anchor.findNextSibling('a')
+              data['web_page'] = dict(page.attrs).get('href','')
             except:
               pass
             
@@ -72,12 +73,42 @@ class OfficerLoader(object):
       parser = OfficerParser()
       parser.parsePage()
       for element in parser.data:
+        # these keys may not exist, so...
+        try:
+          title = element['title']
+        except:
+          title = ""
+        try:
+          email = element['email']
+        except:
+          email = ""
+        try:
+          phone = element['phone']
+        except:
+          phone = ""
+        try:
+          department = element['department']
+        except:
+          department = ""
+        try:
+          organization = Organization.objects.get(picklist_name=element['organization_name'])
+        except:
+          organization = None
+        try:
+          web_page = element['web_page']
+          if web_page == None:
+            web_page = ""
+        except:
+          web_page = ""
         # create or update officer objects
-          obj, created = CampusSustainabilityOfficer.objects.get_or_create(full_name=element['full_name'],
-                          defaults={'title': element['title'],
-                                    'email': element['email'],
-                                    'phone': element['phone'],
+        obj, created = CampusSustainabilityOfficer.objects.get_or_create(full_name=element['full_name'],
+                          defaults={'title': title,
+                                    'email': email,
+                                    'phone': phone,
                                     'organization': organization,
-                                    'web_page': element['web_page']})
-          obj.save()
+                                    'department': department,
+                                    'web_page': web_page,})
+        # if not created:
+        #   # TODO update here
+        #   obj.save()
           
