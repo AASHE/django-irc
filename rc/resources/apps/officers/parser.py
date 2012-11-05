@@ -72,6 +72,9 @@ class OfficerLoader(object):
   def save(self):
       parser = OfficerParser()
       parser.parsePage()
+      # delete all existing objects
+      CampusSustainabilityOfficer.objects.all().delete()
+      
       for element in parser.data:
         # these keys may not exist, so...
         try:
@@ -91,7 +94,7 @@ class OfficerLoader(object):
         except:
           department = ""
         try:
-          organization = Organization.objects.get(picklist_name=element['organization_name'])
+          organization = Organization.objects.get(name=element['organization_name'])
         except:
           organization = None
         try:
