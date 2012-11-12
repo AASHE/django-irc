@@ -34,12 +34,12 @@ class StudentPeerOutreach(ResourceItem):
 
 class CampusSustainabilityCourseTeacher(models.Model):
     first_name = models.CharField(_('faculty first name'), max_length=75)
-    middle_name = models.CharField(_('faculty middle name'), max_length=75)
+    middle_name = models.CharField(_('faculty middle name'), max_length=75, blank=True)
     last_name = models.CharField(_('faculty last name'), max_length=75)
-    title = models.CharField(_('title'), max_length=255)
-    department = models.CharField(_('faculty department'), max_length=75)
-    email = models.EmailField(('faculty email'), max_length=255)
-    web_page = models.CharField(('faculty web page'), max_length=75)
+    title = models.CharField(_('title'), max_length=255, blank=True)
+    department = models.CharField(_('faculty department'), max_length=75, blank=True)
+    email = models.EmailField(('faculty email'), max_length=255, blank=True)
+    web_page = models.CharField(('faculty web page'), max_length=75, blank=True)
 
     class Meta:
         ordering = ('last_name', 'first_name')
