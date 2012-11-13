@@ -1,5 +1,6 @@
 from gettext import gettext as _
 from django.db import models
+from django.core.urlresolvers import reverse
 from rc.resources.models import ResourceItem
 
 

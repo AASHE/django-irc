@@ -1,6 +1,7 @@
 from gettext import gettext as _
 from django.db import models
 from aashe.organization.models import Organization
+from django.core.urlresolvers import reverse
 
 # Create your models here.
 class CampusSustainabilityOfficer(models.Model):
@@ -22,3 +23,6 @@ class CampusSustainabilityOfficer(models.Model):
                         
     def __unicode__(self):
         return (self.full_name)
+        
+    def get_absolute_url(self):
+        return reverse("officer-directory")
