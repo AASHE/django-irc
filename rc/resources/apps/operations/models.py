@@ -19,7 +19,7 @@ class CampusGreenBuilding(ResourceItem):
                     ('GN', 'Non-Certified or Certification Unknown'))
     
     type = models.ForeignKey('GreenBuildingType', verbose_name='building type')
-    facility_name = models.CharField(_('facility name'), max_length=128, blank=True)
+    facility_name = models.CharField(_('facility name'), max_length=128)
     completed = models.CharField(_('when completed'), max_length=128, blank=True)
     sqft = models.CharField(_('square footage'), max_length=56, blank=True)
     cost = models.CharField(_('building cost'), max_length=56, blank=True)
