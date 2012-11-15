@@ -29,6 +29,9 @@ class CampusGreenBuilding(ResourceItem):
     class Meta:
         verbose_name = 'green building on campus'
         verbose_name_plural = 'green buildings on campus'
+    
+    def __unicode__(self):
+      return self.facility_name
 
 class CampusGreenBuildingLink(models.Model):
     '''CampusGreenBuildings can have a number of links.  These are
