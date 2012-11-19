@@ -131,7 +131,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.flatpages',
+    # 'django.contrib.flatpages',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
@@ -144,13 +144,13 @@ INSTALLED_APPS = (
     'linkcheck',
     'rc.cms',
     'rc.resources',
+    'rc.resources.apps.officers',
     'rc.resources.apps.policies',
     'rc.resources.apps.programs',
     'rc.resources.apps.education',
     'rc.resources.apps.operations',
     'rc.resources.apps.pae',
     'rc.resources.apps.scrape',
-    'rc.resources.apps.officers',
     )
 
 TEMPLATE_CONTEXT_PROCESSORS = (

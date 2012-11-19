@@ -2,7 +2,7 @@
 from gettext import gettext as _
 from django.db import models
 from rc.resources.models import ResourceItem
-
+from django.core.urlresolvers import reverse
 
 class GreenBuildingWebsite(ResourceItem):
     class Meta:
@@ -29,6 +29,9 @@ class CampusGreenBuilding(ResourceItem):
     class Meta:
         verbose_name = 'green building on campus'
         verbose_name_plural = 'green buildings on campus'
+    
+    def __unicode__(self):
+      return self.facility_name
 
 class CampusGreenBuildingLink(models.Model):
     '''CampusGreenBuildings can have a number of links.  These are
@@ -72,6 +75,9 @@ class GlobalWarmingCommitment(ResourceItem):
     
     def __unicode__(self):
         return self.commitment
+    
+    def get_absolute_url(self):
+        return reverse("global-warming-commitments")
 
 class GHGInventory(ResourceItem):
     METHODOLOGY_TYPES = (('CA', 'Clean Air-Cool Planet Campus Carbon Calculator'),
@@ -98,6 +104,9 @@ class DiningInitiative(ResourceItem):
     class Meta:
         verbose_name = 'sustainable dining initiative'
         verbose_name_plural = 'sustainable dining initiatives'
+        
+    def get_absolute_url(self):
+        return reverse("dining-initiatives")
 
 class BuildingDashboard(ResourceItem):
     partner = models.ForeignKey('BuildingDashboardPartner',
@@ -108,6 +117,9 @@ class BuildingDashboard(ResourceItem):
     class Meta:
         verbose_name = 'building energy dashboard'
         verbose_name_plural = 'building energy dashboards'
+        
+    def get_absolute_url(self):
+        return reverse("building-dashboards")
 
 class BuildingDashboardPartner(models.Model):
     name = models.CharField(_('partner name'), max_length=128)
@@ -124,20 +136,32 @@ class FuelCell(ResourceItem):
                                  decimal_places=1)
     class Meta:
         verbose_name = 'stationary fuel cell'
+    
+    def get_absolute_url(self):
+        return reverse("fuel-cells")
 
 class RenewableResearchCenter(ResourceItem):
     class Meta:
         verbose_name = 'renewable energy research center'
+        
+    def get_absolute_url(self):
+        return reverse("renewable-research-centers")
 
 class EnergyWebsite(ResourceItem):
     class Meta:
         verbose_name = 'campus energy website'
+        
+    def get_absolute_url(self):
+        return reverse("energy-websites")
 
 class EnergyPlan(ResourceItem):
     date_published = models.DateField(_('date published'), blank=True, null=True)
 
     class Meta:
         verbose_name = 'campus energy plan'
+        
+    def get_absolute_url(self):
+        return reverse("energy-plans")
 
 class EnergyPolicy(ResourceItem):
     class Meta:
@@ -151,12 +175,18 @@ class WindTurbine(ResourceItem):
 
     class Meta:
         verbose_name = 'campus wind turbine'
+        
+    def get_absolute_url(self):
+        return reverse("wind-turbines")
 
 class SustainableLandscape(ResourceItem):
     class Meta:
         verbose_name = 'sustainable landscaping'
         verbose_name_plural = 'sustainable landscaping'
-
+    
+    def get_absolute_url(self):
+        return reverse("sustainable-landscapes")
+            
 class PurchasingLink(ResourceItem):
     LINK_TYPES = (('CA', 'Campus Links'),
                   ('OT', 'Other Links'))
@@ -166,14 +196,23 @@ class PurchasingLink(ResourceItem):
     class Meta:
         verbose_name = 'sustainable purchasing link'
         verbose_name_plural = 'sustainable purchasing links'
+        
+    def get_absolute_url(self):
+        return reverse("purchasing-links")
 
 class TransportationWebsite(ResourceItem):
     class Meta:
         verbose_name = 'alternative transportation website'
+    
+    def get_absolute_url(self):
+        return reverse("transportation-websites")
 
 class BicyclePlan(ResourceItem):
     class Meta:
         verbose_name = 'campus bicycle plan'
+        
+    def get_absolute_url(self):
+        return reverse("bicycle-plans")
 
 class CarBan(ResourceItem):
     BAN_TYPES = (('FY', 'First Year Student Car Bans'),
@@ -183,6 +222,9 @@ class CarBan(ResourceItem):
 
     class Meta:
         verbose_name = 'campus car ban'
+        
+    def get_absolute_url(self):
+        return reverse("car-bans")
 
 class CommuterSurvey(ResourceItem):
     SURVEY_TYPES = (('SE', 'Survey Examples'),
@@ -193,6 +235,9 @@ class CommuterSurvey(ResourceItem):
 
     class Meta:
         verbose_name = 'campus commuter survey'
+        
+    def get_absolute_url(self):
+        return reverse("commuter-surveys")
 
 class BiodieselFleet(ResourceItem):
     PRODUCTION_TYPE = (('CP', 'Campus-Produced Biodiesel in Campus Fleets'),
@@ -206,12 +251,18 @@ class BiodieselFleet(ResourceItem):
 
     class Meta:
         verbose_name = 'campus biodiesel fleet'
+        
+    def get_absolute_url(self):
+        return reverse("biodiesel-fleets")
 
 class ElectricFleet(ResourceItem):
     number = models.IntegerField(_('number of vehicles'), blank=True, null=True)
 
     class Meta:
         verbose_name = 'campus electric vehicle fleet'
+        
+    def get_absolute_url(self):
+        return reverse("electric-fleets")
 
 class ElectronicWasteEvent(ResourceItem):
 
@@ -223,6 +274,9 @@ class HybridFleet(ResourceItem):
 
     class Meta:
         verbose_name = 'campus hybrid vehicle fleet'
+    
+    def get_absolute_url(self):
+        return reverse("hybrid-fleets")
 
 class CarShare(ResourceItem):
     partner = models.ForeignKey('CarSharePartner',
@@ -232,6 +286,9 @@ class CarShare(ResourceItem):
         ordering = ('title',)
         verbose_name = 'car share'
         verbose_name_plural = 'car sharing'
+        
+    def get_absolute_url(self):
+        return reverse("car-shares")
 
 class CarSharePartner(models.Model):
     name = models.CharField(_('partner name'), max_length=64)
@@ -243,6 +300,9 @@ class CarSharePartner(models.Model):
 
     def __unicode__(self):
         return self.name
+    
+    def get_absolute_url(self):
+        return reverse("car-shares")
 
 class TransitPass(ResourceItem):
     PASS_TYPES = (('UP', 'Universal Bus/Transit Pass Programs'),
@@ -253,6 +313,9 @@ class TransitPass(ResourceItem):
     class Meta:
         verbose_name = 'universal access transit pass'
         verbose_name_plural = 'universal access transit passes'
+        
+    def get_absolute_url(self):
+        return reverse("transit-passes")
 
 class BottledWaterBan(ResourceItem):
     BAN_TYPES = (('CW', 'Campus-Wide Bans'),
@@ -266,11 +329,20 @@ class BottledWaterBan(ResourceItem):
         ordering = ('title',)
         verbose_name = 'bottled water reduction'
         verbose_name_plural = 'bottled water reductions'
+    
+    def get_absolute_url(self):
+        return reverse("bottled-water-bans")
 
 class RecyclingWebsite(ResourceItem):
     class Meta:
         verbose_name = 'campus recycling/waste website'
+    
+    def get_absolute_url(self):
+        return reverse("recycling-websites")
 
 class WaterConservationEffort(ResourceItem):
     class Meta:
         verbose_name = 'campus water conservation effort'
+    
+    def get_absolute_url(self):
+        return reverse("water-conservation-efforts")
