@@ -12,6 +12,8 @@
 
 {% endblock breadcrumb %}
 
+{% block page-title %}<h1 class="page-title">{{ object.title }}</h1>{% endblock %}
+
 {% block content %}
 
 {% if request.user.is_staff %}
