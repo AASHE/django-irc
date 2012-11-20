@@ -51,6 +51,10 @@ class CampusGreenBuildingAdmin(ResourceItemAdmin):
     list_filter = ('type', 'published')
     inlines = [GreenBuildingLinkExtensionInline,]
 
+class CampusGreenBuildingLinkAdmin(admin.ModelAdmin):
+    list_display = ('title', 'url', 'resource_item')
+    search_fields = ('title', 'url', 'resource_item')
+
 class GreenResidenceAdmin(ResourceItemAdmin):
     exclude = ('title',)
     list_display = ('facility_name', 'beds', 'certification', 'organization', 'notes', 'url', 'published')
@@ -59,7 +63,7 @@ class GreenResidenceAdmin(ResourceItemAdmin):
 
 admin.site.register(CampusGreenBuilding, CampusGreenBuildingAdmin)
 admin.site.register(GreenResidenceHall, GreenResidenceAdmin)
-admin.site.register(CampusGreenBuildingLink)
+admin.site.register(CampusGreenBuildingLink, CampusGreenBuildingLinkAdmin)
 
 class GlobalWarmingCommitmentAdmin(ResourceItemAdmin):
     exclude = ('title',)
