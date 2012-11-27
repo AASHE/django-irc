@@ -384,7 +384,7 @@ class GHGInventory(PageParser):
                 data['institution'] = tags[1].text
                 data['title'] = tags[3].text
                 data['url'] = dict(tags[3].find('a').attrs).get('href','')
-                data['calculator'] = calculator
+                data['calculator'] = calculator.text
                 self.data.append(data)
                 data = {}
 

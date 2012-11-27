@@ -73,6 +73,15 @@ class TransitPassLoader(GenericLoader):
         pass_type = pass_types.get(data['type'], '')
         data['type'] = pass_type
         super(TransitPassLoader, self).create_instance(data)
+        
+class GHGLoader(GenericLoader):
+    def create_instance(self, data):
+        from rc.resources.apps.operations.models import GHGInventory
+        methodology_types = dict([(value, key) for key, value
+                           in GHGInventory.METHODOLOGY_TYPES])
+        methodology_type = methodology_types.get(data['calculator'], '')
+        data['methodology'] = methodology_type
+        super(GHGLoader, self).create_instance(data)
 
 class SustainabilityPurchasingLoader(GenericLoader):
     def create_instance(self, data):
