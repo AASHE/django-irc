@@ -200,7 +200,7 @@ urlpatterns = patterns('',
     url(r'^campus-greenhouse-gas-emissions-inventories',
         ResourceItemListView.as_view(
             model=models.GHGInventory,
-            queryset=models.GHGInventory.objects.order_by(
+            queryset=models.GHGInventory.objects.published.order_by(
                 'methodology', 'organization__name')),
         name='ghg-inventories',
         kwargs={'methodology_types': dict(models.GHGInventory.METHODOLOGY_TYPES),
