@@ -13,13 +13,13 @@ urlpatterns = patterns(
     url(r'^alumni-sustainability-networks$',
         ResourceItemListView.as_view(
             model=models.SustainabilityNetwork,
-            queryset=models.SustainabilityNetwork.objects.all()),
+            queryset=models.SustainabilityNetwork.objects.published()),
         name='sustainability-networks'),
 
     url(r'^campus-and-campus-community-gardens$',
         ResourceItemListView.as_view(
             model=models.CommunityGarden,
-            queryset=models.CommunityGarden.objects.order_by(
+            queryset=models.CommunityGarden.objects.published().order_by(
                 'organization__country', 'organization__name')),
         name='community-gardens',
         kwargs={'title': 'Campus and Campus-Community Gardens',
@@ -28,7 +28,7 @@ urlpatterns = patterns(
     url(r'^campus-supported-agriculture-and-farms$',
         ResourceItemListView.as_view(
             model=models.CampusAgriculture,
-            queryset=models.CampusAgriculture.objects.order_by(
+            queryset=models.CampusAgriculture.objects.published().order_by(
                  'organization__country', 'organization__name')),
         name='campus-agricultures',
         kwargs={'title': 'Campus Supported Agriculture and Farms',
@@ -37,7 +37,7 @@ urlpatterns = patterns(
     url(r'^campus-sustainable-living-guides$',
         ResourceItemListView.as_view(
             model=models.LivingGuide,
-            queryset=models.LivingGuide.objects.order_by(
+            queryset=models.LivingGuide.objects.published().order_by(
                  'organization__country', 'organization__name')),
         name='living-guides',
         kwargs={'member_only': True}),
@@ -45,7 +45,7 @@ urlpatterns = patterns(
     url(r'^campus-sustainability-mapstours$',
         ResourceItemListView.as_view(
             model=models.SustainabilityMap,
-            queryset=models.SustainabilityMap.objects.order_by(
+            queryset=models.SustainabilityMap.objects.published().order_by(
                  'organization__country', 'organization__name')),
             name='sustainability-maps',
             kwargs={'member_only': True, 'title': 'Campus Sustainability Maps and Tours'}),
@@ -53,7 +53,7 @@ urlpatterns = patterns(
     url(r'^surveys-sustainability-awareness-attitudes-and-values$',
         ResourceItemListView.as_view(
             model=models.SurveyOfAwareness,
-            queryset=models.SurveyOfAwareness.objects.order_by(
+            queryset=models.SurveyOfAwareness.objects.published().order_by(
                  'organization__name')),
         name='surveys-of-awareness',
         kwargs={'member_only': True}),
@@ -61,7 +61,7 @@ urlpatterns = patterns(
     url(r'^sustainability-course-inventories$',
         ResourceItemListView.as_view(
             model=models.SustainabilityCourseInventory,
-            queryset=models.SustainabilityCourseInventory.objects.order_by(
+            queryset=models.SustainabilityCourseInventory.objects.published().order_by(
                 'organization__name')),
         name='sustainability-course-inventories',
         kwargs={'member_only': True}),
@@ -69,7 +69,7 @@ urlpatterns = patterns(
     url(r'^sustainability-faculty-development-workshops$',
         ResourceItemListView.as_view(
             model=models.FacultyWorkshop,
-            queryset=models.FacultyWorkshop.objects.order_by(
+            queryset=models.FacultyWorkshop.objects.published().order_by(
                  'organization__name')),
         name='faculty-workshops',
         kwargs={'member_only': True,
@@ -78,7 +78,7 @@ urlpatterns = patterns(
     url(r'^sustainability-research-inventories$',
         ResourceItemListView.as_view(
             model=models.ResearchInventory,
-            queryset=models.ResearchInventory.objects.order_by(
+            queryset=models.ResearchInventory.objects.published().order_by(
                  'organization__name')),
         name='research-inventories',
         kwargs={'member_only': True}),
@@ -86,7 +86,7 @@ urlpatterns = patterns(
     url(r'^sustainability-related-syllabi-databases$',
         ResourceItemListView.as_view(
             model=models.SustainabilitySyllabus,
-            queryset=models.SustainabilitySyllabus.objects.order_by(
+            queryset=models.SustainabilitySyllabus.objects.published().order_by(
                     'organization__name')),
         name='sustainability-syllabi',
         kwargs={'title':'Sustainability-Related Syllabi Databases',
@@ -96,7 +96,7 @@ urlpatterns = patterns(
         'agriculture$',
         ResourceItemListView.as_view(
             model=models.AcademicCenter,
-            queryset=models.AcademicCenter.objects.filter(
+            queryset=models.AcademicCenter.objects.published().filter(
                     type__type='AG').order_by('organization__name'),
             template_name='education/academiccenters/'
                           'agriculture_list.html'),
@@ -106,7 +106,7 @@ urlpatterns = patterns(
     url('^sustainable-design-academic-centers',
         ResourceItemListView.as_view(
             model=models.AcademicCenter,
-            queryset=models.AcademicCenter.objects.filter(
+            queryset=models.AcademicCenter.objects.published().filter(
                     type__type='AR').order_by('organization__name'),
             template_name='education/academiccenters/'
                           'architecture_list.html'),
@@ -117,7 +117,7 @@ urlpatterns = patterns(
         'research-initiatives-sustainability',
         ResourceItemListView.as_view(
             model=models.AcademicCenter,
-            queryset=models.AcademicCenter.objects.filter(
+            queryset=models.AcademicCenter.objects.published().filter(
                     type__type='BS').order_by('organization__name'),
             template_name='education/academiccenters/'
                           'business_list.html'),
@@ -127,7 +127,7 @@ urlpatterns = patterns(
     url('^research-centers-sustainable-development',
         ResourceItemListView.as_view(
             model=models.AcademicCenter,
-            queryset=models.AcademicCenter.objects.filter(
+            queryset=models.AcademicCenter.objects.published().filter(
                     type__type='DS').order_by('organization__name'),
             template_name='education/academiccenters/'
                           'developmentstudies_list.html'),
@@ -137,7 +137,7 @@ urlpatterns = patterns(
    url('^academic-centers-ecological-economics',
         ResourceItemListView.as_view(
             model=models.AcademicCenter,
-            queryset=models.AcademicCenter.objects.filter(
+            queryset=models.AcademicCenter.objects.published().filter(
                     type__type='EC').order_by('organization__country',
                                               'organization__name'),
             template_name='education/academiccenters/'
@@ -149,7 +149,7 @@ urlpatterns = patterns(
         'academic-centers-sustainability-and-environmental-education',
         ResourceItemListView.as_view(
             model=models.AcademicCenter,
-            queryset=models.AcademicCenter.objects.filter(
+            queryset=models.AcademicCenter.objects.published().filter(
                     type__type='ED').order_by('organization__name'),
             template_name='education/academiccenters/'
                           'education_list.html'),
@@ -159,7 +159,7 @@ urlpatterns = patterns(
     url('^sustainable-engineering-academic-centers',
         ResourceItemListView.as_view(
             model=models.AcademicCenter,
-            queryset=models.AcademicCenter.objects.filter(
+            queryset=models.AcademicCenter.objects.published().filter(
                     type__type='EN').order_by('organization__name'),
             template_name='education/academiccenters/'
                           'engineering_list.html'),
@@ -169,7 +169,7 @@ urlpatterns = patterns(
     url('^academic-centers-focused-environmental-law',
         ResourceItemListView.as_view(
             model=models.AcademicCenter,
-            queryset=models.AcademicCenter.objects.filter(
+            queryset=models.AcademicCenter.objects.published().filter(
                     type__type='LW').order_by('organization__country',
                                               'organization__name'),
             template_name='education/academiccenters/law_list.html'),
@@ -179,7 +179,7 @@ urlpatterns = patterns(
     url('^academic-centers-and-research-inititatives-urban-studies',
         ResourceItemListView.as_view(
             model=models.AcademicCenter,
-            queryset=models.AcademicCenter.objects.filter(
+            queryset=models.AcademicCenter.objects.published().filter(
                     type__type='US').order_by('organization__name'),
             template_name='education/academiccenters/'
                           'urbanstudies_list.html'),
@@ -189,7 +189,7 @@ urlpatterns = patterns(
     url('^courses-campus-sustainability',
         ResourceItemListView.as_view(
             model=models.CampusSustainabilityCourse,
-            queryset=models.CampusSustainabilityCourse.objects.order_by(
+            queryset=models.CampusSustainabilityCourse.objects.published().order_by(
                     'organization__name', 'title'),
             template_name='education/academiccenters/'
                           'campussustainabilitycourse_list.html'),

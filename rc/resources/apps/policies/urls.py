@@ -24,7 +24,7 @@ def policy_url(url_string, policy_type, page_title='',
 
     view = ResourceItemListView.as_view(
         model=models.Policy,
-        queryset=models.Policy.objects.filter(
+        queryset=models.Policy.objects.published().filter(
             type__type=policy_type).order_by('organization__name'),
         template_name=template_name)
 
@@ -51,7 +51,7 @@ def policy_by_country_by_org_name_url(url_string, policy_type,
 
     view = ResourceItemListView.as_view(
         model=models.Policy,
-        queryset=models.Policy.objects.filter(
+        queryset=models.Policy.objects.published().filter(
             type__type=policy_type).order_by(
             'organization__country', 'organization__name'),
         template_name=template_name)
@@ -75,7 +75,7 @@ def policy_by_category_by_org_name_url(url_string, policy_type,
 
     view = ResourceItemListView.as_view(
         model=models.Policy,
-        queryset=models.Policy.objects.filter(
+        queryset=models.Policy.objects.published().filter(
             type__type=policy_type).order_by(
             'category', 'organization__name'),
         template_name=template_name)
@@ -196,7 +196,7 @@ urlpatterns = patterns('',
     url(r'^campus-fair-trade-practices-policies',
         view=ResourceItemListView.as_view(
             model=models.FairTradePolicy,
-            queryset=models.FairTradePolicy.objects.order_by(
+            queryset=models.FairTradePolicy.objects.published().order_by(
                     'organization__country', 'organization__name')),
         name='fair-trade',
         kwargs={'member_only': True, 'title': 'Campus Fair Trade Practices and Policies'}),
@@ -204,7 +204,7 @@ urlpatterns = patterns('',
     url(r'^socially-responsible-investment-policies',
         view=ResourceItemListView.as_view(
             model=models.ResponsibleInvestmentPolicy,
-            queryset=models.ResponsibleInvestmentPolicy.objects.order_by(
+            queryset=models.ResponsibleInvestmentPolicy.objects.published().order_by(
                     'investment_type', 'organization__name')),
             name='responsible-investment',
             kwargs={'member_only': True, 'title': 'Socially Responsible Investment Policies'}),
@@ -212,7 +212,7 @@ urlpatterns = patterns('',
     url(r'^campus-building-guidelines-and-green-building-policies',
         view=ResourceItemListView.as_view(
             model=models.GreenBuildingPolicy,
-            queryset=models.GreenBuildingPolicy.objects.order_by(
+            queryset=models.GreenBuildingPolicy.objects.published().order_by(
                     'leed_level', 'organization__name')),
             name='green-building',
             kwargs={'member_only': True,

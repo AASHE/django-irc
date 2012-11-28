@@ -12,7 +12,7 @@ def green_building_url(url_string, building_type, image_url=None,
     return url(url_string,
                ResourceItemListView.as_view(
                    model=model,
-                   queryset=model.objects.filter(
+                   queryset=model.objects.published().filter(
                            type__type=building_type).order_by(
                                'type', 'certification', 'organization__name'),
                    template_name='operations/campusgreenbuilding_list.html'),
@@ -30,7 +30,7 @@ urlpatterns = patterns('',
     url(r'^campus-alternative-transportation-websites',
         ResourceItemListView.as_view(
             model=models.TransportationWebsite,
-            queryset=models.TransportationWebsite.objects.order_by(
+            queryset=models.TransportationWebsite.objects.published().order_by(
                     'organization__name')),
         name='transportation-websites',
         kwargs={'member_only': True, 'title': 'Campus Alternative Transportation Websites'}),
@@ -38,7 +38,7 @@ urlpatterns = patterns('',
     url(r'^bottled-water-elimination-and-reduction',
         ResourceItemListView.as_view(
             model=models.BottledWaterBan,
-            queryset=models.BottledWaterBan.objects.order_by(
+            queryset=models.BottledWaterBan.objects.published().order_by(
                     'type', 'organization__name')),
         name='bottled-water-bans',
         kwargs={'type_list': [ level[0] for level in
@@ -50,7 +50,7 @@ urlpatterns = patterns('',
     url(r'^campus-building-energy-dashboards',
         ResourceItemListView.as_view(
             model=models.BuildingDashboard,
-            queryset=models.BuildingDashboard.objects.order_by(
+            queryset=models.BuildingDashboard.objects.published().order_by(
                     'partner__name', 'organization__name')),
         name='building-dashboards',
         kwargs={'title': 'Campus Building Energy Dashboards',
@@ -59,7 +59,7 @@ urlpatterns = patterns('',
     url(r'^biodiesel-campus-fleets',
         ResourceItemListView.as_view(
             model=models.BiodieselFleet,
-            queryset=models.BiodieselFleet.objects.order_by(
+            queryset=models.BiodieselFleet.objects.published().order_by(
                     'production', 'organization__country',
                     'organization__name')),
         name='biodiesel-fleets',
@@ -70,7 +70,7 @@ urlpatterns = patterns('',
     url(r'^campus-bicycle-plans',
         ResourceItemListView.as_view(
             model=models.BicyclePlan,
-            queryset=models.BicyclePlan.objects.order_by(
+            queryset=models.BicyclePlan.objects.published().order_by(
                     'organization__name')),
         name='bicycle-plans',
         kwargs={'member_only': True}),
@@ -78,7 +78,7 @@ urlpatterns = patterns('',
     url(r'^campus-car-bans',
         ResourceItemListView.as_view(
             model=models.CarBan,
-            queryset=models.CarBan.objects.order_by(
+            queryset=models.CarBan.objects.published().order_by(
                     '-type', 'organization__name')),
         name='car-bans',
         kwargs={'ban_types': dict(models.CarBan.BAN_TYPES)}),
@@ -86,7 +86,7 @@ urlpatterns = patterns('',
     url(r'^campus-commuter-surveys',
         ResourceItemListView.as_view(
             model=models.CommuterSurvey,
-            queryset=models.CommuterSurvey.objects.order_by(
+            queryset=models.CommuterSurvey.objects.published().order_by(
                     'type', 'organization__name')),
         name='commuter-surveys',
         kwargs={'survey_types': dict(models.CommuterSurvey.SURVEY_TYPES),
@@ -95,7 +95,7 @@ urlpatterns = patterns('',
     url(r'^campus-electric-vehicle-fleets',
         ResourceItemListView.as_view(
             model=models.ElectricFleet,
-            queryset=models.ElectricFleet.objects.order_by(
+            queryset=models.ElectricFleet.objects.published().order_by(
                     'organization__country', 'organization__name')),
         name='electric-fleets',
         kwargs={'member_only': True}),
@@ -103,7 +103,7 @@ urlpatterns = patterns('',
     url(r'^campus-energy-plans',
         ResourceItemListView.as_view(
             model=models.EnergyPlan,
-            queryset=models.EnergyPlan.objects.order_by(
+            queryset=models.EnergyPlan.objects.published().order_by(
                     'organization__name')),
         name='energy-plans',
         kwargs={'member_only': True}),
@@ -111,7 +111,7 @@ urlpatterns = patterns('',
     url(r'^campus-energy-plans',
         ResourceItemListView.as_view(
             model=models.EnergyPlan,
-            queryset=models.EnergyPlan.objects.order_by(
+            queryset=models.EnergyPlan.objects.published().order_by(
                     'organization__name')),
         name='energy-plans',
         kwargs={'member_only': True}),
@@ -119,21 +119,21 @@ urlpatterns = patterns('',
     url(r'^campus-energy-websites',
         ResourceItemListView.as_view(
             model=models.EnergyWebsite,
-            queryset=models.EnergyWebsite.objects.order_by(
+            queryset=models.EnergyWebsite.objects.published().order_by(
                     'organization__name')),
             name='energy-websites'),
 
     url(r'^campus-global-warming-commitments',
         ResourceItemListView.as_view(
             model=models.GlobalWarmingCommitment,
-            queryset=models.GlobalWarmingCommitment.objects.order_by(
+            queryset=models.GlobalWarmingCommitment.objects.published().order_by(
                     'organization__name', 'date')),
             name='global-warming-commitments'),
 
     url(r'^campus-hybrid-vehicle-fleets',
         ResourceItemListView.as_view(
             model=models.HybridFleet,
-            queryset=models.HybridFleet.objects.order_by(
+            queryset=models.HybridFleet.objects.published().order_by(
                     'organization__country', 'organization__name')),
         name='hybrid-fleets',
         kwargs={'member_only': True}),
@@ -141,7 +141,7 @@ urlpatterns = patterns('',
     url(r'^campus-recycling-and-waste-minimization-websites',
         ResourceItemListView.as_view(
             model=models.RecyclingWebsite,
-            queryset=models.RecyclingWebsite.objects.order_by(
+            queryset=models.RecyclingWebsite.objects.published().order_by(
                     'organization__name')),
         name='recycling-websites',
         kwargs={'title': 'Campus Recycling & Waste Minimization Websites',
@@ -150,7 +150,7 @@ urlpatterns = patterns('',
     url(r'^campus-water-conservation-efforts',
         ResourceItemListView.as_view(
             model=models.WaterConservationEffort,
-            queryset=models.WaterConservationEffort.objects.order_by(
+            queryset=models.WaterConservationEffort.objects.published().order_by(
                     'organization__country', 'organization__name')),
         name='water-conservation-efforts',
         kwargs={'member_only': True}),
@@ -158,7 +158,7 @@ urlpatterns = patterns('',
     url(r'^wind-power-campus-1',
         ResourceItemListView.as_view(
             model=models.WindTurbine,
-            queryset=models.WindTurbine.objects.order_by(
+            queryset=models.WindTurbine.objects.published().order_by(
                     '-size', 'organization__name')),
         name='wind-turbines',
         kwargs={'member_only': True,
@@ -167,7 +167,7 @@ urlpatterns = patterns('',
     url(r'^carsharing-campus',
         ResourceItemListView.as_view(
             model=models.CarShare,
-            queryset=models.CarShare.objects.order_by(
+            queryset=models.CarShare.objects.published().order_by(
                     'partner__name', 'organization__name')),
         name='car-shares',
         kwargs={'member_only': True}),
@@ -175,7 +175,7 @@ urlpatterns = patterns('',
     url(r'^renewable-energy-research-centers',
         ResourceItemListView.as_view(
             model=models.RenewableResearchCenter,
-            queryset=models.RenewableResearchCenter.objects.order_by(
+            queryset=models.RenewableResearchCenter.objects.published().order_by(
                     'organization__name')),
         name='renewable-research-centers',
         kwargs={'title': 'Renewable Energy Research Centers'}),
@@ -183,7 +183,7 @@ urlpatterns = patterns('',
     url(r'^campus-installations-stationary-fuel-cells',
         ResourceItemListView.as_view(
             model=models.FuelCell,
-            queryset=models.FuelCell.objects.order_by('-size',
+            queryset=models.FuelCell.objects.published().order_by('-size',
                                                       'organization__name')),
         name='fuel-cells',
         kwargs={'title': 'Campus Installations of Stationary Fuel Cells'}),
@@ -191,7 +191,7 @@ urlpatterns = patterns('',
     url(r'^sustainable-dining-initiatives-campus',
         ResourceItemListView.as_view(
             model=models.DiningInitiative,
-            queryset=models.DiningInitiative.objects.order_by(
+            queryset=models.DiningInitiative.objects.published().order_by(
                     'ownership', 'organization__name')),
         name='dining-initiatives',
         kwargs={'owners': dict(models.DiningInitiative.OWNERS),
@@ -209,7 +209,7 @@ urlpatterns = patterns('',
     url(r'^sustainable-landscaping-campus',
         ResourceItemListView.as_view(
             model=models.SustainableLandscape,
-            queryset=models.SustainableLandscape.objects.order_by(
+            queryset=models.SustainableLandscape.objects.published().order_by(
                     'organization__name')),
         name='sustainable-landscapes',
         kwargs={'title': 'Sustainable Landscaping Initiatives on Campus'}),
@@ -217,7 +217,7 @@ urlpatterns = patterns('',
     url(r'^links-related-sustainable-purchasing-campus',
         ResourceItemListView.as_view(
             model=models.PurchasingLink,
-            queryset=models.PurchasingLink.objects.order_by(
+            queryset=models.PurchasingLink.objects.published().order_by(
                     'type', 'organization__name')),
         name='purchasing-links',
         kwargs={'type_list': dict(models.PurchasingLink.LINK_TYPES),
@@ -227,7 +227,7 @@ urlpatterns = patterns('',
     url(r'^campus-universal-transit-passes',
         ResourceItemListView.as_view(
             model=models.TransitPass,
-            queryset=models.TransitPass.objects.order_by(
+            queryset=models.TransitPass.objects.published().order_by(
                     '-type', 'organization__country',
                     'organization__name')),
         name='transit-passes',
