@@ -452,3 +452,35 @@ class SustainabilityMaps(PageParser):
             if p.contents:  # except for the first resource listed
                 p.contents.pop()
             self.data.append(map)
+
+class StudyAbroad(PageParser):
+    '''
+    >>> parser = StudyAbroad()
+    >>> parser.parsePage()
+    >>> len(parser.data) != 0
+    True
+    '''
+    url = 'http://www.aashe.org/resources/study-abroad-programs-sustainability'
+    login_required = False
+
+    def parsePage(self):
+        headings = self.soup.findAll('h2', {'class': None})
+        for heading in headings:
+            if heading.text == 'Institutions Offering Study Abroad Programs in Sustainability':
+                program_type = 'IN'
+            elif heading.text == 'Organizations Offering Sustainability Study Abroad Programs':
+                program_type = 'OT'
+
+            table = heading.findNextSibling()
+            rows = table.findAll('tr')
+            # skip heading
+            for row in rows[1:]:
+                program = dict()
+                cells = row.findAll('td')               
+                program['institution'] = cells[0].text
+                program['title'] = cells[1].text 
+                anchor = cells[1].find('a')
+                program['url'] = anchor['href']
+                program['type'] = program_type
+                self.data.append(program)
+            

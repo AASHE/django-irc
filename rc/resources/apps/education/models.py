@@ -15,6 +15,20 @@ class CommunityGarden(ResourceItem):
     def get_absolute_url(self):
         return reverse('community-gardens')
 
+class StudyAbroadProgram(ResourceItem):
+    PROGRAM_TYPES = (('IN', 'Institutions Offering Study Abroad Programs in Sustainability'),
+                ('OT', 'Organizations Offering Sustainability Study Abroad Programs'))
+
+    type = models.CharField(_('program type'), max_length=2,
+                            choices=PROGRAM_TYPES, blank=False)
+
+    class Meta:
+        verbose_name = 'campus sustainability study abroad program'
+        verbose_name_plural = 'campus sustainability study abroad programs'
+        
+    def get_absolute_url(self):
+        return reverse('study-abroad-programs')
+
 class SustainabilityNetwork(ResourceItem):
     class Meta:
         verbose_name = 'alumni sustainability network'

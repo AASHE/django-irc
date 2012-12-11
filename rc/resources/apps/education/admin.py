@@ -9,6 +9,12 @@ class AcademicCenterAdmin(ResourceItemAdmin):
     list_filter = ['type', 'published']
 admin.site.register(AcademicCenter, AcademicCenterAdmin)
 
+class StudyAbroadProgramAdmin(ResourceItemAdmin):
+    list_display = ('__unicode__', 'organization', 'notes',
+                    'type', 'published')
+    list_filter = ['type', 'published']
+admin.site.register(StudyAbroadProgram, StudyAbroadProgramAdmin)
+
 admin.site.register(CommunityGarden, ResourceItemAdmin)
 admin.site.register(SustainabilityNetwork, ResourceItemAdmin)
 admin.site.register(CampusAgriculture, ResourceItemAdmin)

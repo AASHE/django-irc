@@ -2,6 +2,8 @@ from rc.resources.apps.scrape.loader import GenericLoader
 from rc.resources.apps.education.models import AcademicCenter, \
      AcademicCenterType
 from rc.resources.apps.education.models import CampusSustainabilityCourseTeacher
+from rc.resources.apps.education.models import StudyAbroadProgram
+from aashe.organization.models import Organization
 
 
 ACADEMIC_CENTERS_RESET_YET = False
@@ -78,3 +80,18 @@ class CampusSustainabilityCourseLoader(GenericLoader):
     def reset_model(self):
         CampusSustainabilityCourseTeacher.objects.all().delete()
         super(CampusSustainabilityCourseLoader, self).reset_model()
+
+class StudyAbroadProgramLoader(GenericLoader):
+    def create_instance(self, data):
+        # if no matching institution exists, create one
+        if data.has_key('institution'):
+            try:
+                inst_query = data['institution'].strip().lower()
+                institution_obj = Organization.objects.get(
+                    name__iexact=inst_query)
+                data['organization'] = institution_obj
+            except:
+                Organization.objects.create(
+                    name=data['institution'], picklist_name=data['institution'])
+        super(StudyAbroadProgramLoader, self).create_instance(data)
+

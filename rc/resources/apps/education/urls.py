@@ -16,6 +16,14 @@ urlpatterns = patterns(
             queryset=models.SustainabilityNetwork.objects.published()),
         name='sustainability-networks'),
 
+    url(r'^study-abroad-programs-sustainability$',
+        ResourceItemListView.as_view(
+            model=models.StudyAbroadProgram,
+            queryset=models.StudyAbroadProgram.objects.published()),
+        name='study-abroad-programs',
+        kwargs={'program_types': dict(models.StudyAbroadProgram.PROGRAM_TYPES),
+                'member_only': False}),
+
     url(r'^campus-and-campus-community-gardens$',
         ResourceItemListView.as_view(
             model=models.CommunityGarden,
