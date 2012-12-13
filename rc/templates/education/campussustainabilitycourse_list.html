@@ -44,22 +44,22 @@
             <br/>
             {% for teacher in course.teachers.all %}
               {% if teacher.email or teacher.web_page %}
+                <em>
                 {% if teacher.email %}
                   <a href=mailto:{{ teacher.email }}>
                 {% else %}    <!-- why won't elif work here? -->
                   <a href={{ teacher.web_page }}>
                 {% endif %}
-                <em>
-                  {% if teacher.title %}
-                    {{ teacher.first_name }}
-                    {{ teacher.middle_name }}
-                    {{ teacher.last_name }}</a>,
-                    {{ teacher.title }}
-                  {% else %}
-                    {{ teacher.first_name }}
-                    {{ teacher.middle_name }}
-                    {{ teacher.last_name }}</a>
-                  {% endif %}
+                {% if teacher.title %}
+                  {{ teacher.first_name }}
+                  {{ teacher.middle_name }}
+                  {{ teacher.last_name }}</a>,
+                  {{ teacher.title }}
+                {% else %}
+                  {{ teacher.first_name }}
+                  {{ teacher.middle_name }}
+                  {{ teacher.last_name }}</a>
+                {% endif %}
                 </em>
               {% endif %}
               <br/>
