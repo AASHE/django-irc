@@ -61,6 +61,17 @@
                   {{ teacher.last_name }}</a>
                 {% endif %}
                 </em>
+              {% else %}
+                {% if teacher.title %}
+                  {{ teacher.first_name }}
+                  {{ teacher.middle_name }}
+                  {{ teacher.last_name }},
+                  {{ teacher.title }}
+                {% else %}
+                  {{ teacher.first_name }}
+                  {{ teacher.middle_name }}
+                  {{ teacher.last_name }}
+                {% endif %}
               {% endif %}
               <br/>
             {% endfor %}
