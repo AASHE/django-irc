@@ -46,9 +46,9 @@
               {% if teacher.email or teacher.web_page %}
                 <em>
                 {% if teacher.email %}
-                  <a href=mailto:{{ teacher.email }}>
+                  <a href=mailto:"{{ teacher.email }}">
                 {% else %}    <!-- why won't elif work here? -->
-                  <a href={{ teacher.web_page }}>
+                  <a href="{{ teacher.web_page }}">
                 {% endif %}
                 {% if teacher.title %}
                   {{ teacher.first_name }}
