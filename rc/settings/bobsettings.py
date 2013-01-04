@@ -1,5 +1,5 @@
 # Bob's dev Django settings for rc project.
-from settings import *
+from global_settings import *
 
 INSTALLED_APPS = INSTALLED_APPS + ('django_extensions',
 				   'template_repl')
