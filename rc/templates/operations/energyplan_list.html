@@ -1,0 +1,42 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Campus Energy Plans
+{% endblock title %}
+
+{% block body %}
+
+  <p>
+
+    This resource lists campus energy plans. Users may also wish to
+    consult our lists of <a href="/resources/campus-climate-action-plans">
+    campus climate action plans</a> and <a href="/resources/master-plans-incorporate-sustainability">
+    campus master plans that incorporate sustainability</a>.
+
+  </p>
+
+  <p>
+    <div id="resource_list" class="content clear-block">
+      <p>
+        <table>
+          <tbody>
+            <tr>
+              <th>Institution</th>
+              <th>Plan</th>
+              <th>Date Published</th>
+            </tr>
+            {% for resource in object_list %}
+              <tr>
+                <td>{{ resource.organization.name }}</td>
+                <td><a href="{{ resource.url }}">{{ resource.title }}</a>
+                </td>
+                <td>{{ resource.date_published|date:"F Y" }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </p>
+    </div>
+  </p>
+
+{% endblock body %}

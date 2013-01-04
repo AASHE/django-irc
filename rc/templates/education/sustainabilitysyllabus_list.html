@@ -1,0 +1,31 @@
+{% extends "resourceitem_list.html" %}
+
+{% block body %}
+
+  <p>
+
+    This resources contains databases and lists of
+    sustainability-related syllabi maintained by different
+    organizations.
+
+  </p>
+
+  <p>
+    <div id="resource_list" class="content clear-block">
+      <p>
+        {% for syllabus in object_list %}
+          <p>
+            <em>{{ syllabus.organization.name }}</em>
+            <br/>
+            <a href="{{ syllabus.url }}">
+              <strong>{{ syllabus.title }}</strong>
+            </a>
+            <br/>
+            {{ syllabus.description }}
+          </p>
+        {% endfor %}
+      </p>
+    </div>
+  </p>
+
+{% endblock body %}

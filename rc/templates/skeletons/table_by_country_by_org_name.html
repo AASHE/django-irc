@@ -1,0 +1,34 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+
+{% endblock title %}
+
+{% block body %}
+
+  <div id="resource_list">
+    <p>
+      {% regroup object_list by organization.country as country_list %}
+
+     {% for country in country_list %}
+       <h3>{{ country.grouper }}</h3>
+       <table>
+         <tbody>
+           <tr>
+             <th></th>
+             <th></th>
+           </tr>
+           {% for resource in country.list %}
+             <tr>
+               <td>{{ resource.organization.name }}</td>
+               <td><a href="{{ resource.url }}">{{ resource.source_type }}</a>
+               </td>
+             </tr>
+           {% endfor %}
+         </tbody>
+       </table>
+     {% endfor %}
+    </p>
+  </div>
+
+{% endblock body %}

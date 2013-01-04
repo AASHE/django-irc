@@ -1,0 +1,37 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Student Peer-to-Peer Sustainability Education Programs
+{% endblock title %}
+
+{% block body %}
+
+  <p>
+    This resource lists student peer-to-peer sustainability outreach programs, often called Eco-Rep programs. Generally, these serve the residential sector of campus and are sponsored by a department such as recycling, residential life, or the campus sustainability office.  See also <a href="http://www.nwf.org/Global-Warming/Campus-Solutions/Resources/Reports/Student-Sustainability-Educators.aspx">Student Sustainability Educators: A Guide to Creating and Maintaining an Eco-Rep Program on Campus.</a>
+  </p>
+
+
+
+  {% if image_caption %}
+    <span class="image-right">
+
+    </span>
+  {% endif %}
+
+
+  <div id="resource_list">
+
+    <p>
+      <table>
+        <tbody>
+          <tr>
+            <th>Institution</th>
+            <th>Program</th>
+          </tr>
+          {% include "table_rows.html" with resources=object_list %}
+        </tbody>
+      </table>
+    </p>
+  </div>
+
+{% endblock body %}

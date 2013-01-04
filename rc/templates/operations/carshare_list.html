@@ -1,0 +1,33 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Car Sharing on Campus
+{% endblock %}
+
+{% block body %}
+
+  <p>
+      Car sharing programs enable faculty, staff, and students to rent vehicles for short periods of time. Such programs reduce the need for people to bring their own vehicle to campus, thereby freeing up parking spaces, and provide a cost-effective alternative to car ownership. Universities often subsidize participation in car sharing programs as part of a comprehensive transportation demand management strategy.
+
+  </p>
+  <p>
+      This resource lists existing car sharing programs on campus. Programs are categorized according to the car sharing partner used by each campus.
+  </p>
+
+  <div id="resource_list">
+    <p>
+      {% regroup object_list by partner.name as partner_list %}
+
+      {% for partner in partner_list %}
+        <h3>{{ partner.grouper }}</h3>
+        <p>
+          {% for carshare in partner.list %}
+            <a href="{{ carshare.url }}">{{ carshare.title }}</a>
+            <br/>
+          {% endfor %}
+        </p>
+      {% endfor %}
+    </p>
+  </div>
+
+{% endblock body %}
