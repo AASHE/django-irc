@@ -1,12 +1,17 @@
 from __future__ import with_statement
 from fabric.api import *
 from fabric.contrib.files import exists
+from fabric.context_managers import shell_env
 from contextlib import contextmanager as _contextmanager
 
 
 env.project_name = 'aashe-rc'
-env.repos = 'ssh://hg@bitbucket.org/jesselegg/aashe-rc'
+env.repos = 'ssh://hg@bitbucket.org/aashe/aashe-rc'
 env.uwsgi_service_name = 'uwsgi'
+env.current_symlink_name = 'current'
+env.previous_symlink_name = 'previous'
+env.virtualenv_name = 'env'
+env.remote_vars = {}
 
 @_contextmanager
 def virtualenv():
@@ -20,20 +25,21 @@ def virtualenv():
         with(virtualenv()):
             run("python manage.py syncdb")
     '''
-    with cd(env.path):
-        with prefix(env.activate):
-            yield
+    with cd(env.remote_path):
+        with shell_env(**env.remote_vars):
+            with prefix(env.activate):
+                yield
 
 def dev():
     '''
     Configure the fabric environment for the dev server(s).
     '''
     env.user = 'releaser'
-    env.hosts = ['rc2-dev.aashe.org']
-    env.path = '/var/www/django_projects/aashe-rc'
-    env.django_settings = 'rc.dev_settings'
-    env.activate = 'source %s/env/bin/activate' % env.path
-    env.uwsgi_service_name = 'uwsgi'
+    env.hosts = ['www.aashedev.org']
+    env.remote_path = '/var/www/django_projects/aashe-rc'
+    env.django_settings = 'rc.settings.development'
+    env.activate = 'source %s/env/bin/activate' % env.remote_path
+    env.uwsgi_service_name = 'aashe-rc'
     
 def new():
     '''
@@ -41,9 +47,9 @@ def new():
     '''
     env.user = 'releaser'
     env.hosts = ['new.aashe.org']
-    env.path = '/var/www/django_projects/aashe-rc'
-    env.django_settings = 'rc.new_settings'
-    env.activate = 'source %s/env/bin/activate' % env.path
+    env.remote_path = '/var/www/django_projects/aashe-rc'
+    env.django_settings = 'rc.settings.new_settings'
+    env.activate = 'source %s/env/bin/activate' % env.remote_path
     env.uwsgi_service_name = 'aashe-rc'
     
 def production():
@@ -52,9 +58,9 @@ def production():
     '''
     env.user = 'releaser'
     env.hosts = ['www.aashe.org']
-    env.path = '/var/www/django_projects/aashe-rc'
-    env.django_settings = 'rc.live_settings'
-    env.activate = 'source %s/env/bin/activate' % env.path
+    env.remote_path = '/var/www/django_projects/aashe-rc'
+    env.django_settings = 'rc.settings.production'
+    env.activate = 'source %s/env/bin/activate' % env.remote_path
     env.uwsgi_service_name = 'aashe-rc'
 
 def deploy():
@@ -71,7 +77,13 @@ def deploy():
         env.branch_name = 'default'
     env.changeset_id = local('hg id -r %s -i' % env.branch_name, capture=True)
     export()
+    requirements()
+    if not test():
+        print(red("[ ERROR: Deployment failed to pass test() on remote. Exiting. ]"))
+    else:
+        print(green("[ PASS: Deployment passed test() on remote. Continuing... ]"))
     config()
+    restart()
 
 def export():
     '''
@@ -84,13 +96,13 @@ def export():
     tarfile = '%s.tar.gz' % export_path
     local('hg archive -r %(branch)s -t tgz %(tarfile)s' %
           {'branch': env.branch_name, 'tarfile': tarfile})
-    put(tarfile, env.path)
+    put(tarfile, env.remote_path)
     local("rm %s" % tarfile)
-    with cd(env.path):
+    with cd(env.remote_path):
         # extract tarfile to export path
         run('tar xvzf %s' % tarfile)
         run('rm -rf %s' % tarfile)
-        env.release_path = '%s/%s' % (env.path, export_path)
+        env.release_path = '%s/%s' % (env.remote_path, export_path)
 
 def requirements():
     '''
@@ -98,43 +110,56 @@ def requirements():
     the project's requirements.txt file.
     '''
     with virtualenv():
-        print("Updating virtualenv via requirements...")
-        run('pip install -r %s/current/requirements.txt' % env.path)
+        print(green("[ Updating virtualenv via requirements... ]"))
+        if not hasattr(env, 'release_path'):
+            env.release_path = '%s/current' % env.remote_path
+        run('pip install -r %s/%s' % (env.release_path, env.requirements_txt))
+        
+def test():
+    '''
+    Test our installation in a few ways.
 
+    TODO: Actually run tests!
+    '''
+    with virtualenv():
+        with cd(env.release_path):
+            result = run('python manage.py validate --settings=%s' % env.django_settings)
+            print 'test() result was %s' % result
+    return result.succeeded        
+        
 def update_symlinks():
-    with cd(env.path):
-        if exists('previous'):
-            previous_path = run('readlink previous')
-            run('rm previous')
-            run('rm -rf %s' % previous_path)
-        if exists('current'):
+    with cd(env.remote_path):
+        if exists(env.previous_symlink_name):
+            # get the real directory pointed to by previous
+            previous_path = run('readlink %s' % env.previous_symlink_name)
+            run('rm %s' % env.previous_symlink_name)
+            run('rm -rf %s' % previous_path)            
+        if exists(env.current_symlink_name):
             # get the real directory pointed to by current
-            current_path = run('readlink current')
+            current_path = run('readlink %s' % env.current_symlink_name)
             # make current the new previous
-            run('ln -s %s previous' % current_path)
-            run('rm current')
-        # update "current" symbolic link to new code path            
-        run('ln -s %s current' % env.release_path)
+            run('ln -s %s %s' % (current_path, env.previous_symlink_name))
+            run('rm %s' % env.current_symlink_name)
+        # update "current" symbolic link to new code path
+        run('ln -s %s %s' % (env.release_path, env.current_symlink_name))
         
 def config():
     '''
     Configure the exported and uploaded code archive.
     '''
-    update_symlinks()
     with virtualenv():
         with cd(env.release_path):
             # enter new code location, activate virtualenv and collectstatic
             run('python rc/manage.py collectstatic --settings=%s --noinput' %
                 env.django_settings)
-    # change group permissions
-    #sudo('chgrp -R admin %s/*' % env.path)
+    update_symlinks()
 
 def loadrc():
     '''
     Clear and load RC data.
     '''
     with virtualenv():
-        with cd("%s/current/rc" % env.path):
+        with cd("%s/current/rc" % env.remote_path):
             run('python manage.py reset operations pae education policies programs --noinput --settings=%s' %
                 env.django_settings)
             run('python manage.py loadrc --settings=%s' %
@@ -151,7 +176,7 @@ def syncdb():
     Run "manage.py syncdb".
     '''
     with virtualenv():
-        with cd("%s/current/rc" % env.path):
+        with cd("%s/current/rc" % env.remote_path):
             run('python manage.py syncdb --noinput --settings=%s' %
                 env.django_settings)
 
@@ -160,7 +185,7 @@ def findlinks():
     Run "manage.py findlinks".
     '''
     with virtualenv():
-        with cd("%s/current/rc" % env.path):
+        with cd("%s/current/rc" % env.remote_path):
             run('python manage.py findlinks --settings=%s' %
                 env.django_settings)
 
@@ -169,7 +194,7 @@ def checklinks():
     Run "manage.py checklinks".
     '''
     with virtualenv():
-        with cd("%s/current/rc" % env.path):
+        with cd("%s/current/rc" % env.remote_path):
             run('python manage.py checklinks --settings=%s' %
                 env.django_settings)
 
@@ -178,7 +203,7 @@ def loadcms():
     Clear and load cms data.
     '''
     with virtualenv():
-        with cd("%s/current/rc" % env.path):
+        with cd("%s/current/rc" % env.remote_path):
             run('python manage.py reset cms treemenus --noinput --settings=%s' %
                 env.django_settings)
             run('python manage.py loaddata cms/fixtures/menu_data.json --settings=%s' %
