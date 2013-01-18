@@ -9,7 +9,6 @@ admin.site.register(SustainabilityWebsite, ResourceItemAdmin)
 admin.site.register(SustainabilityBlog, ResourceItemAdmin)
 admin.site.register(SustainabilityPlan, ResourceItemAdmin)
 admin.site.register(AlumniFund, ResourceItemAdmin)
-admin.site.register(RevolvingLoanFund, ResourceItemAdmin)
 admin.site.register(StudentFee, ResourceItemAdmin)
 
 class StudentFeesDescriptionAdmin(admin.ModelAdmin):
