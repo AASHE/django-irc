@@ -76,7 +76,7 @@ def production():
     # syncdb, reset, etc. still work outside of deployment scenario
     env.release_path = '%s/current' % env.remote_path
 
-def deploy():
+def deploy(requirements='yes'):
     '''
     Generic deploy function to deploy a release to the configured
     server. Servers are configured via other functions (like dev).
@@ -90,7 +90,8 @@ def deploy():
         env.branch_name = 'default'
     env.changeset_id = local('hg id -r %s -i' % env.branch_name, capture=True)
     export()
-    requirements()
+    if requirements == 'yes':
+        requirements()
     if not test():
         print(red("[ ERROR: Deployment failed to pass test() on remote. Exiting. ]"))
     else:
@@ -193,11 +194,23 @@ def syncdb():
             run('python manage.py syncdb --noinput --settings=%s' %
                 env.django_settings)
 
-def reset(app_name):
+def reset(app_name=''):
+    '''
+    Usage: fab dev reset:my_app
+    '''
     with virtualenv():
         with cd(env.release_path):
             run('python manage.py reset %s --noinput --settings=%s' %
                 (app_name, env.django_settings))
+
+def loaddata(fixture=''):
+    '''
+    Usage: fab dev loaddata:my_fixture_name.json
+    '''
+    with virtualenv():
+        with cd(env.release_path):
+            run('python manage.py loaddata %s --settings=%s' %
+                (fixture, env.django_settings))            
 
 def findlinks():
     '''
