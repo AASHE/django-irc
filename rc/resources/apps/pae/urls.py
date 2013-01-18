@@ -46,14 +46,14 @@ urlpatterns = patterns('',
         name='sustainability-plans',
         kwargs={'member_only': True}),
 
-    url(r'^campus-sustainability-revolving-loan-funds',
-        ResourceItemListView.as_view(
-            model=models.RevolvingLoanFund,
-            queryset=models.RevolvingLoanFund.objects.published().order_by(
-                    'organization__name', 'title')),
-        name='revolving-loan-funds',
-        kwargs={'title': 'Campus Sustainability Revolving Loan Funds',
-                'member_only': True}),
+    # url(r'^campus-sustainability-revolving-loan-funds',
+    #     ResourceItemListView.as_view(
+    #         model=models.RevolvingLoanFund,
+    #         queryset=models.RevolvingLoanFund.objects.published().order_by(
+    #                 'organization__name', 'title')),
+    #     name='revolving-loan-funds',
+    #     kwargs={'title': 'Campus Sustainability Revolving Loan Funds',
+    #             'member_only': True}),
 
     url(r'^mandatory-student-fees-renewable-energy-and-energy-efficiency',
         StudentFeeListView.as_view(

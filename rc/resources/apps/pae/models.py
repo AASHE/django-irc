@@ -64,13 +64,6 @@ class AlumniFund(ResourceItem):
     def get_absolute_url(self):
         return reverse("alumni-funds")
 
-class RevolvingLoanFund(ResourceItem):
-    class Meta:
-        verbose_name = 'revolving loan fund'
-        
-    def get_absolute_url(self):
-        return reverse("revolving-loan-funds")
-
 class StudentFee(ResourceItem):
     class Meta:
         verbose_name = 'student fee for sustainability'
