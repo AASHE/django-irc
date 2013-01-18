@@ -76,7 +76,7 @@ def production():
     # syncdb, reset, etc. still work outside of deployment scenario
     env.release_path = '%s/current' % env.remote_path
 
-def deploy(requirements='yes'):
+def deploy():
     '''
     Generic deploy function to deploy a release to the configured
     server. Servers are configured via other functions (like dev).
@@ -90,8 +90,7 @@ def deploy(requirements='yes'):
         env.branch_name = 'default'
     env.changeset_id = local('hg id -r %s -i' % env.branch_name, capture=True)
     export()
-    if requirements == 'yes':
-        requirements()
+    requirements()
     if not test():
         print(red("[ ERROR: Deployment failed to pass test() on remote. Exiting. ]"))
     else:
