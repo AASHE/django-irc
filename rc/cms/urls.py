@@ -4,6 +4,7 @@ from rc.cms.views import PageView
 
 urlpatterns = patterns(
     '',
-    url(r'^$', TemplateView.as_view(template_name='cms/index.html')),
+    url(r'^$', TemplateView.as_view(template_name='cms/index.html'),
+        name='resource-center-index'),
     url(r'^(?P<slug>.+)/$', PageView.as_view()),
     )

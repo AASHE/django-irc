@@ -34,4 +34,5 @@ def process_sheet(sheet):
         row = sheet.row_values(i)
         process_row(row)
 
-#process_sheet(sh)
+def load_funds():
+    process_sheet(sh)

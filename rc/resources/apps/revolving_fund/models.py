@@ -12,12 +12,12 @@ class RevolvingLoanFund(models.Model):
     fund_name = models.CharField(max_length=120,
                                  verbose_name='Name of Fund')
     description = models.TextField(blank=True)
-    year = models.CharField(max_length=4, verbose_name='Year Established')
-    total_funds = models.DecimalField(verbose_name='Total Committed Funds',
-                                      max_digits=20,
-                                      decimal_places=2)
+    year = models.IntegerField(max_length=4, verbose_name='Year Established')
+    total_funds = models.PositiveIntegerField(verbose_name='Total Committed Funds')
     document_url = models.URLField(blank=True)
     
     def __unicode__(self):
-        return self.institution
-    
+        return self.institution.name
+
+    class Meta:
+        ordering = ('institution', 'year')
