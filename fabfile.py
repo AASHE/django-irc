@@ -1,5 +1,7 @@
 from __future__ import with_statement
+import os
 from fabric.api import *
+from fabric.colors import red, green
 from fabric.contrib.files import exists
 from fabric.context_managers import shell_env
 from contextlib import contextmanager as _contextmanager
@@ -40,6 +42,9 @@ def dev():
     env.django_settings = 'rc.settings.development'
     env.activate = 'source %s/env/bin/activate' % env.remote_path
     env.uwsgi_service_name = 'aashe-rc'
+    if os.environ.has_key('FABRIC_DEV_PASSWORD'):
+        env.password = os.environ['FABRIC_DEV_PASSWORD']
+    env.requirements_txt = 'requirements/dev.txt'
     
 def new():
     '''
@@ -62,6 +67,9 @@ def production():
     env.django_settings = 'rc.settings.production'
     env.activate = 'source %s/env/bin/activate' % env.remote_path
     env.uwsgi_service_name = 'aashe-rc'
+    if os.environ.has_key('FABRIC_PRODUCTION_PASSWORD'):
+        env.password = os.environ['FABRIC_PRODUCTION_PASSWORD']
+    env.requirements_txt = 'requirements/prod.txt'
 
 def deploy():
     '''
