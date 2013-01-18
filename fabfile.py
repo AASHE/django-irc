@@ -158,7 +158,7 @@ def config():
     with virtualenv():
         with cd(env.release_path):
             # enter new code location, activate virtualenv and collectstatic
-            run('python rc/manage.py collectstatic --settings=%s --noinput' %
+            run('python manage.py collectstatic --settings=%s --noinput' %
                 env.django_settings)
     update_symlinks()
 
@@ -167,7 +167,7 @@ def loadrc():
     Clear and load RC data.
     '''
     with virtualenv():
-        with cd("%s/current/rc" % env.remote_path):
+        with cd(env.release_path):
             run('python manage.py reset operations pae education policies programs --noinput --settings=%s' %
                 env.django_settings)
             run('python manage.py loadrc --settings=%s' %
