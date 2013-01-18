@@ -88,14 +88,14 @@ def policy_by_category_by_org_name_url(url_string, policy_type,
 urlpatterns = patterns('',
 
     policy_url(
-        r'^energy-efficient-appliance-procurement-policies',
+        r'^energy-efficient-appliance-procurement-policies$',
         policy_type='Appliance Procurement',
         page_title='Energy Efficient Appliance Procurement Policies',
         with_description=True,
         member_only=True),
 
     policy_by_country_by_org_name_url(
-        url_string=r'^campus-stormwater-policies-plans',
+        url_string=r'^campus-stormwater-policies-plans$',
         policy_type='Stormwater',
         page_title='Campus Stormwater Initiatives',
         opening_text="""
@@ -107,27 +107,27 @@ urlpatterns = patterns('',
             """,
         member_only=True),
 
-    policy_url(url_string=r'^energy-conservation-policies',
+    policy_url(url_string=r'^energy-conservation-policies$',
                policy_type='Energy Conservation',
                page_title='Campus Sustainable Energy Policies',
                bold_org_name=False,
                template_name='policies/energypolicy_list.html'),
 
     policy_url(
-        r'^campus-sustainable-procurement-policies',
+        r'^campus-sustainable-procurement-policies$',
         policy_type='General Procurement',
         with_description=True,
         page_title='Campus Sustainable Procurement Policies',
         member_only=True),
 
     policy_by_category_by_org_name_url(
-        r'^campus-sustainability-and-environmental-policies',
+        r'^campus-sustainability-and-environmental-policies$',
         policy_type='Sustainability',
         page_title='Campus Sustainability and Environmental Policies',
         member_only=True),
 
     policy_by_country_by_org_name_url(
-        url_string=r'^telecommuting-alternative-work',
+        url_string=r'^telecommuting-alternative-work$',
         policy_type='Telecommuting',
         page_title='Telecommuting Policies',
         opening_text="""This resource is a list of college and
@@ -137,7 +137,7 @@ urlpatterns = patterns('',
         member_only=True),
 
     policy_by_country_by_org_name_url(
-        url_string=r'^water-conservation-policies',
+        url_string=r'^water-conservation-policies$',
         policy_type='Water Conservation',
         page_title='Campus Water Conservation Policies',
         opening_text="""This resource lists campus water conservation
@@ -149,42 +149,42 @@ urlpatterns = patterns('',
         member_only=True),
 
     policy_url(
-        r'^campus-living-wage-policies',
+        r'^campus-living-wage-policies$',
         policy_type='Living Wage',
         with_description=True,
         page_title='Campus Living Wage Policies',
         member_only=True),
 
     policy_url(
-        r'^campus-anti-idling-policies',
+        r'^campus-anti-idling-policies$',
         policy_type='Anti-Idling',
         page_title='Campus Anti-Idling Policies',
         with_description=True,
         member_only=True),
 
     policy_url(
-        r'^paper-procurement-policies',
+        r'^paper-procurement-policies$',
         policy_type='Paper Procurement',
         page_title='Campus Sustainable Paper Procurement Policies',
         with_description=True,
         member_only=True),
 
     policy_url(
-        r'^integrated-pest-management-policies',
+        r'^integrated-pest-management-policies$',
         policy_type='Integrated Pest Management',
         page_title='Campus Integrated Pest Management Policies',
         table_list=True,
         member_only=True),
 
     policy_url(
-        r'^trademark-licensee-code-conduct',
+        r'^trademark-licensee-code-conduct$',
         policy_type='Licensee Code of Conduct',
         page_title='Campus Trademark Licensee Code of Conduct',
         table_list=True,
         member_only=True),
 
     policy_url(
-        r'^campus-recycling-and-waste-minimization-policies',
+        r'^campus-recycling-and-waste-minimization-policies$',
         policy_type='Recycling',
         page_title='Campus Recycling and Waste Minimization Policies',
         table_list=True,
@@ -193,7 +193,7 @@ urlpatterns = patterns('',
                         recycling.""",
         member_only=True),
 
-    url(r'^campus-fair-trade-practices-policies',
+    url(r'^campus-fair-trade-practices-policies$',
         view=ResourceItemListView.as_view(
             model=models.FairTradePolicy,
             queryset=models.FairTradePolicy.objects.published().order_by(
@@ -201,7 +201,7 @@ urlpatterns = patterns('',
         name='fair-trade',
         kwargs={'member_only': True, 'title': 'Campus Fair Trade Practices and Policies'}),
 
-    url(r'^socially-responsible-investment-policies',
+    url(r'^socially-responsible-investment-policies$',
         view=ResourceItemListView.as_view(
             model=models.ResponsibleInvestmentPolicy,
             queryset=models.ResponsibleInvestmentPolicy.objects.published().order_by(
@@ -209,7 +209,7 @@ urlpatterns = patterns('',
             name='responsible-investment',
             kwargs={'member_only': True, 'title': 'Socially Responsible Investment Policies'}),
 
-    url(r'^campus-building-guidelines-and-green-building-policies',
+    url(r'^campus-building-guidelines-and-green-building-policies$',
         view=ResourceItemListView.as_view(
             model=models.GreenBuildingPolicy,
             queryset=models.GreenBuildingPolicy.objects.published().order_by(

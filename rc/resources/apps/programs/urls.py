@@ -6,7 +6,7 @@ from rc.resources.apps.programs import models, views
 
 urlpatterns = patterns('',
 
-    url(r'^bicycle-share-programs',
+    url(r'^bicycle-share-programs$',
         ResourceItemListView.as_view(
             model=models.Program,
             queryset=models.Program.objects.published().filter(
@@ -19,7 +19,7 @@ urlpatterns = patterns('',
         kwargs={'member_only': True,
                 'title': 'Bicycle Sharing & Rental Programs'}),
 
-    url(r'^campus-composting-programs',
+    url(r'^campus-composting-programs$',
         ResourceItemListView.as_view(
             model=models.Program,
             queryset=models.Program.objects.published().filter(
@@ -29,7 +29,7 @@ urlpatterns = patterns('',
         name='campus-composting',
         kwargs={'member_only': True, 'title': 'Campus Composting Programs'}),
 
-    url(r'^campus-surplus-recycling',
+    url(r'^campus-surplus-recycling$',
         ResourceItemListView.as_view(
             model=models.Program,
             queryset=models.Program.objects.published().filter(
@@ -39,7 +39,7 @@ urlpatterns = patterns('',
         name='surplus-property-recycling',
         kwargs={'member_only': True, 'title': 'Campus Surplus Property Recycling Programs'}),
 
-    url(r'^e-waste-programs-policies-and-events',
+    url(r'^e-waste-programs-policies-and-events$',
         views.ElectronicWasteProgramPolicyAndEventListView.as_view(
             model=models.Program,
             template_name=('programs/electronic_waste_program_policy_'
@@ -47,7 +47,7 @@ urlpatterns = patterns('',
         name='electronic-waste',
         kwargs={'member_only': True, 'title': 'Campus Electronic Waste Programs, Policies, and Events'}),
 
-    url(r'^green-cleaning',
+    url(r'^green-cleaning$',
         views.GreenCleaningProgramAndPolicyListView.as_view(
             model=models.Program,
             template_name=('programs/green_cleaning_program_and_policy'
@@ -55,7 +55,7 @@ urlpatterns = patterns('',
         name='green-cleaning',
         kwargs={'member_only': True, 'title': 'Campus Green Cleaning Programs and Policies'}),
 
-    url(r'^green-office-programs',
+    url(r'^green-office-programs$',
         ResourceItemListView.as_view(
             model=models.Program,
             queryset=models.Program.objects.published().filter(
@@ -65,7 +65,7 @@ urlpatterns = patterns('',
         name='green-office',
         kwargs={'member_only': True, 'title': 'Campus Green Office Programs'}),
 
-    url(r'^peer-peer-sustainability-outreach-campaigns',
+    url(r'^peer-peer-sustainability-outreach-campaigns$',
         ResourceItemListView.as_view(
             model=models.Program,
             queryset=models.Program.objects.published().filter(

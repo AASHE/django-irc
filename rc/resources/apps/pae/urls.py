@@ -7,14 +7,14 @@ from rc.resources.apps.pae.views import StudentFeeListView
 
 urlpatterns = patterns('',
 
-    url(r'^alumni-sustainability-funds',
+    url(r'^alumni-sustainability-funds$',
         ResourceItemListView.as_view(
             model=models.AlumniFund,
             queryset=models.AlumniFund.objects.published().order_by('organization__name')),
         name='alumni-funds',
         kwargs={'member_only': True}),
 
-    url(r'^master-plans-incorporate-sustainability',
+    url(r'^master-plans-incorporate-sustainability$',
         ResourceItemListView.as_view(
             model=models.MasterPlan,
             queryset=models.MasterPlan.objects.published().order_by(
@@ -22,7 +22,7 @@ urlpatterns = patterns('',
         name='master-plans',
         kwargs={'member_only': True, 'title': 'Campus Master Plans that Incorporate Sustainability'}),
 
-    url(r'^campus-sustainability-assessment-tools',
+    url(r'^campus-sustainability-assessment-tools$',
         ResourceItemListView.as_view(
             model=models.AssessmentTool,
             queryset=models.AssessmentTool.objects.published().order_by(
@@ -31,14 +31,14 @@ urlpatterns = patterns('',
         kwargs={'member_only': True,
          'type_list': dict(models.AssessmentTool.CREATORS)}),
 
-    url(r'^campus-sustainability-blogs',
+    url(r'^campus-sustainability-blogs$',
         ResourceItemListView.as_view(
             model=models.SustainabilityBlog,
             queryset=models.SustainabilityBlog.objects.published().order_by(
                     'type', 'title')),
         name='sustainability-blogs'),
 
-    url(r'^campus-sustainability-plans',
+    url(r'^campus-sustainability-plans$',
         ResourceItemListView.as_view(
             model=models.SustainabilityPlan,
             queryset=models.SustainabilityPlan.objects.published().order_by(
@@ -55,7 +55,7 @@ urlpatterns = patterns('',
     #     kwargs={'title': 'Campus Sustainability Revolving Loan Funds',
     #             'member_only': True}),
 
-    url(r'^mandatory-student-fees-renewable-energy-and-energy-efficiency',
+    url(r'^mandatory-student-fees-renewable-energy-and-energy-efficiency$',
         StudentFeeListView.as_view(
             model=models.StudentFeesDescription,
             queryset=models.StudentFee.objects.published().order_by(

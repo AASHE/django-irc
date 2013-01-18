@@ -11,7 +11,6 @@ class RevolvingLoanFund(models.Model):
     billion_dollar = models.BooleanField(
         verbose_name='Billion Dollar Green Challenge Participant?')
     fund_name = models.CharField(max_length=120,
-                                 required=True,
                                  verbose_name='Name of Fund')
     slug = models.SlugField(blank=True, editable=False)
     description = models.TextField(blank=True)

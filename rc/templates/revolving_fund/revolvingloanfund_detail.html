@@ -1,0 +1,16 @@
+{% extends "revolving_fund/base.html" %}
+
+{% block breadcrumb %}
+<ul class="breadcrumb"><li class="first"><a href="/">Home</a></li>
+  <li><a href="{% url resource-center-index %}">Resource Center</a></li>
+  <li><a href="{% url revolving-loan-index %}">Revolving Loan Funds Database</a></li>
+  <li class="last">{{ object.fund_name }}</li>
+</ul>
+{% endblock breadcrumb %}
+
+{% block body %}
+<h1>{{ object.fund_name }}</h1>
+
+<p>The {{object.fund_name }} at {{ object.institution.name }} was established in {{ object.year }} and has <strong>${{ object.total_funds }}</strong> total funds committed as of {{ object.total_funds_date }}.</p>
+
+{% endblock %}
