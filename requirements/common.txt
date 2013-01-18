@@ -10,3 +10,4 @@ pyPdf
 requests
 -e git+https://github.com/AASHE/django-linkcheck#egg=django-linkcheck
 MySQL-python
+uwsgi
