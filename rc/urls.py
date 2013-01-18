@@ -4,7 +4,8 @@ from django.contrib import admin
 admin.autodiscover()
 
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     (r'^admin/linkcheck/', include('linkcheck.urls')),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
@@ -14,5 +15,6 @@ urlpatterns = patterns('',
     (r'^', include('rc.resources.apps.pae.urls')),
     (r'^', include('rc.resources.apps.policies.urls')),
     (r'^', include('rc.resources.apps.programs.urls')),
-    (r'^', include('rc.resources.apps.officers.urls'))
+    (r'^', include('rc.resources.apps.officers.urls')),
+    (r'^', include('rc.resources.apps.revolving_fund.urls'))
 )
