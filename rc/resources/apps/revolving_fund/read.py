@@ -1,4 +1,5 @@
 import os
+from datetime import date
 from django.conf import settings
 import xlrd
 from models import RevolvingLoanFund
@@ -27,6 +28,7 @@ def process_row(row):
         fund_name=fund_name,
         year=year,
         total_funds=funds,
+        total_funds_date=date.today(),
         document_url=url)
 
 def process_sheet(sheet):
