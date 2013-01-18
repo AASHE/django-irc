@@ -151,6 +151,7 @@ INSTALLED_APPS = (
     'rc.resources.apps.operations',
     'rc.resources.apps.pae',
     'rc.resources.apps.scrape',
+    'rc.resources.apps.revolving_fund',
     )
 
 TEMPLATE_CONTEXT_PROCESSORS = (

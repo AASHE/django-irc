@@ -45,6 +45,7 @@ def dev():
     if os.environ.has_key('FABRIC_DEV_PASSWORD'):
         env.password = os.environ['FABRIC_DEV_PASSWORD']
     env.requirements_txt = 'requirements/dev.txt'
+    env.release_path = '%s/current' % env.remote_path    
     
 def new():
     '''
@@ -56,6 +57,7 @@ def new():
     env.django_settings = 'rc.settings.new_settings'
     env.activate = 'source %s/env/bin/activate' % env.remote_path
     env.uwsgi_service_name = 'aashe-rc'
+    env.release_path = '%s/current' % env.remote_path
     
 def production():
     '''
@@ -70,6 +72,9 @@ def production():
     if os.environ.has_key('FABRIC_PRODUCTION_PASSWORD'):
         env.password = os.environ['FABRIC_PRODUCTION_PASSWORD']
     env.requirements_txt = 'requirements/prod.txt'
+    # set a sane default for release_path so that Fabric tasks like
+    # syncdb, reset, etc. still work outside of deployment scenario
+    env.release_path = '%s/current' % env.remote_path
 
 def deploy():
     '''
@@ -184,9 +189,15 @@ def syncdb():
     Run "manage.py syncdb".
     '''
     with virtualenv():
-        with cd("%s/current/rc" % env.remote_path):
+        with cd(env.release_path):
             run('python manage.py syncdb --noinput --settings=%s' %
                 env.django_settings)
+
+def reset(app_name):
+    with virtualenv():
+        with cd(env.release_path):
+            run('python manage.py reset %s --noinput --settings=%s' %
+                (app_name, env.django_settings))
 
 def findlinks():
     '''
