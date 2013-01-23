@@ -2,15 +2,22 @@ from django.conf.urls.defaults import patterns, url
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from rc.resources.apps.revolving_fund.models import RevolvingLoanFund
+from views import FundHomepage, FundByState
 
 
 urlpatterns = patterns(
     '',
 
-    url(r'^revolving-loan-funds/$', ListView.as_view(
+    url(r'^revolving-loan-funds/$', FundHomepage.as_view(
             model=RevolvingLoanFund),
-        name='revolving-loan-index'),
+        name='revolving-fund-index'),
+    url(r'^revolving-loan-funds/all/$', ListView.as_view(
+            model=RevolvingLoanFund),
+        name='revolving-fund-all'),
+    url(r'^revolving-loan-funds/state/(?P<state>[A-Z]+)/$',
+        FundByState.as_view(),
+        name='revolving-fund-state'),
     url(r'^revolving-loan-funds/(?P<slug>[-\w]+)/$', DetailView.as_view(
             model=RevolvingLoanFund),
-        name='revolving-loan-detail'),
+        name='revolving-fund-detail'),
     )

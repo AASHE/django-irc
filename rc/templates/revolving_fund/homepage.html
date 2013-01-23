@@ -1,28 +1,25 @@
 {% extends "revolving_fund/base.html" %}
 
 {% block body %}
-<h1>Revolving Loans Fund Database</h1>
+<h1>Revolving Loan Funds Database</h1>
 
-<table>
-<thead>
-  <tr>
-    <th>Institution</th>
-    <th>Fund Name</th>
-    <th>Committed Funds</th>
-  </tr>
-</thead>
+<p>AASHE's Revolving Loans Fund database contains information on <strong>{{ total_funds }}</strong> revolving loan funds at <strong>{{ total_institutions }}</strong> institutions containing <strong>${{ total_amount }}</strong>.
 
-<tbody>
-  {% for object in object_list %}
-  <tr>
-    <td><a href="{% url revolving-fund-detail slug=object.slug %}">{{ object.institution.name }}</a></td>
-    <td>{{ object.fund_name }}</td>
-    <td>${{ object.total_funds }}</td>
-  </tr>
-  {% endfor %}
-</tbody>
-</table>
-
+<p>The database contains information on <strong>{{ billion_participants }}</strong> participants in the <a href="http://greenbillion.org/about/">Billion Dollar Green Challenge</a>, whose funds total <strong>${{ billion_amount }}</strong>.
+<hr/>
+<h3>Browse the Database</h3>
+<ul class="browse-menu">
+  <li><a href="{% url revolving-fund-all %}">All Funds</a></li>
+  <li>By State/Province:
+    <ul>
+      {% for state in states %}
+      <li><a href="{% url revolving-fund-state state=state %}">{{ state }}</a></li>
+      {% endfor %}
+    </ul>
+  </li>
+  <li><a href="">By Region</a></li>
+  <li><a href="">Billion Dollar Green Challenge Participants</a></li>
+</ul>
 {% endblock body %}
 
 {% block right-side %}

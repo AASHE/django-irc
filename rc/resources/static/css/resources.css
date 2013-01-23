@@ -1,0 +1,27 @@
+
+/* Globals */
+body {
+    text-align: left;
+}
+
+/* Divs & Layout */
+#about-revolving-loans {
+    margin-top: 2em;
+}
+
+#admin-controls { 
+    margin-top: 5px;
+}
+
+#content-footer {
+    border-top: 1px solid #ddd;
+    margin-top: 2em;
+}
+
+/* Lists */
+ul.browse-menu li ul li {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    display: inline;
+}
