@@ -5,8 +5,9 @@ body {
 }
 
 /* Divs & Layout */
-#about-revolving-loans {
+#about-revolving-loans, .right-nav-menu {
     margin-top: 2em;
+    min-height: 300px;
 }
 
 #admin-controls { 

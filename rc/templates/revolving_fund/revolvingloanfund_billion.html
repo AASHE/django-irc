@@ -1,11 +1,9 @@
 {% extends "revolving_fund/base.html" %}
 
 {% block body %}
-<h1>All Revolving Loan Funds</h1>
+<h1>Billion Dollar Green Challenge Participants</h1>
 
-<p>AASHE's Revolving Loans Fund database contains information on <strong>{{ total_funds }}</strong> revolving loan funds at <strong>{{ total_institutions }}</strong> institutions containing <strong>${{ total_amount }}</strong>.
-
-<p>The database contains information on <strong>{{ billion_participants }}</strong> participants in the <a href="http://greenbillion.org/about/">Billion Dollar Green Challenge</a>, whose funds total <strong>${{ billion_amount }}</strong>.
+<p>The database contains <strong>{{ total_funds }}</strong> revolving loan funds at <strong>{{ total_institutions }}</strong> instituations participating in the <a href="http://greenbillion.org/about/">Billion Dollar Green Challenge</a>. These funds total <strong>${{ total_amount }}</strong>.
 <hr/>
 <table>
 <thead>
