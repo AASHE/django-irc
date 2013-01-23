@@ -1,6 +1,8 @@
 {% extends "revolving_fund/base.html" %}
 {% load markup %}
 
+{% block title %}{{ object.fund_name }} at {{ object.institution.name }}{% endblock %}
+
 {% block breadcrumb %}
 <ul class="breadcrumb"><li class="first"><a href="/">Home</a></li>
   <li><a href="{% url resource-center-index %}">Resource Center</a></li>
@@ -12,8 +14,18 @@
 {% block body %}
 <h1>{{ object.fund_name }}</h1>
 
-{{ object.description|default:"No description available."|markdown }}
+<ul>
+  <li>{{ object.institution.name }}</li>
+  <li>Fund size: ${{ object.total_funds }}</li>
+  <li>Established: {{ object.year }}</li>
+  {% comment %}
+  {% if object.document_url %}
+  <li><a href="{{ object.document_url }}"><i class="icon-share"></i> Documentation Link</a></li>
+  {% endif %}
+  {% endcomment %}
+</ul>
 
+{{ object.description|default:"No description available."|markdown }}
 
 
 {% endblock %}
