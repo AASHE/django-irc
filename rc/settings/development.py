@@ -12,4 +12,5 @@ DATABASES = {
         }
     }
 
-STATIC_ROOT = os.path.join(SITE_ROOT, '../static')
+STATIC_ROOT = os.path.join(SITE_ROOT, '../../static')
+STATIC_URL = 'http://www.aashedev.org/aashe-rc/static/'

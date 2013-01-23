@@ -216,7 +216,7 @@ def findlinks():
     Run "manage.py findlinks".
     '''
     with virtualenv():
-        with cd("%s/current/rc" % env.remote_path):
+        with cd(env.release_path):
             run('python manage.py findlinks --settings=%s' %
                 env.django_settings)
 
@@ -225,16 +225,25 @@ def checklinks():
     Run "manage.py checklinks".
     '''
     with virtualenv():
-        with cd("%s/current/rc" % env.remote_path):
+        with cd(env.release_path):
             run('python manage.py checklinks --settings=%s' %
                 env.django_settings)
+
+def collectstatic():
+    '''
+    Run "manage.py collectstatic".
+    '''
+    with virtualenv():
+        with cd(env.release_path):
+            run('python manage.py collectstatic --settings=%s --noinput' %
+                env.django_settings)            
 
 def loadcms():
     '''
     Clear and load cms data.
     '''
     with virtualenv():
-        with cd("%s/current/rc" % env.remote_path):
+        with cd(env.release_path):
             run('python manage.py reset cms treemenus --noinput --settings=%s' %
                 env.django_settings)
             run('python manage.py loaddata cms/fixtures/menu_data.json --settings=%s' %
