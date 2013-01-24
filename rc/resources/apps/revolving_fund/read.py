@@ -21,7 +21,8 @@ def process_org(name, state):
 def process_row(row):
     name, state = row[0], row[3]
     org = process_org(name, state)
-    bdc, fund_name, year, funds, url = row[4], row[5], row[6], row[7], row[8]
+    bdc, fund_name, year, funds, url = row[4], row[5], row[6], row[7], row[10]
+    print url
     fund = RevolvingLoanFund.objects.create(
         institution=org,
         billion_dollar=bdc,

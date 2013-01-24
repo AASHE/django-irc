@@ -1,6 +1,7 @@
 from datetime import datetime
 from django.db.models import Sum
 from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 from models import RevolvingLoanFund
 
 
@@ -20,6 +21,18 @@ class FundListView(ListView):
         context['states'] = RevolvingLoanFund.objects.values_list('institution__state', flat=True).distinct().order_by('institution__state')        
         return context    
 
+class FundDetailView(DetailView):
+    def get_context_data(self, **kwargs):
+        context = super(FundDetailView, self).get_context_data(**kwargs)
+        qs = RevolvingLoanFund.objects.published()
+        context['total_funds'] = qs.count()
+        context['total_institutions'] = qs.values_list('institution__id', flat=True).distinct().count()
+        context['total_amount'] = qs.aggregate(Sum('total_funds'))['total_funds__sum']
+        context['billion_participants'] = qs.filter(billion_dollar=True).values_list('institution__id').distinct().count()
+        context['billion_amount'] = qs.filter(billion_dollar=True).aggregate(Sum('total_funds'))['total_funds__sum']
+        context['states'] = RevolvingLoanFund.objects.values_list('institution__state', flat=True).distinct().order_by('institution__state')        
+        return context    
+    
 class FundHomepage(FundListView):
     template_name = 'revolving_fund/homepage.html'
 

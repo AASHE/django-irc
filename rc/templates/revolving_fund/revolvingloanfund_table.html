@@ -1,0 +1,21 @@
+<table class="funds">
+<thead>
+  <tr>
+    <th>Institution</th>
+    <th>Fund Name</th>
+    <th>Committed Funds</th>
+    <th>Year Established</th>
+  </tr>
+</thead>
+
+<tbody>
+  {% for object in object_list %}
+  <tr>
+    <td><a href="{% url revolving-fund-detail slug=object.slug %}">{{ object.institution.name }}</a></td>
+    <td>{{ object.fund_name }}</td>
+    <td>${{ object.total_funds }}</td>
+    <td>{{ object.year|stringformat:"s" }}</td>
+  </tr>
+  {% endfor %}
+</tbody>
+</table>

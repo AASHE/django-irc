@@ -1,6 +1,4 @@
 from django.conf.urls.defaults import patterns, url
-from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
 from rc.resources.apps.revolving_fund.models import RevolvingLoanFund
 import views
 
@@ -38,7 +36,7 @@ urlpatterns = patterns(
     url(r'^revolving-loan-funds/member/$',
         views.FundByMember.as_view(),
         name='revolving-fund-member'),    
-    url(r'^revolving-loan-funds/(?P<slug>[-\w]+)/$', DetailView.as_view(
+    url(r'^revolving-loan-funds/(?P<slug>[-\w]+)/$', views.FundDetailView.as_view(
             model=RevolvingLoanFund),
         name='revolving-fund-detail'),
     )
