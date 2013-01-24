@@ -26,6 +26,7 @@ class RevolvingLoanFund(models.Model):
     published = models.BooleanField(default=False)
     pub_date = models.DateField(blank=True, null=True)
     last_updated = models.DateTimeField(auto_now=True)
+    objects = RevolvingLoanFundManager()
     
     def __unicode__(self):
         return self.institution.name
