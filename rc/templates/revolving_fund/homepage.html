@@ -5,24 +5,37 @@
 
 <p>AASHE's Revolving Loans Fund database contains information on <strong>{{ total_funds }}</strong> revolving loan funds at <strong>{{ total_institutions }}</strong> institutions containing <strong>${{ total_amount }}</strong>.
 
-<p>The database contains information on <strong>{{ billion_participants }}</strong> participants in the <a href="http://greenbillion.org/about/">Billion Dollar Green Challenge</a>, whose funds total <strong>${{ billion_amount }}</strong>.
-<hr/>
-<h3>Browse the Database</h3>
-<ul class="browse-menu">
-  <li><a href="{% url revolving-fund-all %}">All Funds</a></li>
-  <li>By State/Province:
-    <ul>
-      {% for state in states %}
-      <li><a href="{% url revolving-fund-state state=state %}">{{ state }}</a></li>
-      {% endfor %}
-    </ul>
-  </li>
-  <li><a href="">By Region</a></li>
-  <li><a href="{% url revolving-fund-billion %}">Billion Dollar Green Challenge Participants</a></li>
-</ul>
-{% endblock body %}
+<p>The database contains information on <strong>{{ billion_participants }}</strong> institutions participating in the <a href="http://greenbillion.org/about/">Billion Dollar Green Challenge</a>, whose funds total <strong>${{ billion_amount }}</strong>.
 
-{% block right-side %}
+<div class="well">
+  <h3>Browse</h3>
+  <div class="row">
+    <div class="span3">
+      <ul class="browse-menu">
+        <li><a href="{% url revolving-fund-all %}">All Funds</a></li>
+        <li><a href="{% url revolving-fund-state state=states.0 %}">By State/Province</a></li>
+        <li><a href="{% url revolving-fund-region region='northeast' %}">By U.S. Region</a></li>
+        <li><a href="{% url revolving-fund-billion %}">Billion Dollar Green Challenge Participants</a></li>
+      </ul>
+    </div><!-- end .span3 -->
+    <div class="span3">
+      <ul class="browse-menu">
+        <li><a href="{% url revolving-fund-year year='2011' %}">Year Established</a></li>
+        <li><a href="{% url revolving-fund-million %}">Funds over $1 million</a></li>
+        <li><a href="{% url revolving-fund-member %}">AASHE Members</a></li>
+      </ul>
+    </div><!-- end .span3 -->
+  </div><!-- end .row -->
+
+  <h3>Search</h3>
+  <form class="home-search">
+    <fieldset>
+      <input type="text" placeholder="Search all funds..." />
+      <button type="submit" class="btn">Search</button>
+    </fieldset>
+  </form>
+</div>
+
 <div id="about-revolving-loans">
   <h3>About Revolving Loans</h3>
   <p>The high initial cost of many sustainability projects can often deter campuses from implementing them, despite the fact that such projects often have long-term cost savings. A campus sustainability revolving loan fund helps overcome this challenge by providing zero or low interest loans to fund money-saving sustainability projects.</p>
@@ -33,4 +46,7 @@
 
   <p>For more on setting up revolving loan funds, see the AASHE Blog article, <a href="http://www.aashe.org/blog/guest-blogger-revolve-or-not-revolve">"To Revolve or Not to Revolve."</a></p>
 </div>
+{% endblock body %}
+
+{% block right-side %}
 {% endblock right-side %}

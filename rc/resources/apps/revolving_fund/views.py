@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db.models import Sum
 from django.views.generic.list import ListView
 from models import RevolvingLoanFund
@@ -17,11 +18,15 @@ class FundListView(ListView):
         context['billion_participants'] = qs.filter(billion_dollar=True).values_list('institution__id').distinct().count()
         context['billion_amount'] = qs.filter(billion_dollar=True).aggregate(Sum('total_funds'))['total_funds__sum']
         context['states'] = RevolvingLoanFund.objects.values_list('institution__state', flat=True).distinct().order_by('institution__state')        
-        return context
-    
+        return context    
 
 class FundHomepage(FundListView):
     template_name = 'revolving_fund/homepage.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(FundHomepage, self).get_context_data(**kwargs)
+        context['current_year'] = datetime.now().year
+        return context
     
 class FundByState(FundListView):
     template_name = 'revolving_fund/revolvingloanfund_state.html'
@@ -33,3 +38,35 @@ class FundByState(FundListView):
         context = super(FundByState, self).get_context_data(**kwargs)
         context['state'] = self.kwargs['state']
         return context
+
+class FundByYear(FundListView):
+    template_name = 'revolving_fund/revolvingloanfund_year.html'
+    
+class FundByRegion(FundListView):
+    # regions based on U.S. Census Bureau-designated areas
+    NORTHEAST = ('ME', 'NH', 'VT', 'MA', 'RI', 'CT', 'NY', 'PA', 'NJ')
+    MIDWEST = ('WI', 'MI', 'IL', 'IN', 'OH', 'MO', 'ND', 'SD', 'NB', 'KS',
+               'MN', 'IA')
+    SOUTH = ('DE', 'MD', 'DC', 'VA', 'WV', 'NC', 'SC', 'GA', 'FL', 'KY', 'TN',
+             'MS', 'AL', 'OK', 'TX', 'AK', 'LA')
+    WEST = ('ID', 'MT', 'WY', 'NV', 'UT', 'CO', 'AZ', 'NM', 'AK', 'WA', 'OR',
+            'CA', 'HI')
+    REGIONS_MAP = {'northeast': {'title': 'Northeastern U.S.', 'states': NORTHEAST},
+                   'midwest': {'title': 'Midwestern U.S.', 'states': MIDWEST},
+                   'south': {'title': 'Southern U.S.', 'states': SOUTH},
+                   'west': {'title': 'Western U.S.', 'states': WEST}}
+    
+    template_name = 'revolving_fund/revolvingloanfund_region.html'
+
+    def get_queryset(self):
+        state_list = self.REGIONS_MAP.get(self.kwargs['region'])['states']
+        return self.model._default_manager.filter(institution__state__in=state_list)
+
+    def get_context_data(self, **kwargs):
+        context = super(FundByRegion, self).get_context_data(**kwargs)
+        context['region'] = self.REGIONS_MAP.get(self.kwargs['region'])['title']
+        context['regions'] = self.REGIONS_MAP.items()
+        return context
+
+class FundByMember(FundListView):
+    template_name = 'revolving_fund/revolvingloanfund_member.html'
