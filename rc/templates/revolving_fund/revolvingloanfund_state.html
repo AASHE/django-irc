@@ -18,25 +18,7 @@
 
 <p>The database contains <strong>{{ total_funds }}</strong> revolving loan funds in <strong>{{ state|upper|expand_state_abbrev }}</strong> with a total value of <strong>${{ total_amount }}</strong>.
 
-<table class="funds">
-<thead>
-  <tr>
-    <th>Institution</th>
-    <th>Fund Name</th>
-    <th>Committed Funds</th>
-  </tr>
-</thead>
-
-<tbody>
-  {% for object in object_list %}
-  <tr>
-    <td><a href="{% url revolving-fund-detail slug=object.slug %}">{{ object.institution.name }}</a></td>
-    <td>{{ object.fund_name }}</td>
-    <td>${{ object.total_funds }}</td>
-  </tr>
-  {% endfor %}
-</tbody>
-</table>
+{% include "revolving_fund/revolvingloanfund_table.html" %}
 
 {% endblock body %}
 

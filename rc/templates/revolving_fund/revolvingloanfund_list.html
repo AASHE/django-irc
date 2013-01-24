@@ -14,26 +14,8 @@
 <p>AASHE's Revolving Loans Fund database contains information on <strong>{{ total_funds }}</strong> revolving loan funds at <strong>{{ total_institutions }}</strong> institutions containing <strong>${{ total_amount }}</strong>.
 
 <p>The database contains information on <strong>{{ billion_participants }}</strong> institutions participating in the <a href="http://greenbillion.org/about/">Billion Dollar Green Challenge</a>, whose funds total <strong>${{ billion_amount }}</strong>.
-<hr/>
-<table class="funds">
-<thead>
-  <tr>
-    <th>Institution</th>
-    <th>Fund Name</th>
-    <th>Committed Funds</th>
-  </tr>
-</thead>
 
-<tbody>
-  {% for object in object_list %}
-  <tr>
-    <td><a href="{% url revolving-fund-detail slug=object.slug %}">{{ object.institution.name }}</a></td>
-    <td>{{ object.fund_name }}</td>
-    <td>${{ object.total_funds }}</td>
-  </tr>
-  {% endfor %}
-</tbody>
-</table>
+{% include "revolving_fund/revolvingloanfund_table.html" %}
 
 {% endblock body %}
 
