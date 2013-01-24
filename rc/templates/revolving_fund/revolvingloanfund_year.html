@@ -1,0 +1,27 @@
+{% extends "revolving_fund/base.html" %}
+{% load state_utils %}
+
+{% block breadcrumb %}
+<ul class="breadcrumb"><li class="first"><a href="/">Home</a></li>
+  <li><a href="{% url resource-center-index %}">Resource Center</a></li>
+  <li><a href="{% url revolving-fund-index %}">Revolving Loan Funds Database</a></li>
+  <li>Year Established</li>
+  <li class="last">{{ year }}</li>
+</ul>
+{% endblock breadcrumb %}
+
+{% block body %}
+<h1>Revolving Loan Funds Established in {{ year }}</h1>
+<div class="well well-small">
+  <p>Years: {% for y in years %}<a href="{% url revolving-fund-year year=y %}">{{ y|stringformat:"s" }}</a> {% endfor %}</p>
+</div>
+
+<p>The database contains <strong>{{ total_funds }}</strong> revolving loan funds that were established in <strong>{{ year }}</strong> with a total value of <strong>${{ total_amount }}</strong>.
+
+{% include "revolving_fund/revolvingloanfund_table.html" %}
+
+{% endblock body %}
+
+{% block right-side %}
+{% include "revolving_fund/right_side_nav.html" %}
+{% endblock right-side %}
