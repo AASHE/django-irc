@@ -13,7 +13,7 @@ urlpatterns = patterns(
             queryset=RevolvingLoanFund.objects.published()),
         name='revolving-fund-all'),
     url(r'^revolving-loan-funds/year/(?P<year>\d{4})/$',
-        views.FundByYear.as_view(),
+        views.FundByYear.as_view(model=RevolvingLoanFund),
         name='revolving-fund-year'),
     url(r'^revolving-loan-funds/1-million/$',
         views.FundListView.as_view(
@@ -22,8 +22,7 @@ urlpatterns = patterns(
                 total_funds__gte=1000000)),
         name='revolving-fund-million'),
     url(r'^revolving-loan-funds/region/(?P<region>[\w-]+)/$',
-        views.FundByRegion.as_view(
-            model=RevolvingLoanFund),
+        views.FundByRegion.as_view(),
         name='revolving-fund-region'),
     url(r'^revolving-loan-funds/billion-dollar-green-challenge/$',
         views.FundListView.as_view(

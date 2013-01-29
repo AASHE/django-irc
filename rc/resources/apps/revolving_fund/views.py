@@ -43,6 +43,7 @@ class FundHomepage(FundListView):
     
 class FundByState(FundListView):
     template_name = 'revolving_fund/revolvingloanfund_state.html'
+    model = RevolvingLoanFund
     
     def get_queryset(self):
         return self.model._default_manager.filter(
@@ -81,6 +82,7 @@ class FundByRegion(FundListView):
                    'west': {'title': 'Western U.S.', 'states': WEST}}
     
     template_name = 'revolving_fund/revolvingloanfund_region.html'
+    model = RevolvingLoanFund
 
     def get_queryset(self):
         state_list = self.REGIONS_MAP.get(self.kwargs['region'])['states']
@@ -94,6 +96,7 @@ class FundByRegion(FundListView):
 
 class FundByMember(FundListView):
     template_name = 'revolving_fund/revolvingloanfund_member.html'
+    model = RevolvingLoanFund
 
     def get_queryset(self):
         return self.model._default_manager.filter(institution__is_member=True)

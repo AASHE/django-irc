@@ -4,6 +4,14 @@ body {
     text-align: left;
 }
 
+/* Typography */
+.fund-detail h2 {
+    color: #003922;
+    margin-top: 1em;
+    padding: 0;
+    line-height: 1em;
+}
+
 /* Divs & Layout */
 .right-nav-menu {
     margin-top: 2em;
@@ -41,3 +49,68 @@ table.funds {
 form.home-search button[type="submit"] {
     vertical-align: top;
 }
+
+/* * * * * * * * * * * * * * * * * * * * * 
+ *
+ * jQuery Data Tables Styles 
+ *
+ */
+table#revolving-loan thead th {
+        padding: 3px 18px 3px 10px;
+        border-bottom: 1px solid black;
+        font-weight: bold;
+        cursor: pointer;
+        * cursor: hand;
+}
+
+/* Sorting for DataTables */
+.sorting_asc {
+        background: #cedde4 url('../img/sort_arrow_up_active.png') no-repeat right center;
+}
+
+.sorting_desc {
+        background: #cedde4 url('../img/sort_arrow_down_active.png') no-repeat right center;
+}
+
+.sorting {
+        background: #cedde4 url('../img/sort_arrow_both.png') no-repeat right center;
+}
+
+.sorting:hover, .sorting_asc:hover, .sorting_desc:hover {
+    background-color: #e9eff2;
+}
+
+.sorting_asc_disabled {
+        background: #cedde4 url('../img/sort_arrow_up.png') no-repeat right center;
+}
+
+.sorting_desc_disabled {
+        background: #cedde4 url('../img/sort_arrow_down.png') no-repeat right center;
+}
+
+/* Pagination for DataTables */
+.paginate_disabled_previous, .paginate_enabled_previous, .paginate_disabled_next, .paginate_enabled_next {
+        height: 19px;
+        width: 19px;
+        margin-left: 3px;
+        float: left;
+}
+
+.paginate_disabled_previous {
+        background-image: url('../img/back_disabled.jpg');
+}
+
+.paginate_enabled_previous {
+        background-image: url('../img/back_enabled.jpg');
+}
+
+.paginate_disabled_next {
+        background-image: url('../img/forward_disabled.jpg');
+}
+
+.paginate_enabled_next {
+        background-image: url('../img/forward_enabled.jpg');
+}
+/* * * * * * * * * * * * * * * * * * * * * 
+ * END jQuery DATATABLES STYLES 
+ */

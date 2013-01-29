@@ -12,22 +12,42 @@
 {% endblock breadcrumb %}
 
 {% block body %}
-<h1>{{ object.fund_name }}</h1>
+<div class="fund-detail">
+  <h2>{{ object.institution.name }}</h2>
+  <h1>{{ object.fund_name }}</h1>
 
-<ul>
-  <li>{{ object.institution.name }}</li>
-  <li>Fund size: ${{ object.total_funds }}</li>
-  <li>Established: {{ object.year }}</li>
-  {% comment %}
-  {% if object.document_url %}
-  <li><a href="{{ object.document_url }}"><i class="icon-share"></i> Documentation Link</a></li>
+  {% if object.billion_dollar %}
+  <div class="well">
+    <ul class="media-list">
+      <li class="media">
+        <h4 class="media-heading">Billion Dollar Green Challenge</h4>
+        <p>{{ object.institution.name }} is participating in the Billion Dollar Green Challenge. 
+          <a class="pull-right" href="http://www.greenbillion.org/">
+            <img class="media-object" data-src="{{ STATIC_URL }}img/logo_bgdc_140.png">
+          </a>
+      </li>
+    </ul>
+  </div>
   {% endif %}
-  {% endcomment %}
-</ul>
+  
+  <dl class="dl-horizontal">
+    <dt>Fund size:</dt>
+    <dd>${{ object.total_funds }}</dd>
+    <dt>Established:</dt>
+    <dd>{{ object.year|stringformat:"s" }}</dd>
+    {% if object.document_url %}
+    <dt>Link:</dt>
+    <dd><i class="icon-share"></i> <a target="_blank" href="{{ object.document_url }}"><i class="icon-share"></i> Documentation Link</a></dd>
+    {% endif %}
+    <dt>Description:</dt>
+    <dd>{{ object.description|default:"No description available."|markdown }}</dd>
+  </dl>
 
-{{ object.description|default:"No description available."|markdown }}
+    {% comment %}
+    {% endcomment %}
+  </ul>
 
-
+</div>
 {% endblock %}
 
 {% block right-side %}
