@@ -1,7 +1,12 @@
 from django.conf.urls.defaults import patterns, url
+from haystack.forms import ModelSearchForm, SearchForm
+from haystack.query import SearchQuerySet
+from haystack.views import SearchView, search_view_factory
 from rc.resources.apps.revolving_fund.models import RevolvingLoanFund
-import views
+from rc.resources.apps.revolving_fund import views
 
+
+sqs = SearchQuerySet().models(RevolvingLoanFund)
 
 urlpatterns = patterns(
     '',
@@ -12,6 +17,12 @@ urlpatterns = patterns(
     url(r'^revolving-loan-funds/all/$', views.FundListView.as_view(
             queryset=RevolvingLoanFund.objects.published()),
         name='revolving-fund-all'),
+    url(r'^revolving-loan-funds/search/$', search_view_factory(
+            view_class=views.FundSearchView,
+            template='revolving_fund/revolvingloanfund_search.html',
+            searchqueryset=sqs,
+            form_class=SearchForm),
+        name='revolving-fund-search'),    
     url(r'^revolving-loan-funds/year/(?P<year>\d{4})/$',
         views.FundByYear.as_view(model=RevolvingLoanFund),
         name='revolving-fund-year'),

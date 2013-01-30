@@ -143,6 +143,7 @@ INSTALLED_APPS = (
     'aashe.aasheauth',
     'treemenus',
     'linkcheck',
+    'haystack',
     'rc.cms',
     'rc.resources',
     'rc.resources.apps.officers',
@@ -200,3 +201,8 @@ AASHE_DRUPAL_KEY = "15cf217790e3d45199aeb862f73ab2ff"
 AASHE_DRUPAL_KEY_DOMAIN = "acupcc.aashe.org"
 AASHE_DRUPAL_COOKIE_SESSION = "SESS0e65dd9c18edb0e7e84759989a5ca2d3"
 AASHE_DRUPAL_COOKIE_DOMAIN = ".aashe.org"
+
+# Haystack
+HAYSTACK_SITECONF = 'rc.search_sites'
+HAYSTACK_SEARCH_ENGINE = 'whoosh'
+HAYSTACK_WHOOSH_PATH = os.path.join(SITE_ROOT, 'whoosh_index')

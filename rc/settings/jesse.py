@@ -1,5 +1,6 @@
 from global_settings import *
 
+INTERNAL_IPS = ('127.0.0.1',)
 
 DATABASES = {
     'default': {
@@ -13,6 +14,10 @@ DATABASES = {
     }
 
 STATIC_ROOT = os.path.join(SITE_ROOT, '../static')
+
+MIDDLEWARE_CLASSES += (
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    )
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -32,6 +37,7 @@ INSTALLED_APPS = (
     'aashe.aasheauth',
     'treemenus',
     'linkcheck',
+    'haystack',
     'rc.cms',
     'rc.resources',
     'rc.resources.apps.officers',
@@ -42,4 +48,5 @@ INSTALLED_APPS = (
     'rc.resources.apps.pae',
     'rc.resources.apps.scrape',
     'rc.resources.apps.revolving_fund',
+    'debug_toolbar'
     )

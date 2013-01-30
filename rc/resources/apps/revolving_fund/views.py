@@ -2,6 +2,7 @@ from datetime import datetime
 from django.db.models import Sum
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from haystack.views import SearchView
 from models import RevolvingLoanFund
 
 
@@ -100,3 +101,15 @@ class FundByMember(FundListView):
 
     def get_queryset(self):
         return self.model._default_manager.filter(institution__is_member=True)
+
+class FundSearchView(SearchView):
+    def extra_context(self):
+        extra = super(FundSearchView, self).extra_context()
+        qs = RevolvingLoanFund.objects.published()
+        extra['total_funds'] = qs.count()
+        extra['total_institutions'] = qs.values_list('institution__id', flat=True).distinct().count()
+        extra['total_amount'] = qs.aggregate(Sum('total_funds'))['total_funds__sum']
+        extra['billion_participants'] = qs.filter(billion_dollar=True).values_list('institution__id').distinct().count()
+        extra['billion_amount'] = qs.filter(billion_dollar=True).aggregate(Sum('total_funds'))['total_funds__sum']
+        extra['states'] = RevolvingLoanFund.objects.values_list('institution__state', flat=True).distinct().order_by('institution__state')        
+        return extra

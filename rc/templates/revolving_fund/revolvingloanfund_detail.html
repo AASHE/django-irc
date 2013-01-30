@@ -17,37 +17,39 @@
   <h1>{{ object.fund_name }}</h1>
 
   {% if object.billion_dollar %}
-  <div class="well">
-    <ul class="media-list">
-      <li class="media">
-        <h4 class="media-heading">Billion Dollar Green Challenge</h4>
-        <p>{{ object.institution.name }} is participating in the Billion Dollar Green Challenge. 
-          <a class="pull-right" href="http://www.greenbillion.org/">
-            <img class="media-object" data-src="{{ STATIC_URL }}img/logo_bgdc_140.png">
-          </a>
-      </li>
-    </ul>
-  </div>
-  {% endif %}
-  
-  <dl class="dl-horizontal">
-    <dt>Fund size:</dt>
-    <dd>${{ object.total_funds }}</dd>
-    <dt>Established:</dt>
-    <dd>{{ object.year|stringformat:"s" }}</dd>
-    {% if object.document_url %}
-    <dt>Link:</dt>
-    <dd><i class="icon-share"></i> <a target="_blank" href="{{ object.document_url }}"><i class="icon-share"></i> Documentation Link</a></dd>
-    {% endif %}
-    <dt>Description:</dt>
-    <dd>{{ object.description|default:"No description available."|markdown }}</dd>
-  </dl>
-
-    {% comment %}
-    {% endcomment %}
+  <ul class="media-list">
+    <li class="media">
+      <a class="pull-left" href="http://www.greenbillion.org/">
+        <img class="media-object" src="{{ STATIC_URL }}img/logo_bdgc_140.png">
+      </a>
+      <h4 class="media-heading">Billion Dollar Green Challenge</h4>
+      <p>{{ object.institution.name }} is participating in the Billion Dollar Green Challenge. 
+    </li>
   </ul>
+  <hr/>
+  {% endif %}
 
+  {{ object.description|default:"No description available."|markdown }}
+
+  <table class="table">
+    <tbody>
+      <tr>
+        <td><strong>Fund Size</strong></td>
+        <td>${{ object.total_funds }}</td>
+      </tr>
+      <tr>
+        <td><strong>Year Established</strong></td>
+        <td>{{ object.year|stringformat:"s" }}</td>
+      </tr>
+      <tr>
+        <td><strong>URL</strong></td>
+        <td>{% if object.document_url %}<a target="_blank" href="{{ object.document_url }}"><i class="icon-share"></i> Additional Information</a>{% else %}No URL available{% endif %}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
+
+<p><em><a href="{% url revolving-fund-index %}">Return to Revolving Loan Funds Homepage</a></em></p>
 {% endblock %}
 
 {% block right-side %}

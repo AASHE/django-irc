@@ -11,3 +11,5 @@ requests
 -e git+https://github.com/AASHE/django-linkcheck#egg=django-linkcheck
 MySQL-python
 uwsgi
+Whoosh==2.4.1
+django-haystack==1.2.7

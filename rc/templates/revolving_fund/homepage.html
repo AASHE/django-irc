@@ -28,9 +28,10 @@
   </div><!-- end .row -->
 
   <h3>Search</h3>
-  <form class="home-search">
+  <form class="home-search search-form" method="GET" action="{% url revolving-fund-search %}">
     <fieldset>
-      <input type="text" placeholder="Search all funds..." />
+      {% csrf_token %}
+      <input class="input-medium search-query" type="text" name="q" id="id_q" placeholder="Search all funds..." />
       <button type="submit" class="btn">Search</button>
     </fieldset>
   </form>
