@@ -236,7 +236,18 @@ def collectstatic():
     with virtualenv():
         with cd(env.release_path):
             run('python manage.py collectstatic --settings=%s --noinput' %
-                env.django_settings)            
+                env.django_settings)
+
+def rebuild_index():
+    '''
+    Run "manage.py rebuild_index".
+
+    For use with django-haystack.
+    '''
+    with virtualenv():
+        with cd(env.release_path):
+            run('python manage.py rebuild_index --settings=%s --noinput' %
+                env.django_settings)                        
 
 def loadcms():
     '''
