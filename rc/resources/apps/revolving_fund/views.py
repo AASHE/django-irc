@@ -127,8 +127,11 @@ class FundTop10(FundListView):
             '-total_funds').select_related()[:10]
         context['largest_states'] = RevolvingLoanFund.objects.values(
             'institution__state').distinct().annotate(
-            Count('id'),
-            Sum('total_funds')).order_by('-total_funds__sum').select_related()[:10]
+            Count('id'), Sum('total_funds')).order_by(
+                '-total_funds__sum').select_related()[:10]
+        context['most_states'] = RevolvingLoanFund.objects.select_related(
+            ).values('institution__state').distinct().annotate(
+            Count('id')).order_by('-id__count')[:10]
         return context
 
     def get_queryset(self):
