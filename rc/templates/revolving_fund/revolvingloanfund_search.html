@@ -13,14 +13,15 @@
 
 <form class="form-search" method="get" action="{% url revolving-fund-search %}">
   <table>
-    <input class="input-medium search-query" type="text" name="{{ form.q.html_name }}" id="id_{{ form.q.html_name }}" />
+    <input class="input-medium search-query" type="text" name="{{ form.q.html_name }}" {% if query %}value="{{ query }}"{% endif %} id="id_{{ form.q.html_name }}" />
     {% csrf_token %}
     <button class="btn" type="submit">Search</button>
   </table>
 </form>
 
-{% if query %}
-<h3>{{ page.object_list|length }} Results Found</h3>
+{% if page.object_list %}
+<h3>Results For &ldquo;{{ query }}&rdquo;</h3>
+
 <table id="revolving-loan" class="table table-hover funds">
 <thead>
   <tr>
@@ -44,6 +45,15 @@
   {% endfor %}
 </tbody>
 </table>
+
+{% include "revolving_fund/pagination.html" %}
+
+{% else %}
+
+<div class="alert alert-error">
+<p>Sorry! No results were found for the search &ldquo;{{ query }}&rdquo;.</p>
+</div>
+
 {% endif %}
 {% endblock body %}
 
