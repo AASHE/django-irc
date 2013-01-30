@@ -22,7 +22,11 @@ urlpatterns = patterns(
             template='revolving_fund/revolvingloanfund_search.html',
             searchqueryset=sqs,
             form_class=SearchForm),
-        name='revolving-fund-search'),    
+        name='revolving-fund-search'),
+    url(r'^revolving-loan-funds/top10/$',
+        views.FundTop10.as_view(
+            queryset=RevolvingLoanFund.objects.published()),
+        name='revolving-fund-top10'),
     url(r'^revolving-loan-funds/year/(?P<year>\d{4})/$',
         views.FundByYear.as_view(model=RevolvingLoanFund),
         name='revolving-fund-year'),

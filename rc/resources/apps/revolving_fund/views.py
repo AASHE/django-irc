@@ -1,5 +1,5 @@
 from datetime import datetime
-from django.db.models import Sum
+from django.db.models import Sum, Count
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from haystack.views import SearchView
@@ -16,11 +16,18 @@ class FundListView(ListView):
         context = super(FundListView, self).get_context_data(**kwargs)
         qs = context['object_list']
         context['total_funds'] = qs.count()
-        context['total_institutions'] = qs.values_list('institution__id', flat=True).distinct().count()
-        context['total_amount'] = qs.aggregate(Sum('total_funds'))['total_funds__sum']
-        context['billion_participants'] = qs.filter(billion_dollar=True).values_list('institution__id').distinct().count()
-        context['billion_amount'] = qs.filter(billion_dollar=True).aggregate(Sum('total_funds'))['total_funds__sum']
-        context['states'] = RevolvingLoanFund.objects.values_list('institution__state', flat=True).distinct().order_by('institution__state')        
+        context['total_institutions'] = qs.values_list(
+            'institution__id', flat=True).distinct().count()
+        context['total_amount'] = qs.aggregate(
+            Sum('total_funds'))['total_funds__sum']
+        context['billion_participants'] = qs.filter(
+            billion_dollar=True).values_list(
+            'institution__id').distinct().count()
+        context['billion_amount'] = qs.filter(billion_dollar=True).aggregate(
+            Sum('total_funds'))['total_funds__sum']
+        context['states'] = RevolvingLoanFund.objects.values_list(
+            'institution__state', flat=True).distinct().order_by(
+            'institution__state')        
         return context    
 
 class FundDetailView(DetailView):
@@ -28,11 +35,18 @@ class FundDetailView(DetailView):
         context = super(FundDetailView, self).get_context_data(**kwargs)
         qs = RevolvingLoanFund.objects.published()
         context['total_funds'] = qs.count()
-        context['total_institutions'] = qs.values_list('institution__id', flat=True).distinct().count()
-        context['total_amount'] = qs.aggregate(Sum('total_funds'))['total_funds__sum']
-        context['billion_participants'] = qs.filter(billion_dollar=True).values_list('institution__id').distinct().count()
-        context['billion_amount'] = qs.filter(billion_dollar=True).aggregate(Sum('total_funds'))['total_funds__sum']
-        context['states'] = RevolvingLoanFund.objects.values_list('institution__state', flat=True).distinct().order_by('institution__state')        
+        context['total_institutions'] = qs.values_list(
+            'institution__id', flat=True).distinct().count()
+        context['total_amount'] = qs.aggregate(Sum(
+                'total_funds'))['total_funds__sum']
+        context['billion_participants'] = qs.filter(
+            billion_dollar=True).values_list(
+            'institution__id').distinct().count()
+        context['billion_amount'] = qs.filter(billion_dollar=True).aggregate(
+            Sum('total_funds'))['total_funds__sum']
+        context['states'] = RevolvingLoanFund.objects.values_list(
+            'institution__state', flat=True).distinct().order_by(
+            'institution__state')
         return context    
     
 class FundHomepage(FundListView):
@@ -103,16 +117,39 @@ class FundByMember(FundListView):
     def get_queryset(self):
         return self.model._default_manager.filter(institution__is_member=True)
 
+class FundTop10(FundListView):
+    template_name = 'revolving_fund/revolvingloanfund_top10.html'
+    model = RevolvingLoanFund
+
+    def get_context_data(self, **kwargs):
+        context = super(FundTop10, self).get_context_data(**kwargs)
+        context['largest'] = RevolvingLoanFund.objects.order_by(
+            '-total_funds').select_related()[:10]
+        context['largest_states'] = RevolvingLoanFund.objects.values(
+            'institution__state').distinct().annotate(
+            Count('id'),
+            Sum('total_funds')).order_by('-total_funds__sum').select_related()[:10]
+        return context
+
+    def get_queryset(self):
+        return self.model._default_manager.published()        
+
 class FundSearchView(SearchView):
     def extra_context(self):
         extra = super(FundSearchView, self).extra_context()
         qs = RevolvingLoanFund.objects.published()
         extra['total_funds'] = qs.count()
-        extra['total_institutions'] = qs.values_list('institution__id', flat=True).distinct().count()
+        extra['total_institutions'] = qs.values_list(
+            'institution__id', flat=True).distinct().count()
         extra['total_amount'] = qs.aggregate(Sum('total_funds'))['total_funds__sum']
-        extra['billion_participants'] = qs.filter(billion_dollar=True).values_list('institution__id').distinct().count()
-        extra['billion_amount'] = qs.filter(billion_dollar=True).aggregate(Sum('total_funds'))['total_funds__sum']
-        extra['states'] = RevolvingLoanFund.objects.values_list('institution__state', flat=True).distinct().order_by('institution__state')        
+        extra['billion_participants'] = qs.filter(
+            billion_dollar=True).values_list(
+            'institution__id').distinct().count()
+        extra['billion_amount'] = qs.filter(billion_dollar=True).aggregate(
+            Sum('total_funds'))['total_funds__sum']
+        extra['states'] = RevolvingLoanFund.objects.values_list(
+            'institution__state', flat=True).distinct().order_by(
+            'institution__state')
         return extra
 
     def build_page(self):
