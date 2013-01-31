@@ -154,6 +154,7 @@ INSTALLED_APPS = (
     'rc.resources.apps.pae',
     'rc.resources.apps.scrape',
     'rc.resources.apps.revolving_fund',
+    'pagedown'
     )
 
 TEMPLATE_CONTEXT_PROCESSORS = (

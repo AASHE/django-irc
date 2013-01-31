@@ -23,6 +23,12 @@ urlpatterns = patterns(
             searchqueryset=sqs,
             form_class=SearchForm),
         name='revolving-fund-search'),
+    url(r'^revolving-loan-funds/create/$', views.FundCreateView.as_view(),
+        name='revolving-fund-create'),
+    url(r'^revolving-loan-funds/(?P<slug>[-\w]+)/update/$',
+        views.FundUpdateView.as_view(
+            model=RevolvingLoanFund),
+        name='revolving-fund-update'),    
     url(r'^revolving-loan-funds/top10/$',
         views.FundTop10.as_view(
             queryset=RevolvingLoanFund.objects.published()),

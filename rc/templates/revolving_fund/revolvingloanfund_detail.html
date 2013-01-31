@@ -29,6 +29,8 @@
   <hr/>
   {% endif %}
 
+  <p><a href="{% url revolving-fund-update slug=object.slug %}"><button class="pull-right btn btn-primary btn-mini" type="button">Update this Information</button></a></p>
+
   {{ object.description|default:"No description available."|markdown }}
 
   <table class="table">

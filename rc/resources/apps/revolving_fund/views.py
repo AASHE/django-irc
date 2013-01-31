@@ -2,9 +2,11 @@ from datetime import datetime
 from django.db.models import Sum, Count
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.views.generic.edit import UpdateView, CreateView
 from haystack.views import SearchView
 from aashe.utils.paginator import DiggPaginator as Paginator
 from models import RevolvingLoanFund
+from forms import RevolvingLoanFundForm
 
 
 class FundListView(ListView):
@@ -28,7 +30,7 @@ class FundListView(ListView):
         context['states'] = RevolvingLoanFund.objects.values_list(
             'institution__state', flat=True).distinct().order_by(
             'institution__state')        
-        return context    
+        return context
 
 class FundDetailView(DetailView):
     def get_context_data(self, **kwargs):
@@ -164,7 +166,7 @@ class FundSearchView(SearchView):
         like.
         """
         try:
-            page_no = int(self.request.GET.get('page', 1))
+            page_no = int(self.requrest.GET.get('page', 1))
         except (TypeError, ValueError):
             raise Http404("Not a valid number for page.")
 
@@ -182,3 +184,51 @@ class FundSearchView(SearchView):
             raise Http404("No such page!")
 
         return (paginator, page)        
+
+class FundUpdateView(UpdateView):
+    queryset = RevolvingLoanFund.objects.published()
+    form_class = RevolvingLoanFundForm
+    template_name = 'revolving_fund/revolvingloanfund_update.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(FundUpdateView, self).get_context_data(**kwargs)
+        qs = RevolvingLoanFund.objects.published()
+        context['total_funds'] = qs.count()
+        context['total_institutions'] = qs.values_list(
+            'institution__id', flat=True).distinct().count()
+        context['total_amount'] = qs.aggregate(
+            Sum('total_funds'))['total_funds__sum']
+        context['billion_participants'] = qs.filter(
+            billion_dollar=True).values_list(
+            'institution__id').distinct().count()
+        context['billion_amount'] = qs.filter(billion_dollar=True).aggregate(
+            Sum('total_funds'))['total_funds__sum']
+        context['states'] = RevolvingLoanFund.objects.values_list(
+            'institution__state', flat=True).distinct().order_by(
+            'institution__state')        
+        return context
+    
+
+class FundCreateView(CreateView):
+    queryset = RevolvingLoanFund.objects.published()
+    form_class = RevolvingLoanFundForm    
+    template_name = 'revolving_fund/revolvingloanfund_create.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(FundCreateView, self).get_context_data(**kwargs)
+        qs = RevolvingLoanFund.objects.published()
+        context['total_funds'] = qs.count()
+        context['total_institutions'] = qs.values_list(
+            'institution__id', flat=True).distinct().count()
+        context['total_amount'] = qs.aggregate(
+            Sum('total_funds'))['total_funds__sum']
+        context['billion_participants'] = qs.filter(
+            billion_dollar=True).values_list(
+            'institution__id').distinct().count()
+        context['billion_amount'] = qs.filter(billion_dollar=True).aggregate(
+            Sum('total_funds'))['total_funds__sum']
+        context['states'] = RevolvingLoanFund.objects.values_list(
+            'institution__state', flat=True).distinct().order_by(
+            'institution__state')        
+        return context
+    

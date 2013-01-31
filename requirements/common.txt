@@ -13,3 +13,5 @@ MySQL-python
 uwsgi
 Whoosh==2.4.1
 django-haystack==1.2.7
+git+https://github.com/timmyomahony/django-pagedown.git@0942a29e0f5ca6f8c0589bb735aa8e6ac51df71d
+

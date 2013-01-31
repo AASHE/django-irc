@@ -48,5 +48,6 @@ INSTALLED_APPS = (
     'rc.resources.apps.pae',
     'rc.resources.apps.scrape',
     'rc.resources.apps.revolving_fund',
-    'debug_toolbar'
+    'debug_toolbar',
+    'pagedown'
     )

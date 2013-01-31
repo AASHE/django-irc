@@ -176,3 +176,19 @@ table#revolving-loan thead th {
   background-color: #e7eef2;
   border: 1px solid #234f32;
 }
+
+
+/* WMD Style */
+.wmd-panel {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.wmd-input {
+    height: 125px !important;
+    background-color: #fff !important;
+}
+
+.wmd-preview {
+    background-color: #ddd !important;
+}
