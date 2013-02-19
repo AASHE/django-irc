@@ -1,3 +1,4 @@
+import os
 from global_settings import *
 
 
@@ -19,3 +20,6 @@ STATIC_URL = 'http://www.aashedev.org/aashe-rc/static/'
 HAYSTACK_SITECONF = 'rc.search_sites'
 HAYSTACK_SEARCH_ENGINE = 'whoosh'
 HAYSTACK_WHOOSH_PATH = os.path.join(SITE_ROOT, '../../whoosh_index')
+
+SALESFORCE_USERNAME=os.environ.get("SALESFORCE_USERNAME", None)
+SALESFORCE_PASSWORD=os.environ.get("SALESFORCE_PASSWORD", None)
