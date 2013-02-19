@@ -146,13 +146,16 @@ def update_symlinks():
             # get the real directory pointed to by previous
             previous_path = run('readlink %s' % env.previous_symlink_name)
             run('rm %s' % env.previous_symlink_name)
-            run('rm -rf %s' % previous_path)            
+            if exists(env.current_symlink_name):
+                current_path = run('readlink %s' % env.current_symlink_name)
+                if current_path != previous_path:
+                    run('rm -rf %s' % previous_path)            
         if exists(env.current_symlink_name):
             # get the real directory pointed to by current
             current_path = run('readlink %s' % env.current_symlink_name)
-            # make current the new previous
+            # make current the new previous 
             run('ln -s %s %s' % (current_path, env.previous_symlink_name))
-            run('rm %s' % env.current_symlink_name)
+            run('rm %s' % env.current_symlink_name)            
         # update "current" symbolic link to new code path
         run('ln -s %s %s' % (env.release_path, env.current_symlink_name))
         
