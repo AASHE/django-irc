@@ -181,6 +181,15 @@ def loadrc():
             run('python manage.py loadrc --settings=%s' %
                 env.django_settings)
 
+def refresh_orgs():
+    '''
+    Run refresh_orgs to update information in the organization.Organization model
+    with live data from Salesforce API.
+    '''
+    with virtualenv():
+        with cd(env.release_path):
+            run("python manage.py refresh_orgs --settings=%s" % env.django_settings)
+            
 def restart():
     '''
     Reboot uwsgi server.
@@ -250,7 +259,7 @@ def rebuild_index():
     with virtualenv():
         with cd(env.release_path):
             run('python manage.py rebuild_index --settings=%s --noinput' %
-                env.django_settings)                        
+                env.django_settings)
 
 def loadcms():
     '''
