@@ -40,3 +40,6 @@ AASHE_ISS_ORG_TABLE = 'organizations'
 AASHE_ISS_DELETION_TABLE = 'acct_deletions'
 
 # AASHE_DRUPAL_REQUIRED_ROLES = ('Staff', 'Content Administrator')
+
+SALESFORCE_USERNAME=os.environ.get("SALESFORCE_USERNAME", None)
+SALESFORCE_PASSWORD=os.environ.get("SALESFORCE_PASSWORD", None)

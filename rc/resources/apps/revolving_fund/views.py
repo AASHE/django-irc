@@ -119,6 +119,13 @@ class FundByMember(FundListView):
     def get_queryset(self):
         return self.model._default_manager.filter(institution__is_member=True)
 
+class FundTypeView(FundListView):
+    template_name = 'revolving_fund/revolvingloanfund_control.html'
+    model = RevolvingLoanFund
+
+    def get_queryset(self):
+        return self.model._default_manager.filter(institution__is_member=True)
+
 class FundTop10(FundListView):
     template_name = 'revolving_fund/revolvingloanfund_top10.html'
     model = RevolvingLoanFund
@@ -137,7 +144,25 @@ class FundTop10(FundListView):
         return context
 
     def get_queryset(self):
-        return self.model._default_manager.published()        
+        return self.model._default_manager.published()
+
+class FundCarnegieView(FundListView):
+    template_name = 'revolving_fund/revolvingloanfund_carnegie.html'
+    model = RevolvingLoanFund
+
+    def get_queryset(self):
+        carnegie = self.kwargs['carnegie'].lower()
+        return self.model._default_manager.filter(
+            institution__carnegie_classification__iexact=carnegie)
+
+    def get_context_data(self, **kwargs):
+        context = super(FundCarnegieView, self).get_context_data(**kwargs)
+        context['carnegie_classes'] = RevolvingLoanFund.objects.values_list(
+            "institution__carnegie_classification", flat=True).distinct().order_by(
+            "institution__carnegie_classification").exclude(
+                institution__carnegie_classification='')
+        #context['carnegie'] = kwargs['carnegie']
+        return context
 
 class FundSearchView(SearchView):
     def extra_context(self):
@@ -207,7 +232,6 @@ class FundUpdateView(UpdateView):
             'institution__state', flat=True).distinct().order_by(
             'institution__state')        
         return context
-    
 
 class FundCreateView(CreateView):
     queryset = RevolvingLoanFund.objects.published()

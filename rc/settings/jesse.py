@@ -51,3 +51,7 @@ INSTALLED_APPS = (
     'debug_toolbar',
     'pagedown'
     )
+
+
+SALESFORCE_USERNAME=os.environ.get("SALESFORCE_USERNAME", None)
+SALESFORCE_PASSWORD=os.environ.get("SALESFORCE_PASSWORD", None)

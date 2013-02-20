@@ -26,6 +26,13 @@ class RevolvingLoanFund(models.Model):
     published = models.BooleanField(default=False)
     pub_date = models.DateField(blank=True, null=True)
     last_updated = models.DateTimeField(auto_now=True)
+    funded_projects = models.IntegerField(
+        verbose_name='Number of Funded Projects',
+        help_text='The count of projects this fund has supported.',
+        blank=True, null=True)
+    estimated_roi=models.IntegerField(
+        verbose_name='Estimated Return on Investment',
+        blank=True, null=True)
     objects = RevolvingLoanFundManager()
     
     def __unicode__(self):

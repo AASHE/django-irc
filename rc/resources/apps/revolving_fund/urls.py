@@ -28,7 +28,7 @@ urlpatterns = patterns(
     url(r'^revolving-loan-funds/(?P<slug>[-\w]+)/update/$',
         views.FundUpdateView.as_view(
             model=RevolvingLoanFund),
-        name='revolving-fund-update'),    
+        name='revolving-fund-update'),
     url(r'^revolving-loan-funds/top10/$',
         views.FundTop10.as_view(
             queryset=RevolvingLoanFund.objects.published()),
@@ -36,6 +36,12 @@ urlpatterns = patterns(
     url(r'^revolving-loan-funds/year/(?P<year>\d{4})/$',
         views.FundByYear.as_view(model=RevolvingLoanFund),
         name='revolving-fund-year'),
+    url(r'^revolving-loan-funds/control/(?P<control>public|private)/$',
+        views.FundTypeView.as_view(),
+        name='revolving-fund-control'),
+    url(r'^revolving-loan-funds/carnegie/(?P<carnegie>.+)/$',
+        views.FundCarnegieView.as_view(),
+        name='revolving-fund-carnegie'),    
     url(r'^revolving-loan-funds/1-million/$',
         views.FundListView.as_view(
             template_name='revolving_fund/1-million.html',
