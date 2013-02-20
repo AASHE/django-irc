@@ -1,4 +1,5 @@
 from datetime import datetime
+from django.core.urlresolvers import reverse_lazy
 from django.db.models import Sum, Count
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
@@ -141,6 +142,11 @@ class FundTop10(FundListView):
         context['most_states'] = RevolvingLoanFund.objects.select_related(
             ).values('institution__state').distinct().annotate(
             Count('id')).order_by('-id__count')[:10]
+        context['largest_billion_dollar'] = RevolvingLoanFund.objects.filter(
+            billion_dollar=True).order_by('-total_funds').select_related()[:10]
+        context['largest_aashe'] = RevolvingLoanFund.objects.filter(
+            institution__is_member=True).order_by(
+            '-total_funds').select_related()[:10]
         return context
 
     def get_queryset(self):
@@ -214,6 +220,7 @@ class FundUpdateView(UpdateView):
     queryset = RevolvingLoanFund.objects.published()
     form_class = RevolvingLoanFundUpdateForm
     template_name = 'revolving_fund/revolvingloanfund_update.html'
+    success_url = reverse_lazy("revolving-fund-update-success")    
 
     def get_context_data(self, **kwargs):
         context = super(FundUpdateView, self).get_context_data(**kwargs)
@@ -237,6 +244,7 @@ class FundCreateView(CreateView):
     queryset = RevolvingLoanFund.objects.published()
     form_class = RevolvingLoanFundCreateForm    
     template_name = 'revolving_fund/revolvingloanfund_create.html'
+    success_url = reverse_lazy("revolving-fund-create-success")
 
     def get_context_data(self, **kwargs):
         context = super(FundCreateView, self).get_context_data(**kwargs)

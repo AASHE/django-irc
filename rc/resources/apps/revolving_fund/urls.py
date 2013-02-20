@@ -25,10 +25,16 @@ urlpatterns = patterns(
         name='revolving-fund-search'),
     url(r'^revolving-loan-funds/create/$', views.FundCreateView.as_view(),
         name='revolving-fund-create'),
+    url(r'^revolving-loan-funds/create/success/$', views.FundListView.as_view(
+            template_name='revolving_fund/revolvingloanfund_success.html'),
+        name='revolving-fund-create-success'),    
     url(r'^revolving-loan-funds/(?P<slug>[-\w]+)/update/$',
         views.FundUpdateView.as_view(
             model=RevolvingLoanFund),
         name='revolving-fund-update'),
+    url(r'^revolving-loan-funds/update/success/$', views.FundListView.as_view(
+            template_name='revolving_fund/revolvingloanfund_success.html'),
+        name='revolving-fund-update-success'),
     url(r'^revolving-loan-funds/top10/$',
         views.FundTop10.as_view(
             queryset=RevolvingLoanFund.objects.published()),

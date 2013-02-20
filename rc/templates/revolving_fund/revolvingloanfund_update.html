@@ -1,7 +1,7 @@
 {% extends "revolving_fund/base.html" %}
 {% load markup %}
 
-{% block title %}{{ object.fund_name }} at {{ object.institution.name }}{% endblock %}
+{% block title %}Update {{ object.fund_name }}{% endblock %}
 
 {% block head-extra %}
 {{ block.super }}
@@ -11,7 +11,7 @@
 {% block breadcrumb %}
 <ul class="breadcrumb"><li class="first"><a href="/">Home</a></li>
   <li><a href="{% url resource-center-index %}">Resource Center</a></li>
-  <li><a href="{% url revolving-fund-index %}">Revolving Loan Funds Database</a></li>
+  <li><a href="{% url revolving-fund-index %}">Campus Sustainability Revolving Loan Funds</a></li>
   <li class="last">Update {{ object.fund_name }}</li>
 </ul>
 {% endblock breadcrumb %}
@@ -24,27 +24,46 @@
   <fieldset>
     <label><strong>Institution:</strong> {{ object.institution.name }}</label>
 
-    <label>{{ form.description.label }}</label>
-    {{ form.description }}
+    <div class="control-group {% if form.fund_name.errors %}error{% endif %}">
+      <label class="control-label">{{ form.fund_name.label }}</label>
+      {{ form.fund_name }}<span class="help-inline"><small>{% for error in form.fund_name.errors %}{{ error }}{% empty %}Required{% endfor %}</small></span>
+    </div>
 
-    <label>{{ form.year.label }}</label>
-    {{ form.year }}<span class="help-inline"><small>Required</small></span>
-  
-    <label>{{ form.total_funds.label }}</label>
-    {{ form.total_funds }}<span class="help-inline"><small>Required</small></span>
+    <div class="control-group {% if form.description.errors %}error{% endif %}">
+      <label class="control-label">{{ form.description.label }}</label>
+      {{ form.description }}{% for error in form.description.errors %}<span class="help-inline"><small>{{ error }}</small></span>{% endfor %}
+    </div>
 
-    <label>{{ form.document_url.label }}</label>
-    {{ form.document_url }}
+    <div class="control-group {% if form.year.errors %}error{% endif %}">
+      <label class="control-label">{{ form.year.label }}</label>
+      {{ form.year }}<span class="help-inline"><small>{% for error in form.year.errors %}{{ error }}{% empty %}Required{% endfor %}</small></span>
+    </div>
 
-    <label>{{ form.funded_projects.label }}</label>
-    {{ form.funded_projects }}
+    <div class="control-group {% if form.total_funds.errors %}error{% endif %}">
+      <label class="control-label">{{ form.total_funds.label }}</label>
+      <span class="input-prepend"><span class="add-on">$</span>{{ form.total_funds }}</span>
+      <span class="help-inline"><small>{% for error in form.total_funds.errors %}{{ error }}{% empty %}Required{% endfor %}</small></span>
+      <span class="help-block"><small>{{ form.total_funds.help_text }}</small></span>
+    </div>
 
-    <label>{{ form.estimated_roi.label }}</label>
-    {{ form.estimated_roi }}
+    <div class="control-group {% if form.document_url.errors %}error{% endif %}">
+      <label class="control-label">{{ form.document_url.label }}</label>
+      {{ form.document_url }}{% for error in form.document_url.errors %}<span class="help-inline"><small>{{ error }}</small></span>{% endfor %}
+    </div>
 
-    <label>{{ form.billion_dollar.label }}</label>
-    {{ form.billion_dollar }}
+    <div class="control-group {% if form.funded_projects.errors %}error{% endif %}">
+      <label class="control-label">{{ form.funded_projects.label }}</label>
+      {{ form.funded_projects }}{% for error in form.funded_projects.errors %}<span class="help-inline"><small>{{ error }}</small></span>{% endfor %}
 
+    <div class="control-group {% if form.estimated_roi.errors %}error{% endif %}">
+      <label class="control-label">{{ form.estimated_roi.label }}</label>
+      {{ form.estimated_roi }}{% for error in form.estimated_roi.errors %}<span class="help-inline"><small>{{ error }}</small></span>{% endfor %}
+    </div>
+
+    <div class="control-group {% if form.billion_dollar.errors %}error{% endif %}">
+      <label class="control-label">{{ form.billion_dollar.label }}</label>
+      {{ form.billion_dollar }}{% for error in form.billion_dollar.errors %}<span class="help-inline"><small>{{ error }}</small></span>{% endfor %}
+    </div>
   </fieldset>
 
   <p><em>Please note:</em> All changes are reviewed by AASHE staff before being published in the database.</p>

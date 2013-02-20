@@ -14,15 +14,15 @@ class RevolvingLoanFundUpdateForm(forms.ModelForm):
     
     class Meta:
         model = RevolvingLoanFund
-        exclude = ('institution', 'slug', 'total_funds_date', 'fund_name',
+        exclude = ('institution', 'slug', 'total_funds_date',
                    'published', 'pub_date', 'last_updated')
 
 class RevolvingLoanFundCreateForm(forms.ModelForm):
-    description = forms.CharField(widget=PagedownWidget)
+    description = forms.CharField(required=False, widget=PagedownWidget)
     
     class Meta:
         model = RevolvingLoanFund
-        exclude = ('slug', 'total_funds_date', 'fund_name',
-                   'published', 'pub_date', 'last_updated')
+        exclude = ('slug', 'total_funds_date', 'published', 'pub_date',
+                   'last_updated')
 
         

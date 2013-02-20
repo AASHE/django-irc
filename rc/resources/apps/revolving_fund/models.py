@@ -12,7 +12,7 @@ class RevolvingLoanFundManager(models.Manager):
         return self.filter(published=True)
     
 class RevolvingLoanFund(models.Model):
-    institution = models.ForeignKey(Organization)
+    institution = models.ForeignKey(Organization, verbose_name='Institution')
     billion_dollar = models.BooleanField(
         verbose_name='Billion Dollar Green Challenge Participant?')
     fund_name = models.CharField(max_length=120,
@@ -20,7 +20,8 @@ class RevolvingLoanFund(models.Model):
     slug = models.SlugField(blank=True, editable=False)
     description = models.TextField(blank=True)
     year = models.IntegerField(max_length=4, verbose_name='Year Established')
-    total_funds = models.PositiveIntegerField(verbose_name='Total Committed Funds (USD)')
+    total_funds = models.PositiveIntegerField(verbose_name='Total Committed Funds (USD)',
+                                              help_text='Use whole numbers without commas.')
     total_funds_date = models.DateField(blank=True, null=True)
     document_url = models.URLField(blank=True, max_length=250, verbose_name='URL')
     published = models.BooleanField(default=False)
