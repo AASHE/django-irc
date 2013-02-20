@@ -44,9 +44,9 @@ urlpatterns = patterns(
         name='revolving-fund-carnegie'),    
     url(r'^revolving-loan-funds/1-million/$',
         views.FundListView.as_view(
-            template_name='revolving_fund/1-million.html',
+            template_name='revolving_fund/revolvingloanfund_million.html',
             queryset=RevolvingLoanFund.objects.published().filter(
-                total_funds__gte=1000000)),
+                total_funds__gte=1000000).order_by("-total_funds")),
         name='revolving-fund-million'),
     url(r'^revolving-loan-funds/region/(?P<region>[\w-]+)/$',
         views.FundByRegion.as_view(),

@@ -1,23 +1,17 @@
 {% extends "revolving_fund/base.html" %}
-{% load state_utils %}
 
 {% block breadcrumb %}
 <ul class="breadcrumb"><li class="first"><a href="/">Home</a></li>
   <li><a href="{% url resource-center-index %}">Resource Center</a></li>
   <li><a href="{% url revolving-fund-index %}">Revolving Loan Funds Database</a></li>
-  <li>Year Established</li>
-  <li class="last">{{ year }}</li>
+  <li class="last">All Funds</li>
 </ul>
 {% endblock breadcrumb %}
 
 {% block body %}
-<h1>Revolving Loan Funds Established in {{ year }}</h1>
-<p>The database contains <strong>{{ total_funds }}</strong> revolving loan funds that were established in <strong>{{ year }}</strong> with a total value of <strong>${{ total_amount }}</strong>.
+<h1>Revolving Loan Funds at AASHE Member Institutions</h1>
 
-<ul class="breadcrumb">
-  <li>Browse:</li>
-  {% for y in years %}<li><a href="{% url revolving-fund-year year=y %}">{{ y|stringformat:"s" }}</a>{% if not forloop.last %}<span class="divider">|</span>{% endif %}</li>{% endfor %}
-</ul>
+<p>The database contains <strong>{{ total_funds }}</strong> revolving loan funds at <strong>{{ total_institutions }}</strong> AASHE member institutions with a total value of <strong>${{ total_amount }}</strong>, including <strong>{{ billion_participants }}</strong> participants in the Billion Dollar Green Challenge.</p>
 
 {% include "revolving_fund/revolvingloanfund_table.html" %}
 

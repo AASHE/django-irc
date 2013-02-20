@@ -12,11 +12,13 @@
 
 {% block body %}
 <h1>Revolving Loan Funds in {{ state|upper|expand_state_abbrev }}</h1>
-<div class="well well-small">
-  <p>Browse states: {% for state in states %}<a href="{% url revolving-fund-state state=state %}">{{ state|upper }}</a> {% endfor %}</p>
-</div>
-
 <p>The database contains <strong>{{ total_funds }}</strong> revolving loan funds in <strong>{{ state|upper|expand_state_abbrev }}</strong> with a total value of <strong>${{ total_amount }}</strong>.
+
+<ul class="breadcrumb">
+  <li>Browse:</li>
+  {% for state in states %}<li><a href="{% url revolving-fund-state state=state %}">{{ state|upper }}</a>{% if not forloop.last %}<span class="divider">|</span>{% endif %}</li>{% endfor %}
+</ul>
+
 
 {% include "revolving_fund/revolvingloanfund_table.html" %}
 

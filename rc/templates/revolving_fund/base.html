@@ -32,13 +32,14 @@
       You are viewing member-only content.
     </div>
     {% endif %}
-    
-    {% if request.user.is_staff %}
-    <div id="admin-controls" style="background-color: #ddd;">
-      <p style="padding: 2px;">Admin controls: <a href="{{ admin_changelist_url }}">Edit in Admin</a></p>
-    </div>
-    {% endif %}
-    
+<!--    
+    <ul class="breadcrumb">
+      <li><a href="{% url revolving-fund-index %}">Revolving Loan Homepage</a></li>
+      {% if request.user.is_staff %}
+      <li><span class="divider">|</span><a href="{% url admin:revolving_fund_revolvingloanfund_changelist %}">Edit in Admin</a></li>
+      {% endif %}
+    </ul>
+-->
     {% block body %}
     {% endblock body %}
     

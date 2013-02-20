@@ -13,25 +13,12 @@
 
 {% block body %}
 <div class="fund-detail">
-  <h2>{{ object.institution.name }}</h2>
   <h1>{{ object.fund_name }}</h1>
 
-  {% if object.billion_dollar %}
-  <ul class="media-list">
-    <li class="media">
-      <a class="pull-left" href="http://www.greenbillion.org/">
-        <img class="media-object" src="{{ STATIC_URL }}img/logo_bdgc_140.png">
-      </a>
-      <h4 class="media-heading">Billion Dollar Green Challenge</h4>
-      <p>{{ object.institution.name }} is participating in the Billion Dollar Green Challenge. 
-    </li>
-  </ul>
-  <hr/>
+  <a href="{% url revolving-fund-update slug=object.slug %}"><button class="btn btn-primary btn-mini btn-fund-update" type="button">Update this Information</button></a>
+  {% if request.user.is_staff %}
+  <a href="{% url admin:revolving_fund_revolvingloanfund_change object.pk %}"><button class="btn btn-mini btn-inverse btn-fund-update">Edit in Admin</button></a>
   {% endif %}
-
-  <p><a href="{% url revolving-fund-update slug=object.slug %}"><button class="pull-right btn btn-primary btn-mini" type="button">Update this Information</button></a></p>
-
-  {{ object.description|default:"No description available."|markdown }}
 
   <table class="table">
     <tbody>
@@ -47,10 +34,37 @@
         <td><strong>URL</strong></td>
         <td>{% if object.document_url %}<a target="_blank" href="{{ object.document_url }}"><i class="icon-share"></i> Additional Information</a>{% else %}No URL available{% endif %}</td>
       </tr>
+      <tr>
+        <td><strong># of Projects Funded</strong></td>
+        <td>{{ object.funded_projects|default:"Data Not Provided" }}</td>
+      </tr>
+      <tr>
+        <td><strong>Estimated ROI <sup>*</sup></strong></td>
+        <td>{{ object.estimated_roi|default:"Data Not Provided" }}</td>
+      </tr>
     </tbody>
   </table>
+
+  <div class="well">
+    {% if object.billion_dollar %}
+    <a class="pull-right" href="http://www.greenbillion.org/">
+      <img src="{{ STATIC_URL }}img/logo_bdgc_140.png">
+    </a>
+    {% endif %}
+
+    <h3>Fund Description</h3>
+    
+    {% if object.billion_dollar %}
+    <p>{{ object.institution.name }} is participating in the <a target="_blank" href="http://greenbillion.org">Billion Dollar Green Challenge</a>.</p>
+    {{ object.description|default:"No additional description is available."|markdown }}
+    {% else %}
+    {{ object.description|default:"No additional description is available."|markdown }}
+    {% endif %}
+
+  </div>
 </div>
 
+<p><small><sup>*</sup> Return on Investment (ROI) is a performance measure used to evaluate the efficiency of an investment. ROI is estimated based on available data, which may be limited.</small></p>
 <p><em><a href="{% url revolving-fund-index %}">Return to Revolving Loan Funds Homepage</a></em></p>
 {% endblock %}
 

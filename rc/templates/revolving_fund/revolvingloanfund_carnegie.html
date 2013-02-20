@@ -5,19 +5,20 @@
 <ul class="breadcrumb"><li class="first"><a href="/">Home</a></li>
   <li><a href="{% url resource-center-index %}">Resource Center</a></li>
   <li><a href="{% url revolving-fund-index %}">Revolving Loan Funds Database</a></li>
-  <li>Year Established</li>
-  <li class="last">{{ year }}</li>
+  <li>Carnegie Classification</li>
+  <li class="last">{{ carnegie|title }}</li>
 </ul>
 {% endblock breadcrumb %}
 
 {% block body %}
-<h1>Revolving Loan Funds Established in {{ year }}</h1>
-<p>The database contains <strong>{{ total_funds }}</strong> revolving loan funds that were established in <strong>{{ year }}</strong> with a total value of <strong>${{ total_amount }}</strong>.
+<h1>Revolving Loan Funds at {{ carnegie|title }} Campuses</h1>
+<p>The database contains <strong>{{ total_funds }}</strong> revolving loan funds in the <strong>&lsquo;{{ carnegie|title }}&rsquo;</strong> classfication with a total value of <strong>${{ total_amount }}</strong>.
 
 <ul class="breadcrumb">
   <li>Browse:</li>
-  {% for y in years %}<li><a href="{% url revolving-fund-year year=y %}">{{ y|stringformat:"s" }}</a>{% if not forloop.last %}<span class="divider">|</span>{% endif %}</li>{% endfor %}
+  {% for class in carnegie_classes %}<li><a href="{% url revolving-fund-carnegie carnegie=class|lower|urlencode %}">{{ class }}</a>{% if not forloop.last %}<span class="divider">|</span>{% endif %}</li>{% endfor %}
 </ul>
+
 
 {% include "revolving_fund/revolvingloanfund_table.html" %}
 

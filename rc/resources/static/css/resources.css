@@ -51,6 +51,10 @@ form.home-search button[type="submit"] {
     vertical-align: top;
 }
 
+button.btn-fund-update {
+    margin-bottom: 1em;
+}
+
 /* * * * * * * * * * * * * * * * * * * * * 
  *
  * jQuery Data Tables Styles 

@@ -161,7 +161,7 @@ class FundCarnegieView(FundListView):
             "institution__carnegie_classification", flat=True).distinct().order_by(
             "institution__carnegie_classification").exclude(
                 institution__carnegie_classification='')
-        #context['carnegie'] = kwargs['carnegie']
+        context['carnegie'] = self.kwargs['carnegie']
         return context
 
 class FundSearchView(SearchView):
