@@ -33,6 +33,7 @@ class RevolvingLoanFund(models.Model):
     estimated_roi=models.IntegerField(
         verbose_name='Estimated Return on Investment',
         blank=True, null=True)
+    #billion_dollar_url = models.URLField(blank=True)
     objects = RevolvingLoanFundManager()
     
     def __unicode__(self):

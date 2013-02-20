@@ -24,20 +24,29 @@
   <p>Submit information about a new fund to our database by completing the form below.</p>
 
   <fieldset>
-    <label>Institution</label>
-    {{ form.institution }}
+    <label>{{ form.instituton.label }}</label>
+    {{ form.institution }}<span class="help-inline"><small>Required</small></span>
+
+    <label>{{ form.fund_name.label }}</label>
+    {{ form.fund_name }}<span class="help-inline"><small>Required</small></span>
 
     <label>{{ form.description.label }}</label>
     {{ form.description }}
 
     <label>{{ form.year.label }}</label>
-    {{ form.year }}
+    {{ form.year }}<span class="help-inline"><small>Required</small></span>
   
     <label>{{ form.total_funds.label }}</label>
-    {{ form.total_funds }}
+    {{ form.total_funds }}<span class="help-inline"><small>Required</small></span>
 
     <label>{{ form.document_url.label }}</label>
     {{ form.document_url }}
+
+    <label>{{ form.funded_projects.label }}</label>
+    {{ form.funded_projects }}
+
+    <label>{{ form.estimated_roi.label }}</label>
+    {{ form.estimated_roi }}
 
     <label>{{ form.billion_dollar.label }}</label>
     {{ form.billion_dollar }}

@@ -6,7 +6,7 @@ from django.views.generic.edit import UpdateView, CreateView
 from haystack.views import SearchView
 from aashe.utils.paginator import DiggPaginator as Paginator
 from models import RevolvingLoanFund
-from forms import RevolvingLoanFundForm
+from forms import RevolvingLoanFundCreateForm, RevolvingLoanFundUpdateForm
 
 
 class FundListView(ListView):
@@ -212,7 +212,7 @@ class FundSearchView(SearchView):
 
 class FundUpdateView(UpdateView):
     queryset = RevolvingLoanFund.objects.published()
-    form_class = RevolvingLoanFundForm
+    form_class = RevolvingLoanFundUpdateForm
     template_name = 'revolving_fund/revolvingloanfund_update.html'
 
     def get_context_data(self, **kwargs):
@@ -235,7 +235,7 @@ class FundUpdateView(UpdateView):
 
 class FundCreateView(CreateView):
     queryset = RevolvingLoanFund.objects.published()
-    form_class = RevolvingLoanFundForm    
+    form_class = RevolvingLoanFundCreateForm    
     template_name = 'revolving_fund/revolvingloanfund_create.html'
 
     def get_context_data(self, **kwargs):
