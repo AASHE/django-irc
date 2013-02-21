@@ -1,7 +1,7 @@
 {% extends "revolving_fund/base.html" %}
 {% load markup %}
 
-{% block title %}{{ object.fund_name }} at {{ object.institution.name }}{% endblock %}
+{% block title %}{{ object.fund_name }} at {{ object.institution.name }} | {{ block.super }}{% endblock %}
 
 {% block breadcrumb %}
 <ul class="breadcrumb"><li class="first"><a href="/">Home</a></li>

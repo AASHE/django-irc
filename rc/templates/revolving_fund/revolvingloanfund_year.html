@@ -1,7 +1,7 @@
 {% extends "revolving_fund/base.html" %}
 {% load state_utils %}
 
-{% block title %}Funds Established in {{ year }}{% endblock title %}
+{% block title %}Funds Established in {{ year }} | {{ block.super }}{% endblock title %}
 
 {% block breadcrumb %}
 <ul class="breadcrumb"><li class="first"><a href="/">Home</a></li>
