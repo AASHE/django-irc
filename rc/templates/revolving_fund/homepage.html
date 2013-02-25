@@ -3,7 +3,7 @@
 {% block body %}
 <h1>Campus Sustainability Revolving Loan Funds Database</h1>
 
-<p>AASHE's Revolving Loans Fund database contains information on <strong>{{ total_funds }}</strong> revolving loan funds at <strong>{{ total_institutions }}</strong> institutions containing <strong>${{ total_amount }}</strong>.
+<p>AASHE's Campus Sustainability Revolving Loans Fund database contains information on <strong>{{ total_funds }}</strong> revolving loan funds at <strong>{{ total_institutions }}</strong> institutions containing <strong>${{ total_amount }}</strong>.
 
 <p>The database contains information on <strong>{{ billion_participants }}</strong> institutions participating in the <a href="http://greenbillion.org/about/">Billion Dollar Green Challenge</a>, whose funds total <strong>${{ billion_amount }}</strong>.
 
@@ -47,13 +47,11 @@
 
 <div id="about-revolving-loans">
   <h3>About Revolving Loans</h3>
-  <p>The high initial cost of many sustainability projects can often deter campuses from implementing them, despite the fact that such projects often have long-term cost savings. A campus sustainability revolving loan fund helps overcome this challenge by providing zero or low interest loans to fund money-saving sustainability projects.</p>
+  <p>The high initial cost of many sustainability projects can deter campuses from implementing them, despite the fact that such projects often have long-term cost savings. A campus sustainability revolving loan fund helps overcome this challenge by providing zero or low interest loans to fund money-saving sustainability projects.</p>
 
   <p>A portion of the savings generated from these projects is then reinvested into the fund until the loan has been paid off, enabling the fund to help finance additional sustainability projects. There are many possible ways to structure campus sustainability revolving loan funds and similar funds. This resource highlights several different funds that might provide useful models for your own campus.</p>
 
   <p>For additional information, see <a href="http://www.aashe.org/resources/aashe-partnered-publications#bottomline">Greening the Bottom Line</a> and related resources from the Sustainable Endowment Institute's <a href="http://greenbillion.org/about/">Billion Dollar Green Challenge.</a></p>
-
-  <p>For more on setting up revolving loan funds, see the AASHE Blog article, <a href="http://www.aashe.org/blog/guest-blogger-revolve-or-not-revolve">"To Revolve or Not to Revolve."</a></p>
 </div>
 {% endblock body %}
 
@@ -63,17 +61,7 @@
   <p>AASHE's Revolving Loan Funds Database indexes campus revolving loan funds that are used to pay for sustainability projects. For additional information, see <a href="http://www.aashe.org/resources/aashe-partnered-publications#bottomline">Greening the Bottom Line</a> and related resources from the Sustainable Endowment Institute's <a href="http://greenbillion.org/about/" target="_blank"><i class="icon-share"></i>Billion Dollar Green Challenge.</a></p>
 
   <h3>Help Improve This Resource</h3>
-  <p>Don't see the revolving loan fund project from your campus? Add it! Anyone can submit new or updated information to this database.</p>
+  <p>Don't see a revolving loan fund project from your campus? Add it! Anyone can submit new or updated information in the database.</p>
   <p><a href="{% url revolving-fund-create %}"><button class="btn btn-primary btn-medium" type="button">Add a Fund</button></a> {% if request.user.is_staff %}<a href="{% url admin:revolving_fund_revolvingloanfund_changelist %}"><button class="btn btn-inverse btn-medium" type="button">Admin</button></a>{% endif %}</p>
-
-  <h3>Additional Related Resources</h3>
-  <p>Other AASHE resources similar to revolving loan funds.</p>
-  <ul>
-    <li><a href="http://www.aashe.org/resources/alumni-sustainability-funds">Alumni Sustainability Funds</a></li>
-    <li><a href="http://www.aashe.org/resources/case-studies/keyword/85">Campus Case Studies on Financing Sustainability</a></li>
-    <li><a href="http://www.aashe.org/resources/case-studies/keyword/88">Campus Case Studies on Sustainable Investment</a></li>
-    <li><a href="http://www.aashe.org/resources/mandatory-student-fees-renewable-energy-and-energy-efficiency">Dedicated Student Fees List</a></li>
-    <li><a href="http://www.aashe.org/resources/student-fees-sustainability/">Student Fees for Sustainability</a></li>
-  </ul>
 </div>
 {% endblock right-side %}
