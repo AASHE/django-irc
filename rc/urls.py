@@ -19,5 +19,6 @@ urlpatterns = patterns(
     ('', include('rc.resources.apps.programs.urls')),
     ('', include('rc.resources.apps.officers.urls')),
     ('', include('rc.resources.apps.revolving_fund.urls')),
-    ('', include('rc.cms.urls')),    
+    ('', include('rc.cms.urls')),
+    (r'^academic-programs/', include('rc.resources.apps.academic_programs.urls')),   
 )

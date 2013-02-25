@@ -1,0 +1,66 @@
+{% extends "academic_programs/base_programs.html" %}
+
+{% block title %}
+AASHE Academic Programs Database Mapping
+{% endblock %}
+
+{% block body_attributes %}{{ block.super }}onload="initialize()"{% endblock body_attributes %}
+
+{% block head-extra %}
+{{ block.super }}
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+<script>
+  var map;
+  var infowindow = null;
+  function initialize() {
+    var mapOptions = {
+      zoom: 3,
+      center: new google.maps.LatLng(38, -97),
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+    };
+    map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+    var placeMarker = setMarkers(map);
+  }
+
+   function setMarkers(map) {
+     var pMarker = null;
+     
+     var infowindow = new google.maps.InfoWindow();
+     
+     {% for p in object_list %}
+        {% if p.latitude and p.longitude %}
+          var marker = new google.maps.Marker({
+            map: map,
+            position:  new google.maps.LatLng({{ p.latitude }}, {{ p.longitude }}),
+            labelClass: "labels main-label", // the CSS class for the label
+            labelContent: "{{ p.title }}",
+            });
+          pMarker = marker;
+          
+          google.maps.event.addListener(marker, 'click', function() {
+            infowindow.setContent("<a target=\"_blank\" href=\"{% url program-detail-view slug=p.slug %}\">{{ p.title }}</a><br />{% if p.institution %}{{ p.institution }}<br />{% endif %}{{ p.city }}, {{ p.state }}")
+            infowindow.open(map, this);
+          });
+        {% endif %}
+    {% endfor %}
+
+    return pMarker;
+  }
+
+  google.maps.event.addDomListener(window, 'load', initialize);
+  
+</script>
+{% endblock head-extra %}
+
+{% block breadcrumb %}
+{{ block.super }}
+</ul>
+{% endblock breadcrumb %}
+
+{% block content %}
+
+<h1 class="page-title">AASHE Academic Programs Database Mapping</h1>
+
+<div id="map_canvas"></div>
+
+{% endblock content %}
