@@ -50,7 +50,8 @@ class FundDetailView(DetailView):
             'institution__id').distinct().count()
         context['billion_amount'] = qs.filter(billion_dollar=True).aggregate(
             Sum('total_funds'))['total_funds__sum']
-        context['states'] = RevolvingLoanFund.objects.values_list(
+        context['states'] = RevolvingLoanFund.objects.exclude(
+            institution__state='').values_list(
             'institution__state', flat=True).distinct().order_by(
             'institution__state')
         return context    
@@ -186,7 +187,8 @@ class FundSearchView(SearchView):
             'institution__id').distinct().count()
         extra['billion_amount'] = qs.filter(billion_dollar=True).aggregate(
             Sum('total_funds'))['total_funds__sum']
-        extra['states'] = RevolvingLoanFund.objects.values_list(
+        extra['states'] = RevolvingLoanFund.objects.exclude(
+            institution__state='').values_list(
             'institution__state', flat=True).distinct().order_by(
             'institution__state')
         return extra
@@ -238,7 +240,8 @@ class FundUpdateView(UpdateView):
             'institution__id').distinct().count()
         context['billion_amount'] = qs.filter(billion_dollar=True).aggregate(
             Sum('total_funds'))['total_funds__sum']
-        context['states'] = RevolvingLoanFund.objects.values_list(
+        context['states'] = RevolvingLoanFund.objects.exclude(
+            institution__state='').values_list(
             'institution__state', flat=True).distinct().order_by(
             'institution__state')        
         return context
@@ -262,7 +265,8 @@ class FundCreateView(CreateView):
             'institution__id').distinct().count()
         context['billion_amount'] = qs.filter(billion_dollar=True).aggregate(
             Sum('total_funds'))['total_funds__sum']
-        context['states'] = RevolvingLoanFund.objects.values_list(
+        context['states'] = RevolvingLoanFund.objects.exclude(
+            institution__state='').values_list(
             'institution__state', flat=True).distinct().order_by(
             'institution__state')        
         return context
@@ -285,7 +289,8 @@ class FundStatsMixin(object):
             'institution__id').distinct().count()
         context['billion_amount'] = qs.filter(billion_dollar=True).aggregate(
             Sum('total_funds'))['total_funds__sum']
-        context['states'] = RevolvingLoanFund.objects.values_list(
+        context['states'] = RevolvingLoanFund.objects.exclude(
+            institution__state='').values_list(
             'institution__state', flat=True).distinct().order_by(
             'institution__state')        
         return context    
