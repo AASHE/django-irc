@@ -1,6 +1,5 @@
 from django.contrib import admin
-from rc.resources.apps.revolving_fund.models import RevolvingLoanFund
-
+from models import RevolvingLoanFund
 
 
 class RevolvingLoanFundAdmin(admin.ModelAdmin):

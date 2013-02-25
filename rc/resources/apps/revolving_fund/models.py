@@ -14,7 +14,8 @@ class RevolvingLoanFundManager(models.Manager):
 class RevolvingLoanFund(models.Model):
     institution = models.ForeignKey(Organization, verbose_name='Institution')
     billion_dollar = models.BooleanField(
-        verbose_name='Billion Dollar Green Challenge Participant?')
+        verbose_name='Billion Dollar Green Challenge Participant?',
+        help_text='Select this if the institution is participaing in the Billion Dollar Green Challenge.')
     fund_name = models.CharField(max_length=120,
                                  verbose_name='Name of Fund')
     slug = models.SlugField(blank=True, editable=False)
@@ -28,17 +29,24 @@ class RevolvingLoanFund(models.Model):
     pub_date = models.DateField(blank=True, null=True)
     last_updated = models.DateTimeField(auto_now=True)
     funded_projects = models.IntegerField(
-        verbose_name='Number of Funded Projects',
+        verbose_name='Number of Funded Projects (est.)',
         help_text='The count of projects this fund has supported.',
         blank=True, null=True)
     estimated_roi=models.IntegerField(
         verbose_name='Estimated Return on Investment',
         blank=True, null=True)
-    #billion_dollar_url = models.URLField(blank=True)
+    contact_first_name = models.CharField(blank=True, max_length=75)
+    contact_last_name = models.CharField(blank=True, max_length=75)
+    contact_email = models.EmailField(blank=True)
+    contact_title = models.CharField(blank=True, max_length=120)
     objects = RevolvingLoanFundManager()
     
     def __unicode__(self):
         return self.institution.name
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('revolving-fund-detail', (), {'slug': self.slug})
 
     def save(self, *args, **kwargs):
         if not self.slug:

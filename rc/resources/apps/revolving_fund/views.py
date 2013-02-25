@@ -1,6 +1,8 @@
 from datetime import datetime
 from django.core.urlresolvers import reverse_lazy
 from django.db.models import Sum, Count
+from django.http import HttpResponseRedirect
+from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView, CreateView
@@ -197,7 +199,7 @@ class FundSearchView(SearchView):
         like.
         """
         try:
-            page_no = int(self.requrest.GET.get('page', 1))
+            page_no = int(self.request.GET.get('page', 1))
         except (TypeError, ValueError):
             raise Http404("Not a valid number for page.")
 
@@ -263,4 +265,87 @@ class FundCreateView(CreateView):
             'institution__state', flat=True).distinct().order_by(
             'institution__state')        
         return context
+
+class FundStatsMixin(object):
+    '''
+    Special mixin class that auto-populates the template context
+    with some useful statistics & summations.
+    '''
+    def get_context_data(self, **kwargs):
+        context = super(FundStatsMixin, self).get_context_data(**kwargs)
+        qs = RevolvingLoanFund.objects.published()
+        context['total_funds'] = qs.count()
+        context['total_institutions'] = qs.values_list(
+            'institution__id', flat=True).distinct().count()
+        context['total_amount'] = qs.aggregate(
+            Sum('total_funds'))['total_funds__sum']
+        context['billion_participants'] = qs.filter(
+            billion_dollar=True).values_list(
+            'institution__id').distinct().count()
+        context['billion_amount'] = qs.filter(billion_dollar=True).aggregate(
+            Sum('total_funds'))['total_funds__sum']
+        context['states'] = RevolvingLoanFund.objects.values_list(
+            'institution__state', flat=True).distinct().order_by(
+            'institution__state')        
+        return context    
     
+# class FundCreate(FundStatsMixin, TemplateView):
+#     create_form_class = RevolvingLoanFundCreateForm
+#     contact_form_class = FundContactForm
+#     success_url = reverse_lazy("revolving-fund-create-success")
+#     template_name = 'revolving_fund/revolvingloanfund_create.html'
+
+#     def get_context_data(self, **kwargs):
+#         context = FundStatsMixin.get_context_data(self, **kwargs)
+#         context.update(kwargs)
+#         return context
+    
+#     def get_form_kwargs(self, prefix=None):
+#         kwargs = {}
+#         if prefix:
+#             kwargs.update({'prefix': prefix})
+#         if self.request.method in ('POST', 'PUT'):
+#             kwargs.update({
+#                     'data': self.request.POST,
+#                     'files': self.request.FILES,
+#                     })
+#         return kwargs
+
+#     def get_forms(self):
+#         create = self.create_form_class(**self.get_form_kwargs(prefix='create'))
+#         contact = self.contact_form_class(**self.get_form_kwargs(prefix='contact'))
+#         return create, contact
+    
+#     def get(self, request, *args, **kwargs):
+#         create_form, contact_form = self.get_forms()
+#         return self.render_to_response(self.get_context_data(
+#                 create_form=create_form,
+#                 contact_form=contact_form))
+
+#     def get_success_url(self):
+#         if self.success_url:
+#             url = self.success_url % self.fund.__dict__
+#         else:
+#             try:
+#                 url = self.fund.get_absolute_url()
+#             except AttributeError:
+#                 raise ImproperlyConfigured(
+#                     "No URL to redirect to.  Either provide a url or define"
+#                     " a get_absolute_url method on the Model.")
+#         return url
+
+#     def forms_valid(self, create_form, contact_form):
+#         self.fund = create_form.save()
+#         self.contact = contact_form.save(commit=False)
+#         self.contact.fund = self.fund
+#         self.contact.save()
+#         return HttpResponseRedirect(self.get_success_url())
+    
+#     def post(self, request, *args, **kwargs):
+#         create_form, contact_form = self.get_forms()
+#         if create_form.is_valid() and contact_form.is_valid():
+#             return self.forms_valid(create_form, contact_form)
+#         else:
+#             return self.render_to_response(self.get_context_data(
+#                     create_form=create_form,
+#                     contact_form=contact_form))
