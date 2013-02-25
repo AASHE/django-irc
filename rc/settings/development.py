@@ -2,6 +2,8 @@ import os
 from global_settings import *
 
 
+DEBUG=False
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
