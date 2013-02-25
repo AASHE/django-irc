@@ -142,6 +142,7 @@ INSTALLED_APPS = (
     'aashe.organization',
     'aashe.aasheauth',
     'aashe.moderation',
+    'aashe.disciplines',
     'treemenus',
     'linkcheck',
     'haystack',

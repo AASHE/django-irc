@@ -12,6 +12,7 @@ urlpatterns = patterns(
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^moderation/', include('aashe.moderation.urls')),
+    url(r'^academic-programs/', include('rc.resources.apps.academic_programs.urls')),   
     ('', include('rc.resources.apps.education.urls')),
     ('', include('rc.resources.apps.operations.urls')),
     ('', include('rc.resources.apps.pae.urls')),
@@ -20,5 +21,4 @@ urlpatterns = patterns(
     ('', include('rc.resources.apps.officers.urls')),
     ('', include('rc.resources.apps.revolving_fund.urls')),
     ('', include('rc.cms.urls')),
-    (r'^academic-programs/', include('rc.resources.apps.academic_programs.urls')),   
 )
