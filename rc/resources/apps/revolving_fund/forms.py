@@ -5,7 +5,7 @@ from aashe.organization.models import Organization
 
 
 class RevolvingLoanFundUpdateForm(forms.ModelForm):
-    description = forms.CharField(widget=PagedownWidget)
+    description = forms.CharField(required=False, widget=PagedownWidget)
     contact_first_name = forms.CharField(required=True)
     contact_last_name = forms.CharField(required=True)
     contact_email = forms.CharField(required=True)    

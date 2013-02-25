@@ -20,6 +20,7 @@
 <div class="fund-detail">  
 <form method="post" action="{% url revolving-fund-update slug=object.slug %}">
   <legend>{{ object.fund_name }}</legend>
+  {% csrf_token %}
 
   <fieldset>
     <label><strong>Institution:</strong> {{ object.institution.name }}</label>
@@ -63,6 +64,31 @@
     <div class="control-group {% if form.billion_dollar.errors %}error{% endif %}">
       <label class="control-label">{{ form.billion_dollar.label }}</label>
       {{ form.billion_dollar }}{% for error in form.billion_dollar.errors %}<span class="help-inline"><small>{{ error }}</small></span>{% endfor %}
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <h3>Contact Information</h3>
+    <p><strong>Email addresses will not be published in this resource</strong>, but AASHE may email the contact to confirm details about this revolving loan fund.</p>
+
+    <div class="control-group {% if form.contact_first_name.errors %}error{% endif %}">
+      <label class="control-label">{{ form.contact_first_name.label }}</label>
+      {{ form.contact_first_name }}<small>{% for error in form.contact_first_name.errors %}<span class="help-inline">{{ error }}{% empty %}Required{% endfor %}</small></span>
+    </div>
+
+    <div class="control-group {% if form.contact_last_name.errors %}error{% endif %}">
+      <label class="control-label">{{ form.contact_last_name.label }}</label>
+      {{ form.contact_last_name }}<small>{% for error in form.contact_last_name.errors %}<span class="help-inline">{{ error }}{% empty %}Required{% endfor %}</small></span>
+    </div>
+
+    <div class="control-group {% if form.contact_email.errors %}error{% endif %}">
+      <label class="control-label">{{ form.contact_email.label }}</label>
+      {{ form.contact_email }}<small>{% for error in form.contact_email.errors %}<span class="help-inline">{{ error }}{% empty %}Required{% endfor %}</small></span>
+    </div>
+
+    <div class="control-group {% if form.contact_title.errors %}error{% endif %}">
+      <label class="control-label">{{ form.contact_title.label }}</label>
+      {{ form.contact_title }}{% for error in form.contact_title.errors %}<span class="help-inline"><small>{{ error }}</small></span>{% endfor %}
     </div>
   </fieldset>
 

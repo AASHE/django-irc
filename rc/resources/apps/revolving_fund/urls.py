@@ -11,29 +11,36 @@ sqs = SearchQuerySet().models(RevolvingLoanFund)
 urlpatterns = patterns(
     '',
 
-    url(r'^campus-sustainability-revolving-loan-funds/$', views.FundHomepage.as_view(
+    url(r'^campus-sustainability-revolving-loan-funds/$',
+        views.FundHomepage.as_view(
             queryset=RevolvingLoanFund.objects.published()),
         name='revolving-fund-index'),
-    url(r'^campus-sustainability-revolving-loan-funds/all/$', views.FundListView.as_view(
+    url(r'^campus-sustainability-revolving-loan-funds/all/$',
+        views.FundListView.as_view(
             queryset=RevolvingLoanFund.objects.published()),
         name='revolving-fund-all'),
-    url(r'^campus-sustainability-revolving-loan-funds/search/$', search_view_factory(
+    url(r'^campus-sustainability-revolving-loan-funds/search/$',
+        search_view_factory(
             view_class=views.FundSearchView,
             template='revolving_fund/revolvingloanfund_search.html',
             searchqueryset=sqs,
             form_class=SearchForm),
         name='revolving-fund-search'),
-    url(r'^campus-sustainability-revolving-loan-funds/create/$', views.FundCreateView.as_view(),
+    url(r'^campus-sustainability-revolving-loan-funds/create/$',
+        views.FundCreateView.as_view(),
         name='revolving-fund-create'),
-    url(r'^campus-sustainability-revolving-loan-funds/create/success/$', views.FundListView.as_view(
+    url(r'^campus-sustainability-revolving-loan-funds/create/success/$',
+        views.FundListView.as_view(
             template_name='revolving_fund/revolvingloanfund_success.html',
             queryset=RevolvingLoanFund.objects.published()),
-        name='revolving-fund-create-success'),    
+        name='revolving-fund-create-success'),
     url(r'^campus-sustainability-revolving-loan-funds/(?P<slug>[-\w]+)/update/$',
         views.FundUpdateView.as_view(
             model=RevolvingLoanFund),
         name='revolving-fund-update'),
-    url(r'^campus-sustainability-revolving-loan-funds/update/success/$', views.FundListView.as_view(
+    url(r'^campus-sustainability-revolving-loan-funds/update/success/$',
+        views.FundListView.as_view(
+            queryset=RevolvingLoanFund.objects.published(),
             template_name='revolving_fund/revolvingloanfund_success.html'),
         name='revolving-fund-update-success'),
     url(r'^campus-sustainability-revolving-loan-funds/top10/$',
@@ -70,7 +77,8 @@ urlpatterns = patterns(
     url(r'^campus-sustainability-revolving-loan-funds/member/$',
         views.FundByMember.as_view(),
         name='revolving-fund-member'),    
-    url(r'^campus-sustainability-revolving-loan-funds/(?P<slug>[-\w]+)/$', views.FundDetailView.as_view(
-            model=RevolvingLoanFund),
+    url(r'^campus-sustainability-revolving-loan-funds/(?P<slug>[-\w]+)/$',
+        views.FundDetailView.as_view(
+            queryset=RevolvingLoanFund.objects.published()),
         name='revolving-fund-detail'),
     )
