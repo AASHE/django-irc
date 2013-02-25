@@ -1,0 +1,90 @@
+{% extends "resourceitem_list.html" %}
+
+{% load markup tree_menu_tags %}
+
+{% block title %}
+  Campus Sustainability Officers
+{% endblock title %}
+
+{% block breadcrumb %}
+  <ul class="breadcrumb"><li class="first"><a href="/">Home</a></li>
+  <li class="last">Directory of Campus Sustainability Officers</li>
+  </ul>
+{% endblock breadcrumb %}
+
+{% block right %}
+
+<div id="block-menu_block-4" class="block block-menu_block ">
+  <h2 class="block-title"><none></none></h2>
+  <div class="block-content content"><div class="menu-block-4 menu-name-menu-sitemap parent-mlid-38287 menu-level-1">
+      <ul class="menu"><li class="collapsed first menu-mlid-38309"><a class=" general-resources-for-campus-sustainability" title="General Resources for Campus Sustainability" href="http://www.aashe.org/resources/general-resources-campus-sustainability"><span>General Resources for Campus Sustainability</span></a></li>
+        <li class="collapsed menu-mlid-38308"><a class=" education-research-resources" title="Education &amp; Research Resources" href="http://www.aashe.org/resources/education-research-resources"><span>Education &amp; Research Resources</span></a></li>
+        <li class="collapsed menu-mlid-38310"><a class="campus-operations-resources" title="Campus Operations Resources" href="http://www.aashe.org/resources/campus-operations-resources"><span>Campus Operations Resources</span></a></li>
+        <li class="collapsed menu-mlid-38311"><a class=" planning-administration-engagement-resources" title="Planning, Administration &amp; Engagement Resources" href="http://www.aashe.org/resources/planning-administration-engagement-resources"><span>Planning, Administration &amp; Engagement Resources</span></a></li>
+        <li class="collapsed menu-mlid-38312"><a class=" aashe-publications" title="Publications from AASHE" href="http://www.aashe.org/resources/publications-aashe"><span>AASHE Publications</span></a></li>
+        <li class="leaf menu-mlid-38313"><a class=" sustainability-tracking-assessment-rating-system-stars" title="" href="http://stars.aashe.org"><span>Sustainability Tracking, Assessment &amp; Rating System (STARS)</span></a></li>
+        <li class="leaf last menu-mlid-38314"><a class=" reporting-system-for-the-american-college-university-presidents-climate-commitment" title="" href="http://acupcc.aashe.org"><span>Reporting System for the American College &amp; University Presidents’ Climate Commitment</span></a></li>
+    </ul></div>
+  </div>
+</div>
+
+<div class="block block-views " id="block-views-issues-block_5">
+  <h2 class="block-title">AASHE Bulletin</h2>
+  <div class="block-content content"><div class="view view-issues issues-homepage-block view-dom-id-1">
+      <div class="header">
+        <p>For the latest campus sustainability news, resources, opportunities, and events from the U.S. and Canada: <a href="http://www.aashe.org/connect/enewsletters/bulletin" rel="nofollow">Subscribe to the AASHE Bulletin</a></p>
+      </div>
+      <div class="row-1 odd first last">
+        <div class="field-bulletin-archive-url">
+          <a href="http://www2.aashe.org/archives/2011/0307.php ">View the latest issue!</a>  </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock right %}
+
+{% block content %}
+
+<div class="messages notification">
+This list is intended as a resource to higher education institutions. Use of this information for marketing, research, or any other business-related purposes is strictly prohibited. 
+</div>
+
+{{ block.super }}
+
+{% endblock content %}
+
+{% block body %}
+
+<p>This directory lists paid sustainability officers in the U.S. and Canada. Positions focused almost entirely on waste reduction and recycling, or environmental compliance are not included. In cases where multiple people at an institution meet the criteria, only one is listed.  Links to articles about the appointment of each campus sustainability officer are included when available, as they often provide useful information about how and why the position was created.</p>
+
+<p>The goals of this list are to: 1) provide an accurate accounting of the number of schools that have hired at least one full-time staff member devoted to environmental stewardship or sustainability, and 2) connect campus sustainability professionals with each other to facilitate sharing of knowledge and resources. Other individuals may use this list to contact campus sustainability professionals about establishing such a position on their own campus, or to get their advice on particular initiatives.</p>
+
+<p><strong>This directory is not to be used for solicitation purposes.</strong></p>
+
+
+  <div id="resource_list">
+    <p>
+      {% for officer in object_list %}
+        <p>
+          <strong>{{ officer.organization.picklist_name }}</strong><br />
+          {% if officer.email %}
+            <a href="mailto:{{ officer.email }}">{{ officer.full_name }}</a><br />
+          {% else %}
+            {{ officer.full_name }}<br />
+          {% endif %}
+          {{ officer.title }}<br />
+          {% if officer.department %}
+            {{ officer.department }}<br />
+          {% endif %}
+          {% if officer.phone %}
+            {{ officer.phone }}<br />
+          {% endif %}
+          {% if officer.web_page %}
+            <a href="{{ officer.web_page }}">{{ officer.web_page }}</a><br />
+          {% endif %}
+        </p>
+      {% endfor %}
+    </p>
+  </div>
+
+{% endblock body %}
