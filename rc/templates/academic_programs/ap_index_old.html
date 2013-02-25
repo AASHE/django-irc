@@ -1,0 +1,97 @@
+{% extends "academic_programs/base_programs.html" %}
+
+{% block page-title %}
+<h1 class="page-title">AASHE Academic Programs Database</h1>
+{% endblock %}
+
+{% block breadcrumb %}
+{{ block.super }}
+</ul>
+{% endblock breadcrumb %}
+
+{% block content %}
+<div class="resource-head">
+  
+  <p>AASHE's Academic Program database contains <strong>x</strong> sustainability-focused academic programs at <strong>x</strong> campuses in <strong>x</strong> states and provinces.</p>
+  
+  <div id="sponsorship-home" class="clearfix">
+    <a href="changme">
+
+    <div id="sponsorship-home-left" style="display: block; float: right; width: 400px; position: relative; top: 25px;">
+      <p>This database made possible through the sponsorship of AMSOLAR. If you have questions about implementing a solar project on your campus, <span style="color: #004d72; text-decoration: underline;">AMSOLAR is available to answer your questions.</span></p>
+    </div>
+    
+    <div style="width: 200px;">
+      <img id="sponsorship-homepage-logo" src="http://conf2011.aashe.org/index.php?q=files/imagecache/silver_sponsor/WasteManagement_logo_0.png">
+    </div>
+    </a>
+  </div>
+
+</div>
+
+<div class="program-index-block clearfix">
+  <div class="program-nav-block-right">
+    <h2>Search</h2>
+    <form class="changme" method="get" action="{% url academic-program-search %}">{% csrf_token %}<input name="q" type="text" /><input type="submit" value="Search" /></form>
+  </div>
+
+  <div class="program-nav-block-left">
+    <div class="accordion-wrapper">
+      <div class="accordionButton on first"><h3><a href="#">Degree Types</a></h3></div>
+      <div class="accordionContent">
+      <ul class="nav-menu">
+      {% for program_type in types %}
+        <li><a href="{% url program-type-view type=program_type.slug %}">{{ program_type.name }}</a></li>
+      {% endfor %}
+      </ul>
+      </div>
+      
+      <div class="accordionButton"><h3><a href="#">Disciplines</a></h3></div>
+      <div class="accordionContent">
+      <ul class="nav-menu">
+        <ul class="nav-menu">
+        {% for discipline in disciplines %}
+        <li><a href="{% url program-discipline-view discipline=discipline.slug %}">{{ discipline.name }}</a></li>
+        {% endfor %}
+      </ul>
+      </div>
+      
+      <div class="accordionButton"><h3><a href="#">Contribute</a></h3></div>
+      <div class="accordionContent">
+      <ul class="nav-menu">      
+      <li><a href="changme">Update Information</a></li>
+      <li><a href="changme">Add a Program</a></li>
+      <li><a href="changme">Provide Feedback</a></li>
+      </ul>
+      </div>
+      
+      <div class="accordionButton"><h3><a href="#">Explore</a></h3></div>
+      <div class="accordionContent">
+      <ul class="nav-menu">
+      <li><a href="changme">View Statistics</a></li>
+      <li><a href="changme">Get Data</a></li>
+      </ul>
+      </div>
+      
+  </div>
+  </div>
+  
+  <div class="program-sponsors-block">
+    <p>Please visit our sponsors:</p>
+    <div class="sponsor">
+          <img src="http://conf2011.aashe.org/index.php?q=files/imagecache/silver_sponsor/Aramark%20without%20background.png" />
+        </div>
+        <div class="sponsor">
+          <img src="http://conf2011.aashe.org/index.php?q=files/imagecache/silver_sponsor/WasteManagement_logo_0.png" />
+        </div>
+        <div class="sponsor">
+          <img src="http://conf2011.aashe.org/index.php?q=files/imagecache/silver_sponsor/siemens_logo_rgb_1.jpg" />
+        </div>
+        <div class="sponsor">
+          <img src="http://conf2011.aashe.org/index.php?q=files/imagecache/silver_sponsor/Trane.png" />
+        </div>
+      </div>
+  
+</div>
+
+{% endblock %}

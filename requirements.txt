@@ -6,5 +6,10 @@ BeautifulSoup
 Sphinx
 Fabric
 pyPdf
+django-haystack
+Whoosh
 requests
+geopy
+python-memcached
+django-debug-toolbar
 -e git+https://github.com/AASHE/django-linkcheck#egg=django-linkcheck
