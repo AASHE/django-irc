@@ -1,4 +1,6 @@
 from django.conf.urls.defaults import patterns, url
+from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse_lazy
 from haystack.forms import ModelSearchForm, SearchForm
 from haystack.query import SearchQuerySet
 from haystack.views import SearchView, search_view_factory
@@ -27,7 +29,8 @@ urlpatterns = patterns(
             form_class=SearchForm),
         name='revolving-fund-search'),
     url(r'^create/$',
-        views.FundCreateView.as_view(),
+        login_required(views.FundCreateView.as_view(),
+                       login_url=reverse_lazy('accounts-login')),
         name='revolving-fund-create'),
     url(r'^create/success/$',
         views.FundListView.as_view(
@@ -35,8 +38,8 @@ urlpatterns = patterns(
             queryset=RevolvingLoanFund.objects.published()),
         name='revolving-fund-create-success'),
     url(r'^(?P<slug>[-\w]+)/update/$',
-        views.FundUpdateView.as_view(
-            model=RevolvingLoanFund),
+        login_required(views.FundUpdateView.as_view(
+                model=RevolvingLoanFund), login_url=reverse_lazy('accounts-login')),
         name='revolving-fund-update'),
     url(r'^update/success/$',
         views.FundListView.as_view(

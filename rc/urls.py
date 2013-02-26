@@ -1,6 +1,9 @@
 from django.conf.urls.defaults import patterns, include, url
 from django.contrib import admin
+from django.core.urlresolvers import reverse_lazy
 from aashe import moderation
+from aashe.aasheauth.forms import LoginForm
+
 
 admin.autodiscover()
 
@@ -14,6 +17,13 @@ urlpatterns = patterns(
     url(r'^moderation/', include('aashe.moderation.urls')),
     url(r'^campus-sustainability-revolving-loan-funds/',
         include('rc.resources.apps.revolving_fund.urls')),
+    url(r'^accounts/login/$', 'aashe.aasheauth.views.login',
+        {'template_name': 'auth/login.html',
+         'authentication_form': LoginForm},
+        name='accounts-login'),
+    url(r'^accounts/logout/$', 'aashe.aasheauth.views.logout_then_login',
+        {'login_url': reverse_lazy('accounts-login')},
+        name='accounts-logout'),
     ('', include('rc.resources.apps.education.urls')),
     ('', include('rc.resources.apps.operations.urls')),
     ('', include('rc.resources.apps.pae.urls')),
