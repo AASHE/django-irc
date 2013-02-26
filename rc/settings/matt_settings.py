@@ -1,4 +1,5 @@
 from global_settings import *
+from salesforce import *
 
 DATABASES = {
     'default': {
