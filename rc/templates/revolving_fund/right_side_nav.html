@@ -17,6 +17,6 @@
   </ul>
 
   <h3>Help Improve This Resource</h3>
-  <p>Don't see the revolving loan fund project from your campus? Add it! Anyone can submit new or updated information to this database.</p>
+  <p>Don't see a revolving loan fund project from your campus? Add it! Anyone can submit new or update information in the database.</p>
   <p><a href="{% url revolving-fund-create %}"><button class="btn btn-primary btn-medium" type="button">Add a Fund</button></a> {% if request.user.is_staff %}<a href="{% url admin:revolving_fund_revolvingloanfund_changelist %}"><button class="btn btn-inverse btn-medium" type="button">Admin</button></a>{% endif %}</p>
 </div>

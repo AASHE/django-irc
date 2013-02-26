@@ -21,6 +21,9 @@
   {% endif %}
 
   <table class="table">
+    <thead>
+      <tr class="info"><th colspan="2"><strong>{{ object.institution.name }}</strong></th></tr>
+    </thead>
     <tbody>
       <tr>
         <td><strong>Fund Size</strong></td>
@@ -41,6 +44,10 @@
       <tr>
         <td><strong>Estimated ROI <sup>*</sup></strong></td>
         <td>{{ object.estimated_roi|default:"Data Not Provided" }}</td>
+      </tr>
+      <tr>
+        <td><strong>Contact</strong></td>
+        <td>{{ object.contact_name_and_title|default:"Data Not Provided" }}</td>
       </tr>
     </tbody>
   </table>

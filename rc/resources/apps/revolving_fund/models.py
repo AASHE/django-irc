@@ -44,6 +44,15 @@ class RevolvingLoanFund(models.Model):
     def __unicode__(self):
         return self.institution.name
 
+    def contact_name_and_title(self):
+        if self.contact_first_name and self.contact_last_name:
+            name = u'%s %s' % (self.contact_first_name, self.contact_last_name)
+            if self.contact_title:
+                name += u' (%s)' % self.contact_title
+            return name
+        else:
+            return u''
+
     @models.permalink
     def get_absolute_url(self):
         return ('revolving-fund-detail', (), {'slug': self.slug})
