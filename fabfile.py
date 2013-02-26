@@ -45,7 +45,11 @@ def dev():
     if os.environ.has_key('FABRIC_DEV_PASSWORD'):
         env.password = os.environ['FABRIC_DEV_PASSWORD']
     env.requirements_txt = 'requirements/dev.txt'
-    env.release_path = '%s/current' % env.remote_path    
+    env.release_path = '%s/current' % env.remote_path
+    env.remote_vars = {
+        'SALESFORCE_USERNAME': os.environ.get('SALESFORCE_USERNAME', None),
+        'SALESFORCE_PASSWORD': os.environ.get('SALESFORCE_PASSWORD', None),
+        }    
     
 def new():
     '''
@@ -75,6 +79,10 @@ def production():
     # set a sane default for release_path so that Fabric tasks like
     # syncdb, reset, etc. still work outside of deployment scenario
     env.release_path = '%s/current' % env.remote_path
+    env.remote_vars = {
+        'SALESFORCE_USERNAME': os.environ.get('SALESFORCE_USERNAME', None),
+        'SALESFORCE_PASSWORD': os.environ.get('SALESFORCE_PASSWORD', None),
+        }
 
 def deploy():
     '''
