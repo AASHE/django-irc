@@ -71,7 +71,7 @@ def production():
     env.uwsgi_service_name = 'aashe-rc'
     if os.environ.has_key('FABRIC_PRODUCTION_PASSWORD'):
         env.password = os.environ['FABRIC_PRODUCTION_PASSWORD']
-    env.requirements_txt = 'requirements/prod.txt'
+    env.requirements_txt = 'requirements/production.txt'
     # set a sane default for release_path so that Fabric tasks like
     # syncdb, reset, etc. still work outside of deployment scenario
     env.release_path = '%s/current' % env.remote_path
