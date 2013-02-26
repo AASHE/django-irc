@@ -1,0 +1,58 @@
+{% extends "revolving_fund/base.html" %}
+
+{% block title %}Funds &gt; $1 Million USD | {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+<ul class="breadcrumb"><li class="first"><a href="/">Home</a></li>
+  <li><a href="{% url resource-center-index %}">Resource Center</a></li>
+  <li><a href="{% url revolving-fund-index %}">Campus Sustainability Revolving Loan Funds</a></li>
+  <li class="last">All Funds</li>
+</ul>
+{% endblock breadcrumb %}
+
+{% block body %}
+<h1>Revolving Loan Funds &gt; $1 Million</h1>
+
+<p>AASHE's Revolving Loans Fund database contains information on <strong>{{ total_funds }}</strong> revolving loan funds over $1,000,000 at <strong>{{ total_institutions }}</strong> institutions containing <strong>${{ total_amount }}</strong> in total.
+
+{% include "revolving_fund/revolvingloanfund_table.html" %}
+
+{% endblock body %}
+
+{% block right-side %}
+{% include "revolving_fund/right_side_nav.html" %}
+{% endblock right-side %}
+
+{% block scripts %}
+{{ block.super }}
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+jQuery.extend( jQuery.fn.dataTableExt.oSort, {
+    "currency-pre": function ( a ) {
+        a = (a==="-") ? 0 : a.replace( /[^\d\-\.]/g, "" );
+        return parseFloat( a );
+    },
+ 
+    "currency-asc": function ( a, b ) {
+        return a - b;
+    },
+ 
+    "currency-desc": function ( a, b ) {
+        return b - a;
+    }
+} );
+
+$(document).ready(function() {
+  $('table#revolving-loan').dataTable(
+     {
+        "bPaginate": false,
+        "bLengthChange": false, 
+        "bFilter": false,
+        "aoColumnDefs": [
+            { "sType" : "currency", "aTargets": [ 2 ] }
+        ],
+        "aaSorting": [ [ 2, "desc" ] ],
+     });
+});
+</script>
+{% endblock scripts %}

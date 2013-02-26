@@ -1,0 +1,88 @@
+
+
+{% ifequal object.menuitem.level 2 %}
+  {% if object.menuitem.has_children %}
+  {% for child_menu_item in object.menuitem.children %}
+    {% if child_menu_item.has_children %}
+      <h2>{{ child_menu_item }}</h2>
+      <ul class="menu">
+      {% for child in child_menu_item.children %}
+        {% if not child.has_children %}
+          {% if child.extension.protected %}
+            {% if child.url %}
+            <li class="leaf"><a href="{{ child.url|prepend_slash }}" class="restricted-content"><span>{{ child.extension.caption }}</span></a></li>
+            {% else %}
+            <li class="leaf"><a href="{% url child.named_url %}" class="restricted-content"><span>{{ child.extension.caption }}</span></a></li>
+            {% endif %}
+          {% else %}
+            {% if child.url %}
+              <li class="leaf"><a href="{{ child.url|prepend_slash }}"><span>{{ child.extension.caption }}</span></a></li>
+            {% else %}
+               <li class="leaf"><a href="{% url child.named_url %}"><span>{{ child.extension.caption }}</span></a></li>
+            {% endif %}
+          {% endif %}          
+        {% else %}
+          <li class="leaf"><span>{{ child }}</span></li>
+          <ul class="menu">
+          {% for second_child in child.children %}
+            {% if second_child.extension.protected %}
+              {% if second_child.url %}
+              <li class="leaf"><a href="{{ second_child.url|prepend_slash }}" class="restricted-content"><span>{{ second_child.extension.caption }}</span></a></li>
+              {% else %}
+              <li class="leaf"><a href="{% url second_child.named_url %}" class="restricted-content"><span>{{ second_child.extension.caption }}</span></a></li>
+              {% endif %}
+            {% else %}
+              {% if second_child.url %}
+              <li class="leaf"><a href="{{ second_child.url|prepend_slash }}"><span>{{ second_child.extension.caption }}</span></a></li>
+              {% else %}
+              <li class="leaf"><a href="{% url second_child.named_url %}"><span>{{ second_child.extension.caption }}</span></a></li>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+          </ul>
+        {% endif %}
+      {% endfor %}
+      </ul>
+    {% endif %}
+  {% endfor %}
+  {% endif %}
+  {% if object.menuitem.has_children %}
+  <ul class="menu">
+  {% for child_menu_item in object.menuitem.children %}
+    {% if not child_menu_item.has_children %}
+      {% if child_menu_item.extension.protected %}
+        {% if child_menu_item.url %}
+        <li class="leaf"><a href="{{ child_menu_item.url|prepend_slash }}" class="restricted-content"><span>{{ child_menu_item }}</span></a></li>
+        {% else %}
+        <li class="leaf"><a href="{% url child_menu_item.named_url %}" class="restricted-content"><span>{{ child_menu_item }}</span></a></li>
+        {% endif %}
+      {% else %}
+        {% if child_menu_item.url %}
+        <li class="leaf"><a href="{{ child_menu_item.url|prepend_slash }}"><span>{{ child_menu_item }}</span></a></li>
+        {% else %}
+        <li class="leaf"><a href="{% url child_menu_item.named_url %}"><span>{{ child_menu_item }}</span></a></li>
+        {% endif %}
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+  </ul>
+  {% endif %}
+  {% else %}
+  <ul class="menu">
+  {% for child_menu_item in object.menuitem.children %}
+    {% if child_menu_item.extension.protected %}
+      {% if child_menu_item.url %}
+      <li class="leaf"><a href="{{ child_menu_item.url|prepend_slash }}" class="restricted-content"><span>{{ child_menu_item }}</span></a></li>
+      {% else %}
+      <li class="leaf"><a href="{% url child_menu_item.named_url %}" class="restricted-content"><span>{{ child_menu_item }}</span></a></li>
+      {% endif %}
+    {% else %}
+      {% if child_menu_item.url %}
+      <li class="leaf"><a href="{{ child_menu_item.url|prepend_slash }}"><span>{{ child_menu_item }}</span></a></li>
+      {% else %}        
+      <li class="leaf"><a href="{% url child_menu_item.named_url %}"><span>{{ child_menu_item }}</span></a></li>
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+  </ul>
+{% endifequal %}

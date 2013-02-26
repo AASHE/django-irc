@@ -1,0 +1,29 @@
+{% extends "revolving_fund/base.html" %}
+
+{% block title %}Billion Dollar Green Challenge Participants | {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+<ul class="breadcrumb"><li class="first"><a href="/">Home</a></li>
+  <li><a href="{% url resource-center-index %}">Resource Center</a></li>
+  <li><a href="{% url revolving-fund-index %}">Campus Sustainability Revolving Loan Funds</a></li>
+  <li class="last">Billion Dollar Green Challenge Participants</li>
+</ul>
+{% endblock breadcrumb %}
+
+{% block body %}
+<h1>Billion Dollar Green Challenge Participants</h1>
+
+<p>The database contains <strong>{{ total_funds }}</strong> revolving loan funds at <strong>{{ total_institutions }}</strong> institutions participating in the <a href="http://greenbillion.org/about/">Billion Dollar Green Challenge</a>. These funds total <strong>${{ total_amount }}</strong>.
+
+{% include "revolving_fund/revolvingloanfund_table.html" %}
+
+{% endblock body %}
+
+{% block right-side %}
+{% include "revolving_fund/right_side_nav.html" %}
+{% endblock right-side %}
+
+{% block scripts %}
+{{ block.super }}
+{% include "revolving_fund/datatable.html" %}
+{% endblock scripts %}

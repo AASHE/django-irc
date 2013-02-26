@@ -1,0 +1,23 @@
+{% extends "revolving_fund/base.html" %}
+
+{% block title %}Submission Successful{% endblock %}
+
+{% block breadcrumb %}
+<ul class="breadcrumb"><li class="first"><a href="/">Home</a></li>
+  <li><a href="{% url resource-center-index %}">Resource Center</a></li>
+  <li><a href="{% url revolving-fund-index %}">Campus Sustainability Revolving Loan Funds</a></li>
+  <li class="last">Submission Success</li>
+</ul>
+{% endblock breadcrumb %}
+
+{% block body %}
+<h1>Revolving Loan Fund Submission Successful</h1>
+
+<p>Thank you for submitting fund information to the Campus Sustainability Revolving Loan Fund database. AASHE staff will review all submissions. New submissions and updates to existing submissions will not be published until reviewed.</p>
+
+<p><a href="{% url revolving-fund-index %}">Return to Campus Sustainability Revolving Loan Funds</a></p>
+{% endblock body %}
+
+{% block right-side %}
+{% include "revolving_fund/right_side_nav.html" %}
+{% endblock right-side %}

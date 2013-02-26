@@ -1,0 +1,29 @@
+{% extends "auth/base.html" %}
+
+{% block body %}
+{% if request.user.is_anonymous %}
+<div class="row">
+  <div class="span12">
+    <h1>Sign-in to your AASHE Account</h1>
+    <p>The AASHE Resource Center makes use of AASHE's Accounts system. If you already have an AASHE Account, please sign-in below. If you need an account, you can create one <a href="http://www.aashe.org/user/register">by clicking here.</a></p>
+
+    <p><em>Please note:</em> you <em>must</em> be signed-in before submitting or updating resource content.</em></p>
+    <form method="post" action="{% url accounts-login %}">
+      {% csrf_token %}
+      {{ form }}
+      <input type="hidden" name="next" id="id_next" value="{{ next }}">
+      <br/>
+      <button class="btn btn-primary">Sign-in</button>
+    </form>
+  </div>
+</div>
+{% else %}
+<div class="row">
+  <div class="span12">
+    <h2>You are already signed-in</h2>
+    <p>You are already signed-in to your AASHE Account. <a href="{% url commons-home %}">Click here to go to the Academic Commons</a>.</p>
+
+  </div>
+</div>
+{% endif %}
+{% endblock %}

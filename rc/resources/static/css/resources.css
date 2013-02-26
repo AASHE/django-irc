@@ -1,0 +1,198 @@
+
+/* Globals */
+body {
+    text-align: left;
+}
+
+/* Typography */
+.fund-detail h2 {
+    color: #003922;
+    margin-top: 1em;
+    padding: 0;
+    line-height: 1em;
+}
+
+/* Divs & Layout */
+.right-nav-menu {
+    margin-top: 2em;
+    min-height: 300px;
+}
+
+#about-revolving-loans {
+    margin-top: 1em;
+    padding-top: 0.5em;
+}
+
+#admin-controls { 
+    margin-top: 5px;
+}
+
+#content-footer {
+    border-top: 1px solid #ddd;
+    margin-top: 2em;
+    clear: both;
+}
+
+/* Lists */
+ul.browse-menu li ul li {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    display: inline;
+}
+
+/* Tables */
+table.funds {
+    width: 100%;
+}
+
+/* forms */
+form.home-search button[type="submit"] {
+    vertical-align: top;
+}
+
+button.btn-fund-update {
+    margin-bottom: 1em;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * 
+ *
+ * jQuery Data Tables Styles 
+ *
+ */
+table#revolving-loan thead th {
+        padding: 3px 18px 3px 10px;
+        border-bottom: 1px solid black;
+        font-weight: bold;
+        cursor: pointer;
+        * cursor: hand;
+}
+
+/* Sorting for DataTables */
+.sorting_asc {
+        background: #cedde4 url('../img/sort_arrow_up_active.png') no-repeat right center;
+}
+
+.sorting_desc {
+        background: #cedde4 url('../img/sort_arrow_down_active.png') no-repeat right center;
+}
+
+.sorting {
+        background: #cedde4 url('../img/sort_arrow_both.png') no-repeat right center;
+}
+
+.sorting:hover, .sorting_asc:hover, .sorting_desc:hover {
+    background-color: #e9eff2;
+}
+
+.sorting_asc_disabled {
+        background: #cedde4 url('../img/sort_arrow_up.png') no-repeat right center;
+}
+
+.sorting_desc_disabled {
+        background: #cedde4 url('../img/sort_arrow_down.png') no-repeat right center;
+}
+
+/* Pagination for DataTables */
+.paginate_disabled_previous, .paginate_enabled_previous, .paginate_disabled_next, .paginate_enabled_next {
+        height: 19px;
+        width: 19px;
+        margin-left: 3px;
+        float: left;
+}
+
+.paginate_disabled_previous {
+        background-image: url('../img/back_disabled.jpg');
+}
+
+.paginate_enabled_previous {
+        background-image: url('../img/back_enabled.jpg');
+}
+
+.paginate_disabled_next {
+        background-image: url('../img/forward_disabled.jpg');
+}
+
+.paginate_enabled_next {
+        background-image: url('../img/forward_enabled.jpg');
+}
+/* * * * * * * * * * * * * * * * * * * * * 
+ * END jQuery DATATABLES STYLES 
+ */
+
+
+/*
+ * Pagination
+ */
+.dataTables_paginate {
+        float: right;
+        text-align: right;
+}
+
+/** PAGINATOR **/
+
+.paginator { 
+  padding: 1em;
+  float: left; 
+}
+ 
+.paginator .prev-na,
+.paginator .next-na {
+  padding:.3em;
+  font:bold .875em arial;
+}
+ 
+.paginator .prev-na,
+.paginator .next-na {
+  border:1px solid #ccc;
+  background-color: #e7eef2;
+  font-weight:normal;
+}
+ 
+.paginator .prev a, .paginator .prev a:visited,
+.paginator .next a, .paginator .next a:visited {
+  border: 1px solid #dae5ea;
+  background-color: #e7eef2;
+  padding:.3em;
+}
+ 
+.paginator .prev, .paginator .prev-na { margin-right:.5em; }
+.paginator .next, .paginator .next-na { margin-left:.5em; }
+ 
+.paginator .page a, .paginator .page a:visited, .paginator .curr {
+  padding:.25em;
+  border: 1px solid #dae5ea;
+  background-color: #e7eef2;
+  margin:0em .25em; 
+}
+ 
+.paginator .curr { 
+  background-color: #e7eef2;
+  border: 1px solid #234f32;
+  font-weight:bold;
+  font-size:1em;
+}
+ 
+.paginator .page a:hover,
+.paginator .curr a:hover,
+.paginator .prev a:hover,
+.paginator .next a:hover {
+  background-color: #e7eef2;
+  border: 1px solid #234f32;
+}
+
+
+/* WMD Style */
+.wmd-panel {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.wmd-input {
+    height: 125px !important;
+    background-color: #fff !important;
+}
+
+.wmd-preview {
+    background-color: #ddd !important;
+}

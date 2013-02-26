@@ -1,0 +1,67 @@
+{% extends "revolving_fund/base.html" %}
+
+{% block body %}
+<h1>Campus Sustainability Revolving Loan Funds Database</h1>
+
+<p>AASHE's Campus Sustainability Revolving Loans Fund database contains information on <strong>{{ total_funds }}</strong> revolving loan funds at <strong>{{ total_institutions }}</strong> institutions containing <strong>${{ total_amount }}</strong>.
+
+<p>The database contains information on <strong>{{ billion_participants }}</strong> institutions participating in the <a href="http://greenbillion.org/about/">Billion Dollar Green Challenge</a>, whose funds total <strong>${{ billion_amount }}</strong>.
+
+<div class="well">
+  <h3>Browse</h3>
+  <div class="row">
+    <div class="span3">
+      <ul class="browse-menu">
+        <li><a href="{% url revolving-fund-all %}">All Funds</a></li>
+        <li><a href="{% url revolving-fund-state state=states.0 %}">By State/Province</a></li>
+        <li><a href="{% url revolving-fund-region region='northeast' %}">By U.S. Region</a></li>
+        <li><a href="{% url revolving-fund-carnegie carnegie='master' %}">By Carnegie Classification</a></li>
+        <li><a href="{% url revolving-fund-year year='2011' %}">By Year Established</a></li>
+      </ul>
+    </div><!-- end .span3 -->
+    <div class="span3">
+      <ul class="browse-menu">
+        <li><a href="{% url revolving-fund-million %}">Funds over $1 million</a></li>
+        <li><a href="{% url revolving-fund-member %}">AASHE Members</a></li>
+        <li><a href="{% url revolving-fund-billion %}">Billion Dollar Green Challenge Participants</a></li>
+      </ul>
+    </div><!-- end .span3 -->
+  </div><!-- end .row -->
+
+  <h3>Search</h3>
+  <form class="home-search search-form" method="GET" action="{% url revolving-fund-search %}">
+    <fieldset>
+      {% csrf_token %}
+      <input class="input-medium search-query" type="text" name="q" id="id_q" placeholder="Search all funds..." />
+      <button type="submit" class="btn">Search</button>
+    </fieldset>
+  </form>
+</div>
+<h3>Analysis</h3>
+
+<p>Analysis and reports from the information in this database.</p>
+
+<ul>
+  <li><a href="{% url revolving-fund-top10 %}">Top 10 Lists</a></li>
+</ul>
+
+<div id="about-revolving-loans">
+  <h3>About Revolving Loans</h3>
+  <p>The high initial cost of many sustainability projects can deter campuses from implementing them, despite the fact that such projects often have long-term cost savings. A campus sustainability revolving loan fund helps overcome this challenge by providing zero or low interest loans to fund money-saving sustainability projects.</p>
+
+  <p>A portion of the savings generated from these projects is then reinvested into the fund until the loan has been paid off, enabling the fund to help finance additional sustainability projects. There are many possible ways to structure campus sustainability revolving loan funds and similar funds. This resource highlights several different funds that might provide useful models for your own campus.</p>
+
+  <p>For additional information, see <a href="http://www.aashe.org/resources/aashe-partnered-publications#bottomline">Greening the Bottom Line</a> and related resources from the Sustainable Endowment Institute's <a href="http://greenbillion.org/about/">Billion Dollar Green Challenge.</a></p>
+</div>
+{% endblock body %}
+
+{% block right-side %}
+<div class="right-nav-menu">
+  <h3>About the Database</h3>
+  <p>AASHE's Revolving Loan Funds Database indexes campus revolving loan funds that are used to pay for sustainability projects. For additional information, see <a href="http://www.aashe.org/resources/aashe-partnered-publications#bottomline">Greening the Bottom Line</a> and related resources from the Sustainable Endowment Institute's <a href="http://greenbillion.org/about/" target="_blank"><i class="icon-share"></i>Billion Dollar Green Challenge.</a></p>
+
+  <h3>Help Improve This Resource</h3>
+  <p>Don't see a revolving loan fund project from your campus? Add it! Anyone can submit new or update information in the database.</p>
+  <p><a href="{% url revolving-fund-create %}"><button class="btn btn-primary btn-medium" type="button">Add a Fund</button></a> {% if request.user.is_staff %}<a href="{% url admin:revolving_fund_revolvingloanfund_changelist %}"><button class="btn btn-inverse btn-medium" type="button">Admin</button></a>{% endif %}</p>
+</div>
+{% endblock right-side %}
