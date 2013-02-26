@@ -43,3 +43,11 @@ AASHE_ISS_DELETION_TABLE = 'acct_deletions'
 
 SALESFORCE_USERNAME=os.environ.get("SALESFORCE_USERNAME", None)
 SALESFORCE_PASSWORD=os.environ.get("SALESFORCE_PASSWORD", None)
+
+# Haystack
+HAYSTACK_SITECONF = 'rc.search_sites'
+HAYSTACK_SEARCH_ENGINE = 'whoosh'
+HAYSTACK_WHOOSH_PATH = os.path.join(SITE_ROOT, '../../whoosh_index')
+
+# Moderation System
+MODERATORS = ('resources@aashe.org', 'niles@aashe.org', 'jesse.legg@aashe.org')
