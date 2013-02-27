@@ -1,0 +1,15 @@
+syntax: glob
+*.pyc
+.DS_Store
+.vagrant
+pip-log.txt
+salesforce.py
+salesforce.pyc
+*~
+rc/rc.db
+
+syntax: regexp
+emacs.desktop
+^docs/_build
+^static/
+^build/

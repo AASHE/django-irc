@@ -1,0 +1,35 @@
+{% extends "resourceitem_list.html" %}
+
+{% block body %}
+
+  <p>
+
+    The following list includes institutions that have active sustainability study abroad programs (general and discipline-specific). Also included are sustainability-centered study abroad programs offered by study abroad organizations.
+
+  </p>
+
+  <div id="resource_list" class="content clear-block">
+    
+    {% regroup object_list by type as type_list %}
+
+    {% for type in type_list %}
+      <p>
+        {% for key, value in program_types.items %}
+        {% if key == type.grouper %}
+          <h2>{{ value }}</h2>
+        {% endif %}
+        {% endfor %}
+        <table>
+          <tbody>
+            <tr>
+              <th>Institution</th>
+              <th>Program<th>
+            </tr>
+           {% include "table_rows.html" with resources=type.list %}
+          </tbody>
+        </table>
+      {% endfor %}
+
+  </div>
+
+{% endblock body %}

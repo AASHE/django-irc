@@ -1,0 +1,114 @@
+{% extends "academic_programs/base_programs.html" %}
+
+{% block content %}
+
+    <h1>
+      {% block title %}
+        {{ title }}
+      {% endblock title %}
+    </h1>
+
+    <div class="content clear-block">
+
+    {% if member_only %}
+	  <div id="restricted-text" class="accessible">
+	    You are viewing member-only content.
+	  </div>
+    {% endif %}
+
+    {% if request.user.is_authenticated %}
+          <div id="admin-controls" style="background-color: #ddd;">
+            <p style="padding: 2px;">Admin controls: <a href="{{ admin_changelist_url }}">Edit in Admin</a></p>
+          </div>
+    {% endif %}
+    
+    <h2>Academic Programs</h2>
+    <table class="views-items academic-programs">
+      {% for program in object_list %}
+      <tr>
+        <th>Title</th>
+        <th>Type</th>
+        <th>Distance or Local</th>
+        <th>Institution(s)</th>
+        <th>Program Discipline</th>
+        <th>Location</th>
+      </tr>
+      
+              <tr>  
+      <td class="title">
+        <a href="changme">{{ program.title }}</a>
+      </td>
+
+      <td class="field-program-type-value">
+        {{ program.program_type.name }}
+      </td>
+
+      <td class="field-program-distance-value">
+        {{ program.distance_ed }}
+      </td>
+
+      <td class="field-campus-value">
+        {% for org in program.organization %}
+          {{ org.name }}
+        {% endfor %}
+      </td>
+
+      <td class="field-program-discipline-value">
+          {{ program.discipline }}
+      </td>
+
+      <td class="phpcode">
+        {% for org in program.organization %}
+          {{ org.city }}, {{ org.province }}
+        {% endfor %}
+      </td>
+
+      <td class="view-node">
+       <a href="changme">Program Overview</a>
+      </td>
+
+      <td class="field-program-url-url">
+      <a href="{{ program.homepage }}">Link to Program</a>
+      </td>
+      
+    </tr>
+    {% endfor %}
+    </table>
+    
+     {% if is_paginated %}
+       <div class="pagination">
+         <span class="step-links">
+           {% if page_obj.has_previous %}
+           <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+           {% endif %}
+
+           <span class="current">
+             Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+           </span>
+
+           {% if page_obj.has_next %}
+           <a href="?page={{ page_obj.next_page_number }}">Next</a>
+           {% endif %}
+         </span>
+       </div>
+    {% endif %}
+  
+    {% block body %}
+	  {% endblock body %}
+
+    <div id="content-footer">
+      <div class="block block-block " id="block-block-43">
+        <div class="block-content content">
+          <p>
+		    <em>Please email <a href="mailto:resources@aashe.org">
+                resources@aashe.org</a> with any suggestions, additions or
+		        updates.
+		    </em>
+		  </p>
+        </div>
+      </div>
+    </div><!-- #content-footer -->
+
+  </div><!-- .content.clear-block -->
+
+{% endblock %}
