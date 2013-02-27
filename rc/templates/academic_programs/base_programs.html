@@ -1,0 +1,56 @@
+{% extends "aashestrap/base_resources.html" %}
+
+{% block css %}
+<link type="text/css" rel="stylesheet" media="all" href="{{ STATIC_URL }}css/academic-programs.css" />
+<link type="text/css" rel="stylesheet" media="all" href="{{ STATIC_URL }}css/style.css" />
+{% endblock %}
+
+{% block breadcrumb %}
+<ul class="breadcrumb">
+  <li class="first"><a href="/">Home</a></li>
+  <li><a href="http://www.aashe.org/resources/education-research-resources">Education and Research Resources</a></li>
+  <li><a href="http://www.aashe.org/resources/curriculum-resources">Curriculum</a></li>
+  <li><a href="{% url program-index-view %}">Academic Programs Database</a></li>
+{% endblock breadcrumb %}
+
+{% block right %}
+
+{% endblock right %}
+
+{% block extra-scripts %}
+<script type="text/javascript" src="{{ STATIC_URL }}js/academic-programs.js"></script>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-1056760-1']);
+  _gaq.push(['_setDomainName', '.aashe.org']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<script type="text/javascript">
+var _sf_async_config={uid:22656,domain:"aashe.org"};
+(function(){
+  function loadChartbeat() {
+    window._sf_endpt=(new Date()).getTime();
+    var e = document.createElement('script');
+    e.setAttribute('language', 'javascript');
+    e.setAttribute('type', 'text/javascript');
+    e.setAttribute('src',
+       (("https:" == document.location.protocol) ? "https://a248.e.akamai.net/chartbeat.download.akamai.com/102508/" : "http://static.chartbeat.com/") +
+       "js/chartbeat.js");
+    document.body.appendChild(e);
+  }
+  var oldonload = window.onload;
+  window.onload = (typeof window.onload != 'function') ?
+     loadChartbeat : function() { oldonload(); loadChartbeat(); };
+})();
+
+</script>     
+{% endblock extra-scripts %}

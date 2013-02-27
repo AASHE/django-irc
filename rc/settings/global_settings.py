@@ -135,9 +135,11 @@ INSTALLED_APPS = (
     'aashe.organization',
     'aashe.aasheauth',
     'aashe.moderation',
+    'aashe.disciplines',
     'treemenus',
     'linkcheck',
     'haystack',
+    'geopy',
     'rc.cms',
     'rc.resources',
     'rc.resources.apps.officers',
@@ -147,9 +149,14 @@ INSTALLED_APPS = (
     'rc.resources.apps.operations',
     'rc.resources.apps.pae',
     'rc.resources.apps.scrape',
+    'rc.resources.apps.academic_programs',
     'rc.resources.apps.revolving_fund',
     'pagedown'
     )
+
+HAYSTACK_SEARCH_ENGINE='whoosh'
+HAYSTACK_WHOOSH_PATH=os.path.join(SITE_ROOT, '') + 'whoosh_index'
+HAYSTACK_SITECONF='urls'
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.auth.context_processors.auth",

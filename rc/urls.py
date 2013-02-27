@@ -24,6 +24,7 @@ urlpatterns = patterns(
     url(r'^accounts/logout/$', 'aashe.aasheauth.views.logout_then_login',
         {'login_url': reverse_lazy('accounts-login')},
         name='accounts-logout'),
+    url(r'^academic-programs/', include('rc.resources.apps.academic_programs.urls')),   
     ('', include('rc.resources.apps.education.urls')),
     ('', include('rc.resources.apps.operations.urls')),
     ('', include('rc.resources.apps.pae.urls')),
@@ -31,4 +32,6 @@ urlpatterns = patterns(
     ('', include('rc.resources.apps.programs.urls')),
     ('', include('rc.resources.apps.officers.urls')),
     ('', include('rc.cms.urls')),    
+    ('', include('rc.resources.apps.revolving_fund.urls')),
+    ('', include('rc.cms.urls')),
 )

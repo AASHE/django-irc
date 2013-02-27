@@ -1,0 +1,63 @@
+{% extends "academic_programs/base_programs.html" %}
+
+{% block page-title %}
+<h1 class="page-title">AASHE Academic Programs Database</h1>
+{% endblock %}
+
+{% block breadcrumb %}
+{{ block.super }}
+</ul>
+{% endblock breadcrumb %}
+
+{% block content %}
+<div class="resource-head">
+  <p>AASHE's Academic Program database contains <strong>{{ total_programs }}</strong> sustainability-focused academic programs at <strong>{{ total_campuses }}</strong> campuses in <strong>{{ total_states }}</strong> states and provinces.</p>
+</div>
+
+<div class="program-index-block clearfix">
+  <div class="program-nav-block-left">
+    <h2>Search</h2>
+    <form class="program-form" method="get" action="{% url academic-program-search %}">{% csrf_token %}<input name="q" type="text" /><input type="submit" value="Search" /></form>
+    <p class="program-small">Searches institution name, city, state, program name, program type, discipline fields.</p>
+  </div>
+
+  <div class="program-nav-block-right">
+    <h2>Browse By</h2>
+       <div class="tab-wrapper">
+         <div class="program-nav-tabs"><a href="#types">Degree Types</a><a href="#disciplines">Disciplines</a></div>
+         <div id="types" class="tab">
+         <ul class="nav-menu">
+         {% for program_type in types %}
+           <li><a href="{% url program-type-view type=program_type.slug %}">{{ program_type.name }}</a></li>
+         {% endfor %}
+         </ul>
+         </div>
+         <div id="disciplines" class="tab">
+         <ul class="nav-menu">
+           {% for discipline in disciplines %}
+           <li><a href="{% url program-discipline-view discipline=discipline.slug %}">{{ discipline.name }}</a></li>
+           {% endfor %}
+         </ul>
+         </div>
+     </div>
+  </div>
+</div>
+
+<div class="program-index-block clearfix">
+  <div class="program-nav-block-left program-nav-block-bottom">
+    <h2>Contribute</h2>
+    <p><strong>Update Programs</strong> &mdash; click the <em>Update this Information</em> link on an existing program to submit additional information.</p>
+    <p><strong>Add a Program</strong> &mdash; use the <a href="{% url program-add %}">Add an Academic Program</a> form to submit a missing program.</p>
+    <p><strong>Conduct Analysis</strong> &mdash; let us know at <a href="mailto:resources@aashe.org">resources@aashe.org</a> if you have published or are working on analysis that draws on the database.</p>
+  </div>
+
+  <div class="program-nav-block-right program-nav-block-bottom">
+    <h2>Analysis</h2>
+    <ul class="program-nav-list">
+      <li><a href="map">Program Map</a></li>
+      <li>Charts (Coming Soon)</li>
+    </ul>
+  </div>
+</div>
+
+{% endblock content %}

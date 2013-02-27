@@ -3,6 +3,8 @@ syntax: glob
 .DS_Store
 .vagrant
 pip-log.txt
+salesforce.py
+salesforce.pyc
 *~
 rc/rc.db
 
