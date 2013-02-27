@@ -1,0 +1,5 @@
+{{ object.institution.name }}
+{{ object.fund_name }}
+{{ object.description }}
+{{ object.institution.city }}
+{{ object.institution.state }}

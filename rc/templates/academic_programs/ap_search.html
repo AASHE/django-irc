@@ -1,0 +1,195 @@
+{% extends "academic_programs/base_programs.html" %}
+
+{% block breadcrumb %}
+{{ block.super }}
+<li class="last">Program Search</li>
+</ul>
+{% endblock breadcrumb %}
+
+{% block page-title %}
+<h1 class="page-title">Academic Programs Search</h1>
+{% endblock %}
+
+{% block content %}
+
+<h2 class="block-title clear">Search Academic Programs</h2>
+<div class="search-wrapper">
+<div class="program-block">
+  <p>Searches institution name, city, state, program name, program type, discipline fields.</p>
+
+  <div class="search-form">
+  <form method="get" action=".">
+    <div class="row">
+      <div class="span3">
+        <div class="query">
+          <label>Search Terms</label>
+        {{ form.q.errors }}
+        {{ form.q }}
+        </div>
+      
+        <div class="search-buttons">
+          <input id="first-submit" class="form-submit" type="submit" value="Search">
+        </div>
+      <!-- end span3 -->
+      </div>
+      
+      <div class="span7 offset1 advanced-filters" style="display:none;">
+        {% for field in form %}
+          {% if not forloop.first %}
+          <div class="fieldWrapper">
+            {{ field.errors }}
+            {{ field.label_tag }} 
+            {{ field }}
+          </div>
+          {% endif %}
+        {% endfor %}
+        <input id="second-submit" class="form-submit" type="submit" value="Search">
+      </div>
+    <!-- end row -->
+    </div>
+  <!-- end search form -->
+  </div>
+    
+</div>
+    
+</div>
+
+{% if query %}
+<div class="span12">
+<h2 class="block-title clear">Showing {{ page.start_index }} - {{ page.end_index }} of {{ page.paginator.object_list.count }} Results for '{{ query }}':</h2>
+</div>
+{% endif %}
+
+<div class="program-block">
+
+{% if page.object_list %}
+
+{% if not query %}
+<div class="span12">
+<h2 class="block-title clear">Showing {{ page.start_index }} - {{ page.end_index }} of {{ page.paginator.object_list.count }} Results Found:</h2>
+</div>
+{% endif %}
+
+<table class="views-items academic-programs" id="program-table">
+  <thead>
+  <tr>
+    <th>Title</th>
+    <th>Type</th>
+    <th>Institution(s)</th>
+    <th>Discipline</th>
+    <th>Location</th>
+    <th>Links</th>
+  </tr>
+  </thead>
+
+{% for result in page.object_list %}
+
+  <tr>  
+  <td class="title">
+    <a href="{% url program-detail-view slug=result.slug %}">{{ result.title }}</a>
+  </td>
+
+  <td class="field-program-type-value">
+    <a href="{% url program-type-view type=result.program_slug %}">{{ result.program_type }}
+  </td>
+
+  <td class="field-campus-value">
+    {% if result.institution_name %}
+      {{ result.institution_name }}
+    {% elif result.other_inst %}
+      {{ result.other_inst }}
+    {% else %}
+      Other/Unknown
+    {% endif %}
+  </td>
+
+  <td class="field-program-discipline-value">
+      {{ result.discipline }}
+  </td>
+
+  <td class="location">
+    {% if result.city and result.state %}
+      {{ result.city }}, {{ result.state }}
+    {% else %}
+      Unknown
+    {% endif %}
+  </td>
+  
+  <td class="program-links">
+    {% if result.homepage %}
+    <a href="{{ result.homepage }}">Program Homepage</a>
+    {% endif %}
+  </td>
+
+  </tr>
+  
+{% endfor %}
+</table>
+
+<div class="paginator">
+        {% if page.has_previous %}
+          <span class="prev"><a href="{?page={{ page.previous_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}}">&laquo; previous</a></span>
+        {% else %}
+          <span class="disabled"></span>
+        {% endif %}
+
+        {% for number in page.leading_range %}
+          {% if page.number == number %}
+            <span class="curr"><a href="?page={{ number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">{{ number }}</a></span>
+          {% else %}
+            <span class="page"><a href="?page={{ number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">{{ number }}</a></span>
+          {% endif %}
+        {% endfor %}
+
+        {% for number in page.main_range %}
+          {% if page.number == number %}
+            <span class="curr"><a href="?page={{ number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">{{ number }}</a></span>
+          {% else %}
+            <span class="page"><a href="?page={{ number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">{{ number }}</a></span>
+          {% endif %}
+        {% endfor %}
+        
+        {% for number in page.trailing_range %}
+          {% if page.number == number %}
+            <span class="curr"><a href="?page={{ number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">{{ number }}</a></span>
+          {% else %}
+            <span class="page"><a href="?page={{ number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">{{ number }}</a></span>
+          {% endif %}
+        {% endfor %}
+        
+        {% if page.has_next %}
+          <span class="next"><a href="?page={{ page.next_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">next &raquo;</a></span>
+        {% else %}
+          <span class="disabled"></span>
+        {% endif %}
+</div>
+
+{% else %}
+{% if query %}
+<p>Sorry! No results found.</p>
+{% endif %}
+{% endif %}
+
+</div>
+
+{% endblock %}
+
+{% block extra-scripts %}
+
+{{ block.super }}
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+  $('#program-table').dataTable(
+    {
+      "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 5 ] } ],
+      "bPaginate": false,
+      "bFilter": false,
+      "bInfo": false,
+      "bLengthChange": false,
+      "aaSorting": [[ 0, "asc" ]]  
+    });
+});
+</script>
+
+{% endblock %}
