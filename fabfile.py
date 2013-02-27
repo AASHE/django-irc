@@ -47,8 +47,8 @@ def dev():
     env.requirements_txt = 'requirements/dev.txt'
     env.release_path = '%s/current' % env.remote_path
     env.remote_vars = {
-        'SALESFORCE_USERNAME': os.environ.get('SALESFORCE_USERNAME', None),
-        'SALESFORCE_PASSWORD': os.environ.get('SALESFORCE_PASSWORD', None),
+        'SALESFORCE_USERNAME': os.environ.get('SALESFORCE_USERNAME', ''),
+        'SALESFORCE_PASSWORD': os.environ.get('SALESFORCE_PASSWORD', ''),
         }    
     
 def new():
@@ -80,8 +80,8 @@ def production():
     # syncdb, reset, etc. still work outside of deployment scenario
     env.release_path = '%s/current' % env.remote_path
     env.remote_vars = {
-        'SALESFORCE_USERNAME': os.environ.get('SALESFORCE_USERNAME', None),
-        'SALESFORCE_PASSWORD': os.environ.get('SALESFORCE_PASSWORD', None),
+        'SALESFORCE_USERNAME': os.environ.get('SALESFORCE_USERNAME', ''),
+        'SALESFORCE_PASSWORD': os.environ.get('SALESFORCE_PASSWORD', ''),
         }
 
 def deploy():
