@@ -1,0 +1,42 @@
+{% extends "aashe/base_resources.html" %}
+{% load markup %}
+{% load markup tree_menu_tags %}
+
+{% block title %}{{ object.title }}{% endblock %}
+
+{% block breadcrumb %}
+
+<ul>
+{% show_menu "AASHE Resource Center" "breadcrumb" %}
+</ul>
+
+{% endblock breadcrumb %}
+
+{% block page-title %}<h1 class="page-title">{{ object.title }}</h1>{% endblock %}
+
+{% block content %}
+
+{% if request.user.is_staff %}
+      <div id="admin-controls" style="background-color: #ddd;">
+        <p style="padding: 2px;">Admin controls: <a href="  {% url admin:cms_page_changelist %}{{ object.id }}">Edit in Admin</a></p>
+      </div>
+{% endif %}
+
+{{ page.content|markdown }}
+
+{% show_menu "AASHE Resource Center" "resource-menu" %}
+
+<div id="content-footer">
+  <div class="block block-block " id="block-block-43">
+    <div class="block-content content">
+      <p>
+    <em>Please email <a href="mailto:resources@aashe.org">
+            resources@aashe.org</a> with any suggestions, additions or
+        updates.
+    </em>
+  </p>
+    </div>
+  </div>
+</div><!-- #content-footer -->
+
+{% endblock content %}

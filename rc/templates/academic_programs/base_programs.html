@@ -1,0 +1,25 @@
+{% extends "aashe/base.html" %}
+
+{% block title %}AASHE Academic Programs Database{% endblock title %}
+
+{% block css %}
+<link type="text/css" rel="stylesheet" media="all" href="{{ STATIC_URL }}css/academic-programs.css" />
+<link type="text/css" rel="stylesheet" media="all" href="{{ STATIC_URL }}css/style.css" />
+{% endblock %}
+
+{% block breadcrumb %}
+<ul class="breadcrumb">
+  <li class="first"><a href="/">Home</a></li>
+  <li><a href="http://www.aashe.org/resources/education-research-resources">Education and Research Resources</a></li>
+  <li><a href="http://www.aashe.org/resources/curriculum-resources">Curriculum</a></li>
+  <li><a href="{% url program-index-view %}">Academic Programs Database</a></li>
+{% endblock breadcrumb %}
+
+{% block right %}
+
+{% endblock right %}
+
+{% block scripts %}
+{{ block.super }}
+<script type="text/javascript" src="{{ STATIC_URL }}js/academic-programs.js"></script>    
+{% endblock scripts %}

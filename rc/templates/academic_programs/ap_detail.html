@@ -1,0 +1,110 @@
+{% extends "academic_programs/base_programs.html" %}
+
+{% block content %}
+
+{% if user.is_staff %}
+<p><a href="{% url admin:academic_programs_academicprogram_change object.pk %}">Edit in Admin</a></p>
+{% else %}
+<p><a href="{% url program-edit slug=object.slug %}">Edit this Program</a></p>
+{% endif %}
+
+
+<h1>
+  {% block title %}
+    {{ object.title }}
+  {% endblock title %}
+</h1>
+
+{% if object.institution %}
+<h2>{{ object.institution.name }}</h2>
+{% endif %}  
+  
+<table>
+<tbody>
+<tr>
+	<th>Program Description</th>
+	<th>Information</th>
+</tr>
+
+{% if object.city and object.state %}
+  <tr><td>Program Location</td><td>{{ object.city }}, {{ object.state }}</td></tr>
+{% endif %}
+  
+<tr><td>Program Type</td><td>{{ object.program_type.name }}</td></tr>
+
+{% if object.discipline %}
+  <tr><td>Program Discipline</td><td>{{ object.discipline }}</td></tr>
+{% endif %}
+
+{% if object.founded %}
+  <tr><td>Year Founded</td><td>{{ object.founded }}</td></tr>
+{% endif %}
+
+{% if object.duration %}
+  <tr><td>Program Duration</td><td>{{ object.duration }}</td></tr>
+{% endif %}
+
+{% if object.language %}
+  <tr><td>Program Language of Instruction</td><td>{{ object.language }}</td></tr>
+{% endif %}
+
+{% if object.department %}
+  <tr><td>Program Department</td><td>{{ object.department }}</td></tr>
+{% endif %}
+
+{% if object.distance_ed %}
+  <tr><td>Local or Distance-Education?</td><td>{{ object.get_distance_ed_display }}</td></tr>
+{% endif %}
+
+{% if object.commitment %}
+  <tr><td>Full-time or Part-time?</td><td>{{ object.get_commitment_display }}</td></tr>
+{% endif %}
+  
+{% if object.homepage %}
+  <tr><td>Program Homepage</td><td><a href="{{ object.homepage }}">Link</a></td></tr>
+{% endif %}
+
+{% if object.blog %}
+  <tr><td>Program Blog</td><td><a href="{{ object.blog }}">Link</a></td></tr>
+{% endif %}
+
+{% if object.linkedin %}
+  <tr><td>Program LinkedIn</td><td><a href="{{ object.linkedin }}">Link</a></td></tr>
+{% endif %}
+
+{% if object.facebook %}
+  <tr><td>Program Facebook</td><td><a href="{{ object.facebook }}">Link</a></td></tr>
+{% endif %}
+
+{% if object.twitter %}
+  <tr><td>Program Twitter</td><td><a href="{{ object.twitter }}">Link</a></td></tr>
+{% endif %}
+
+<tr>
+  <td>Program Contact</td><td>{{ object.project_contact1_details|default:"Data Not Provided" }}</td>
+</tr>
+
+</tbody>
+</table>
+
+{% if object.description %}
+<h2>Program Description</h2>
+
+{% autoescape off %}
+<p>{{ object.description }}</p>
+{% endautoescape %}
+
+{% endif %}
+
+
+<h2>Additional Links</h2>
+<p>
+
+{% if object.discipline %}
+<a href='{% url program-discipline-view discipline=object.discipline.slug %}'>View Other {{ object.discipline }} Programs</a><br />
+{% endif %}
+<a href='{% url program-type-view type=object.program_type.slug %}'>View Other {{ object.program_type.name }} Programs</a><br />
+<a href='{% url program-index-view %}'>Return to Academic Programs Search Page</a><br /></p>
+
+
+{% endblock content %}

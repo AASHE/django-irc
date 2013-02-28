@@ -1,0 +1,91 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  {{ title|title }}
+{% endblock title %}
+
+{% block body %}
+
+  {% if image_url %}
+    <span class="image-right">
+      <img src="{{ image_url }}" alt="{{ image_alt }}">
+      <em>{{ image_caption }} </em>
+    </span>
+  {% endif %}
+
+  <p>
+    This resource lists "green" {% firstof buildings_name "buildings" %}
+    at higher education institutions. In addition to new
+    construction, it includes building renovations as well as
+    buildings being operated or maintained sustainably. Buildings
+    that received a LEED (Leadership in Energy and Environmental
+    Design) certification are listed first, grouped by certification
+    level (Platinum, Gold, Silver, Certified). Buildings certified
+    by systems other than LEED are listed next, followed by green
+    buildings that are not certified.
+  </p>
+  <p>
+    LEED was developed by the
+    <a href="http://www.usgbc.org/DisplayPage.aspx?CategoryID=19">U.S.
+    Green Building Council</a> (USGBC). Other green building rating systems
+    include the <a href="http://www.greenglobe.com/">Green Globe
+    Certification</a> and <a href="http://www.breeam.org/index.jsp">
+    BREAMM</a>.
+  </p>
+
+  {% if image_caption %}
+    <span class="image-right">
+
+    </span>
+  {% endif %}
+
+
+  <div id="resource_list">
+
+    <p>
+      {% regroup object_list by certification as list_by_certification %}
+
+      <h2>LEED Certified Green Buildings</h2>
+      
+      {% for certification in list_by_certification %}
+            {% for key, value in cert_order.items %}
+            {% if key == certification.grouper %}
+            <h3>
+              {{ value }}
+            </h3>
+            {% endif %}
+            {% endfor %}
+            {% for resource in certification.list %}
+              <p>
+                <strong>
+                  {{ resource.organization.name }}
+                </strong>
+                <br/>
+                <strong>
+                {% if resource.url %}<a href="{{ resource.url }}">{{ resource.facility_name }}</a>
+                {% else %}{{ resource.facility_name }}
+                {% endif %}
+                </strong>
+                <br />
+                <em>Completed:</em> {{ resource.completed }} <br/>
+                <em>SqFt:</em> {{ resource.sqft }} <br/>
+                <em>Cost:</em> {{ resource.cost }} <br/>
+                {% if resource.beds %}
+                   <em>Beds:</em> {{ resource.beds }} <br/>
+                {% endif %}
+                <em>Certification:</em>
+                {{ resource.get_certification_display }} <br/>
+                <em>Key Features:</em>
+                {{ resource.key_features }} <br/>
+                <em>More information:</em>
+                {% for link in resource.links.all %}
+                  <br/><a href="{{ link.url }}">{{ link.title }}</a>
+                {% endfor %}
+              </p>
+            {% endfor %}
+      {% endfor %}
+
+    </p>
+  </div>
+
+{% endblock body %}

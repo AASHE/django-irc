@@ -1,0 +1,31 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+
+{% endblock title %}
+
+{% block body %}
+
+  <p>
+    <div id="resource_list" class="content clear-block">
+      <p>
+        <table>
+          <tbody>
+            <tr>
+              <th></th>
+              <th></th>
+            </tr>
+            {% for resource in object_list %}
+              <tr>
+                <td>{{ resource.organization.name }}</td>
+                <td><a href="{{ resource.url }}">{{ resource.title }}</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </p>
+    </div>
+  </p>
+
+{% endblock body %}
