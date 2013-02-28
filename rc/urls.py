@@ -31,7 +31,5 @@ urlpatterns = patterns(
     ('', include('rc.resources.apps.policies.urls')),
     ('', include('rc.resources.apps.programs.urls')),
     ('', include('rc.resources.apps.officers.urls')),
-    ('', include('rc.cms.urls')),    
-    ('', include('rc.resources.apps.revolving_fund.urls')),
     ('', include('rc.cms.urls')),
 )
