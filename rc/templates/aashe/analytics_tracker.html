@@ -1,10 +1,14 @@
+{% load drupaltags %}
 {% if GOOGLE_ANALYTICS_KEY %}
 <script type="text/javascript">
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', '{{ GOOGLE_ANALYTICS_KEY }}']);
   _gaq.push(['_setDomainName', 'aashe.org']);
-  _gaq.push(['_setCustomVar', 1, 'Title', '{{ request.session.drupal_user_dict.profile_jobtitle|truncatechars:"122"|default:"Unknown" }}', 1]);
-  _gaq.push(['_setCustomVar', 3, 'User Type', '{% if request.user.is_authenticated %}{{ request.session.drupal_user_dict.roles.5|yesno:"Member,Non-member" }}{% else %}Anonymous{% endif %}', 1]);
+  {% if request.user.is_authenticated and request.session.drupal_user_dict %}
+  _gaq.push(['_setCustomVar', 1, 'User roles', '{% extract_role_names request.session.drupal_user_dict.roles %}', 1]);
+  {% else %}
+  _gaq.push(['_setCustomVar', 1, 'User roles', 'anonymous user', 1]);
+  {% endif %}
   _gaq.push(['_trackPageview']);
 
   (function() {
