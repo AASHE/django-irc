@@ -153,6 +153,7 @@ INSTALLED_APPS = (
     'rc.resources.apps.scrape',
     'rc.resources.apps.academic_programs',
     'rc.resources.apps.revolving_fund',
+    'rc.resources.apps.greenfunds',
     'pagedown'
     )
 
