@@ -48,4 +48,4 @@ HAYSTACK_WHOOSH_PATH = os.path.join(SITE_ROOT, '../../whoosh_index')
 MODERATORS = ('resources@aashe.org', 'niles@aashe.org', 'jesse.legg@aashe.org')
 
 # Analytics
-GOOGLE_ANALYTICS_KEY='UA-1056760-15'
+GOOGLE_ANALYTICS_KEY='UA-1056760-1'
