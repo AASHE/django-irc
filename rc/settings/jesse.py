@@ -54,3 +54,8 @@ INSTALLED_APPS = (
 
 SALESFORCE_USERNAME=os.environ.get("SALESFORCE_USERNAME", None)
 SALESFORCE_PASSWORD=os.environ.get("SALESFORCE_PASSWORD", None)
+
+# Use a fake test analytics key when used with the aashe
+# google_analytics context processor this will output the analytics
+# Javascript, but not actually record hits
+GOOGLE_ANALYTICS_KEY = 'xxxxxxxx'
