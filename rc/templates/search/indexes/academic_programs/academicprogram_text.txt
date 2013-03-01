@@ -1,0 +1,16 @@
+{{ object.institution_name }}
+{{ object.other_inst }}
+{{ object.institution_type }}
+{{ object.institution_control }}
+{{ object.institution_stars }}
+{{ object.institution_is_member }}
+{{ object.city }}
+{{ object.state }}
+{{ object.title }}
+{{ object.program_type }}
+{{ object.program_slug }}
+{{ object.discipline }}
+{{ object.discipline_slug }}
+{{ object.slug }}
+{{ object.homepage }}
+{{ object.description }}

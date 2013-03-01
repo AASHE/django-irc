@@ -1,0 +1,23 @@
+{% extends "academic_programs/base_programs.html" %}
+
+{% block title %}Thank You!{% endblock %}
+
+{% block breadcrumb %}
+<ul>
+{{ block.super }}
+<li class="last">Add an Academic Program</li>
+</ul>
+{% endblock breadcrumb %}
+
+{% block page-title %}
+<h1 class="page-title">Add an Academic Program</h1>
+{% endblock %}
+
+{% block content %}
+<p><a href="{% url program-index-view %}">Back to Academic Programs</a></p>
+
+<p>Your submission has been received!</p>
+
+<p>Thank you for helping to improve this resource. We have received your submission and will review the information before publishing it to the AASHE resource center. If you have any questions or comments please contact <a href="mailto:resources@aashe.org">resources@aashe.org</a>.</p>
+
+{% endblock content %}

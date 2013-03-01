@@ -1,0 +1,30 @@
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+jQuery.extend( jQuery.fn.dataTableExt.oSort, {
+    "currency-pre": function ( a ) {
+        a = (a==="-") ? 0 : a.replace( /[^\d\-\.]/g, "" );
+        return parseFloat( a );
+    },
+ 
+    "currency-asc": function ( a, b ) {
+        return a - b;
+    },
+ 
+    "currency-desc": function ( a, b ) {
+        return b - a;
+    }
+} );
+
+$(document).ready(function() {
+  $('table#revolving-loan').dataTable(
+     {
+        "bPaginate": false,
+        "bLengthChange": false, 
+        "bFilter": false,
+        "aoColumnDefs": [
+            { "sType" : "currency", "aTargets": [ 2 ] }
+        ],
+        "aaSorting": [ [ 0, "asc" ] ],
+     });
+});
+</script>
