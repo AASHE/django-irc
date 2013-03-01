@@ -11,12 +11,12 @@ COMMITMENT_CHOICES = (
 )
 # Term length
 TERM_CHOICES = (
-    ('SM', 'Semester'),
-    ('QA', 'Quarter'),
-    ('CR', 'Credit'),
-    ('AN', 'Anually'),
-    ('TM', 'Trimester'),
-    ('TR', 'Term')
+    ('SM', 'semester'),
+    ('QA', 'quarter'),
+    ('CR', 'credit'),
+    ('AN', 'annually'),
+    ('TM', 'trimester'),
+    ('TR', 'term')
 )
 
 # Create your models here.
@@ -79,4 +79,4 @@ class StudentGreenFund(models.Model):
         super(StudentGreenFund, self).save()
 
     def __unicode__(self):
-        return self.fee_name
+        return self.fund_name
