@@ -26,12 +26,11 @@ CURRENCY_CHOICES = (
 
 # Create your models here.
 class StudentGreenFund(models.Model):
-	fee_name = models.CharField(_('fee name'), max_length=255)
+	fund_name = models.CharField(_('fund name'), max_length=255)
 	institution = institution = models.ForeignKey("organization.Organization", 
                                   help_text="Select the institution or organization that administers this fund",
                                   blank=True, null=True)
-	year = models.CharField(max_length=4, verbose_name='Year Created',
-                             help_text='Enter the year (YYYY) in which the fund was created.', blank=True)
+	year = models.IntegerField(max_length=4, verbose_name='Year Established')
 	rate_per_term = models.DecimalField(decimal_places=2, verbose_name='Rate per term',
                              help_text='Enter the fund\s rate per term. No dollar signs', blank=True)
 	rate_per_term_currency = models.CharField(choices=CURRENCY_CHOICES,
