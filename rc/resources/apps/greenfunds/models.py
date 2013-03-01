@@ -28,17 +28,17 @@ class StudentGreenFund(models.Model):
     year = models.IntegerField(max_length=4, verbose_name='Year Established')
     rate_per_term = models.CharField(max_length=65,
                                      verbose_name='Rate per term', 
-                                     help_text='Enter the fund\s rate per term.',
+                                     help_text="Enter the fund's rate per term.",
                                      blank=True)
     rate_per_summer_term = models.CharField(max_length=65,
                                  verbose_name='Rate per summer term', 
-                                 help_text='Enter the fund\s rate per summer term.',
+                                 help_text="Enter the fund's rate per summer term.",
                                  blank=True)
     mandatory = models.CharField(choices=COMMITMENT_CHOICES, max_length=5,
                                  help_text="Is this fund fee mandatory?")
     term = models.CharField(choices=TERM_CHOICES,
                             max_length=5,
-                            help_text='Please select the term of this fund\'s fee.')
+                            help_text="Please select the term of this fund's fee.")
     homepage = models.URLField(max_length=255, 
                                help_text="Enter the URL for the program's website.")
 
@@ -74,7 +74,7 @@ class StudentGreenFund(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-          unique_slugify(self, '%s' % (self.fund_name))
+          unique_slugify(self, '%s' % (self.institution.name))
           
         super(StudentGreenFund, self).save()
 
