@@ -1,0 +1,20 @@
+{% load drupaltags %}
+{% if GOOGLE_ANALYTICS_KEY %}
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', '{{ GOOGLE_ANALYTICS_KEY }}']);
+  _gaq.push(['_setDomainName', 'aashe.org']);
+  {% if request.user.is_authenticated and request.session.drupal_user_dict %}
+  _gaq.push(['_setCustomVar', 1, 'User roles', '{% extract_role_names request.session.drupal_user_dict.roles %}', 1]);
+  {% else %}
+  _gaq.push(['_setCustomVar', 1, 'User roles', 'anonymous user', 1]);
+  {% endif %}
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+{% endif %}

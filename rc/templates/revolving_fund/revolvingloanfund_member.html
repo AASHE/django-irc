@@ -1,0 +1,29 @@
+{% extends "revolving_fund/base.html" %}
+
+{% block title %}Revolving Loan Funds at AASHE Member Institutions | {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+<ul class="breadcrumb"><li class="first"><a href="/">Home</a></li>
+  <li><a href="{% url resource-center-index %}">Resource Center</a></li>
+  <li><a href="{% url revolving-fund-index %}">Campus Sustainability Revolving Loan Funds</a></li>
+  <li class="last">All Funds</li>
+</ul>
+{% endblock breadcrumb %}
+
+{% block body %}
+<h1>Revolving Loan Funds at AASHE Member Institutions</h1>
+
+<p>The database contains <strong>{{ total_funds }}</strong> revolving loan funds at <strong>{{ total_institutions }}</strong> AASHE member institutions with a total value of <strong>${{ total_amount }}</strong>, including <strong>{{ billion_participants }}</strong> participants in the Billion Dollar Green Challenge.</p>
+
+{% include "revolving_fund/revolvingloanfund_table.html" %}
+
+{% endblock body %}
+
+{% block right-side %}
+{% include "revolving_fund/right_side_nav.html" %}
+{% endblock right-side %}
+
+{% block scripts %}
+{{ block.super }}
+{% include "revolving_fund/datatable.html" %}
+{% endblock scripts %}

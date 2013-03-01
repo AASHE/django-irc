@@ -1,0 +1,73 @@
+{% extends "resourceitem_list.html" %}
+
+{% block title %}
+  Campus Greenhouse Gas Emissions Inventories
+{% endblock title %}
+
+{% block body %}
+
+<p>
+
+This resource contains links to completed campus greenhouse gas emissions inventories. The inventories are organized according to the methodology or tool used to calculate the emissions. This resource list was created prior to the American College &amp; University Presidents' Climate Commitment (ACUPCC) reporting tool. As such, it is not comprehensive for all campuses that are participating in the ACUPCC. For a complete listing of greenhouse gas inventories from ACUPCC signatories, please visit the <a href="http://acupcc.aashe.org/" target="_blank">ACUPCC online reporting tool</a>.
+
+</p>
+
+<div id="resource_list">
+
+  <p>
+    {% regroup object_list by methodology as methodology_list %}
+
+    {% comment %}
+      Put everything but Individually-Derived and Other Methodologies first
+    {% endcomment %}
+    {% for methodology in methodology_list %}
+      <p>
+        {% if methodology.grouper != 'OT' %}
+          {% for key, value in methodology_types.items %}
+          {% if key == methodology.grouper %}
+            <h2>{{ value }}</h2>
+          {% endif %}
+          {% endfor %}
+          <table>
+            <tbody>
+              <tr>
+                <th>Institution</th>
+                <th>Report<th>
+              </tr>
+             {% include "table_rows.html" with resources=methodology.list %}
+            </tbody>
+          </table>
+          <h3>{{ value }}</h2>
+          {% if methodology.grouper = 'CR' %}
+            <p><em>The annual reports of other campus members of the California Climate Action Registry are available through <a href="http://www.climateregistry.org/CARROT/public/reports.aspx">the Registry's online reporting tool</a>.</em></p>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+
+    {% comment %}
+      Now Individually-Derived and Other Methodologies 
+    {% endcomment %}
+    {% for methodology in methodology_list %}
+      <p>
+        {% if methodology.grouper == 'OT' %}
+          {% for key, value in methodology_types.items %}
+            {% if key == methodology.grouper %}
+              <h2>{{ value }}</h2>
+            {% endif %}
+          {% endfor %}
+          <table>
+            <tbody>
+              <tr>
+                <th>Institution</th>
+                <th>Report<th>
+              </tr>
+             {% include "table_rows.html" with resources=methodology.list %}
+            </tbody>
+          </table>
+        {% endif %}
+        </p>
+      {% endfor %}
+  </p>
+</div>
+
+{% endblock body %}
