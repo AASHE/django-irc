@@ -36,8 +36,8 @@ AASHE_ISS_DELETION_TABLE = 'acct_deletions'
 
 # AASHE_DRUPAL_REQUIRED_ROLES = ('Staff', 'Content Administrator')
 
-SALESFORCE_USERNAME=os.environ.get("SALESFORCE_USERNAME", None)
-SALESFORCE_PASSWORD=os.environ.get("SALESFORCE_PASSWORD", None)
+SALESFORCE_USERNAME=os.environ.get("SALESFORCE_USERNAME", '')
+SALESFORCE_PASSWORD=os.environ.get("SALESFORCE_PASSWORD", '')
 
 # Haystack
 HAYSTACK_SITECONF = 'rc.search_sites'
