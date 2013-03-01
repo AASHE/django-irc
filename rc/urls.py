@@ -32,5 +32,4 @@ urlpatterns = patterns(
     ('', include('rc.resources.apps.programs.urls')),
     ('', include('rc.resources.apps.officers.urls')),
     ('', include('rc.cms.urls')),    
-    ('', include('rc.cms.urls')),
 )

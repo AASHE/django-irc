@@ -1,6 +1,8 @@
 from global_settings import *
 from salesforce import *
 
+DEBUG = False
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',

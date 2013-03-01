@@ -8,6 +8,8 @@ SITE_ROOT = os.path.split(os.path.dirname(os.path.realpath(__file__)))[0]
 
 SITE_DOMAIN = 'www.aashe.org'
 
+LOGIN_URL="/resources/accounts/login"
+
 ADMINS = (
     ('Jesse Legg', 'jesse.legg@aashe.org'),
     ('Bob Erb', 'bob.erb@aashe.org'),
