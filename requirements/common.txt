@@ -1,6 +1,6 @@
 # common requirements for all deploys
 Django==1.4.5
--e hg+http://bitbucket.org/aashe/aashe-python#egg=aashe-python
+-e hg+http://bitbucket.org/aashe/aashe-python@0.1.8#egg=aashe-python
 markdown
 django-treemenus
 BeautifulSoup
