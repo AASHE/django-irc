@@ -3,8 +3,8 @@
 {% block title %}AASHE Academic Programs Database{% endblock title %}
 
 {% block css %}
+{{ block.super }}
 <link type="text/css" rel="stylesheet" media="all" href="{{ STATIC_URL }}css/academic-programs.css" />
-<link type="text/css" rel="stylesheet" media="all" href="{{ STATIC_URL }}css/style.css" />
 {% endblock %}
 
 {% block breadcrumb %}
