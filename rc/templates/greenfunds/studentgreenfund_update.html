@@ -5,17 +5,18 @@ Add a Green Fund
 {% endblock %}
 
 {% block breadcrumb %}
-<ul>
-{{ block.super }}
-<li class="last">Update a Green Fund</li>
+<ul class="breadcrumb"><li class="first"><a href="/">Home</a></li>
+  <li><a href="{% url resource-center-index %}">Resource Center</a></li>
+  <li><a href="{% url green-fund-index %}">Campus Sustainability Student Green Funds</a></li>
+  <li class="last">Edit {{ object.fund_name }}</li>
 </ul>
 {% endblock breadcrumb %}
 
-{% block content %}
-<h1 class="page-title">Update a Green Fund</h1>
+{% block body %}
+<h1 class="page-title">Edit {{ object.fund_name }}</h1>
 
-<p><a href="{% url program-index-view %}">Back to Green Funds</a></p>
-<p>Edit information about an existing green fund using the form below. All submissions are reviewed
+<p><em><a href="{% url green-fund-index %}">Return to Student Green Funds Homepage</a></em></p>
+<p>Add or edit information about {{ object.fund_name }} using the form below. All submissions are reviewed
 before being added to the AASHE resource center.</p>
 
 <p>* denotes required fields.</p>
@@ -24,7 +25,7 @@ before being added to the AASHE resource center.</p>
 <p class="errors">Your submission had a problem, please correct the fields indicated below.</p>
 {% endif %}
 
-<form class="fund-update" action="." method="post">
+<form class="fund-create" action="{% url green-fund-add %}" method="post">
 {% csrf_token %}
 
 <h2>Basic Information</h2>
@@ -36,8 +37,8 @@ before being added to the AASHE resource center.</p>
       <td>{{ form.fund_name }} {{ form.fund_name.errors }}</td>
     </tr>
     <tr>
-      <th>{{ form.institution.label_tag }} {% if form.institution.field.required %}<span class="required-field">*</span>{% endif %}</th>
-      <td>{{ form.institution }} <span class="help-text">{{ form.institution.help_text }}</span> {{ form.institution.errors }}</td>
+      <th>Institution</th>
+      <td>{{ object.institution.name }}</td>
     </tr>
     <tr>
       <th>{{ form.year.label_tag }} {% if form.year.field.required %}<span class="required-field">*</span>{% endif %}</th>
@@ -45,11 +46,11 @@ before being added to the AASHE resource center.</p>
     </tr>
     <tr>
       <th>{{ form.rate_per_term.label_tag }} {% if form.rate_per_term.field.required %}<span class="required-field">*</span>{% endif %}</th>
-      <td>{{ form.rate_per_term }} <span class="help-text">{{ form.rate_per_term.help_text }}</span> {{ form.rate_per_term.errors }}</td>
+      <td><span class="input-prepend"><span class="add-on">$</span>{{ form.rate_per_term }} <span class="help-text">{{ form.rate_per_term.help_text }}</span> {{ form.rate_per_term.errors }}</td>
     </tr>
     <tr>
       <th>{{ form.rate_per_summer_term.label_tag }} {% if form.rate_per_summer_term.field.required %}<span class="required-field">*</span>{% endif %}</th>
-      <td>{{ form.rate_per_summer_term }} <span class="help-text">{{ form.rate_per_summer_term.help_text }}</span> {{ form.rate_per_summer_term.errors }}</td>
+      <td><span class="input-prepend"><span class="add-on">$</span>{{ form.rate_per_summer_term }} <span class="help-text">{{ form.rate_per_summer_term.help_text }}</span>{{ form.rate_per_summer_term.errors }}</td>
     </tr>
     <tr>
       <th>{{ form.mandatory.label_tag }} {% if form.mandatory.field.required %}<span class="required-field">*</span>{% endif %}</th>
@@ -103,7 +104,13 @@ before being added to the AASHE resource center.</p>
 </table>
 </fieldset>
 
-<input type="submit" value="Submit Changes" />
+  <p><em>Please note:</em> All changes are reviewed by AASHE staff before being published in the database.</p>
+  <button class="btn btn-primary" type="submit">Submit Changes</button>
 </form>
 
+<p><em><a href="{% url green-fund-index %}">Return to Student Green Funds Homepage</a></em></p>
 {% endblock %}
+
+{% block right-side %}
+{% include "greenfunds/right_side_nav.html" %}
+{% endblock right-side %}

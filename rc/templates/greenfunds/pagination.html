@@ -1,0 +1,37 @@
+<div class="paginator">
+        {% if page.has_previous %}
+          <span class="prev"><a href="{?page={{ page.previous_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}}">&laquo; previous</a></span>
+        {% else %}
+          <span class="disabled"></span>
+        {% endif %}
+
+        {% for number in page.leading_range %}
+          {% if page.number == number %}
+            <span class="curr"><a href="?page={{ number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">{{ number }}</a></span>
+          {% else %}
+            <span class="page"><a href="?page={{ number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">{{ number }}</a></span>
+          {% endif %}
+        {% endfor %}
+
+        {% for number in page.main_range %}
+          {% if page.number == number %}
+            <span class="curr"><a href="?page={{ number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">{{ number }}</a></span>
+          {% else %}
+            <span class="page"><a href="?page={{ number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">{{ number }}</a></span>
+          {% endif %}
+        {% endfor %}
+        
+        {% for number in page.trailing_range %}
+          {% if page.number == number %}
+            <span class="curr"><a href="?page={{ number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">{{ number }}</a></span>
+          {% else %}
+            <span class="page"><a href="?page={{ number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">{{ number }}</a></span>
+          {% endif %}
+        {% endfor %}
+        
+        {% if page.has_next %}
+          <span class="next"><a href="?page={{ page.next_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">next &raquo;</a></span>
+        {% else %}
+          <span class="disabled"></span>
+        {% endif %}
+</div>

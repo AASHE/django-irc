@@ -6,7 +6,7 @@
 {% block breadcrumb %}
 <ul class="breadcrumb"><li class="first"><a href="/">Home</a></li>
   <li><a href="{% url resource-center-index %}">Resource Center</a></li>
-  <li><a href="{% url fund-index-view %}">Campus Sustainability Student Green Funds</a></li>
+  <li><a href="{% url green-fund-index %}">Campus Sustainability Student Green Funds</a></li>
   <li class="last">{{ object.fund_name }}</li>
 </ul>
 {% endblock breadcrumb %}
@@ -15,7 +15,7 @@
 <div class="fund-detail">
   <h1>{{ object.fund_name }}</h1>
 
-  <a href="{% url fund-edit slug=object.slug %}"><button class="btn btn-primary btn-mini btn-fund-update" type="button">Update this Information</button></a>
+  <a href="{% url green-fund-edit slug=object.slug %}"><button class="btn btn-primary btn-mini btn-fund-update" type="button">Update this Information</button></a>
   {% if request.user.is_staff %}
   <a href="{% url admin:greenfunds_studentgreenfund_change object.pk %}"><button class="btn btn-mini btn-inverse btn-fund-update">Edit in Admin</button></a>
   {% endif %}
@@ -36,23 +36,23 @@
     {% endif %}
 
     {% if object.year %}
-      <tr><td>Year Established</td><td>{{ object.year }}</td></tr>
+      <tr><td>Year Established</td><td>{{ object.year|stringformat:"s" }}</td></tr>
     {% endif %}
 
     {% if object.rate_per_term %}
-      <tr><td>Rate Per Term</td><td>{{ object.rate_per_term }}</td></tr>
+      <tr><td>Rate Per Term</td><td>${{ object.rate_per_term }}</td></tr>
     {% endif %}
 
     {% if object.rate_per_summer_term %}
-      <tr><td>Rate Per Summer Term</td><td>{{ object.rate_per_summer_term }}</td></tr>
+      <tr><td>Rate Per Summer Term</td><td>${{ object.rate_per_summer_term }}</td></tr>
     {% endif %}
 
     {% if object.mandatory %}
-      <tr><td>Mandatory</td><td>{{ object.mandatory }}</td></tr>
+      <tr><td>Mandatory</td><td>{{ object.get_mandatory_display }}</td></tr>
     {% endif %}
 
     {% if object.term %}
-      <tr><td>Term</td><td>{{ object.term }}</td></tr>
+      <tr><td>Term</td><td>{{ object.get_term_display }}</td></tr>
     {% endif %}
       
     {% if object.homepage %}
@@ -71,7 +71,7 @@
 <h2>Additional Links</h2>
 <p>
 
-<a href='{% url fund-index-view %}'>Return to Green Funds Index</a><br /></p>
+<a href='{% url green-fund-index %}'>Return to Green Funds Index</a><br /></p>
 
 {% endblock %}
 

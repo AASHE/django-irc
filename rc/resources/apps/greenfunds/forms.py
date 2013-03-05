@@ -3,7 +3,7 @@ from rc.resources.apps.greenfunds.models import *
 from aashe.organization.models import Organization
 
 # CRUD forms        
-class FundCreateForm(forms.ModelForm):
+class StudentGreenFundCreateForm(forms.ModelForm):
       mandatory = forms.ChoiceField(initial='', choices=COMMITMENT_CHOICES, required=False,
                                              label='Program Commitment',
                                              help_text="Is this fund fee mandatory?")
@@ -20,7 +20,7 @@ class FundCreateForm(forms.ModelForm):
                     'project_contact1_phone', 'project_contact1_department', 
                     'project_contact1_email',)
 
-class FundUpdateForm(forms.ModelForm):
+class StudentGreenFundUpdateForm(forms.ModelForm):
       mandatory = forms.ChoiceField(initial='', choices=COMMITMENT_CHOICES, required=False,
                                              label='Program Commitment',
                                              help_text="Is this fund fee mandatory?")

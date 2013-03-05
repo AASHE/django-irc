@@ -5,16 +5,18 @@ Add a Green Fund
 {% endblock %}
 
 {% block breadcrumb %}
-<ul>
-{{ block.super }}
-<li class="last">Add a Green Fund</li>
+<ul class="breadcrumb"><li class="first"><a href="/">Home</a></li>
+  <li><a href="{% url resource-center-index %}">Resource Center</a></li>
+  <li><a href="{% url green-fund-index %}">Campus Sustainability Student Green Funds</a></li>
+  <li class="last">Add a Green Fund</li>
 </ul>
 {% endblock breadcrumb %}
 
-{% block content %}
+{% block body %}
 <h1 class="page-title">Add a Green Fund</h1>
 
-<p><a href="{% url program-index-view %}">Back to Green Funds</a></p>
+<p><em><a href="{% url green-fund-index %}">Return to Student Green Funds Homepage</a></em></p>
+
 <p>Add information about a new green fund using the form below. All submissions are reviewed
 before being added to the AASHE resource center.</p>
 
@@ -24,7 +26,7 @@ before being added to the AASHE resource center.</p>
 <p class="errors">Your submission had a problem, please correct the fields indicated below.</p>
 {% endif %}
 
-<form class="fund-create" action="." method="post">
+<form class="fund-create" action="{% url green-fund-add %}" method="post">
 {% csrf_token %}
 
 <h2>Basic Information</h2>
@@ -103,7 +105,13 @@ before being added to the AASHE resource center.</p>
 </table>
 </fieldset>
 
-<input type="submit" value="Submit New Fund" />
+  <p><em>Please note:</em> All changes are reviewed by AASHE staff before being published in the database.</p>
+  <button class="btn btn-primary" type="submit">Submit Fund</button>
 </form>
 
+<p><em><a href="{% url green-fund-index %}">Return to Student Green Funds Homepage</a></em></p>
 {% endblock %}
+
+{% block right-side %}
+{% include "greenfunds/right_side_nav.html" %}
+{% endblock right-side %}
