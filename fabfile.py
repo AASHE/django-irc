@@ -37,7 +37,7 @@ def dev():
     Configure the fabric environment for the dev server(s).
     '''
     env.user = 'releaser'
-    env.hosts = ['www.aashedev.org']
+    env.hosts = ['dev.aashe.org']
     env.remote_path = '/var/www/django_projects/aashe-rc'
     env.django_settings = 'rc.settings.development'
     env.activate = 'source %s/env/bin/activate' % env.remote_path
