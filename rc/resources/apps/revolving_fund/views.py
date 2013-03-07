@@ -82,13 +82,18 @@ class FundByYear(FundListView):
 
     def get_context_data(self, **kwargs):
         context = super(FundByYear, self).get_context_data(**kwargs)
-        context['year'] = self.kwargs['year']
+        context['year'] = self.kwargs.get('year', str(datetime.now().year))
         context['years'] = RevolvingLoanFund.objects.published().values_list(
             'year', flat=True).distinct().order_by('-year')
+        context['years_extra'] = RevolvingLoanFund.objects.published().values(
+            'year').distinct().annotate(Count('id'), Sum('total_funds')).order_by("-year")
         return context
     
     def get_queryset(self):
-        return self.model._default_manager.filter(year=self.kwargs['year'])
+        if 'year' not in self.kwargs:
+            return self.model._default_manager.filter(year=str(datetime.now().year))
+        else:
+            return self.model._default_manager.filter(year=self.kwargs['year'])
     
 class FundByRegion(FundListView):
     # regions based on U.S. Census Bureau-designated areas
