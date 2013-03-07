@@ -109,32 +109,31 @@ class ProgramLoader(object):
                                  COMMITMENT_CHOICES])
           commitment = commitment_types.get(element['commitment'], '')
           
-          obj, created = AcademicProgram.objects.get_or_create(homepage=unicode(element['homepage']),
-                defaults={
-                'title': element['title'],
-                'location_name': (element['location-name'] or ''),
-                'institution': organization,
-                'other_inst': (element['other-institution'] or ''),
-                'city': (element['city'] or ''),
-                'state': (element['state'] or ''),
-                'description': (element['description'] or ''),
-                'program_type': ptype,
-                'homepage': (element['homepage'] or ''),
-                'department': (element['department'] or ''),
-                'duration': (element['duration'] or ''),
-                'founded': (element['founded'] or ''),
-                'distance_ed': distance_ed,
-                'commitment': commitment,
-                'language': (element['language'] or ''),
-                'blog': (element['blog'] or ''),
-                'linkedin': (element['linkedin'] or ''),
-                'facebook': (element['facebook'] or ''),
-                'twitter': (element['twitter'] or ''),
-                'discipline': discipline,
-                'published': True,
-                'created_date': element['created_date'],
-                'updated_date': element['updated_date'],
-                })
+          obj = AcademicProgram.objects.create(
+                title=element['title'],
+                location_name=(element['location-name'] or ''),
+                institution=organization,
+                other_inst=(element['other-institution'] or ''),
+                city=(element['city'] or ''),
+                state=(element['state'] or ''),
+                description=(element['description'] or ''),
+                program_type=ptype,
+                homepage=(element['homepage'] or ''),
+                department=(element['department'] or ''),
+                duration=(element['duration'] or ''),
+                founded=(element['founded'] or ''),
+                distance_ed=distance_ed,
+                commitment=commitment,
+                language=(element['language'] or ''),
+                blog=(element['blog'] or ''),
+                linkedin=(element['linkedin'] or ''),
+                facebook=(element['facebook'] or ''),
+                twitter=(element['twitter'] or ''),
+                discipline=discipline,
+                published=True,
+                created_date=element['created_date'],
+                updated_date=element['updated_date'],
+                )
           
           # if organization:
           #   obj.institution.add(organization)
