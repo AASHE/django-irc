@@ -1,0 +1,35 @@
+{% extends "revolving_fund/base.html" %}
+{% load state_utils %}
+
+{% block title %}Revolving Loan Funds in the {{ region|title }} Region | {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+<ul class="breadcrumb"><li class="first"><a href="/">Home</a></li>
+  <li><a href="{% url resource-center-index %}">Resource Center</a></li>
+  <li><a href="{% url revolving-fund-index %}">Campus Sustainability Revolving Loan Funds</a></li>
+  <li>U.S. Regions</li>
+  <li class="last">{{ region|title }}</li>
+</ul>
+{% endblock breadcrumb %}
+
+{% block body %}
+<h1>Revolving Loan Funds in the {{ region|title }}</h1>
+<p>The database contains <strong>{{ total_funds }}</strong> revolving loan funds in the <strong>{{ region|title }}</strong>. U.S. regions determined per <a href="http://en.wikipedia.org/wiki/List_of_regions_of_the_United_States#Census_Bureau-designated_areas" target="_blank"><i class="icon-share"></i>U.S. Census Bureau-designated areas.</a></p>
+
+<ul class="breadcrumb">
+  <li>Browse:</li>
+  {% for key, val in regions %}<li><a href="{% url revolving-fund-region region=key %}">{{ val.title }}</a> {% if not forloop.last %}<span class="divider">|</span>{% endif %}</li>{% endfor %}
+</ul>
+
+{% include "revolving_fund/revolvingloanfund_table.html" %}
+
+{% endblock body %}
+
+{% block right-side %}
+{% include "revolving_fund/right_side_nav.html" %}
+{% endblock right-side %}
+
+{% block scripts %}
+{{ block.super }}
+{% include "revolving_fund/datatable.html" %}
+{% endblock scripts %}

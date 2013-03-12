@@ -1,0 +1,80 @@
+{% extends "greenfunds/base_funds.html" %}
+{% load markup %}
+
+{% block title %}{{ object.fund_name }} at {{ object.institution.name }} | {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+<ul class="breadcrumb"><li class="first"><a href="/">Home</a></li>
+  <li><a href="{% url resource-center-index %}">Resource Center</a></li>
+  <li><a href="{% url green-fund-index %}">Campus Sustainability Student Green Funds</a></li>
+  <li class="last">{{ object.fund_name }}</li>
+</ul>
+{% endblock breadcrumb %}
+
+{% block body %}
+<div class="fund-detail">
+  <h1>{{ object.fund_name }}</h1>
+
+  <a href="{% url green-fund-edit slug=object.slug %}"><button class="btn btn-primary btn-mini btn-fund-update" type="button">Update this Information</button></a>
+  {% if request.user.is_staff %}
+  <a href="{% url admin:greenfunds_studentgreenfund_change object.pk %}"><button class="btn btn-mini btn-inverse btn-fund-update">Edit in Admin</button></a>
+  {% endif %}
+
+  <table class="table">
+    <thead>
+      <tr class="info"><th colspan="2"><strong>{{ object.institution.name }}</strong></th></tr>
+    </thead>
+    <tbody>
+      <tr>
+
+    {% if object.institution.city and object.institution.state %}
+      <tr><td>Fund Location</td><td>{{ object.institution.city }}, {{ object.institution.state }}</td></tr>
+    {% endif %}
+
+    {% if object.institution.control %}
+      <tr><td>Fund Control</td><td>{{ object.institution.control }}</td></tr>
+    {% endif %}
+
+    {% if object.year %}
+      <tr><td>Year Established</td><td>{{ object.year|stringformat:"s" }}</td></tr>
+    {% endif %}
+
+    {% if object.rate_per_term %}
+      <tr><td>Rate Per Term</td><td>${{ object.rate_per_term }}</td></tr>
+    {% endif %}
+
+    {% if object.rate_per_summer_term %}
+      <tr><td>Rate Per Summer Term</td><td>${{ object.rate_per_summer_term }}</td></tr>
+    {% endif %}
+
+    {% if object.mandatory %}
+      <tr><td>Mandatory</td><td>{{ object.get_mandatory_display }}</td></tr>
+    {% endif %}
+
+    {% if object.term %}
+      <tr><td>Term</td><td>{{ object.get_term_display }}</td></tr>
+    {% endif %}
+      
+    {% if object.homepage %}
+      <tr><td>Fund Homepage</td><td><a href="{{ object.homepage }}">Link</a></td></tr>
+    {% endif %}
+
+    <tr>
+      <td>Fund Contact</td><td>{{ object.project_contact1_details|default:"Data Not Provided" }}</td>
+    </tr>
+
+    </tbody>
+    </table>
+
+</div>
+
+<h2>Additional Links</h2>
+<p>
+
+<a href='{% url green-fund-index %}'>Return to Green Funds Index</a><br /></p>
+
+{% endblock %}
+
+{% block right-side %}
+{% include "greenfunds/right_side_nav.html" %}
+{% endblock right-side %}

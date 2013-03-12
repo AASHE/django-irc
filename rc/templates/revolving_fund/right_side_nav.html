@@ -1,0 +1,22 @@
+<div class="right-nav-menu">
+  <h3>About the Database</h3>
+  <p>AASHE's <em>Campus Sustainability Revolving Loan Funds Database</em> indexes campus revolving loan funds that are used to pay for sustainability projects. For additional information, see <a href="http://www.aashe.org/resources/aashe-partnered-publications#bottomline">Greening the Bottom Line</a> and related resources from the Sustainable Endowments Institute's <a href="http://greenbillion.org/about/" target="_blank"><i class="icon-share"></i>Billion Dollar Green Challenge.</a></p>
+
+  <h3>Browse the Database</h3>
+  <ul class="browse-menu">
+    <li><a href="{% url revolving-fund-index %}">Revolving Loan Funds Homepage</a></li>
+    <li><a href="{% url revolving-fund-all %}">All Funds</a></li>
+    <li><a href="{% url revolving-fund-state state=states.0 %}">By State/Province</a></li>
+    <li><a href="{% url revolving-fund-region region='northeast' %}">By Region</a></li>
+    <li><a href="{% url revolving-fund-year year='2012' %}">By Year Established</a></li>
+    <li><a href="{% url revolving-fund-carnegie carnegie='master' %}">By Carnegie Classification</a></li>
+    <li><a href="{% url revolving-fund-billion %}">Billion Dollar Green Challenge Participants</a></li>
+    <li><a href="{% url revolving-fund-million %}">Funds over $1 million</a></li>
+    <li><a href="{% url revolving-fund-member %}">AASHE Members</a></li>
+    <li><a href="{% url revolving-fund-top10 %}">Top 10 Lists</a></li>
+  </ul>
+
+  <h3>Help Improve This Resource</h3>
+  <p>Don't see a revolving loan fund project from your campus? Add it! Anyone can submit new or update information in the database.</p>
+  <p><a href="{% url revolving-fund-create %}"><button class="btn btn-primary btn-medium" type="button">Add a Fund</button></a> {% if request.user.is_staff %}<a href="{% url admin:revolving_fund_revolvingloanfund_changelist %}"><button class="btn btn-inverse btn-medium" type="button">Admin</button></a>{% endif %}</p>
+</div>

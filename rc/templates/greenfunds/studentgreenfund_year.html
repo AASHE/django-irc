@@ -1,0 +1,36 @@
+{% extends "greenfunds/base_funds.html" %}
+{% load state_utils %}
+
+{% block title %}Student Green Funds Established in {{ year }} | {{ block.super }}{% endblock title %}
+
+{% block breadcrumb %}
+<ul class="breadcrumb"><li class="first"><a href="/">Home</a></li>
+  <li><a href="{% url resource-center-index %}">Resource Center</a></li>
+  <li><a href="{% url green-fund-index %}">Campus Sustainability Student Green Funds</a></li>
+  <li><a href="{% url green-fund-year-index %}">Year Established</a></li>
+  <li class="last">{{ year }}</li>
+</ul>
+{% endblock breadcrumb %}
+
+{% block body %}
+<h1>Student Green Funds Established in {{ year }}</h1>
+
+<p>AASHE's Campus Sustainability Student Green Fund database contains information on <strong>{{ total_funds }}</strong> student green funds at <strong>{{ total_campuses }}</strong> institutions.</p>
+
+<ul class="breadcrumb">
+  <li>Browse:</li>
+  {% for y in years %}<li><a href="{% url green-fund-year year=y %}">{{ y|stringformat:"s" }}</a>{% if not forloop.last %}<span class="divider">|</span>{% endif %}</li>{% endfor %}
+</ul>
+
+{% include "greenfunds/studentgreenfund_table.html" %}
+
+{% endblock body %}
+
+{% block right-side %}
+{% include "greenfunds/right_side_nav.html" %}
+{% endblock right-side %}
+
+{% block scripts %}
+{{ block.super }}
+{% include "greenfunds/datatable.html" %}
+{% endblock scripts %}

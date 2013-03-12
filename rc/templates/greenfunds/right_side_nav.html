@@ -1,0 +1,13 @@
+<div class="right-nav-menu">
+  <h3>About the Database</h3>
+  <p>AASHE's <em>Student Green Funds Database</em> indexes campus green fee funds that are used to pay for sustainability projects. For additional information, see whatever.</p>
+
+  <h3>Browse the Database</h3>
+  <ul class="browse-menu">
+    <li><a href="{% url green-fund-index %}">Student Green Funds Homepage</a></li>
+  </ul>
+
+  <h3>Help Improve This Resource</h3>
+  <p>Don't see a student green fund fund project from your campus? Add it! Anyone can submit new or update information in the database.</p>
+  <p><a href="{% url green-fund-add %}"><button class="btn btn-primary btn-medium" type="button">Add a Fund</button></a> {% if request.user.is_staff %}<a href="{% url admin:greenfunds_studentgreenfund_changelist %}"><button class="btn btn-inverse btn-medium" type="button">Admin</button></a>{% endif %}</p>
+</div>

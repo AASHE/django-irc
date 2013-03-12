@@ -1,0 +1,36 @@
+{% extends "greenfunds/base_funds.html" %}
+{% load state_utils %}
+
+{% block title %}Student Green Funds in {{ state|upper|expand_state_abbrev }} | {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+<ul class="breadcrumb"><li class="first"><a href="/">Home</a></li>
+  <li><a href="{% url resource-center-index %}">Resource Center</a></li>
+  <li><a href="{% url green-fund-index %}">Campus Sustainability Student Green Funds</a></li>
+  <li>State/Province</li>
+  <li class="last">{{ state|upper|expand_state_abbrev }}</li>
+</ul>
+{% endblock breadcrumb %}
+
+{% block body %}
+<h1>Student Green Funds in {{ state|upper|expand_state_abbrev }}</h1>
+<p>The database contains <strong>{{ total_funds }}</strong> student green funds in <strong>{{ state|upper|expand_state_abbrev }}</strong>.
+
+<ul class="breadcrumb">
+  <li>Browse:</li>
+  {% for state in states %}<li><a href="{% url green-fund-state state=state %}">{{ state|upper }}</a>{% if not forloop.last %}<span class="divider">|</span>{% endif %}</li>{% endfor %}
+</ul>
+
+
+{% include "greenfunds/studentgreenfund_table.html" %}
+
+{% endblock body %}
+
+{% block right-side %}
+{% include "greenfunds/right_side_nav.html" %}
+{% endblock right-side %}
+
+{% block scripts %}
+{{ block.super }}
+{% include "greenfunds/datatable.html" %}
+{% endblock scripts %}

@@ -1,0 +1,59 @@
+{% extends "greenfunds/base_funds.html" %}
+
+{% block body %}
+<h1>Campus Sustainability Student Green Funds Database</h1>
+
+<p>AASHE's Campus Sustainability Student Green Fund database contains information on <strong>{{ total_funds }}</strong> student green loan funds at <strong>{{ total_campuses }}</strong> institutions.
+
+<div class="well">
+  <h3>Browse</h3>
+  <div class="row">
+    <div class="span3">
+      <ul class="browse-menu">
+        <li><a href="{% url green-fund-list %}">All Funds</a></li>
+        <li><a href="{% url green-fund-state state=states.0 %}">By State/Province</a></li>
+        <li><a href="{% url green-fund-region region='northeast' %}">By U.S. Region</a></li>
+        <li><a href="{% url green-fund-year-index %}">By Year Established</a></li>
+      </ul>
+    </div><!-- end .span3 -->
+    <div class="span3">
+      <ul class="browse-menu">
+        <li><a href="{% url green-fund-member %}">AASHE Members</a></li>
+        <li><a href="{% url green-fund-map %}">Green Funds Map</a></li>
+      </ul>
+    </div><!-- end .span3 -->
+  </div><!-- end .row -->
+
+  <h3>Search</h3>
+  <form class="home-search search-form" method="GET" action="{% url green-fund-search %}">
+    <fieldset>
+      {% csrf_token %}
+      <input class="input-medium search-query" type="text" name="q" id="id_q" placeholder="Search all funds..." />
+      <button type="submit" class="btn">Search</button>
+    </fieldset>
+  </form>
+</div>
+<h3>Analysis</h3>
+
+<p>Analysis and reports from the information in this database.</p>
+
+<ul>
+<!--   <li><a href="">Top 10 Lists</a></li>
+ --></ul>
+
+<div id="about-revolving-loans">
+  <h3>About Green Funds</h3>
+  <p>
+</div>
+{% endblock body %}
+
+{% block right-side %}
+<div class="right-nav-menu">
+  <h3>About the Database</h3>
+  <p>AASHE's <em>Student Green Funds Database</em> indexes campus green fee funds that are used to pay for sustainability projects. For additional information, see whatever.</p>
+
+  <h3>Help Improve This Resource</h3>
+  <p>Don't see a student green fund from your campus? Add it! Anyone can submit new or update information in the database.</p>
+  <p><a href="{% url green-fund-add %}"><button class="btn btn-primary btn-medium" type="button">Add a Fund</button></a> {% if request.user.is_staff %}<a href="{% url admin:greenfunds_studentgreenfund_changelist %}"><button class="btn btn-inverse btn-medium" type="button">Admin</button></a>{% endif %}</p>
+</div>
+{% endblock right-side %}
