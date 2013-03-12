@@ -2,11 +2,8 @@ from django import forms
 from rc.resources.apps.greenfunds.models import *
 from aashe.organization.models import Organization
 
-import pdb
-pdb.set_trace()
-
-COMMITMENT_CHOICES_EMPTY = ('','Please Select') + COMMITMENT_CHOICES
-TERM_CHOICES_EMPTY = ('','Please Select') + TERM_CHOICES
+COMMITMENT_CHOICES_EMPTY = (('','Please Select'),) + COMMITMENT_CHOICES
+TERM_CHOICES_EMPTY = (('','Please Select'),) + TERM_CHOICES
 
 # CRUD forms        
 class StudentGreenFundCreateForm(forms.ModelForm):
