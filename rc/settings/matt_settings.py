@@ -1,6 +1,9 @@
 from global_settings import *
-from salesforce import *
-
+try:
+    from salesforce import *
+except:
+    pass
+    
 DEBUG = True
 
 DATABASES = {
