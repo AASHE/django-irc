@@ -41,7 +41,7 @@
     {% endif %}
 
     {% if object.rate_per_term %}
-      <tr><td>Rate Per Term</td><td>${{ object.rate_per_term }}{% if object.term %} per {{ object.get_term_display }}{% endif %}</td></tr>
+      <tr><td>Rate Per Term</td><td>${{ object.rate_per_term }}{% if object.term %} / {{ object.get_term_display }}{% endif %}</td></tr>
     {% endif %}
 
     {% if object.rate_per_summer_term %}
