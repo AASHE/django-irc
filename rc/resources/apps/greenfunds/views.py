@@ -114,6 +114,24 @@ class FundByMember(FundList):
     def get_queryset(self):
         return self.model._default_manager.filter(institution__is_member=True)
 
+class FundCarnegieView(FundList):
+    template_name = 'greenfunds/studentgreenfund_carnegie.html'
+    model = StudentGreenFund
+
+    def get_queryset(self):
+        carnegie = self.kwargs['carnegie'].lower()
+        return self.model._default_manager.filter(
+            institution__carnegie_classification__iexact=carnegie)
+
+    def get_context_data(self, **kwargs):
+        context = super(FundCarnegieView, self).get_context_data(**kwargs)
+        context['carnegie_classes'] = StudentGreenFund.objects.values_list(
+            "institution__carnegie_classification", flat=True).distinct().order_by(
+            "institution__carnegie_classification").exclude(
+                institution__carnegie_classification='')
+        context['carnegie'] = self.kwargs['carnegie']
+        return context
+
 class FundDetail(DetailView):
     queryset = StudentGreenFund.objects.filter(published=True)
     slug_field = 'slug'
