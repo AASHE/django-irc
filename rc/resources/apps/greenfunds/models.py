@@ -35,12 +35,14 @@ class StudentGreenFund(models.Model):
                                  help_text="Enter the fund's rate per summer term.",
                                  blank=True)
     mandatory = models.CharField(choices=COMMITMENT_CHOICES, max_length=5,
-                                 help_text="Is this fund fee mandatory?")
+                                 help_text="Is this fund fee mandatory?",
+                                 blank=True)
     term = models.CharField(choices=TERM_CHOICES,
                             max_length=5,
                             help_text="Please select the term of this fund's fee.")
     homepage = models.URLField(max_length=255, 
-                               help_text="Enter the URL for the program's website.")
+                               help_text="Enter the URL for the program's website.",
+                               blank=True)
 
     project_contact1_firstname = models.CharField(blank=True, max_length=75,
                                                   verbose_name='First name')

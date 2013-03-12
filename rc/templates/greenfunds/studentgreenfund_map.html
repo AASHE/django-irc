@@ -6,7 +6,7 @@
 
 {% block head-extra %}
 {{ block.super }}
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 <script>
   var map;
   var infowindow = null;
@@ -31,12 +31,12 @@
             map: map,
             position:  new google.maps.LatLng({{ p.institution.latitude }}, {{ p.institution.longitude }}),
             labelClass: "labels main-label", // the CSS class for the label
-            labelContent: "{{ p.title }}",
+            labelContent: "{{ p.fund_name }}",
             });
           pMarker = marker;
           
           google.maps.event.addListener(marker, 'click', function() {
-            infowindow.setContent(escape("<a target=\"_blank\" href=\"{% url green-fund-detail slug=p.slug %}\">{{ p.fund_name }}</a><br />{% if p.institution %}{{ p.institution }}<br />{% endif %}{{ p.institution.city }}, {{ p.institution.state }}"))
+            infowindow.setContent("<a target=\"_blank\" href=\"{% url green-fund-detail slug=p.slug %}\">{{ p.fund_name }}</a><br />{% if p.institution %}{{ p.institution.picklist_name }}<br />{% endif %}{{ p.institution.city }}, {{ p.institution.state }}")
             infowindow.open(map, this);
           });
         {% endif %}
