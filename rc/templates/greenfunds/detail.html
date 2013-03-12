@@ -14,6 +14,7 @@
 {% block body %}
 <div class="fund-detail">
   <h1>{{ object.fund_name }}</h1>
+  <h2>{{ object.institution.name }}</h2>
 
   <a href="{% url green-fund-edit slug=object.slug %}"><button class="btn btn-primary btn-mini btn-fund-update" type="button">Update this Information</button></a>
   {% if request.user.is_staff %}
@@ -32,7 +33,7 @@
     {% endif %}
 
     {% if object.institution.control %}
-      <tr><td>Fund Control</td><td>{{ object.institution.control }}</td></tr>
+      <tr><td>Institution Control</td><td>{{ object.institution.control }}</td></tr>
     {% endif %}
 
     {% if object.year %}
