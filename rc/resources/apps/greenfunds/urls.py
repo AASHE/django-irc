@@ -47,6 +47,9 @@ urlpatterns = patterns('',
     name='green-fund-year-index'),
   url(r'^year/(?P<year>\d{4})/$', FundByYear.as_view(model=StudentGreenFund), 
     name='green-fund-year'),
+  # Map
+  url(r'^map/$', FundMap.as_view(template_name='greenfunds/studentgreenfund_map.html'),
+    name="green-fund-map"),
   # Control
   # url(r'^control/(?P<control>public|private)/$', FundTypeView.as_view(), 
   #   name='green-fund-control'),

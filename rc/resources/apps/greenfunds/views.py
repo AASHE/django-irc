@@ -30,7 +30,11 @@ class FundList(ListView):
             'institution__state', flat=True).distinct().order_by(
             'institution__state')
         return context
-    
+
+class FundMap(FundList):
+    template_name = 'greenfunds/studentgreenfund_map.html'
+    model = StudentGreenFund  
+
 class FundIndex(FundList):
 
     def get_context_data(self, **kwargs):
