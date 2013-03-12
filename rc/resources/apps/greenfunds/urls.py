@@ -42,6 +42,9 @@ urlpatterns = patterns('',
   # Funds by Region
   url(r'^region/(?P<region>[\w-]+)/$', FundByRegion.as_view(), name='green-fund-region'),
   # Year
+  url(r'^year/$', FundByYear.as_view(model=StudentGreenFund,
+    template_name='greenfunds/studentgreenfund_year_index.html'),
+    name='green-fund-year-index'),
   url(r'^year/(?P<year>\d{4})/$', FundByYear.as_view(model=StudentGreenFund), 
     name='green-fund-year'),
   # Control

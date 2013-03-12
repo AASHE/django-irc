@@ -1,4 +1,6 @@
+from datetime import datetime
 from django.http import Http404
+from django.db.models import Sum, Count
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
@@ -88,13 +90,18 @@ class FundByYear(FundList):
 
     def get_context_data(self, **kwargs):
         context = super(FundByYear, self).get_context_data(**kwargs)
-        context['year'] = self.kwargs['year']
+        context['year'] = self.kwargs.get('year', str(datetime.now().year))
         context['years'] = StudentGreenFund.objects.filter(published=True).values_list(
             'year', flat=True).distinct().order_by('-year')
+        context['years_extra'] = StudentGreenFund.objects.filter(published=True).values(
+            'year').distinct().annotate(Count('id')).order_by("-year")
         return context
     
     def get_queryset(self):
-        return self.model._default_manager.filter(year=self.kwargs['year'])
+        if 'year' not in self.kwargs:
+            return self.model._default_manager.filter(year=str(datetime.now().year))
+        else:
+            return self.model._default_manager.filter(year=self.kwargs['year'])
 
 class FundByMember(FundList):
     template_name = 'greenfunds/studentgreenfund_member.html'

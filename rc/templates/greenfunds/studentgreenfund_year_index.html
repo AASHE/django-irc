@@ -7,23 +7,34 @@
 <ul class="breadcrumb"><li class="first"><a href="/">Home</a></li>
   <li><a href="{% url resource-center-index %}">Resource Center</a></li>
   <li><a href="{% url green-fund-index %}">Campus Sustainability Student Green Funds</a></li>
-  <li><a href="{% url green-fund-year-index %}">Year Established</a></li>
-  <li class="last">{{ year }}</li>
+  <li>Year Established</li>
 </ul>
 {% endblock breadcrumb %}
 
 {% block body %}
-<h1>Student Green Funds Established in {{ year }}</h1>
-
-<p>AASHE's Campus Sustainability Student Green Fund database contains information on <strong>{{ total_funds }}</strong> student green funds at <strong>{{ total_campuses }}</strong> institutions.</p>
+<h1>Student Green Funds by Year Established</h1>
 
 <ul class="breadcrumb">
   <li>Browse:</li>
   {% for y in years %}<li><a href="{% url green-fund-year year=y %}">{{ y|stringformat:"s" }}</a>{% if not forloop.last %}<span class="divider">|</span>{% endif %}</li>{% endfor %}
 </ul>
 
-{% include "greenfunds/studentgreenfund_table.html" %}
-
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Year</th>
+      <th>Total Funds</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for obj in years_extra %}
+    <tr>
+      <td><a href="{% url green-fund-year year=obj.year %}">{{ obj.year|stringformat:"s" }}</a></td>
+      <td>{{ obj.id__count }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 {% endblock body %}
 
 {% block right-side %}
