@@ -50,6 +50,11 @@ urlpatterns = patterns(
         views.FundTop10.as_view(
             queryset=RevolvingLoanFund.objects.published()),
         name='revolving-fund-top10'),
+    url(r'^year/$',
+        views.FundByYear.as_view(
+            model=RevolvingLoanFund,
+            template_name='revolving_fund/revolvingloanfund_year_index.html'),
+        name='revolving-fund-year-index'),
     url(r'^year/(?P<year>\d{4})/$',
         views.FundByYear.as_view(model=RevolvingLoanFund),
         name='revolving-fund-year'),

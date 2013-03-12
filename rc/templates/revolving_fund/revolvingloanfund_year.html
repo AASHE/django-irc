@@ -14,10 +14,11 @@
 
 {% block body %}
 <h1>Revolving Loan Funds Established in {{ year }}</h1>
-<p>The database contains <strong>{{ total_funds }}</strong> revolving loan funds that were established in <strong>{{ year }}</strong> with a total value of <strong>${{ total_amount }}</strong>.
+<p>The database contains <strong>{{ total_funds }}</strong> revolving loan funds that were established in <strong>{{ year }}</strong> with a total value of <strong>${{ total_amount }}</strong>.</p>
 
 <ul class="breadcrumb">
   <li>Browse:</li>
+  <li><a href="{% url revolving-fund-year-index %}">All Years</a><span class="divider">|</span></li>
   {% for y in years %}<li><a href="{% url revolving-fund-year year=y %}">{{ y|stringformat:"s" }}</a>{% if not forloop.last %}<span class="divider">|</span>{% endif %}</li>{% endfor %}
 </ul>
 
