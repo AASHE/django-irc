@@ -53,6 +53,8 @@ urlpatterns = patterns('',
   # Control
   # url(r'^control/(?P<control>public|private)/$', FundTypeView.as_view(), 
   #   name='green-fund-control'),
+  # Carnegie
+  url(r'^carnegie/(?P<carnegie>.+)/$', FundCarnegieView.as_view(), name='green-fund-carnegie'), 
   # Members
   url(r'^member/$', FundByMember.as_view(), name='green-fund-member'), 
   # Homepage
