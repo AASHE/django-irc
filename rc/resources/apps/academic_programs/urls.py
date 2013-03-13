@@ -34,7 +34,7 @@ urlpatterns = patterns('',
         template_name = 'academic_programs/ap_index.html',
         queryset=AcademicProgram.objects.all()), name="program-index-view"),
         
-  url(r'^browse$', ProgramList.as_view(
+  url(r'^browse/$', ProgramList.as_view(
             template_name='academic_programs/ap_browse.html')),
             
   url(r'^search/$', search_view_factory(
@@ -47,7 +47,7 @@ urlpatterns = patterns('',
   url(r'^(?P<slug>[-\w]+)/$', ProgramDetail.as_view(template_name = 'academic_programs/ap_detail.html'), 
    name="program-detail-view"),
    
-  url(r'^map$', ProgramMap.as_view(
+  url(r'^map/$', ProgramMap.as_view(
              template_name='academic_programs/ap_map.html')),
   
 

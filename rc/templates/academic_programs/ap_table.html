@@ -21,12 +21,6 @@ Sustainability-Focused {% if program_type %}{{ program_type }}{% elif discipline
 	    You are viewing member-only content.
 	  </div>
     {% endif %}
-
-    {% if request.user.is_authenticated %}
-          <div id="admin-controls" style="background-color: #ddd;">
-            <p style="padding: 2px;">Admin controls: <a href="{{ admin_changelist_url }}">Edit in Admin</a></p>
-          </div>
-    {% endif %}
     
     <h1>Sustainability-Focused {% if program_type %}{{ program_type }}{% elif discipline %}{{ discipline }}{% endif %} Programs</h1>
     
