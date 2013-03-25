@@ -7,6 +7,8 @@ salesforce.py
 salesforce.pyc
 *~
 rc/rc.db
+*.tar.gz
+rc/whoosh_index/*
 
 syntax: regexp
 emacs.desktop

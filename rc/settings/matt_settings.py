@@ -1,7 +1,7 @@
 from global_settings import *
-from salesforce import *
+# from salesforce import *
 
-DEBUG = False
+DEBUG = True
 
 DATABASES = {
     'default': {
@@ -15,3 +15,5 @@ DATABASES = {
     }
 
 STATIC_ROOT = os.path.join(SITE_ROOT, '../static')
+
+LINKCHECK_GOOGLE_API_KEY = "AIzaSyDmTsmmVnqeGUfjeeMa4WeFO4rZDJzQ2us"
