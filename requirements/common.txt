@@ -8,7 +8,7 @@ Sphinx
 Fabric==1.5.1
 pyPdf
 requests
--e git+https://github.com/AASHE/django-linkcheck#egg=django-linkcheck
+-e git+https://github.com/AASHE/django-linkcheck@89c5ec4dece7ec04c2bf1a62c722b5e08c4f60be#egg=django-linkcheck
 MySQL-python
 uwsgi
 Whoosh==2.4.1

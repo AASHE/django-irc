@@ -28,7 +28,8 @@ class AcademicProgramAdmin(admin.ModelAdmin):
             'fields': ('blog',
                        'linkedin',
                        'facebook',
-                       'twitter')}),
+                       'twitter',
+                       'homepage')}),
     ('Public Contact #1', {
             'classes': ('collapse',),
             'description': "Public contact information displayed as part of this program's detail page.",
