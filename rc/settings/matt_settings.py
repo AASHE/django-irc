@@ -16,4 +16,6 @@ DATABASES = {
 
 STATIC_ROOT = os.path.join(SITE_ROOT, '../static')
 
+# Search config
 LINKCHECK_GOOGLE_API_KEY = "AIzaSyDmTsmmVnqeGUfjeeMa4WeFO4rZDJzQ2us"
+LINKCHECK_GOOGLE_CX = "014955680860349223306:vapi7echb7m"
