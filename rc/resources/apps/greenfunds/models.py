@@ -18,32 +18,34 @@ TERM_CHOICES = (
     ('TM', 'trimester'),
     ('TR', 'term')
 )
+# Fund Type
+TYPE_CHOICES = (
+    ('ON', 'Ongoing'),
+    ('OT', 'One-time gift')
+)
+# Funding Source
+SOURCE_CHOICES = (
+    ('AL', 'Alumni'),
+    ('FD', 'Foundation'),
+    ('CP', 'Corporate/Commercial')
+)
 
 # Create your models here.
-class StudentGreenFund(models.Model):
+class GreenFund(models.Model):
     fund_name = models.CharField(_('fund name'), max_length=255)
     institution = institution = models.ForeignKey("organization.Organization", 
                                   help_text="Select the institution or organization that administers this fund",
                                   blank=True, null=True)
     year = models.IntegerField(max_length=4, verbose_name='Year Established')
-    rate_per_term = models.CharField(max_length=65,
-                                     verbose_name='Rate per term', 
-                                     help_text="Enter the fund's rate per term.",
-                                     blank=True)
-    rate_per_summer_term = models.CharField(max_length=65,
-                                 verbose_name='Rate per summer term', 
-                                 help_text="Enter the fund's rate per summer term.",
-                                 blank=True)
-    mandatory = models.CharField(choices=COMMITMENT_CHOICES, max_length=5,
-                                 help_text="Is this fund fee mandatory?",
-                                 blank=True)
-    term = models.CharField(choices=TERM_CHOICES,
-                            max_length=5,
-                            help_text="Please select the term of this fund's fee.")
     homepage = models.URLField(max_length=255, 
-                               help_text="Enter the URL for the program's website.",
+                               help_text="Enter the URL for the fund's website.",
                                blank=True)
-
+    fund_size = models.DecimalField(max_digits=12, 
+                                    decimal_places=2,
+                                    verbose_name="Fund Size",
+                                    help_text="Enter the the fund's total size.",
+                                    blank=True)
+    fund_description = models.TextField(_("Description of fund and projects funded"))
     project_contact1_firstname = models.CharField(blank=True, max_length=75,
                                                   verbose_name='First name')
     project_contact1_middle = models.CharField(blank=True, max_length=75,
@@ -82,3 +84,36 @@ class StudentGreenFund(models.Model):
 
     def __unicode__(self):
         return self.fund_name
+
+    # this might change, but for now, green fund is abstract
+    class Meta:
+        abstract = True
+
+# Student Fee Driven Funds
+class StudentFeeFund(GreenFund):
+    term = models.CharField(choices=TERM_CHOICES,
+                        max_length=5,
+                        help_text="Please select the term of this fund's fee.")
+    rate_per_term = models.CharField(max_length=65,
+                                     verbose_name='Rate per term', 
+                                     help_text="Enter the fund's rate per term.",
+                                     blank=True) 
+    mandatory = models.CharField(choices=COMMITMENT_CHOICES, max_length=2,
+                             help_text="Is this fund fee mandatory?",
+                             blank=True)
+    rate_per_summer_term = models.CharField(max_length=65,
+                             verbose_name='Rate per summer term', 
+                             help_text="Enter the fund's rate per summer term.",
+                             blank=True)
+
+# Donation Driven Funds
+class DonationFund(GreenFund):
+    fund_type = models.CharField(choices=TYPE_CHOICES, max_length=2,
+                                help_text="Is this fund fee mandatory?")
+    donation_source = models.CharField(choices=SOURCE_CHOICES, max_length=2,
+                                help_text="Primary funding source.")
+
+# Donation Driven Funds
+class DepartmentFund(GreenFund):
+    department_name = models.CharField(blank=False, max_length=255,
+                                    verbose_name='Department or Center Name')
