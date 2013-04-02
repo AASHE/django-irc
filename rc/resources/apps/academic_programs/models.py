@@ -142,6 +142,9 @@ class AcademicProgram(models.Model):
     def __unicode__(self):
         return self.title
 
+    class Meta:
+        verbose_name = "academic program"
+
 class ProgramType(models.Model):
     name = models.CharField(_('type name'), max_length=255)
     slug = models.CharField(_('type code'), max_length=100)

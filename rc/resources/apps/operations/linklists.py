@@ -6,4 +6,4 @@ class CampusGreenBuildingLinkLinklist(Linklist):
     object_filter = {}
     url_fields = ['url',]
         
-linklists = {'CampusGreenBuildingLinks': CampusGreenBuildingLinkLinklist}
+linklists = {CampusGreenBuildingLink._meta.verbose_name: CampusGreenBuildingLinkLinklist}

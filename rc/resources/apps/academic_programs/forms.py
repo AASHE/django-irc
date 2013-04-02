@@ -28,7 +28,7 @@ class ProgramsSearchForm(SearchForm):
     # Institution Type (2-yr (or international equivalent), 4-yr (or international equivalent))
     # TODO reduce this list to choices listed above
     type_choices = []
-    type_choices.append(('', 'Please Select'))
+    type_choices.append((None, 'Please Select'))
     type_values = Organization.objects.filter(sector='campus').exclude(org_type='').order_by('org_type').values("org_type").distinct(),
     # populate choices list
     for value in type_values[0]:

@@ -49,3 +49,7 @@ MODERATORS = ('resources@aashe.org', 'niles@aashe.org', 'jesse.legg@aashe.org')
 
 # Analytics
 GOOGLE_ANALYTICS_KEY='UA-1056760-1'
+
+# Search config
+LINKCHECK_GOOGLE_API_KEY = "AIzaSyDmTsmmVnqeGUfjeeMa4WeFO4rZDJzQ2us"
+LINKCHECK_GOOGLE_CX = "014955680860349223306:vapi7echb7m"
