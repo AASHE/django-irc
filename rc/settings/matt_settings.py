@@ -1,3 +1,4 @@
+from global_settings import *
 try:
     from salesforce import *
 except:

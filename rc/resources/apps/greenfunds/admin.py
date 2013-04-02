@@ -1,8 +1,11 @@
 from django.contrib import admin
-from models import StudentGreenFund
+from models import GreenFund, StudentFeeFund, DonationFund, DepartmentFund  
 
-class StudentGreenFundAdmin(admin.ModelAdmin):
+class GreenFundAdmin(admin.ModelAdmin):
     list_display = ('fund_name', 'institution', 'year')
     list_filter = ('published', 'year')
 
-admin.site.register(StudentGreenFund, StudentGreenFundAdmin)
+admin.site.register(StudentFeeFund, GreenFundAdmin)
+admin.site.register(DonationFund, GreenFundAdmin)
+admin.site.register(DepartmentFund, GreenFundAdmin)
+

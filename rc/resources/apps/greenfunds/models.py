@@ -80,7 +80,7 @@ class GreenFund(models.Model):
         if not self.slug:
           unique_slugify(self, '%s' % (self.institution.name))
           
-        super(StudentGreenFund, self).save()
+        super(GreenFund, self).save()
 
     def __unicode__(self):
         return self.fund_name
@@ -106,6 +106,9 @@ class StudentFeeFund(GreenFund):
                              help_text="Enter the fund's rate per summer term.",
                              blank=True)
 
+    class Meta:
+        verbose_name = 'student fee driven fund'
+
 # Donation Driven Funds
 class DonationFund(GreenFund):
     fund_type = models.CharField(choices=TYPE_CHOICES, max_length=2,
@@ -113,7 +116,13 @@ class DonationFund(GreenFund):
     donation_source = models.CharField(choices=SOURCE_CHOICES, max_length=2,
                                 help_text="Primary funding source.")
 
+    class Meta:
+        verbose_name = 'donation driven fund'
+
 # Donation Driven Funds
 class DepartmentFund(GreenFund):
     department_name = models.CharField(blank=False, max_length=255,
                                     verbose_name='Department or Center Name')
+
+    class Meta:
+        verbose_name = 'department or center driven fund'
