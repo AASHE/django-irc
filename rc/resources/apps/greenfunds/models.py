@@ -119,7 +119,7 @@ class DonationFund(GreenFund):
     class Meta:
         verbose_name = 'donation driven fund'
 
-# Donation Driven Funds
+# Department Driven Funds
 class DepartmentFund(GreenFund):
     department_name = models.CharField(blank=False, max_length=255,
                                     verbose_name='Department or Center Name')
