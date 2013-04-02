@@ -8,7 +8,7 @@ from aashe.disciplines.models import Discipline
 from django.shortcuts import get_object_or_404, render_to_response
 from django.views.generic.edit import CreateView, UpdateView, FormView
 from haystack.views import SearchView, search_view_factory
-from rc.resources.apps.greenfunds.models import *
+from models import GreenFund, StudentFeeFund, DonationFund, DepartmentFund  
 from rc.resources.apps.greenfunds.forms import *
 from django.core.paginator import InvalidPage, EmptyPage #, Paginator
 from rc.resources.apps.academic_programs.digg_paginator import DiggPaginator as Paginator
@@ -25,15 +25,15 @@ class FundList(ListView):
         context['total_funds'] = qs.count()
         context['total_campuses'] = qs.values_list(
             'institution__id', flat=True).distinct().count()
-        context['states'] = StudentGreenFund.objects.exclude(
+        context['states'] = GreenFund.objects.exclude(
             institution__state='').values_list(
             'institution__state', flat=True).distinct().order_by(
             'institution__state')
         return context
 
 class FundMap(FundList):
-    template_name = 'greenfunds/studentgreenfund_map.html'
-    model = StudentGreenFund  
+    template_name = 'greenfunds/GreenFund_map.html'
+    model = GreenFund  
 
 class FundIndex(FundList):
 
@@ -43,8 +43,8 @@ class FundIndex(FundList):
         return context
 
 class FundByState(FundList):
-    template_name = 'greenfunds/studentgreenfund_state.html'
-    model = StudentGreenFund
+    template_name = 'greenfunds/greenfund_state.html'
+    model = GreenFund
     
     def get_queryset(self):
         return self.model._default_manager.filter(
@@ -69,8 +69,8 @@ class FundByRegion(FundList):
                    'south': {'title': 'Southern U.S.', 'states': SOUTH},
                    'west': {'title': 'Western U.S.', 'states': WEST}}
     
-    template_name = 'greenfunds/studentgreenfund_region.html'
-    model = StudentGreenFund
+    template_name = 'greenfunds/GreenFund_region.html'
+    model = GreenFund
 
     def get_queryset(self):
         state_list = self.REGIONS_MAP.get(self.kwargs['region'])['states']
@@ -83,21 +83,21 @@ class FundByRegion(FundList):
         return context
 
 class FundTypeView(FundList):
-    template_name = 'greenfunds/studentgreenfund_control.html'
-    model = StudentGreenFund
+    template_name = 'greenfunds/GreenFund_control.html'
+    model = GreenFund
 
     def get_queryset(self):
         return self.model._default_manager.filter(institution__is_member=True)
 
 class FundByYear(FundList):
-    template_name = 'greenfunds/studentgreenfund_year.html'
+    template_name = 'greenfunds/GreenFund_year.html'
 
     def get_context_data(self, **kwargs):
         context = super(FundByYear, self).get_context_data(**kwargs)
         context['year'] = self.kwargs.get('year', str(datetime.now().year))
-        context['years'] = StudentGreenFund.objects.filter(published=True).values_list(
+        context['years'] = GreenFund.objects.filter(published=True).values_list(
             'year', flat=True).distinct().order_by('-year')
-        context['years_extra'] = StudentGreenFund.objects.filter(published=True).values(
+        context['years_extra'] = GreenFund.objects.filter(published=True).values(
             'year').distinct().annotate(Count('id')).order_by("-year")
         return context
     
@@ -108,15 +108,15 @@ class FundByYear(FundList):
             return self.model._default_manager.filter(year=self.kwargs['year'])
 
 class FundByMember(FundList):
-    template_name = 'greenfunds/studentgreenfund_member.html'
-    model = StudentGreenFund
+    template_name = 'greenfunds/GreenFund_member.html'
+    model = GreenFund
 
     def get_queryset(self):
         return self.model._default_manager.filter(institution__is_member=True)
 
 class FundCarnegieView(FundList):
-    template_name = 'greenfunds/studentgreenfund_carnegie.html'
-    model = StudentGreenFund
+    template_name = 'greenfunds/GreenFund_carnegie.html'
+    model = GreenFund
 
     def get_queryset(self):
         carnegie = self.kwargs['carnegie'].lower()
@@ -125,7 +125,7 @@ class FundCarnegieView(FundList):
 
     def get_context_data(self, **kwargs):
         context = super(FundCarnegieView, self).get_context_data(**kwargs)
-        context['carnegie_classes'] = StudentGreenFund.objects.values_list(
+        context['carnegie_classes'] = GreenFund.objects.values_list(
             "institution__carnegie_classification", flat=True).distinct().order_by(
             "institution__carnegie_classification").exclude(
                 institution__carnegie_classification='')
@@ -133,7 +133,7 @@ class FundCarnegieView(FundList):
         return context
 
 class FundDetail(DetailView):
-    queryset = StudentGreenFund.objects.filter(published=True)
+    queryset = GreenFund.objects.filter(published=True)
     slug_field = 'slug'
 
     def get_context_data(self, **kwargs):
@@ -142,21 +142,21 @@ class FundDetail(DetailView):
         
 # CRUD Views
 class FundCreateView(CreateView):
-    queryset = StudentGreenFund.objects.filter(published=True)
-    form_class = StudentGreenFundCreateForm    
-    template_name = 'greenfunds/studentgreenfund_create.html'
+    queryset = GreenFund.objects.filter(published=True)
+    form_class = GreenFundCreateForm    
+    template_name = 'greenfunds/GreenFund_create.html'
     success_url = reverse_lazy("green-fund-add-success")
 
     def get_context_data(self, **kwargs):
         context = super(FundCreateView, self).get_context_data(**kwargs)
-        qs = StudentGreenFund.objects.filter(published=True)
+        qs = GreenFund.objects.filter(published=True)
      
         return context
 
 class FundUpdateView(UpdateView):
-    model = StudentGreenFund
-    form_class = StudentGreenFundUpdateForm
-    template_name = 'greenfunds/studentgreenfund_update.html'
+    model = GreenFund
+    form_class = GreenFundUpdateForm
+    template_name = 'greenfunds/GreenFund_update.html'
 
     def get_success_url(self):
         return reverse("fund-edit-success")
