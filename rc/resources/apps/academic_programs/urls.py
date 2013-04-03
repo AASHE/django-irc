@@ -43,12 +43,11 @@ urlpatterns = patterns('',
             form_class=ProgramsSearchForm,
             searchqueryset=SearchQuerySet().models(AcademicProgram)),
        name='academic-program-search'),
-       
+  url(r'^map/$', ProgramMap.as_view(
+             template_name='academic_programs/ap_map.html')),
   url(r'^(?P<slug>[-\w]+)/$', ProgramDetail.as_view(template_name = 'academic_programs/ap_detail.html'), 
    name="program-detail-view"),
    
-  url(r'^map/$', ProgramMap.as_view(
-             template_name='academic_programs/ap_map.html')),
   
 
         )

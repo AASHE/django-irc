@@ -1,7 +1,7 @@
 from global_settings import *
 # from salesforce import *
 
-DEBUG = False
+DEBUG = True
 
 DATABASES = {
     'default': {
