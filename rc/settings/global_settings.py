@@ -30,8 +30,6 @@ DATABASES = {
     }
 }
 
-USE_THOUSAND_SEPARATOR = True
-
 DEFAULT_CHARSET = 'utf-8'
 
 # Local time zone for this installation. Choices can be found here:
