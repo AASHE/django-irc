@@ -3,12 +3,6 @@ from django.db import models
 from aashe.organization.models import Organization
 from aashe.utils.slugify import unique_slugify
 
-# Commitment
-COMMITMENT_CHOICES = (
-    ('MA', 'Mandatory'),
-    ('OI', 'Opt-in'),
-    ('OO', 'Opt-out')
-)
 # Term length
 TERM_CHOICES = (
     ('SM', 'semester'),
@@ -29,6 +23,12 @@ SOURCE_CHOICES = (
     ('FD', 'Foundation'),
     ('CP', 'Corporate/Commercial')
 )
+# Student Types
+STUDENT_CHOICES = (
+    ('UG', 'Undergraduate'),
+    ('GR', 'Graduate'),
+)
+
 
 # Create your models here.
 class GreenFund(models.Model):
@@ -36,7 +36,7 @@ class GreenFund(models.Model):
     institution = institution = models.ForeignKey("organization.Organization", 
                                   help_text="Select the institution or organization that administers this fund",
                                   blank=True, null=True)
-    year = models.IntegerField(max_length=4, verbose_name='Year Established')
+    year = models.IntegerField(max_length=4, verbose_name='Year Implemented')
     homepage = models.URLField(max_length=255, 
                                help_text="Enter the URL for the fund's website.",
                                blank=True)
@@ -46,6 +46,8 @@ class GreenFund(models.Model):
                                     help_text="Enter the the fund's total size.",
                                     blank=True)
     fund_description = models.TextField(_("Description of fund and projects funded"))
+    fund_recipients = models.ManyToManyField("FundRecipient",
+                                    help_text="Select the recipient(s) of this fund.")
     project_contact1_firstname = models.CharField(blank=True, max_length=75,
                                                   verbose_name='First name')
     project_contact1_middle = models.CharField(blank=True, max_length=75,
@@ -91,20 +93,10 @@ class GreenFund(models.Model):
 
 # Student Fee Driven Funds
 class StudentFeeFund(GreenFund):
-    term = models.CharField(choices=TERM_CHOICES,
-                        max_length=5,
-                        help_text="Please select the term of this fund's fee.")
-    rate_per_term = models.CharField(max_length=65,
-                                     verbose_name='Rate per term', 
-                                     help_text="Enter the fund's rate per term.",
-                                     blank=True) 
-    mandatory = models.CharField(choices=COMMITMENT_CHOICES, max_length=2,
-                             help_text="Is this fund fee mandatory?",
-                             blank=True)
-    rate_per_summer_term = models.CharField(max_length=65,
-                             verbose_name='Rate per summer term', 
-                             help_text="Enter the fund's rate per summer term.",
-                             blank=True)
+    term = models.ManyToManyField("FundTerm")
+    sunset_date = models.DateTimeField(blank=True,
+                                help_text="If this fund has a sunset date, \
+                                           enter it here.")
 
     class Meta:
         verbose_name = 'student fee driven fund'
@@ -121,8 +113,40 @@ class DonationFund(GreenFund):
 
 # Department Driven Funds
 class DepartmentFund(GreenFund):
+    # TODO make this a manytomany once aashe-python has department list
     department_name = models.CharField(blank=False, max_length=255,
                                     verbose_name='Department or Center Name')
 
     class Meta:
         verbose_name = 'department or center driven fund'
+
+class HybridFund(GreenFund):
+    title = models.CharField(max_length=30)
+
+    def __unicode__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'hybrid green fund'
+
+class FundRecipient(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __unicode__(self):
+        verbose_name = 'fund recipient type'
+
+class FundTerm(models.Model):
+    term = models.CharField(choices=TERM_CHOICES,
+                        max_length=5,
+                        help_text="Please select the term of this fund's fee.")
+    rate_per_term = models.CharField(max_length=65,
+                                     verbose_name='Rate per term', 
+                                     help_text="Enter the fund's rate per term.",
+                                     blank=True)
+    student_type = models.CharField(choices=STUDENT_CHOICES,
+                        max_length=5,
+                        help_text="Please select the student type of this fee.")
+
+
+    def __unicode__(self):
+        verbose_name = 'green fund term'
