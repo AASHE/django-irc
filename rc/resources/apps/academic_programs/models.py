@@ -102,8 +102,10 @@ class AcademicProgram(models.Model):
         return name
     
     def save(self, *args, **kwargs):
+            # create a slug
             if not self.slug:
               unique_slugify(self, '%s' % (self.title))
+            # if there's no city, state, or country given, use the institution's
             if not self.city:
               try:
                 self.city = self.institution.city
@@ -120,6 +122,9 @@ class AcademicProgram(models.Model):
                 self.country = self.institution.country
               except:
                 pass
+            # hacky data cleaning
+            if self.country == "United States" or "USA":
+              self.country = "United States of America"
             if self.city and self.state:
               # geolocate lat and long
               g = geocoders.Google()

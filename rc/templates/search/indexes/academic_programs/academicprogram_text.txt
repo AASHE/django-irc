@@ -1,9 +1,9 @@
-{{ object.institution_name }}
+{{ object.institution.name }}
 {{ object.other_inst }}
-{{ object.institution_type }}
-{{ object.institution_control }}
-{{ object.institution_stars }}
-{{ object.institution_is_member }}
+{{ object.institution.type }}
+{{ object.institution.control }}
+{{ object.institution.stars }}
+{{ object.institution.is_member }}
 {{ object.city }}
 {{ object.state }}
 {{ object.title }}
