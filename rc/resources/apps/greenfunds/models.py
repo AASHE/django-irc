@@ -1,6 +1,9 @@
 from gettext import gettext as _
 from django.db import models
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes import generic
 from aashe.organization.models import Organization
+from aashe.departments.models import Department
 from aashe.utils.slugify import unique_slugify
 
 # Term length
@@ -30,12 +33,16 @@ STUDENT_CHOICES = (
 )
 
 
-# Create your models here.
+# Generic Green Fund
 class GreenFund(models.Model):
     fund_name = models.CharField(_('fund name'), max_length=255)
     institution = institution = models.ForeignKey("organization.Organization", 
                                   help_text="Select the institution or organization that administers this fund",
                                   blank=True, null=True)
+    # Reference to fund data
+    content_type = models.ForeignKey(ContentType)
+    object_id = models.PositiveIntegerField()
+    fund_data = generic.GenericForeignKey('content_type', 'object_id')
     year = models.IntegerField(max_length=4, verbose_name='Year Implemented')
     homepage = models.URLField(max_length=255, 
                                help_text="Enter the URL for the fund's website.",
@@ -84,15 +91,19 @@ class GreenFund(models.Model):
           
         super(GreenFund, self).save()
 
+
+    def get_fund_type_display(self):
+        '''
+        A special display function for use in templates
+        to output what "type" of fund this is...
+        '''
+        return self.fund_data._meta.verbose_name
+
     def __unicode__(self):
         return self.fund_name
 
-    # this might change, but for now, green fund is abstract
-    class Meta:
-        abstract = True
-
 # Student Fee Driven Funds
-class StudentFeeFund(GreenFund):
+class StudentFeeFund(models.Model):
     term = models.ManyToManyField("FundTerm")
     sunset_date = models.DateTimeField(blank=True,
                                 help_text="If this fund has a sunset date, \
@@ -102,7 +113,7 @@ class StudentFeeFund(GreenFund):
         verbose_name = 'student fee driven fund'
 
 # Donation Driven Funds
-class DonationFund(GreenFund):
+class DonationFund(models.Model):
     fund_type = models.CharField(choices=TYPE_CHOICES, max_length=2,
                                 help_text="Is this fund fee mandatory?")
     donation_source = models.CharField(choices=SOURCE_CHOICES, max_length=2,
@@ -112,15 +123,17 @@ class DonationFund(GreenFund):
         verbose_name = 'donation driven fund'
 
 # Department Driven Funds
-class DepartmentFund(GreenFund):
+class DepartmentFund(models.Model):
     # TODO make this a manytomany once aashe-python has department list
     department_name = models.CharField(blank=False, max_length=255,
                                     verbose_name='Department or Center Name')
+    department_type = models.ManyToManyField("departments.Department")
 
     class Meta:
         verbose_name = 'department or center driven fund'
 
-class HybridFund(GreenFund):
+# Hybrid Funds
+class HybridFund(models.Model):
     title = models.CharField(max_length=30)
 
     def __unicode__(self):
