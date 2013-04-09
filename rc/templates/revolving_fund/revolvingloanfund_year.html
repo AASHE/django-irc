@@ -1,5 +1,6 @@
 {% extends "revolving_fund/base.html" %}
 {% load state_utils %}
+{% load humanize %}
 
 {% block title %}Revolving Loan Funds Established in {{ year }} | {{ block.super }}{% endblock title %}
 
@@ -14,7 +15,7 @@
 
 {% block body %}
 <h1>Revolving Loan Funds Established in {{ year }}</h1>
-<p>The database contains <strong>{{ total_funds }}</strong> revolving loan funds that were established in <strong>{{ year }}</strong> with a total value of <strong>${{ total_amount }}</strong>.</p>
+<p>The database contains <strong>{{ total_funds|intcomma }}</strong> revolving loan funds that were established in <strong>{{ year }}</strong> with a total value of <strong>${{ total_amount|intcomma }}</strong>.</p>
 
 <ul class="breadcrumb">
   <li>Browse:</li>

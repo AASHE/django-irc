@@ -1,5 +1,6 @@
 {% extends "revolving_fund/base.html" %}
 {% load state_utils %}
+{% load humanize %}
 
 {% block breadcrumb %}
 <ul class="breadcrumb"><li class="first"><a href="/">Home</a></li>
@@ -61,7 +62,7 @@
   <tr>
     <td><a href="{% url revolving-fund-detail slug=object.slug %}">{{ object.institution.name }}</a></td>
     <td>{{ object.fund_name }}</td>
-    <td>{% if object.total_funds %}${% endif %}{{ object.total_funds|default:"Data Not Provided" }}</td>
+    <td>{% if object.total_funds %}${% endif %}{{ object.total_funds|intcomma|default:"Data Not Provided" }}</td>
     <td>{{ object.year|stringformat:"s" }}</td>
   </tr>
   {% endfor %}
@@ -91,7 +92,7 @@
   <tr>
     <td><a href="{% url revolving-fund-detail slug=object.slug %}">{{ object.institution.name }}</a></td>
     <td>{{ object.fund_name }}</td>
-    <td>{% if object.total_funds %}${% endif %}{{ object.total_funds|default:"Data Not Provided" }}</td>
+    <td>{% if object.total_funds %}${% endif %}{{ object.total_funds|intcomma|default:"Data Not Provided" }}</td>
     <td>{{ object.year|stringformat:"s" }}</td>
   </tr>
   {% endfor %}
@@ -114,7 +115,7 @@
   {% for object in largest_states %}
   <tr>
     <td><a href="{% url revolving-fund-state state=object.institution__state %}">{{ object.institution__state|expand_state_abbrev }}</a></td>
-    <td>{{ object.total_funds__sum }}</td>
+    <td>{{ object.total_funds__sum|intcomma }}</td>
   </tr>
   {% endfor %}
 </tbody>

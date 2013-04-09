@@ -131,6 +131,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'django.contrib.markup',
+    'django.contrib.humanize',
     'aashe.aashestrap',
     'aashe.organization',
     'aashe.aasheauth',

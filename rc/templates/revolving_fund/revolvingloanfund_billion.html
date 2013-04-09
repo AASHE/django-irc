@@ -1,4 +1,5 @@
 {% extends "revolving_fund/base.html" %}
+{% load humanize %}
 
 {% block title %}Billion Dollar Green Challenge Participants | {{ block.super }}{% endblock %}
 
@@ -13,7 +14,7 @@
 {% block body %}
 <h1>Billion Dollar Green Challenge Participants</h1>
 
-<p>The database contains <strong>{{ total_funds }}</strong> revolving loan funds at <strong>{{ total_institutions }}</strong> institutions participating in the <a href="http://greenbillion.org/about/">Billion Dollar Green Challenge</a>. These funds total <strong>${{ total_amount }}</strong>.
+<p>The database contains <strong>{{ total_funds }}</strong> revolving loan funds at <strong>{{ total_institutions }}</strong> institutions participating in the <a href="http://greenbillion.org/about/">Billion Dollar Green Challenge</a>. These funds total <strong>${{ total_amount|intcomma }}</strong>.
 
 {% include "revolving_fund/revolvingloanfund_table.html" %}
 

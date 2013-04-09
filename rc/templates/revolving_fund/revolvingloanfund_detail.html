@@ -1,5 +1,6 @@
 {% extends "revolving_fund/base.html" %}
 {% load markup %}
+{% load humanize %}
 
 {% block title %}{{ object.fund_name }} at {{ object.institution.name }} | {{ block.super }}{% endblock %}
 
@@ -27,7 +28,7 @@
     <tbody>
       <tr>
         <td><strong>Fund Size</strong></td>
-        <td>${{ object.total_funds }}</td>
+        <td>${{ object.total_funds|intcomma }}</td>
       </tr>
       <tr>
         <td><strong>Year Established</strong></td>

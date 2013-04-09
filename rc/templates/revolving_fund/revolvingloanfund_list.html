@@ -1,4 +1,5 @@
 {% extends "revolving_fund/base.html" %}
+{% load humanize %}
 
 {% block title %}All Revolving Loan Funds{% endblock %}
 
@@ -13,9 +14,9 @@
 {% block body %}
 <h1>All Revolving Loan Funds</h1>
 
-<p>AASHE's Revolving Loans Fund database contains information on <strong>{{ total_funds }}</strong> revolving loan funds at <strong>{{ total_institutions }}</strong> institutions containing <strong>${{ total_amount }}</strong>.
+<p>AASHE's Revolving Loans Fund database contains information on <strong>{{ total_funds }}</strong> revolving loan funds at <strong>{{ total_institutions }}</strong> institutions containing <strong>${{ total_amount|intcomma }}</strong>.
 
-<p>The database contains information on <strong>{{ billion_participants }}</strong> institutions participating in the <a href="http://greenbillion.org/about/">Billion Dollar Green Challenge</a>, whose funds total <strong>${{ billion_amount }}</strong>.
+<p>The database contains information on <strong>{{ billion_participants }}</strong> institutions participating in the <a href="http://greenbillion.org/about/">Billion Dollar Green Challenge</a>, whose funds total <strong>${{ billion_amount|intcomma }}</strong>.
 
 {% include "revolving_fund/revolvingloanfund_table.html" %}
 

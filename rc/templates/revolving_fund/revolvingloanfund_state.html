@@ -1,5 +1,6 @@
 {% extends "revolving_fund/base.html" %}
 {% load state_utils %}
+{% load humanize %}
 
 {% block title %}Revolving Loan Funds in {{ state|upper|expand_state_abbrev }} | {{ block.super }}{% endblock %}
 
@@ -14,7 +15,7 @@
 
 {% block body %}
 <h1>Revolving Loan Funds in {{ state|upper|expand_state_abbrev }}</h1>
-<p>The database contains <strong>{{ total_funds }}</strong> revolving loan funds in <strong>{{ state|upper|expand_state_abbrev }}</strong> with a total value of <strong>${{ total_amount }}</strong>.</p>
+<p>The database contains <strong>{{ total_funds }}</strong> revolving loan funds in <strong>{{ state|upper|expand_state_abbrev }}</strong> with a total value of <strong>${{ total_amount|intcomma }}</strong>.</p>
 
 <ul class="breadcrumb">
 

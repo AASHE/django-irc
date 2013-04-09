@@ -1,4 +1,5 @@
 {% extends "revolving_fund/base.html" %}
+{% load humanize %}
 
 {% block title %}Revolving Loan Funds &gt; $1 Million USD | {{ block.super }}{% endblock %}
 
@@ -13,7 +14,7 @@
 {% block body %}
 <h1>Revolving Loan Funds &gt; $1 Million</h1>
 
-<p>AASHE's Revolving Loans Fund database contains information on <strong>{{ total_funds }}</strong> revolving loan funds over $1,000,000 at <strong>{{ total_institutions }}</strong> institutions containing <strong>${{ total_amount }}</strong> in total.
+<p>AASHE's Revolving Loans Fund database contains information on <strong>{{ total_funds }}</strong> revolving loan funds over $1,000,000 at <strong>{{ total_institutions }}</strong> institutions containing <strong>${{ total_amount|intcomma }}</strong> in total.
 
 {% include "revolving_fund/revolvingloanfund_table.html" %}
 
