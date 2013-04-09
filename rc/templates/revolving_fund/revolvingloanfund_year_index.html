@@ -1,5 +1,6 @@
 {% extends "revolving_fund/base.html" %}
 {% load state_utils %}
+{% load humanize %}
 
 {% block title %}Revolving Loan Funds Established in {{ year }} | {{ block.super }}{% endblock title %}
 
@@ -28,7 +29,7 @@
     <tr>
       <td><a href="{% url revolving-fund-year year=obj.year %}">{{ obj.year|stringformat:"s" }}</a></td>
       <td>{{ obj.id__count }}</td>
-      <td>${{ obj.total_funds__sum }}</td>
+      <td>${{ obj.total_funds__sum|intcomma }}</td>
     </tr>
     {% endfor %}
   </tbody>

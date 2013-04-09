@@ -1,4 +1,5 @@
 {% extends "revolving_fund/base.html" %}
+{% load humanize %}
 
 {% block title %}Search Revolving Loan Funds {% if page.object_list %}for {{ query }}{% endif %} | {{ block.super }}{% endblock %}
 
@@ -40,7 +41,7 @@
   <tr>
     <td><a href="{% url revolving-fund-detail slug=object.slug %}">{{ object.institution.name }}</a></td>
     <td>{{ object.fund_name }}</td>
-    <td>{% if object.total_funds %}${% endif %}{{ object.total_funds|default:"Data Not Provided" }}</td>
+    <td>{% if object.total_funds %}${% endif %}{{ object.total_funds|intcomma|default:"Data Not Provided" }}</td>
     <td>{{ object.year|stringformat:"s" }}</td>
   </tr>
   {% endwith %}
