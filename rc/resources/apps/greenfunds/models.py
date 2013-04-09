@@ -36,11 +36,11 @@ STUDENT_CHOICES = (
 # Generic Green Fund
 class GreenFund(models.Model):
     fund_name = models.CharField(_('fund name'), max_length=255)
-    institution = institution = models.ForeignKey("organization.Organization", 
+    institution = models.ForeignKey("organization.Organization", 
                                   help_text="Select the institution or organization that administers this fund",
                                   blank=True, null=True)
     # Reference to fund data
-    content_type = models.ForeignKey(ContentType)
+    content_type = models.ForeignKey(ContentType, blank=False, null=False)
     object_id = models.PositiveIntegerField()
     fund_data = generic.GenericForeignKey('content_type', 'object_id')
     year = models.IntegerField(max_length=4, verbose_name='Year Implemented')
@@ -104,7 +104,6 @@ class GreenFund(models.Model):
 
 # Student Fee Driven Funds
 class StudentFeeFund(models.Model):
-    term = models.ManyToManyField("FundTerm")
     sunset_date = models.DateTimeField(blank=True,
                                 help_text="If this fund has a sunset date, \
                                            enter it here.")
@@ -146,9 +145,13 @@ class FundRecipient(models.Model):
     name = models.CharField(max_length=50)
 
     def __unicode__(self):
+        return self.name
+
+    class Meta:
         verbose_name = 'fund recipient type'
 
 class FundTerm(models.Model):
+    fund = models.ForeignKey("StudentFeeFund")
     term = models.CharField(choices=TERM_CHOICES,
                         max_length=5,
                         help_text="Please select the term of this fund's fee.")
@@ -162,4 +165,7 @@ class FundTerm(models.Model):
 
 
     def __unicode__(self):
+        return self.term
+
+    class Meta:
         verbose_name = 'green fund term'
