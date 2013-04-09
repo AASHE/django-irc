@@ -38,7 +38,7 @@ class GreenFund(models.Model):
     fund_name = models.CharField(_('fund name'), max_length=255)
     institution = models.ForeignKey("organization.Organization", 
                                   help_text="Select the institution or organization that administers this fund",
-                                  blank=True, null=True)
+                                  )
     # Reference to fund data
     content_type = models.ForeignKey(ContentType, blank=False, null=False)
     object_id = models.PositiveIntegerField()
@@ -51,7 +51,8 @@ class GreenFund(models.Model):
                                     decimal_places=2,
                                     verbose_name="Fund Size",
                                     help_text="Enter the the fund's total size.",
-                                    blank=True)
+                                    blank=True,
+                                    null=True)
     fund_description = models.TextField(_("Description of fund and projects funded"))
     fund_recipients = models.ManyToManyField("FundRecipient",
                                     help_text="Select the recipient(s) of this fund.")
@@ -87,7 +88,7 @@ class GreenFund(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-          unique_slugify(self, '%s' % (self.institution.name))
+          unique_slugify(self, '%s' % (self.fund_name))
           
         super(GreenFund, self).save()
 
@@ -104,7 +105,8 @@ class GreenFund(models.Model):
 
 # Student Fee Driven Funds
 class StudentFeeFund(models.Model):
-    sunset_date = models.DateTimeField(blank=True,
+    sunset_date = models.DateField(blank=True,
+                                null=True,
                                 help_text="If this fund has a sunset date, \
                                            enter it here.")
 

@@ -12,7 +12,8 @@ class FundTermInline(admin.TabularInline):
     extra = 1
 
 class GreenFundAdmin(admin.ModelAdmin):
-    # list_display = ('fund_name', 'institution', 'year')
+    # TODO figure this out for generic relations
+    # list_display = ('fund_data__fund_name')
     # list_filter = ('published', 'year')
     inlines = [
     	GreenFundInline

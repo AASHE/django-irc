@@ -9,5 +9,5 @@
 
   <h3>Help Improve This Resource</h3>
   <p>Don't see a student green fund fund project from your campus? Add it! Anyone can submit new or update information in the database.</p>
-  <p><a href="{% url green-fund-add %}"><button class="btn btn-primary btn-medium" type="button">Add a Fund</button></a> {% if request.user.is_staff %}<a href="{% url admin:greenfunds_studentgreenfund_changelist %}"><button class="btn btn-inverse btn-medium" type="button">Admin</button></a>{% endif %}</p>
+  <p><a href="{% url green-fund-add %}"><button class="btn btn-primary btn-medium" type="button">Add a Fund</button></a> {% if request.user.is_staff %}<a href=""><button class="btn btn-inverse btn-medium" type="button">Admin</button></a>{% endif %}</p>
 </div>

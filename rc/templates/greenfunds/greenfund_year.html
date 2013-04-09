@@ -22,7 +22,7 @@
   {% for y in years %}<li><a href="{% url green-fund-year year=y %}">{{ y|stringformat:"s" }}</a>{% if not forloop.last %}<span class="divider">|</span>{% endif %}</li>{% endfor %}
 </ul>
 
-{% include "greenfunds/studentgreenfund_table.html" %}
+{% include "greenfunds/greenfund_table.html" %}
 
 {% endblock body %}
 
