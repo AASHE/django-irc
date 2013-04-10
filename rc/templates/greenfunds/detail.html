@@ -18,7 +18,7 @@
 
   <a href="{% url green-fund-edit slug=object.slug %}"><button class="btn btn-primary btn-mini btn-fund-update" type="button">Update this Information</button></a>
   {% if request.user.is_staff %}
-  <a href="{% url admin:greenfunds_studentgreenfund_change object.pk %}"><button class="btn btn-mini btn-inverse btn-fund-update">Edit in Admin</button></a>
+  <a href="."><button class="btn btn-mini btn-inverse btn-fund-update">Edit in Admin</button></a>
   {% endif %}
 
   <table class="table">
@@ -40,18 +40,6 @@
       <tr><td>Year Established</td><td>{{ object.year|stringformat:"s" }}</td></tr>
     {% endif %}
 
-    {% if object.rate_per_term %}
-      <tr><td>Rate Per Term</td><td>${{ object.rate_per_term }}{% if object.term %} / {{ object.get_term_display }}{% endif %}</td></tr>
-    {% endif %}
-
-    {% if object.rate_per_summer_term %}
-      <tr><td>Rate Per Summer Term</td><td>${{ object.rate_per_summer_term }}</td></tr>
-    {% endif %}
-
-    {% if object.mandatory %}
-      <tr><td>Mandatory</td><td>{{ object.get_mandatory_display }}</td></tr>
-    {% endif %}
-      
     {% if object.homepage %}
       <tr><td>Fund Homepage</td><td><a href="{{ object.homepage }}">Link</a></td></tr>
     {% endif %}

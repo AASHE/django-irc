@@ -153,7 +153,7 @@ class FundRecipient(models.Model):
         verbose_name = 'fund recipient type'
 
 class FundTerm(models.Model):
-    fund = models.ForeignKey("StudentFeeFund")
+    fund = models.ForeignKey("GreenFund")
     term = models.CharField(choices=TERM_CHOICES,
                         max_length=5,
                         help_text="Please select the term of this fund's fee.")
