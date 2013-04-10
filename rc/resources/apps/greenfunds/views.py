@@ -1,7 +1,7 @@
 from datetime import datetime
 from django.http import Http404
 from django.db.models import Sum, Count
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.core.urlresolvers import reverse, reverse_lazy, resolve
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from aashe.disciplines.models import Discipline
@@ -146,14 +146,29 @@ class FundCreateView(CreateView):
     template_name = 'greenfunds/greenfund_create.html'
     success_url = reverse_lazy("green-fund-add-success")
 
+    def form_valid(self, form):
+        context = self.get_context_data()
+        fund_form = context['fund_form']
+        if fund_form.is_valid():
+            self.object = form.save()
+            # TODO set content_type, object_id fields
+            fund_form.instance = self.object
+            fund_form.save()
+            return reverse_lazy("green-fund-add-success")
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
+
+    def form_invalid(self, form):
+        return self.render_to_response(self.get_context_data(form=form))
+
     def get_context_data(self, **kwargs):
         context = super(FundCreateView, self).get_context_data(**kwargs)
-        # if self.request.POST:
-        #     context['fund_form'] = GreenFundCreateForm(self.request.POST, instance=self.object)    
-        # else:
-        #     context['fund_form'] = GreenFundCreateForm(instance=self.object)    
+        if self.request.POST:
+            context['fund_form'] = GreenFundCreateForm(self.request.POST, instance=self.object)    
+        else:
+            context['fund_form'] = GreenFundCreateForm(instance=self.object)    
         return context
-        
+
     def get_form(self, form_class):
         form = form_class(**self.get_form_kwargs())
         form.request = self.request

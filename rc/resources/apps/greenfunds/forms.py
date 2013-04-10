@@ -8,6 +8,8 @@ class GreenFundCreateForm(forms.ModelForm):
       class Meta:
           model = GreenFund
 
+          exclude = ('content_type', 'object_id')
+
 class StudentFeeFundCreateForm(forms.ModelForm):
       
       class Meta:

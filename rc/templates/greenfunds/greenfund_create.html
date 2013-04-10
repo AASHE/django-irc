@@ -26,8 +26,10 @@ before being added to the AASHE resource center.</p>
 <p class="errors">Your submission had a problem, please correct the fields indicated below.</p>
 {% endif %}
 
-<form class="fund-create" action="{% url green-fund-add %}" method="post">
+<form class="fund-create" action="." method="post">
 {% csrf_token %}
+
+{{ fund_form.errors }}
 
 <h2>Basic Information</h2>
 <fieldset>
