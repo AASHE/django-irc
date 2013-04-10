@@ -2,7 +2,7 @@ from django.conf.urls.defaults import patterns, include, url
 from django.views.generic.base import TemplateView
 from django.contrib.auth.decorators import login_required
 from models import GreenFund, StudentFeeFund, DonationFund, DepartmentFund, HybridFund
-from rc.resources.apps.greenfunds.views import *
+from views import *
 from haystack.forms import ModelSearchForm, SearchForm
 from haystack.views import search_view_factory
 from haystack.query import SearchQuerySet

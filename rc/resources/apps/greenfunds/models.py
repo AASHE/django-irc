@@ -138,7 +138,7 @@ class HybridFund(models.Model):
     funding_source = models.TextField(_("Description of funding source"))
 
     def __unicode__(self):
-        return self.title
+        return self.funding_source
 
     class Meta:
         verbose_name = 'hybrid green fund'

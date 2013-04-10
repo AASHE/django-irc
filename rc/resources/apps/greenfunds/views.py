@@ -9,7 +9,7 @@ from django.shortcuts import get_object_or_404, render_to_response
 from django.views.generic.edit import CreateView, UpdateView, FormView
 from haystack.views import SearchView, search_view_factory
 from models import GreenFund, StudentFeeFund, DonationFund, DepartmentFund  
-from rc.resources.apps.greenfunds.forms import *
+from forms import *
 from django.core.paginator import InvalidPage, EmptyPage #, Paginator
 from rc.resources.apps.academic_programs.digg_paginator import DiggPaginator as Paginator
 
@@ -164,9 +164,9 @@ class FundCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super(FundCreateView, self).get_context_data(**kwargs)
         if self.request.POST:
-            context['fund_form'] = GreenFundCreateForm(self.request.POST, instance=self.object)    
+            context['fund_form'] = GreenFundInlineForm(self.request.POST)    
         else:
-            context['fund_form'] = GreenFundCreateForm(instance=self.object)    
+            context['fund_form'] = GreenFundInlineForm()    
         return context
 
     def get_form(self, form_class):
