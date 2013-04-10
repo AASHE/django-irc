@@ -1,21 +1,21 @@
 {% extends "greenfunds/base_funds.html" %}
 {% load state_utils %}
 
-{% block title %}Student Green Funds Established in {{ year }} | {{ block.super }}{% endblock title %}
+{% block title %}Green Funds Established in {{ year }} | {{ block.super }}{% endblock title %}
 
 {% block breadcrumb %}
 <ul class="breadcrumb"><li class="first"><a href="/">Home</a></li>
   <li><a href="{% url resource-center-index %}">Resource Center</a></li>
-  <li><a href="{% url green-fund-index %}">Campus Sustainability Student Green Funds</a></li>
+  <li><a href="{% url green-fund-index %}">Campus Sustainability Green Funds</a></li>
   <li><a href="{% url green-fund-year-index %}">Year Established</a></li>
   <li class="last">{{ year }}</li>
 </ul>
 {% endblock breadcrumb %}
 
 {% block body %}
-<h1>Student Green Funds Established in {{ year }}</h1>
+<h1>Green Funds Established in {{ year }}</h1>
 
-<p>AASHE's Campus Sustainability Student Green Fund database contains information on <strong>{{ total_funds }}</strong> student green funds at <strong>{{ total_campuses }}</strong> institutions.</p>
+<p>AASHE's Campus Sustainability Student Green Fund database contains information on <strong>{{ total_funds }}</strong> Green Funds at <strong>{{ total_campuses }}</strong> institutions.</p>
 
 <ul class="breadcrumb">
   <li>Browse:</li>

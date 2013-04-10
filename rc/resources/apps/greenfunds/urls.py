@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import patterns, include, url
 from django.views.generic.base import TemplateView
 from django.contrib.auth.decorators import login_required
-from models import GreenFund, StudentFeeFund, DonationFund, DepartmentFund  
+from models import GreenFund, StudentFeeFund, DonationFund, DepartmentFund, HybridFund
 from rc.resources.apps.greenfunds.views import *
 from haystack.forms import ModelSearchForm, SearchForm
 from haystack.views import search_view_factory
@@ -22,9 +22,18 @@ urlpatterns = patterns('',
   # CRUD URLs
   url(r'^add/success/$', TemplateView.as_view(
           template_name='greenfunds/crud_success.html'),
-      name='green-fund-add-success'),
-  url(r'^add/$', login_required()(FundCreateView.as_view()),
-      name="green-fund-add"),
+          name='green-fund-add-success'),
+  url(r'^add/donation/$', login_required()(FundCreateView.as_view(model=DonationFund)),
+      name="green-fund-add-donation"),
+  url(r'^add/student-fee/$', login_required()(FundCreateView.as_view(model=StudentFeeFund)),
+      name="green-fund-add-studentfee"),
+  url(r'^add/department/$', login_required()(FundCreateView.as_view(model=DepartmentFund)),
+      name="green-fund-add-department"),
+  url(r'^add/hybrid/$', login_required()(FundCreateView.as_view(model=HybridFund)),
+        name="green-fund-add-hybrid"),
+  url(r'^add/$', TemplateView.as_view(
+          template_name='greenfunds/greenfund_create_landing.html'),
+          name='green-fund-add'),
   url(r'^edit/success/$', TemplateView.as_view(
           template_name='greenfunds/crud_success.html'),
       name='green-fund-edit-success'),    

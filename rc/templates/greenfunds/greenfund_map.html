@@ -1,6 +1,6 @@
 {% extends "greenfunds/base_funds.html" %}
 
-{% block title %}Student Green Funds Map | {{ block.super }}{% endblock title %}
+{% block title %}Green Funds Map | {{ block.super }}{% endblock title %}
 
 {% block body_attributes %}{{ block.super }}onload="initialize()"{% endblock body_attributes %}
 
@@ -54,15 +54,15 @@
 {% block breadcrumb %}
 <ul class="breadcrumb"><li class="first"><a href="/">Home</a></li>
   <li><a href="{% url resource-center-index %}">Resource Center</a></li>
-  <li><a href="{% url green-fund-index %}">Campus Sustainability Student Green Funds</a></li>
+  <li><a href="{% url green-fund-index %}">Campus Sustainability Green Funds</a></li>
   <li class="last">Map</li>
 </ul>
 {% endblock breadcrumb %}
 
 {% block body %}
-<h1>Student Green Funds Map</h1>
+<h1>Green Funds Map</h1>
 
-<p>AASHE's Campus Sustainability Student Green Fund database contains information on <strong>{{ total_funds }}</strong> student green funds at <strong>{{ total_campuses }}</strong> institutions.</p>
+<p>AASHE's Campus Sustainability Student Green Fund database contains information on <strong>{{ total_funds }}</strong> Green Funds at <strong>{{ total_campuses }}</strong> institutions.</p>
 
 <div id="map_canvas"></div>
 

@@ -7,7 +7,7 @@ Add a Green Fund
 {% block breadcrumb %}
 <ul class="breadcrumb"><li class="first"><a href="/">Home</a></li>
   <li><a href="{% url resource-center-index %}">Resource Center</a></li>
-  <li><a href="{% url green-fund-index %}">Campus Sustainability Student Green Funds</a></li>
+  <li><a href="{% url green-fund-index %}">Campus Sustainability Green Funds</a></li>
   <li class="last">Edit {{ object.fund_name }}</li>
 </ul>
 {% endblock breadcrumb %}
@@ -15,7 +15,7 @@ Add a Green Fund
 {% block body %}
 <h1 class="page-title">Edit {{ object.fund_name }}</h1>
 
-<p><em><a href="{% url green-fund-index %}">Return to Student Green Funds Homepage</a></em></p>
+<p><em><a href="{% url green-fund-index %}">Return to Green Funds Homepage</a></em></p>
 <p>Add or edit information about {{ object.fund_name }} using the form below. All submissions are reviewed
 before being added to the AASHE resource center.</p>
 
@@ -108,7 +108,7 @@ before being added to the AASHE resource center.</p>
   <button class="btn btn-primary" type="submit">Submit Changes</button>
 </form>
 
-<p><em><a href="{% url green-fund-index %}">Return to Student Green Funds Homepage</a></em></p>
+<p><em><a href="{% url green-fund-index %}">Return to Green Funds Homepage</a></em></p>
 {% endblock %}
 
 {% block right-side %}

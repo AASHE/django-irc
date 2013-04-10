@@ -1,17 +1,17 @@
 {% extends "greenfunds/base_funds.html" %}
 
-{% block title %}Search Student Green Funds {% if page.object_list %}for {{ query }}{% endif %} | {{ block.super }}{% endblock %}
+{% block title %}Search Green Funds {% if page.object_list %}for {{ query }}{% endif %} | {{ block.super }}{% endblock %}
 
 {% block breadcrumb %}
 <ul class="breadcrumb"><li class="first"><a href="/">Home</a></li>
   <li><a href="{% url resource-center-index %}">Resource Center</a></li>
-  <li><a href="{% url green-fund-index %}">Campus Sustainability Student Green Funds</a></li>
+  <li><a href="{% url green-fund-index %}">Campus Sustainability Green Funds</a></li>
   <li class="last">Search Funds</li>
 </ul>
 {% endblock breadcrumb %}
 
 {% block body %}
-<h1>Search Student Green Funds</h1>
+<h1>Search Green Funds</h1>
 
 <form class="form-search" method="get" action="{% url green-fund-search %}">
   <table>

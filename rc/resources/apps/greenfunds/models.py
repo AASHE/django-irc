@@ -135,7 +135,7 @@ class DepartmentFund(models.Model):
 
 # Hybrid Funds
 class HybridFund(models.Model):
-    title = models.CharField(max_length=30)
+    funding_source = models.TextField(_("Description of funding source"))
 
     def __unicode__(self):
         return self.title

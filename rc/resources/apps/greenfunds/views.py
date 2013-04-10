@@ -143,15 +143,30 @@ class FundDetail(DetailView):
         
 # CRUD Views
 class FundCreateView(CreateView):
-    queryset = GreenFund.objects.filter(published=True)
-    # form_class = GreenFundCreateForm    
-    template_name = 'greenfunds/GreenFund_create.html'
+    template_name = 'greenfunds/greenfund_create.html'
     success_url = reverse_lazy("green-fund-add-success")
+    # form_class = GreenFundCreateForm
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        fund_form = context['fund_form']
+        if fund_form.is_valid() and self.is_valid():
+            self.object = form.save()
+            fund_form.instance = self.object
+            fund_form.save()
+            return reverse_lazy("green-fund-add-success")
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
+
+    def form_invalid(self, form):
+        return self.render_to_response(self.get_context_data(form=form))
 
     def get_context_data(self, **kwargs):
         context = super(FundCreateView, self).get_context_data(**kwargs)
-        qs = GreenFund.objects.filter(published=True)
-     
+        if self.request.POST:
+            context['fund_form'] = GreenFundCreateForm(self.request.POST, instance=self.object)    
+        else:
+            context['fund_form'] = GreenFundCreateForm(instance=self.object)    
         return context
 
 class FundUpdateView(UpdateView):

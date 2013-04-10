@@ -1,20 +1,20 @@
 {% extends "greenfunds/base_funds.html" %}
 {% load state_utils %}
 
-{% block title %}Student Green Funds at {{ carnegie|title }} Campuses | {{ block.super }}{% endblock %}
+{% block title %}Green Funds at {{ carnegie|title }} Campuses | {{ block.super }}{% endblock %}
 
 {% block breadcrumb %}
 <ul class="breadcrumb"><li class="first"><a href="/">Home</a></li>
   <li><a href="{% url resource-center-index %}">Resource Center</a></li>
-  <li><a href="{% url green-fund-index %}">Campus Sustainability Student Green Funds</a></li>
+  <li><a href="{% url green-fund-index %}">Campus Sustainability Green Funds</a></li>
   <li>Carnegie Classification</li>
   <li class="last">{{ carnegie|title }}</li>
 </ul>
 {% endblock breadcrumb %}
 
 {% block body %}
-<h1>Student Green Funds in {{ state|upper|expand_state_abbrev }}</h1>
-<p>The database contains <strong>{{ total_funds }}</strong> student green funds in the <strong>&lsquo;{{ carnegie|title }}&rsquo;</strong> classfication.
+<h1>Green Funds in {{ state|upper|expand_state_abbrev }}</h1>
+<p>The database contains <strong>{{ total_funds }}</strong> Green Funds in the <strong>&lsquo;{{ carnegie|title }}&rsquo;</strong> classfication.
 
 <ul class="breadcrumb">
   <li>Browse:</li>
