@@ -1,0 +1,34 @@
+{% extends "greenfunds/base_funds.html" %}
+
+{% block title %}
+Add a Green Fund
+{% endblock %}
+
+{% block breadcrumb %}
+<ul class="breadcrumb"><li class="first"><a href="/">Home</a></li>
+  <li><a href="{% url resource-center-index %}">Resource Center</a></li>
+  <li><a href="{% url green-fund-index %}">Campus Sustainability Green Funds</a></li>
+  <li class="last">Add a Green Fund</li>
+</ul>
+{% endblock breadcrumb %}
+
+{% block body %}
+<h1 class="page-title">Add a Green Fund</h1>
+
+<p><em><a href="{% url green-fund-index %}">Return to Green Funds Homepage</a></em></p>
+
+<p>Please select from the following list</p>
+
+<ol>
+  <li><a href="{% url green-fund-add-studentfee %}">Add Student Fee Fund</a></li>
+  <li><a href="{% url green-fund-add-studentfee %}">Add Donation Driven Fund</a></li>
+  <li><a href="{% url green-fund-add-department %}">Add Department Driven Fund</a></li>
+  <li><a href="{% url green-fund-add-hybrid %}">Add Hybrid Fund</a></li>
+</ol>
+
+<p><em><a href="{% url green-fund-index %}">Return to Green Funds Homepage</a></em></p>
+{% endblock %}
+
+{% block right-side %}
+{% include "greenfunds/right_side_nav.html" %}
+{% endblock right-side %}
