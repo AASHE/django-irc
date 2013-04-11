@@ -17,8 +17,8 @@ DATABASES = {
     }
  }
 
-STATIC_ROOT = os.path.join(SITE_ROOT, '../static')
-STATIC_URL = 'http://dev.aashe.org/resources/static/'
+STATIC_ROOT = os.path.join(SITE_ROOT, '../../static')
+STATIC_URL = '/static/'
 
 # Haystack
 HAYSTACK_SITECONF = 'rc.search_sites'
