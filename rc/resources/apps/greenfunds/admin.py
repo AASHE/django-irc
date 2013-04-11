@@ -23,7 +23,7 @@ class StudentGreenFundAdmin(admin.ModelAdmin):
     # list_display = ('fund_name', 'institution', 'year')
     # list_filter = ('published', 'year')
     inlines = [
-        FundTermInline,
+        # FundTermInline,
         GreenFundInline
     ]
 

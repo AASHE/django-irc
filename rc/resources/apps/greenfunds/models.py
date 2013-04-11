@@ -110,6 +110,9 @@ class StudentFeeFund(models.Model):
                                 help_text="If this fund has a sunset date, \
                                            enter it here.")
 
+    def get_fields(self):
+        return [(field.name, field.value_to_string(self)) for field in StudentFeeFund._meta.fields]
+
     class Meta:
         verbose_name = 'student fee driven fund'
 
@@ -120,15 +123,21 @@ class DonationFund(models.Model):
     donation_source = models.CharField(choices=SOURCE_CHOICES, max_length=2,
                                 help_text="Primary funding source.")
 
+    def get_fields(self):
+        return [(field.name, field.value_to_string(self)) for field in DonationFund._meta.fields]
+
     class Meta:
         verbose_name = 'donation driven fund'
 
 # Department Driven Funds
 class DepartmentFund(models.Model):
-    # TODO make this a manytomany once aashe-python has department list
     department_name = models.CharField(blank=False, max_length=255,
                                     verbose_name='Department or Center Name')
-    department_type = models.ManyToManyField("departments.Department")
+    department_type = models.ForeignKey("departments.Department")
+
+    # TODO fix foreignkey issue here
+    def get_fields(self):
+        return [(field.verbose_name, field.value_to_string(self)) for field in DepartmentFund._meta.fields]
 
     class Meta:
         verbose_name = 'department or center driven fund'
@@ -136,6 +145,9 @@ class DepartmentFund(models.Model):
 # Hybrid Funds
 class HybridFund(models.Model):
     funding_source = models.TextField(_("Description of funding source"))
+
+    def get_fields(self):
+        return [(field.name, field.value_to_string(self)) for field in HybridFund._meta.fields]
 
     def __unicode__(self):
         return self.funding_source
