@@ -40,3 +40,9 @@ class HybridFundCreateForm(forms.ModelForm):
       
       class Meta:
           model = HybridFund
+
+class GreenFundUpdateForm(forms.ModelForm):
+    
+    class Meta:
+        # model = RevolvingLoanFund
+        exclude = ('object_id')
