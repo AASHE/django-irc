@@ -16,7 +16,7 @@ DATABASES = {
     }
     }
  }
-
+SITE_ROOT = os.path.split(os.path.dirname(os.path.realpath(__file__)))[0]
 STATIC_ROOT = os.path.join(SITE_ROOT, '../../static')
 STATIC_URL = '/static/'
 
