@@ -22,7 +22,7 @@ before being added to the AASHE resource center.</p>
 
 <p>* denotes required fields.</p>
 
-{% if fund_form.errors %}
+{% if form.errors %}
 <p class="errors">Your submission had a problem, please correct the fields indicated below.</p>
 {% endif %}
 
@@ -32,29 +32,26 @@ before being added to the AASHE resource center.</p>
 <h2>Basic Information</h2>
 <fieldset>
   <table class="fund-standard">
-    {% for item in form %}
-    <tr><th>{{ item.label_tag }}
-    {% if item.field.required %}<span class="required-field">*</span>{% endif %}</th>
-    <td>{{ item }}{{ item.errors}}</td>
-    </tr>
-    {% endfor %}
 
-    {{ fund_term.management_form }}
+  {% if model_name = "StudentFeeFund" %}
 
-    <tr>
-      <th>{{ fund_term.form.term.label_tag }} {% if fund_term.form.term.field.required %}<span class="required-field">*</span>{% endif %}</th>
-      <td>{{ fund_term.form.term }} <span class="help-text">{{ fund_term.form.term.help_text }}</span> {{ fund_term.form.term.errors }}</td>
-    </tr>
-    <tr>
-      <th>{{ fund_term.form.rate_per_term.label_tag }} {% if fund_term.form.rate_per_term.field.required %}<span class="required-field">*</span>{% endif %}</th>
-      <td>{{ fund_term.form.rate_per_term }} <span class="help-text">{{ fund_term.form.rate_per_term.help_text }}</span> {{ fund_term.form.rate_per_term.errors }}</td>
-    </tr>
-    <tr>
-      <th>{{ fund_term.form.student_type.label_tag }} {% if fund_term.form.student_type.field.required %}<span class="required-field">*</span>{% endif %}</th>
-      <td>{{ fund_term.form.student_type }} <span class="help-text">{{ fund_term.form.student_type.help_text }}</span> {{ fund_term.form.student_type.errors }}</td>
-    </tr>
+  {% include "greenfunds/greenfund_create_studentfeefund.html" %}
 
-{% include "greenfunds/greenfund_create_greenfund.html" %}
+  {% elif model_name = "DonationFund" %}
+
+  {% include "greenfunds/greenfund_create_donationfund.html" %}
+
+  {% elif model_name = "DepartmentFund" %}
+
+  {% include "greenfunds/greenfund_create_departmentfund.html" %}
+
+  {% elif model_name = "HybridFund" %}
+
+  {% include "greenfunds/greenfund_create_hybridfund.html" %}
+
+  {% endif %}
+
+  {% include "greenfunds/greenfund_create_greenfund.html" %}
 
   </table>
 </fieldset>

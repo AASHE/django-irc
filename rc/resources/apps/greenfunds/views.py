@@ -148,14 +148,8 @@ class FundCreateView(CreateView):
     
     def form_valid(self, form):
         context = self.get_context_data()
-        fund_form = context['fund_form']
-        fund_term = context['fund_term']
         if fund_form.is_valid():
             self.object = form.save()
-            fund_form.instance = self.object
-            fund_form.save()
-            fund_term.instance = self.object
-            fund_term.save()
             return reverse_lazy("green-fund-add-success")
         else:
             return self.render_to_response(self.get_context_data(form=form))
@@ -165,12 +159,7 @@ class FundCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(FundCreateView, self).get_context_data(**kwargs)
-        if self.request.POST:
-            context['fund_form'] = GreenFundInlineForm(self.request.POST, instance=self.object)
-            context['fund_term'] = FundTermInlineForm(self.request.POST, instance=self.object) 
-        else:
-            context['fund_form'] = GreenFundInlineForm(instance=self.object)
-            context['fund_term'] = FundTermInlineForm(instance=self.object) 
+        context['model_name'] = self.model.__name__
         return context
 
 class FundUpdateView(UpdateView):

@@ -2,11 +2,6 @@ from django.contrib import admin
 from django.contrib.contenttypes import generic
 from models import GreenFund, StudentFeeFund, DonationFund, DepartmentFund, HybridFund, FundTerm, FundRecipient
 
-class GreenFundInline(generic.GenericStackedInline):
-    model = GreenFund
-    extra = 1
-    max_num = 1
-
 class FundTermInline(admin.TabularInline):
     model = FundTerm
     extra = 1
@@ -16,7 +11,6 @@ class GreenFundAdmin(admin.ModelAdmin):
     # list_display = ('fund_data__fund_name')
     # list_filter = ('published', 'year')
     inlines = [
-    	GreenFundInline,
         FundTermInline
     ]
 

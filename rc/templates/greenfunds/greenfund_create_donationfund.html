@@ -1,0 +1,9 @@
+  <tr>
+      <th>{{ form.fund_type.label_tag }} {% if form.fund_type.field.required %}<span class="required-field">*</span>{% endif %}</th>
+      <td>{{ form.fund_type }} <span class="help-text">{{ form.fund_type.help_text }}</span> {{ form.fund_type.errors }}</td>
+  </tr>
+
+  <tr>
+      <th>{{ form.donation_source.label_tag }} {% if form.donation_source.field.required %}<span class="required-field">*</span>{% endif %}</th>
+      <td>{{ form.donation_source }} <span class="help-text">{{ form.donation_source.help_text }}</span> {{ form.donation_source.errors }}</td>
+  </tr>

@@ -102,19 +102,13 @@ class GreenFund(models.Model):
     def __unicode__(self):
         return self.fund_name
 
-    class Meta:
-        abstract = True
-
 # Student Fee Driven Funds
 class StudentFeeFund(GreenFund):
     sunset_date = models.DateField(blank=True,
                                 null=True,
                                 help_text="If this fund has a sunset date, \
                                            enter it here.")
-
-    def get_fields(self):
-        return [(field.name, field.value_to_string(self)) for field in StudentFeeFund._meta.fields]
-
+    
     class Meta:
         verbose_name = 'student fee driven fund'
 
@@ -125,9 +119,6 @@ class DonationFund(GreenFund):
     donation_source = models.CharField(choices=SOURCE_CHOICES, max_length=2,
                                 help_text="Primary funding source.")
 
-    def get_fields(self):
-        return [(field.name, field.value_to_string(self)) for field in DonationFund._meta.fields]
-
     class Meta:
         verbose_name = 'donation driven fund'
 
@@ -137,19 +128,12 @@ class DepartmentFund(GreenFund):
                                     verbose_name='Department or Center Name')
     department_type = models.ForeignKey("departments.Department")
 
-    # TODO fix foreignkey issue here
-    def get_fields(self):
-        return [(field.verbose_name, field.value_to_string(self)) for field in DepartmentFund._meta.fields]
-
     class Meta:
         verbose_name = 'department or center driven fund'
 
 # Hybrid Funds
 class HybridFund(GreenFund):
     funding_source = models.TextField(_("Description of funding source"))
-
-    def get_fields(self):
-        return [(field.name, field.value_to_string(self)) for field in HybridFund._meta.fields]
 
     def __unicode__(self):
         return self.funding_source
@@ -167,7 +151,10 @@ class FundRecipient(models.Model):
         verbose_name = 'fund recipient type'
 
 class FundTerm(models.Model):
-    fund = models.ForeignKey("GreenFund")
+    # Reference to fund data
+    content_type = models.ForeignKey(ContentType, blank=False, null=False)
+    object_id = models.PositiveIntegerField()
+    fund_data = generic.GenericForeignKey('content_type', 'object_id')
     term = models.CharField(choices=TERM_CHOICES,
                         max_length=5,
                         help_text="Please select the term of this fund's fee.")
