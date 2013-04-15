@@ -39,8 +39,22 @@ before being added to the AASHE resource center.</p>
     </tr>
     {% endfor %}
 
-{% include "greenfunds/greenfund_create_greenfund.html" %}
+    {{ fund_term.management_form }}
 
+    <tr>
+      <th>{{ fund_term.form.term.label_tag }} {% if fund_term.form.term.field.required %}<span class="required-field">*</span>{% endif %}</th>
+      <td>{{ fund_term.form.term }} <span class="help-text">{{ fund_term.form.term.help_text }}</span> {{ fund_term.form.term.errors }}</td>
+    </tr>
+    <tr>
+      <th>{{ fund_term.form.rate_per_term.label_tag }} {% if fund_term.form.rate_per_term.field.required %}<span class="required-field">*</span>{% endif %}</th>
+      <td>{{ fund_term.form.rate_per_term }} <span class="help-text">{{ fund_term.form.rate_per_term.help_text }}</span> {{ fund_term.form.rate_per_term.errors }}</td>
+    </tr>
+    <tr>
+      <th>{{ fund_term.form.student_type.label_tag }} {% if fund_term.form.student_type.field.required %}<span class="required-field">*</span>{% endif %}</th>
+      <td>{{ fund_term.form.student_type }} <span class="help-text">{{ fund_term.form.student_type.help_text }}</span> {{ fund_term.form.student_type.errors }}</td>
+    </tr>
+
+{% include "greenfunds/greenfund_create_greenfund.html" %}
 
   </table>
 </fieldset>

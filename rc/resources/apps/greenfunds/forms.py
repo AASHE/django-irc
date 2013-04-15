@@ -13,13 +13,13 @@ class GreenFundCreateForm(forms.ModelForm):
 
 GreenFundInlineForm = generic_inlineformset_factory(GreenFund, GreenFundCreateForm, extra=1, can_delete=False)
 
-# class FundTermCreateForm(forms.ModelForm):
+class FundTermCreateForm(forms.ModelForm):
 
-#       class Meta:
-#           model = FundTerm
+      class Meta:
+          model = FundTerm
 
 # TODO Make this work
-# FundTermInlineForm = inlineformset_factory(GreenFund, FundTerm, FundTermCreateForm, extra=1, can_delete=False)
+FundTermInlineForm = inlineformset_factory(GreenFund, FundTerm, FundTermCreateForm, extra=1, can_delete=False)
 
 class StudentFeeFundCreateForm(forms.ModelForm):
       
