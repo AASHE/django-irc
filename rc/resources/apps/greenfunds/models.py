@@ -40,9 +40,9 @@ class GreenFund(models.Model):
                                   help_text="Select the institution or organization that administers this fund",
                                   )
     # Reference to fund data
-    content_type = models.ForeignKey(ContentType, blank=False, null=False)
-    object_id = models.PositiveIntegerField()
-    fund_data = generic.GenericForeignKey('content_type', 'object_id')
+    # content_type = models.ForeignKey(ContentType, blank=False, null=False)
+    # object_id = models.PositiveIntegerField()
+    # fund_data = generic.GenericForeignKey('content_type', 'object_id')
     year = models.IntegerField(max_length=4, verbose_name='Year Implemented')
     homepage = models.URLField(max_length=255, 
                                help_text="Enter the URL for the fund's website.",
@@ -92,7 +92,6 @@ class GreenFund(models.Model):
           
         super(GreenFund, self).save()
 
-
     def get_fund_type_display(self):
         '''
         A special display function for use in templates
@@ -103,8 +102,11 @@ class GreenFund(models.Model):
     def __unicode__(self):
         return self.fund_name
 
+    class Meta:
+        abstract = True
+
 # Student Fee Driven Funds
-class StudentFeeFund(models.Model):
+class StudentFeeFund(GreenFund):
     sunset_date = models.DateField(blank=True,
                                 null=True,
                                 help_text="If this fund has a sunset date, \
@@ -117,7 +119,7 @@ class StudentFeeFund(models.Model):
         verbose_name = 'student fee driven fund'
 
 # Donation Driven Funds
-class DonationFund(models.Model):
+class DonationFund(GreenFund):
     fund_type = models.CharField(choices=TYPE_CHOICES, max_length=2,
                                 help_text="Is this fund fee mandatory?")
     donation_source = models.CharField(choices=SOURCE_CHOICES, max_length=2,
@@ -130,7 +132,7 @@ class DonationFund(models.Model):
         verbose_name = 'donation driven fund'
 
 # Department Driven Funds
-class DepartmentFund(models.Model):
+class DepartmentFund(GreenFund):
     department_name = models.CharField(blank=False, max_length=255,
                                     verbose_name='Department or Center Name')
     department_type = models.ForeignKey("departments.Department")
@@ -143,7 +145,7 @@ class DepartmentFund(models.Model):
         verbose_name = 'department or center driven fund'
 
 # Hybrid Funds
-class HybridFund(models.Model):
+class HybridFund(GreenFund):
     funding_source = models.TextField(_("Description of funding source"))
 
     def get_fields(self):
