@@ -16,18 +16,11 @@ class GreenFundAdmin(admin.ModelAdmin):
     # list_display = ('fund_data__fund_name')
     # list_filter = ('published', 'year')
     inlines = [
-    	GreenFundInline
+    	GreenFundInline,
+        FundTermInline
     ]
 
-class StudentGreenFundAdmin(admin.ModelAdmin):
-    # list_display = ('fund_name', 'institution', 'year')
-    # list_filter = ('published', 'year')
-    inlines = [
-        # FundTermInline,
-        GreenFundInline
-    ]
-
-admin.site.register(StudentFeeFund, StudentGreenFundAdmin)
+admin.site.register(StudentFeeFund, GreenFundAdmin)
 admin.site.register(DonationFund, GreenFundAdmin)
 admin.site.register(DepartmentFund, GreenFundAdmin)
 admin.site.register(HybridFund, GreenFundAdmin)

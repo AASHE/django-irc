@@ -149,11 +149,13 @@ class FundCreateView(CreateView):
     def form_valid(self, form):
         context = self.get_context_data()
         fund_form = context['fund_form']
+        fund_term = context['fund_term']
         if fund_form.is_valid():
             self.object = form.save()
             fund_form.instance = self.object
             fund_form.save()
-            # TODO SAVE TERM
+            fund_term.instance = self.object
+            fund_term.save()
             return reverse_lazy("green-fund-add-success")
         else:
             return self.render_to_response(self.get_context_data(form=form))
