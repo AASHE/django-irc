@@ -36,9 +36,10 @@
       <div class="span7 offset1 advanced-filters" style="display:none;">
         {% for field in form %}
           {% if not forloop.first %}
-          <div class="fieldWrapper">
+          <div class="fieldWrapper" id="{{ field.name }}">
             {{ field.errors }}
-            {{ field.label_tag }} 
+            {{ field.label_tag }}
+            <div class="help-text">{{ field.help_text }}</div>
             {{ field }}
           </div>
           {% endif %}
@@ -74,6 +75,7 @@
   <thead>
   <tr>
     <th>Title</th>
+    <th>Date Added</th>
     <th>Type</th>
     <th>Institution(s)</th>
     <th>Discipline</th>
@@ -87,6 +89,10 @@
   <tr>  
   <td class="title">
     <a href="{% url program-detail-view slug=result.slug %}">{{ result.title }}</a>
+  </td>
+
+  <td class="created-date">
+    {{ result.created_date|date:"SHORT_DATE_FORMAT" }}
   </td>
 
   <td class="field-program-type-value">

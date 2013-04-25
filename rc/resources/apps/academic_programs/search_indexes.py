@@ -26,6 +26,7 @@ class AcademicProgramIndex(RealTimeSearchIndex):
     discipline_slug = CharField(model_attr='discipline__slug')
     homepage = CharField(model_attr='homepage')
     distance_ed = CharField(model_attr='distance_ed', null=True)
+    created_date = DateTimeField(model_attr='created_date')
     
     def index_queryset(self):
       return AcademicProgram.objects.filter(published=True)

@@ -11,7 +11,7 @@ class GreenFundAdmin(admin.ModelAdmin):
     # list_display = ('fund_data__fund_name')
     # list_filter = ('published', 'year')
     inlines = [
-        FundTermInline
+        # FundTermInline
     ]
 
 admin.site.register(StudentFeeFund, GreenFundAdmin)

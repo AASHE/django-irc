@@ -1,7 +1,7 @@
 {% extends "greenfunds/base_funds.html" %}
 
 {% block title %}
-Add a Green Fund
+Update a Green Fund
 {% endblock %}
 
 {% block breadcrumb %}
@@ -28,22 +28,33 @@ before being added to the AASHE resource center.</p>
 <form class="fund-create" action="{% url green-fund-add %}" method="post">
 {% csrf_token %}
 
-<h2>Basic Information</h2>
+{{ model_name }}
 
+<h2>Basic Information</h2>
 <fieldset>
   <table class="fund-standard">
 
-    {% for item in form %}
-    <tr><th>{{ item.label_tag }}
-    {% if item.field.required %}<span class="required-field">*</span>{% endif %}</th>
-    <td>{{ item }}{{ item.errors}}</td>
-    </tr>
-    {% endfor %}
+  {% if model_name = "StudentFeeFund" %}
 
-    {% include "greenfunds/greenfund_create_greenfund.html" %}
+  {% include "greenfunds/greenfund_create_studentfeefund.html" %}
 
+  {% elif model_name = "DonationFund" %}
 
-</table>
+  {% include "greenfunds/greenfund_create_donationfund.html" %}
+
+  {% elif model_name = "DepartmentFund" %}
+
+  {% include "greenfunds/greenfund_create_departmentfund.html" %}
+
+  {% elif model_name = "HybridFund" %}
+
+  {% include "greenfunds/greenfund_create_hybridfund.html" %}
+
+  {% endif %}
+
+  {% include "greenfunds/greenfund_create_greenfund.html" %}
+
+  </table>
 </fieldset>
 
   <p><em>Please note:</em> All changes are reviewed by AASHE staff before being published in the database.</p>

@@ -145,17 +145,6 @@ class FundDetail(DetailView):
 class FundCreateView(CreateView):
     template_name = 'greenfunds/greenfund_create.html'
     success_url = reverse_lazy("green-fund-add-success")
-    
-    def form_valid(self, form):
-        context = self.get_context_data()
-        if fund_form.is_valid():
-            self.object = form.save()
-            return reverse_lazy("green-fund-add-success")
-        else:
-            return self.render_to_response(self.get_context_data(form=form))
-
-    def form_invalid(self, form):
-        return self.render_to_response(self.get_context_data(form=form))
 
     def get_context_data(self, **kwargs):
         context = super(FundCreateView, self).get_context_data(**kwargs)
@@ -163,17 +152,21 @@ class FundCreateView(CreateView):
         return context
 
 class FundUpdateView(UpdateView):
+    queryset = GreenFund.objects.all()
     model = GreenFund
     # form_class = GreenFundUpdateForm
-    template_name = 'greenfunds/GreenFund_update.html'
-
-    def get_success_url(self):
-        return reverse("fund-edit-success")
+    template_name = 'greenfunds/greenfund_update.html'
+    success_url = reverse_lazy("green-fund-edit-success")
 
     def get_form(self, form_class):
         form = form_class(**self.get_form_kwargs())
         form.request = self.request
         return form
+
+    def get_context_data(self, **kwargs):
+        context = super(FundUpdateView, self).get_context_data(**kwargs)
+        context['model_name'] = self.model.__name__
+        return context
 
 # Overridden search views
 class FundSearchView(SearchView):

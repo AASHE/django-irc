@@ -1,6 +1,7 @@
 {% extends "greenfunds/base_funds.html" %}
 {% load markup %}
 {% load humanize %}
+{% load greenfunds-extras %}
 
 {% block title %}{{ object.fund_name }} at {{ object.institution.name }} | {{ block.super }}{% endblock %}
 
@@ -14,7 +15,7 @@
 
 {% block body %}
 <div class="fund-detail">
-  <h1>{{ object.fund_name }}</h1>
+  <h1>{{ object.model_name }}</h1>
   <h2>{{ object.institution.name }}</h2>
 
   <a href="{% url green-fund-edit slug=object.slug %}"><button class="btn btn-primary btn-mini btn-fund-update" type="button">Update this Information</button></a>
@@ -37,7 +38,7 @@
       <tr><td>Institution Control</td><td>{{ object.institution.control }}</td></tr>
     {% endif %}
 
-    <tr><td>Fund Type</td><td>{{ object.content_type }}</td></tr>
+    <tr><td>Fund Type</td><td>{{ object|model_name_filter }}</td></tr>
 
     {% for name, value in object.fund_data.get_fields %}
       {% if name != 'ID' and value %}

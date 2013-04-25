@@ -113,6 +113,7 @@ img#sponsorship-homepage-logo:hover {
 .fieldWrapper {
   display: inline-block;
   padding: 10px 10px 10px 10px;
+  max-width: 41%;
 }
 
 .advanced-search-link {
@@ -142,6 +143,14 @@ img#sponsorship-homepage-logo:hover {
 
 #second-submit {
   height: 26px;
+}
+
+#start_date select {
+  width: 30%;
+}
+
+#end_date select {
+  width: 30%;
 }
 
 /* solarpv table 
@@ -193,32 +202,32 @@ form.ap-create input[type='submit']:hover, form.ap-update input[type='submit']:h
  * Table
  */
 table.dataTable {
-	margin: 0 auto;
-	clear: both;
-	width: 100%;
+  margin: 0 auto;
+  clear: both;
+  width: 100%;
 }
 
 table.dataTable thead th {
-	padding: 3px 18px 3px 10px;
-	border-bottom: 1px solid black;
-	font-weight: bold;
-	cursor: pointer;
-	*cursor: hand;
+  padding: 3px 18px 3px 10px;
+  border-bottom: 1px solid black;
+  font-weight: bold;
+  cursor: pointer;
+  *cursor: hand;
 }
 
 table.dataTable tfoot th {
-	padding: 3px 18px 3px 10px;
-	border-top: 1px solid black;
-	font-weight: bold;
+  padding: 3px 18px 3px 10px;
+  border-top: 1px solid black;
+  font-weight: bold;
 }
 
 table.dataTable td {
-	padding: 3px 10px;
+  padding: 3px 10px;
 }
 
 table.dataTable td.center,
 table.dataTable td.dataTables_empty {
-	text-align: center;
+  text-align: center;
 }
 
 table.dataTable tr.odd { background-color: #F6F8FA; }
@@ -231,9 +240,9 @@ table.dataTable tr.even td.sorting_1 { background-color: #F6F8FA; }
  * Table wrapper
  */
 .dataTables_wrapper {
-	position: relative;
-	clear: both;
-	*zoom: 1;
+  position: relative;
+  clear: both;
+  *zoom: 1;
 }
 
 
@@ -241,7 +250,7 @@ table.dataTable tr.even td.sorting_1 { background-color: #F6F8FA; }
  * Page length menu
  */
 .dataTables_length {
-	float: left;
+  float: left;
 }
 
 
@@ -249,8 +258,8 @@ table.dataTable tr.even td.sorting_1 { background-color: #F6F8FA; }
  * Filter
  */
 .dataTables_filter {
-	float: right;
-	text-align: right;
+  float: right;
+  text-align: right;
 }
 
 
@@ -258,8 +267,8 @@ table.dataTable tr.even td.sorting_1 { background-color: #F6F8FA; }
  * Table information
  */
 .dataTables_info {
-	clear: both;
-	float: left;
+  clear: both;
+  float: left;
 }
 
 /*
@@ -326,19 +335,19 @@ table.dataTable tr.even td.sorting_1 { background-color: #F6F8FA; }
  * Processing indicator
  */
 .dataTables_processing {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	width: 250px;
-	height: 30px;
-	margin-left: -125px;
-	margin-top: -15px;
-	padding: 14px 0 2px 0;
-	border: 1px solid #ddd;
-	text-align: center;
-	color: #999;
-	font-size: 14px;
-	background-color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 250px;
+  height: 30px;
+  margin-left: -125px;
+  margin-top: -15px;
+  padding: 14px 0 2px 0;
+  border: 1px solid #ddd;
+  text-align: center;
+  color: #999;
+  font-size: 14px;
+  background-color: white;
 }
 
 
@@ -377,7 +386,7 @@ table.dataTable tr.even td.sorting_1 { background-color: #F6F8FA; }
  
 table.dataTable thead th:active,
 table.dataTable thead td:active {
-	outline: none;
+  outline: none;
 }
 
 
@@ -385,12 +394,12 @@ table.dataTable thead td:active {
  * Scrolling
  */
 .dataTables_scroll {
-	clear: both;
+  clear: both;
 }
 
 .dataTables_scrollBody {
-	*margin-top: -1px;
-	-webkit-overflow-scrolling: touch;
+  *margin-top: -1px;
+  -webkit-overflow-scrolling: touch;
 }
 
 #map_canvas {
