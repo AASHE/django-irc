@@ -1,0 +1,151 @@
+{% extends "revolving_fund/base.html" %}
+{% load state_utils %}
+{% load humanize %}
+
+{% block breadcrumb %}
+<ul class="breadcrumb"><li class="first"><a href="/">Home</a></li>
+  <li><a href="{% url resource-center-index %}">Resource Center</a></li>
+  <li><a href="{% url revolving-fund-index %}">Campus Sustainability Revolving Loan Funds</a></li>
+  <li class="last">All Funds</li>
+</ul>
+{% endblock breadcrumb %}
+
+{% block body %}
+<h1>Revolving Loan Funds Top 10's</h1>
+
+<p>Dynamic Top 10 analysis pulled from current data in the Campus Sustainability Revolving Loan Funds database.</p>
+
+<h3>Top 10 Largest Funds</h3>
+
+<table id="revolving-loan" class="table table-hover funds">
+<thead>
+  <tr>
+    <th>Institution</th>
+    <th>Fund Name</th>
+    <th>Funds</th>
+    <th>Year Established</th>
+  </tr>
+</thead>
+
+<tbody>
+  {% for object in largest %}
+  <tr>
+    <td><a href="{% url revolving-fund-detail slug=object.slug %}">{{ object.institution.name }}</a></td>
+    <td>{{ object.fund_name }}</td>
+    <td>{% if object.total_funds %}${% endif %}{{ object.total_funds|default:"Data Not Provided" }}</td>
+    <td>{{ object.year|stringformat:"s" }}</td>
+  </tr>
+  {% endfor %}
+</tbody>
+</table>
+
+<hr/>
+
+<a class="pull-right" href="http://www.greenbillion.org/"><img src="{{ STATIC_URL }}img/logo_bdgc_140.png"></a>
+
+<h3>Top 10 Largest Billion Dollar Green Challenge Funds</h3>
+
+<p>The 10 largest funds from schools participating in the <a href="http://www.greenbillion.org/">Billion Dollar Green Challenge.</a></p>
+
+<table id="revolving-loan" class="table table-hover funds">
+<thead>
+  <tr>
+    <th>Institution</th>
+    <th>Fund Name</th>
+    <th>Funds</th>
+    <th>Year Established</th>
+  </tr>
+</thead>
+
+<tbody>
+  {% for object in largest_billion_dollar %}
+  <tr>
+    <td><a href="{% url revolving-fund-detail slug=object.slug %}">{{ object.institution.name }}</a></td>
+    <td>{{ object.fund_name }}</td>
+    <td>{% if object.total_funds %}${% endif %}{{ object.total_funds|intcomma|default:"Data Not Provided" }}</td>
+    <td>{{ object.year|stringformat:"s" }}</td>
+  </tr>
+  {% endfor %}
+</tbody>
+</table>
+
+<hr/>
+
+<img class="pull-right" src="{{ STATIC_URL }}img/aashe_rgb_75px.png">
+
+<h3>Top 10 Largest Funds from AASHE Members</h3>
+
+<p>The 10 largest funds from AASHE member institutions.</p>
+
+<table id="revolving-loan" class="table table-hover funds">
+<thead>
+  <tr>
+    <th>Institution</th>
+    <th>Fund Name</th>
+    <th>Funds</th>
+    <th>Year Established</th>
+  </tr>
+</thead>
+
+<tbody>
+  {% for object in largest_aashe %}
+  <tr>
+    <td><a href="{% url revolving-fund-detail slug=object.slug %}">{{ object.institution.name }}</a></td>
+    <td>{{ object.fund_name }}</td>
+    <td>{% if object.total_funds %}${% endif %}{{ object.total_funds|intcomma|default:"Data Not Provided" }}</td>
+    <td>{{ object.year|stringformat:"s" }}</td>
+  </tr>
+  {% endfor %}
+</tbody>
+</table>
+
+<hr/>
+
+<h3>Top 10 States/Provinces With Largest Funds</h3>
+
+<table id="revolving-loan" class="table table-hover funds">
+<thead>
+  <tr>
+    <th>State</th>
+    <th>Funds</th>
+  </tr>
+</thead>
+
+<tbody>
+  {% for object in largest_states %}
+  <tr>
+    <td><a href="{% url revolving-fund-state state=object.institution__state %}">{{ object.institution__state|expand_state_abbrev }}</a></td>
+    <td>{{ object.total_funds__sum|intcomma }}</td>
+  </tr>
+  {% endfor %}
+</tbody>
+</table>
+
+<hr/>
+
+<h3>Top 10 States/Provinces With Most Funds</h3>
+
+<table id="revolving-loan" class="table table-hover funds">
+<thead>
+  <tr>
+    <th>State</th>
+    <th>Fund Count</th>
+  </tr>
+</thead>
+
+<tbody>
+  {% for object in most_states %}
+  <tr>
+    <td><a href="{% url revolving-fund-state state=object.institution__state %}">{{ object.institution__state|expand_state_abbrev }}</a></td>
+    <td>{{ object.id__count }}</td>
+  </tr>
+  {% endfor %}
+</tbody>
+</table>
+
+
+{% endblock body %}
+
+{% block right-side %}
+{% include "revolving_fund/right_side_nav.html" %}
+{% endblock right-side %}

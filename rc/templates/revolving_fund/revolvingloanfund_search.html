@@ -1,0 +1,66 @@
+{% extends "revolving_fund/base.html" %}
+{% load humanize %}
+
+{% block title %}Search Revolving Loan Funds {% if page.object_list %}for {{ query }}{% endif %} | {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+<ul class="breadcrumb"><li class="first"><a href="/">Home</a></li>
+  <li><a href="{% url resource-center-index %}">Resource Center</a></li>
+  <li><a href="{% url revolving-fund-index %}">Revolving Loan Funds Database</a></li>
+  <li class="last">Search Funds</li>
+</ul>
+{% endblock breadcrumb %}
+
+{% block body %}
+<h1>Search Revolving Loan Funds</h1>
+
+<form class="form-search" method="get" action="{% url revolving-fund-search %}">
+  <table>
+    <input class="input-medium search-query" type="text" name="{{ form.q.html_name }}" {% if query %}value="{{ query }}"{% endif %} id="id_{{ form.q.html_name }}" />
+    {% csrf_token %}
+    <button class="btn" type="submit">Search</button>
+  </table>
+</form>
+
+{% if page.object_list %}
+<h3>Results For &ldquo;{{ query }}&rdquo;</h3>
+
+<table id="revolving-loan" class="table table-hover funds">
+<thead>
+  <tr>
+    <th>Institution</th>
+    <th>Fund Name</th>
+    <th>Funds</th>
+    <th>Year Established</th>
+  </tr>
+</thead>
+
+<tbody>
+  {% for result in page.object_list %}
+  {% with result.object as object %}
+  <tr>
+    <td><a href="{% url revolving-fund-detail slug=object.slug %}">{{ object.institution.name }}</a></td>
+    <td>{{ object.fund_name }}</td>
+    <td>{% if object.total_funds %}${% endif %}{{ object.total_funds|intcomma|default:"Data Not Provided" }}</td>
+    <td>{{ object.year|stringformat:"s" }}</td>
+  </tr>
+  {% endwith %}
+  {% endfor %}
+</tbody>
+</table>
+
+{% include "revolving_fund/pagination.html" %}
+
+{% else %}
+
+<div class="alert alert-error">
+<p>Sorry! No results were found for the search &ldquo;{{ query }}&rdquo;.</p>
+</div>
+
+{% endif %}
+{% endblock body %}
+
+{% block right-side %}
+{% include "revolving_fund/right_side_nav.html" %}
+{% endblock right-side %}
+

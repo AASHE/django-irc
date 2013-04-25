@@ -1,0 +1,37 @@
+{% extends "revolving_fund/base.html" %}
+{% load state_utils %}
+{% load humanize %}
+
+{% block title %}Revolving Loan Funds Established in {{ year }} | {{ block.super }}{% endblock title %}
+
+{% block breadcrumb %}
+<ul class="breadcrumb"><li class="first"><a href="/">Home</a></li>
+  <li><a href="{% url resource-center-index %}">Resource Center</a></li>
+  <li><a href="{% url revolving-fund-index %}">Campus Sustainability Revolving Loan Funds</a></li>
+  <li>Year Established</li>
+  <li class="last">{{ year }}</li>
+</ul>
+{% endblock breadcrumb %}
+
+{% block body %}
+<h1>Revolving Loan Funds Established in {{ year }}</h1>
+<p>The database contains <strong>{{ total_funds|intcomma }}</strong> revolving loan funds that were established in <strong>{{ year }}</strong> with a total value of <strong>${{ total_amount|intcomma }}</strong>.</p>
+
+<ul class="breadcrumb">
+  <li>Browse:</li>
+  <li><a href="{% url revolving-fund-year-index %}">All Years</a><span class="divider">|</span></li>
+  {% for y in years %}<li><a href="{% url revolving-fund-year year=y %}">{{ y|stringformat:"s" }}</a>{% if not forloop.last %}<span class="divider">|</span>{% endif %}</li>{% endfor %}
+</ul>
+
+{% include "revolving_fund/revolvingloanfund_table.html" %}
+
+{% endblock body %}
+
+{% block right-side %}
+{% include "revolving_fund/right_side_nav.html" %}
+{% endblock right-side %}
+
+{% block scripts %}
+{{ block.super }}
+{% include "revolving_fund/datatable.html" %}
+{% endblock scripts %}

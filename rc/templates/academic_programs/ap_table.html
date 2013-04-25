@@ -1,0 +1,137 @@
+{% extends "academic_programs/base_programs.html" %}
+
+{% block title %}
+Sustainability-Focused {% if program_type %}{{ program_type }}{% elif discipline %}{{ discipline }}{% endif %} Programs
+{% endblock %}
+
+{% block breadcrumb %}
+{{ block.super }}
+<li class="last">{{ program_type }}</li>
+</ul>
+{% endblock breadcrumb %}
+
+{% block content %}
+
+    <div class="content clear-block">
+    
+    <p><a href="{% url program-index-view %}">Back to Academic Programs</a></p>
+
+    {% if member_only %}
+	  <div id="restricted-text" class="accessible">
+	    You are viewing member-only content.
+	  </div>
+    {% endif %}
+    
+    <h1>Sustainability-Focused {% if program_type %}{{ program_type }}{% elif discipline %}{{ discipline }}{% endif %} Programs</h1>
+    
+    <p><em>There {% if count == 1 %}is {{ count }} program{% else %} are {{ count }} programs {% endif %} in this list.</em></p>
+    
+    <table class="views-items academic-programs" id="program-table">
+      <thead>
+      <tr>
+        <th>Title</th>
+        <th>Type</th>
+        <th>Institution(s)</th>
+        <th>Discipline</th>
+        <th>Location</th>
+        <th>Links</th>
+      </tr>
+      </thead>
+      
+      {% for program in object_list %}
+      
+      <tr>  
+      <td class="title">
+        <a href="{% url program-detail-view slug=program.slug %}">{{ program.title }}</a>
+      </td>
+
+      <td class="field-program-type-value">
+        {{ program.program_type.name }}
+      </td>
+
+      <td class="field-campus-value">
+        {% if program.institution %}
+          {{ program.institution.name }}
+        {% elif program.other_inst %}
+          {{ program.other_inst }}
+        {% else %}
+          Other
+        {% endif %}
+      </td>
+      
+      <td class="field-discipline-value">
+        {{ program.discipline.name }}
+      </td>
+      
+      <td>
+        {% if program.city and program.state %}
+          {{ program.city }}, {{ program.state }}
+        {% else %}
+          Unknown
+        {% endif %}
+      </td>
+      
+
+      <td class="program-links">
+        {% if program.homepage %}
+        <a href="{{ program.homepage }}">Program Homepage</a>
+        {% endif %}
+      </td>
+      
+    </tr>
+    {% endfor %}
+    </table>
+    
+     {% if is_paginated %}
+       <div class="pagination">
+         <span class="step-links">
+           {% if page_obj.has_previous %}
+           <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+           {% endif %}
+
+           <span class="current">
+             Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+           </span>
+
+           {% if page_obj.has_next %}
+           <a href="?page={{ page_obj.next_page_number }}">Next</a>
+           {% endif %}
+         </span>
+       </div>
+    {% endif %}
+  
+    {% block body %}
+	  {% endblock body %}
+
+    <div id="content-footer">
+      <div class="block block-block " id="block-block-43">
+        <div class="block-content content">
+          <p>
+		    <em>Please email <a href="mailto:resources@aashe.org">
+                resources@aashe.org</a> with any suggestions, additions or
+		        updates.
+		    </em>
+		  </p>
+        </div>
+      </div>
+    </div><!-- #content-footer -->
+
+  </div><!-- .content.clear-block -->
+
+{% endblock %}
+
+{% block extra-scripts %}
+{{ block.super }}
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+  $('#program-table').dataTable(
+    {
+      "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 5 ] } ],
+      "bPaginate": false,
+      "bLengthChange": false,
+      "aaSorting": [[ 0, "asc" ]]  
+    });
+});
+</script>
+{% endblock %}

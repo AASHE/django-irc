@@ -1,0 +1,33 @@
+{% extends "revolving_fund/base.html" %}
+{% load state_utils %}
+{% load humanize %}
+
+{% block title %}Revolving Loan Funds in {{ state|upper|expand_state_abbrev }} | {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+<ul class="breadcrumb"><li class="first"><a href="/">Home</a></li>
+  <li><a href="{% url resource-center-index %}">Resource Center</a></li>
+  <li><a href="{% url revolving-fund-index %}">Campus Sustainability Revolving Loan Funds</a></li>
+  <li>State/Province</li>
+  <li class="last">{{ state|upper|expand_state_abbrev }}</li>
+</ul>
+{% endblock breadcrumb %}
+
+{% block body %}
+<h1>Revolving Loan Funds in {{ state|upper|expand_state_abbrev }}</h1>
+<p>The database contains <strong>{{ total_funds }}</strong> revolving loan funds in <strong>{{ state|upper|expand_state_abbrev }}</strong> with a total value of <strong>${{ total_amount|intcomma }}</strong>.</p>
+
+<ul class="breadcrumb">
+
+{% include "revolving_fund/revolvingloanfund_table.html" %}
+
+{% endblock body %}
+
+{% block right-side %}
+{% include "revolving_fund/right_side_nav.html" %}
+{% endblock right-side %}
+
+{% block scripts %}
+{{ block.super }}
+{% include "revolving_fund/datatable.html" %}
+{% endblock scripts %}

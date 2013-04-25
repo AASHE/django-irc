@@ -1,0 +1,182 @@
+{% extends "academic_programs/base_programs.html" %}
+
+{% block title %}
+Add an Academic Program
+{% endblock %}
+
+{% block breadcrumb %}
+<ul>
+{{ block.super }}
+<li class="last">Add an Academic Program</li>
+</ul>
+{% endblock breadcrumb %}
+
+{% block content %}
+<h1 class="page-title">Add an Academic Program</h1>
+
+<p><a href="{% url program-index-view %}">Back to Academic Programs</a></p>
+<p>Add information about a new campus academic program using the form below. All submissions are reviewed
+before being added to the AASHE resource center.</p>
+
+<p>* denotes required fields.</p>
+
+{% if form.errors %}
+<p class="errors">Your submission had a problem, please correct the fields indicated below.</p>
+{% endif %}
+
+<form class="ap-create" action="." method="post">
+{% csrf_token %}
+
+<h2>Basic Information</h2>
+
+<fieldset>
+  <table class="ap-standard">
+    <tr>
+      <th>{{ form.title.label_tag }} {% if form.title.field.required %}<span class="required-field">*</span>{% endif %}</th>
+      <td>{{ form.title }} {{ form.title.errors }}</td>
+    </tr>
+    <tr>
+      <th>{{ form.program_type.label_tag }} {% if form.program_type.field.required %}<span class="required-field">*</span>{% endif %}</th>
+      <td>{{ form.program_type }} <span class="help-text">{{ form.program_type.help_text }}</span> {{ form.program_type.errors }}</td>
+    </tr>
+    <tr>
+      <th>{{ form.institution.label_tag }} {% if form.institution.field.required %}<span class="required-field">*</span>{% endif %}</th>
+      <td>{{ form.institution }} <span class="help-text">{{ form.institution.help_text }}</span> {{ form.institution.errors }}</td>
+    </tr>
+    <tr>
+      <th>{{ form.other_inst.label_tag }} {% if form.other_inst.field.required %}<span class="required-field">*</span>{% endif %}</th>
+      <td>{{ form.other_inst }} <span class="help-text">{{ form.other_inst.help_text }}</span> {{ form.other_inst.errors }}</td>
+    </tr>
+    <tr>
+      <th>{{ form.description.label_tag }} {% if form.description.field.required %}<span class="required-field">*</span>{% endif %}</th>
+      <td>{{ form.description }} <span class="help-text">{{ form.description.help_text }}</span> {{ form.description.errors }}</td>
+    </tr>
+    <tr>
+      <th>{{ form.homepage.label_tag }} {% if form.homepage.field.required %}<span class="required-field">*</span>{% endif %}</th>
+      <td>{{ form.homepage }} <span class="help-text">{{ form.homepage.help_text }}</span> {{ form.homepage.errors }}</td>
+    </tr>
+  </table>
+</fieldset>
+
+<h2>Program Location</h2>
+
+<fieldset>
+  <table class="ap-standard">
+    <tr>
+      <th>{{ form.location_name.label_tag }} {% if form.location_name.field.required %}<span class="required-field">*</span>{% endif %}</th>
+      <td>{{ form.location_name }} <span class="help-text">{{ form.location_name.help_text }}</span> {{ form.location_name.errors }}</td>
+    </tr>
+    <tr>
+      <th>{{ form.city.label_tag }} {% if form.city.field.required %}<span class="required-field">*</span>{% endif %}</th>
+      <td>{{ form.city }} <span class="help-text">{{ form.city.help_text }}</span> {{ form.city.errors }}</td>
+    </tr>
+    <tr>
+      <th>{{ form.state.label_tag }} {% if form.state.field.required %}<span class="required-field">*</span>{% endif %}</th>
+      <td>{{ form.state }} <span class="help-text">{{ form.state.help_text }}</span> {{ form.state.errors }}</td>
+    </tr>
+    <tr>
+      <th>{{ form.country.label_tag }} {% if form.country.field.required %}<span class="required-field">*</span>{% endif %}</th>
+      <td>{{ form.country }} <span class="help-text">{{ form.country.help_text }}</span> {{ form.country.errors }}</td>
+    </tr>
+  </table>
+</fieldset>
+
+<h2>Program Details</h2>
+
+<fieldset>
+  <table class="ap-standard">
+    <tr>
+      <th>{{ form.department.label_tag }} {% if form.department.field.required %}<span class="required-field">*</span>{% endif %}</th>
+      <td>{{ form.department }} <span class="help-text">{{ form.department.help_text }}</span> {{ form.department.errors }}</td>
+    </tr>
+    <tr>
+      <th>{{ form.duration.label_tag }} {% if form.state.duration.required %}<span class="required-field">*</span>{% endif %}</th>
+      <td>{{ form.duration }} <span class="help-text">{{ form.duration.help_text }}</span> {{ form.duration.errors }}</td>
+    </tr>
+    <tr>
+      <th>{{ form.founded.label_tag }} {% if form.founded.field.required %}<span class="required-field">*</span>{% endif %}</th>
+      <td>{{ form.founded }} <span class="help-text">{{ form.founded.help_text }}</span> {{ form.founded.errors }}</td>
+    </tr>
+    <tr>
+      <th>{{ form.distance_ed.label_tag }} {% if form.distance_ed.field.required %}<span class="required-field">*</span>{% endif %}</th>
+      <td>{{ form.distance_ed }} <span class="help-text">{{ form.distance_ed.help_text }}</span> {{ form.distance_ed.errors }}</td>
+    </tr>
+    <tr>
+      <th>{{ form.commitment.label_tag }} {% if form.commitment.field.required %}<span class="required-field">*</span>{% endif %}</th>
+      <td>{{ form.commitment }} <span class="help-text">{{ form.commitment.help_text }}</span> {{ form.commitment.errors }}</td>
+    </tr>
+    <tr>
+      <th>{{ form.language.label_tag }} {% if form.language.field.required %}<span class="required-field">*</span>{% endif %}</th>
+      <td>{{ form.language }} <span class="help-text">{{ form.language.help_text }}</span> {{ form.language.errors }}</td>
+    </tr>
+    <tr>
+      <th>{{ form.discipline.label_tag }} {% if form.discipline.field.required %}<span class="required-field">*</span>{% endif %}</th>
+      <td>{{ form.discipline }} <span class="help-text">{{ form.discipline.help_text }}</span> {{ form.discipline.errors }}</td>
+    </tr>
+  </table>
+</fieldset>
+
+<h2>Program Links</h2>
+
+<fieldset>
+  <table class="ap-standard">
+    <tr>
+      <th>{{ form.blog.label_tag }} {% if form.blog.field.required %}<span class="required-field">*</span>{% endif %}</th>
+      <td>{{ form.blog }} <span class="help-text">{{ form.blog.help_text }}</span> {{ form.blog.errors }}</td>
+    </tr>
+    <tr>
+      <th>{{ form.linkedin.label_tag }} {% if form.linkedin.field.required %}<span class="required-field">*</span>{% endif %}</th>
+      <td>{{ form.linkedin }} <span class="help-text">{{ form.linkedin.help_text }}</span> {{ form.linkedin.errors }}</td>
+    </tr>
+    <tr>
+      <th>{{ form.facebook.label_tag }} {% if form.facebook.field.required %}<span class="required-field">*</span>{% endif %}</th>
+      <td>{{ form.facebook }} <span class="help-text">{{ form.facebook.help_text }}</span> {{ form.facebook.errors }}</td>
+    </tr>
+    <tr>
+      <th>{{ form.twitter.label_tag }} {% if form.twitter.field.required %}<span class="required-field">*</span>{% endif %}</th>
+      <td>{{ form.twitter }} <span class="help-text">{{ form.twitter.help_text }}</span> {{ form.twitter.errors }}</td>
+    </tr>
+  </table>
+</fieldset>
+
+<h2>Public Contact Information (optional)</h2>
+<p>Please provide <em>optional</em> public program contact information. All or part of this information <strong>may</strong> be published with the program's record. Please obtain necessary permission from anyone you list other than yourself.</p>
+<table class="ap-standard">
+  <fieldset>
+    <tr>
+      <th>{{ form.project_contact1_firstname.label_tag }} {% if form.project_contact1_first_name.field.required %}<span class="required-field">*</span>{% endif %}</th>
+      <td>{{ form.project_contact1_firstname }} <span class="help-text">{{ form.project_contact1_firstname.help_text }}</span> <br/>{{ form.project_contact1_firstname.errors }}</td>
+    </tr>
+
+    <tr>
+      <th>{{ form.project_contact1_middle.label_tag }} {% if form.project_contact1_middle.field.required %}<span class="required-field">*</span>{% endif %}</th>
+      <td>{{ form.project_contact1_middle }} <span class="help-text">{{ form.project_contact1_middle.help_text }}</span> <br/>{{ form.project_contact1_middle.errors }}</td>
+    </tr>
+
+    <tr>
+      <th>{{ form.project_contact1_lastname.label_tag }} {% if form.project_contact1_lastname.field.required %}<span class="required-field">*</span>{% endif %}</th>
+      <td>{{ form.project_contact1_lastname }} <span class="help-text">{{ form.project_contact1_lastname.help_text }}</span> <br/>{{ form.project_contact1_lastname.errors }}</td>
+    </tr>
+
+    <tr>
+      <th>{{ form.project_contact1_title.label_tag }} {% if form.project_contact1_title.field.required %}<span class="required-field">*</span>{% endif %}</th>
+      <td>{{ form.project_contact1_title }} <span class="help-text">{{ form.project_contact1_title.help_text }}</span> <br/>{{ form.project_contact1_title.errors }}</td>
+    </tr>
+
+    <tr>
+      <th>{{ form.project_contact1_phone.label_tag }} {% if form.project_contact1_phone.field.required %}<span class="required-field">*</span>{% endif %}</th>
+      <td>{{ form.project_contact1_phone }} <span class="help-text">{{ form.project_contact1_phone.help_text }}</span> <br/>{{ form.project_contact1_phone.errors }}</td>
+    </tr>
+
+    <tr>
+      <th>{{ form.project_contact1_confirm.label_tag }} {% if form.project_contact1_confirm.field.required %}<span class="required-field">*</span>{% endif %}</th>
+      <td>{{ form.project_contact1_confirm }} <span class="help-text">{{ form.project_contact1_confirm.help_text }}</span> <br/>{{ form.project_contact1_confirm.errors }}</td>
+    </tr>
+
+</table>
+</fieldset>
+
+<input type="submit" value="Submit New Program" />
+</form>
+
+{% endblock %}
