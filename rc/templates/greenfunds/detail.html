@@ -50,6 +50,10 @@
       <tr><td>Fund Size</td><td>{{ object.fund_size|intcomma }}</td></tr>
     {% endif %}
 
+    {% if object.sunset_date %}
+      <tr><td>Sunset Date</td><td>{{ object.sunset_date }}</td></tr>
+    {% endif %}
+
     {% if object.year %}
       <tr><td>Year Established</td><td>{{ object.year|stringformat:"s" }}</td></tr>
     {% endif %}
@@ -61,7 +65,7 @@
     {% if object.fund_recipients %}
       <tr><td>Fund Recipients</td><td>
       {% for recipient in object.fund_recipients.all %}
-        {{ recipient }} 
+        {{ recipient }}
       {% endfor %}
       </td></tr>
     {% endif %}

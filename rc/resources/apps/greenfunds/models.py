@@ -32,11 +32,10 @@ STUDENT_CHOICES = (
     ('GR', 'Graduate'),
 )
 
-
 # Generic Green Fund
 class GreenFund(models.Model):
     fund_name = models.CharField(_('fund name'), max_length=255)
-    institution = models.ForeignKey("organization.Organization", 
+    institution = models.ForeignKey("organization.Organization",
                                   help_text="Select the institution or organization that administers this fund",
                                   )
     # Reference to fund data
@@ -44,10 +43,10 @@ class GreenFund(models.Model):
     # object_id = models.PositiveIntegerField()
     # fund_data = generic.GenericForeignKey('content_type', 'object_id')
     year = models.IntegerField(max_length=4, verbose_name='Year Implemented')
-    homepage = models.URLField(max_length=255, 
+    homepage = models.URLField(max_length=255,
                                help_text="Enter the URL for the fund's website.",
                                blank=True)
-    fund_size = models.DecimalField(max_digits=12, 
+    fund_size = models.DecimalField(max_digits=12,
                                     decimal_places=2,
                                     verbose_name="Fund Size",
                                     help_text="Enter the the fund's total size.",
@@ -89,7 +88,7 @@ class GreenFund(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
           unique_slugify(self, '%s' % (self.fund_name))
-          
+
         super(GreenFund, self).save()
 
     def get_fund_type_display(self):
@@ -108,7 +107,17 @@ class StudentFeeFund(GreenFund):
                                 null=True,
                                 help_text="If this fund has a sunset date, \
                                            enter it here.")
-    
+    term = models.CharField(choices=TERM_CHOICES,
+                        max_length=5,
+                        help_text="Please select the term of this fund's fee.")
+    rate_per_term = models.CharField(max_length=65,
+                                     verbose_name='Rate per term',
+                                     help_text="Enter the fund's rate per term.",
+                                     blank=True)
+    student_type = models.CharField(choices=STUDENT_CHOICES,
+                        max_length=5,
+                        help_text="Please select the student type of this fee.")
+
     class Meta:
         verbose_name = 'student fee driven fund'
 
@@ -149,26 +158,3 @@ class FundRecipient(models.Model):
 
     class Meta:
         verbose_name = 'fund recipient type'
-
-class FundTerm(models.Model):
-    # Reference to fund data
-    content_type = models.ForeignKey(ContentType, blank=False, null=False)
-    object_id = models.PositiveIntegerField()
-    fund_data = generic.GenericForeignKey('content_type', 'object_id')
-    term = models.CharField(choices=TERM_CHOICES,
-                        max_length=5,
-                        help_text="Please select the term of this fund's fee.")
-    rate_per_term = models.CharField(max_length=65,
-                                     verbose_name='Rate per term', 
-                                     help_text="Enter the fund's rate per term.",
-                                     blank=True)
-    student_type = models.CharField(choices=STUDENT_CHOICES,
-                        max_length=5,
-                        help_text="Please select the student type of this fee.")
-
-
-    def __unicode__(self):
-        return self.term
-
-    class Meta:
-        verbose_name = 'green fund term'
