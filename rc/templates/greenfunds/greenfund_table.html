@@ -1,3 +1,5 @@
+{% load greenfunds-extras %}
+
 <table id="green-fund" class="table table-hover funds">
 <thead>
   <tr>
@@ -10,7 +12,15 @@
 <tbody>
   {% for object in object_list %}
   <tr>
-    <td><a href="{% url green-fund-detail slug=object.slug %}">{{ object.institution.name }}</a></td>
+    {% if object|model_name_filter == "StudentFeeFund" %}
+      <td><a href="{% url fee-fund-detail slug=object.slug %}">{{ object.institution.name }}</a></td>
+    {% elif object|model_name_filter == "DonationFund" %}
+      <td><a href="{% url donation-fund-detail slug=object.slug %}">{{ object.institution.name }}</a></td>
+    {% elif object|model_name_filter == "DepartmentFund" %}
+      <td><a href="{% url department-fund-detail slug=object.slug %}">{{ object.institution.name }}</a></td>
+    {% elif object|model_name_filter == "HybridFund" %}
+      <td><a href="{% url hybrid-fund-detail slug=object.slug %}">{{ object.institution.name }}</a></td>
+    {% endif %}
     <td>{{ object.fund_name }}</td>
     <td>{{ object.year|stringformat:"s" }}</td>
   </tr>
