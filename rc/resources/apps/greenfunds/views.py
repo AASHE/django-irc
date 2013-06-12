@@ -29,10 +29,10 @@ class FundList(ListView):
     def get_context_data(self, **kwargs):
         context = super(FundList, self).get_context_data(**kwargs)
         qs = context['object_list']
-        context['total_funds'] = len(qs)
-        context['total_campuses'] = GreenFund.objects.all().values_list(
+        context['total_funds'] = GreenFund.objects.filter(published=True).count()
+        context['total_campuses'] = GreenFund.objects.filter(published=True).values_list(
             'institution__id', flat=True).distinct().count()
-        context['states'] = GreenFund.objects.exclude(
+        context['states'] = GreenFund.objects.filter(published=True).exclude(
             institution__state='').values_list(
             'institution__state', flat=True).distinct().order_by(
             'institution__state')
@@ -113,16 +113,25 @@ class FundByYear(FundList):
 
     def get_queryset(self):
         if 'year' not in self.kwargs:
-            return self.model._default_manager.filter(year=str(datetime.now().year))
+            return list(chain(StudentFeeFund.objects.filter(published=True, year=str(datetime.now().year)),
+                  DonationFund.objects.filter(published=True, year=str(datetime.now().year)),
+                  DepartmentFund.objects.filter(published=True, year=str(datetime.now().year)),
+                  HybridFund.objects.filter(published=True, year=str(datetime.now().year)),))
         else:
-            return self.model._default_manager.filter(year=self.kwargs['year'])
+            return list(chain(StudentFeeFund.objects.filter(published=True, year=self.kwargs['year']),
+                  DonationFund.objects.filter(published=True, year=self.kwargs['year']),
+                  DepartmentFund.objects.filter(published=True, year=self.kwargs['year']),
+                  HybridFund.objects.filter(published=True, year=self.kwargs['year']),))
 
 class FundByMember(FundList):
     template_name = 'greenfunds/GreenFund_member.html'
     model = GreenFund
 
     def get_queryset(self):
-        return self.model._default_manager.filter(institution__is_member=True)
+        return list(chain(StudentFeeFund.objects.filter(published=True, institution__is_member=True),
+                  DonationFund.objects.filter(published=True, institution__is_member=True),
+                  DepartmentFund.objects.filter(published=True, institution__is_member=True),
+                  HybridFund.objects.filter(published=True, institution__is_member=True),))
 
 class FundCarnegieView(FundList):
     template_name = 'greenfunds/GreenFund_carnegie.html'
@@ -133,8 +142,10 @@ class FundCarnegieView(FundList):
 
     def get_queryset(self):
         carnegie = self.kwargs['carnegie'].lower()
-        return self.model._default_manager.filter(
-            institution__carnegie_classification__iexact=carnegie)
+        return list(chain(StudentFeeFund.objects.filter(published=True, institution__carnegie_classification__iexact=carnegie),
+                  DonationFund.objects.filter(published=True, institution__carnegie_classification__iexact=carnegie),
+                  DepartmentFund.objects.filter(published=True, institution__carnegie_classification__iexact=carnegie),
+                  HybridFund.objects.filter(published=True, institution__carnegie_classification__iexact=carnegie),))
 
     def get_context_data(self, **kwargs):
         context = super(FundCarnegieView, self).get_context_data(**kwargs)
