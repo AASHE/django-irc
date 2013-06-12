@@ -1,0 +1,29 @@
+{% extends "greenfunds/base_funds.html" %}
+
+{% block title %}All Green Funds{% endblock %}
+
+{% block breadcrumb %}
+<ul class="breadcrumb"><li class="first"><a href="/">Home</a></li>
+  <li><a href="{% url resource-center-index %}">Resource Center</a></li>
+  <li><a href="{% url green-fund-index %}">Campus Sustainability Green Funds</a></li>
+  <li class="last">All Funds</li>
+</ul>
+{% endblock breadcrumb %}
+
+{% block body %}
+<h1>All Revolving Loan Funds</h1>
+
+<p>AASHE's Campus Sustainability Student Green Fund database contains information on <strong>{{ total_funds }}</strong> Green Funds at <strong>{{ total_campuses }}</strong> institutions.</p>
+
+{% include "greenfunds/greenfund_table.html" %}
+
+{% endblock body %}
+
+{% block right-side %}
+{% include "greenfunds/right_side_nav.html" %}
+{% endblock right-side %}
+
+{% block scripts %}
+{{ block.super }}
+{% include "greenfunds/datatable.html" %}
+{% endblock scripts %}

@@ -25,6 +25,7 @@ urlpatterns = patterns(
         {'login_url': reverse_lazy('accounts-login')},
         name='accounts-logout'),
     url(r'^academic-programs/', include('rc.resources.apps.academic_programs.urls')),
+    url(r'^green-funds/', include('rc.resources.apps.greenfunds.urls')),
     ('', include('rc.resources.apps.education.urls')),
     ('', include('rc.resources.apps.operations.urls')),
     ('', include('rc.resources.apps.pae.urls')),

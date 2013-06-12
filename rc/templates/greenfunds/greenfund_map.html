@@ -1,0 +1,73 @@
+{% extends "greenfunds/base_funds.html" %}
+
+{% block title %}Green Funds Map | {{ block.super }}{% endblock title %}
+
+{% block body_attributes %}{{ block.super }}onload="initialize()"{% endblock body_attributes %}
+
+{% block head-extra %}
+{{ block.super }}
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+<script>
+  var map;
+  var infowindow = null;
+  function initialize() {
+    var mapOptions = {
+      zoom: 3,
+      center: new google.maps.LatLng(38, -97),
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+    };
+    map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+    var placeMarker = setMarkers(map);
+  }
+
+   function setMarkers(map) {
+     var pMarker = null;
+     
+     var infowindow = new google.maps.InfoWindow();
+     
+     {% for p in object_list %}
+        {% if p.institution.latitude and p.institution.longitude %}
+          var marker = new google.maps.Marker({
+            map: map,
+            position:  new google.maps.LatLng({{ p.institution.latitude }}, {{ p.institution.longitude }}),
+            labelClass: "labels main-label", // the CSS class for the label
+            labelContent: "{{ p.fund_name }}",
+            });
+          pMarker = marker;
+          
+          google.maps.event.addListener(marker, 'click', function() {
+            infowindow.setContent("<a target=\"_blank\" href=\"{% url green-fund-detail slug=p.slug %}\">{{ p.fund_name }}</a><br />{% if p.institution %}{{ p.institution.picklist_name }}<br />{% endif %}{{ p.institution.city }}, {{ p.institution.state }}")
+            infowindow.open(map, this);
+          });
+        {% endif %}
+    {% endfor %}
+
+    return pMarker;
+  }
+
+  google.maps.event.addDomListener(window, 'load', initialize);
+  
+</script>
+{% endblock head-extra %}
+
+
+{% block breadcrumb %}
+<ul class="breadcrumb"><li class="first"><a href="/">Home</a></li>
+  <li><a href="{% url resource-center-index %}">Resource Center</a></li>
+  <li><a href="{% url green-fund-index %}">Campus Sustainability Green Funds</a></li>
+  <li class="last">Map</li>
+</ul>
+{% endblock breadcrumb %}
+
+{% block body %}
+<h1>Green Funds Map</h1>
+
+<p>AASHE's Campus Sustainability Student Green Fund database contains information on <strong>{{ total_funds }}</strong> Green Funds at <strong>{{ total_campuses }}</strong> institutions.</p>
+
+<div id="map_canvas"></div>
+
+{% endblock body %}
+
+{% block right-side %}
+{% include "greenfunds/right_side_nav.html" %}
+{% endblock right-side %}

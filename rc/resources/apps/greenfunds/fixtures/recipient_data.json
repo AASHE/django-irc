@@ -1,0 +1,1 @@
+[{"pk": 2, "model": "greenfunds.fundrecipient", "fields": {"name": "Faculty"}}, {"pk": 3, "model": "greenfunds.fundrecipient", "fields": {"name": "Students"}}, {"pk": 4, "model": "greenfunds.fundrecipient", "fields": {"name": "Staff"}}]

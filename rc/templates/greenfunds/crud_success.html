@@ -1,0 +1,23 @@
+{% extends "greenfunds/base_funds.html" %}
+
+{% block title %}Thank You!{% endblock %}
+
+{% block breadcrumb %}
+<ul>
+{{ block.super }}
+<li class="last">Add a Green Fund</li>
+</ul>
+{% endblock breadcrumb %}
+
+{% block page-title %}
+<h1 class="page-title">Add a Green Fund</h1>
+{% endblock %}
+
+{% block content %}
+<p><a href="{% url green-fund-index %}">Back to Green Funds</a></p>
+
+<p>Your submission has been received!</p>
+
+<p>Thank you for helping to improve this resource. We have received your submission and will review the information before publishing it to the AASHE resource center. If you have any questions or comments please contact <a href="mailto:resources@aashe.org">resources@aashe.org</a>.</p>
+
+{% endblock content %}

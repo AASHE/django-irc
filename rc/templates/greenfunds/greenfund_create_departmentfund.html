@@ -1,0 +1,9 @@
+  <tr>
+      <th>{{ form.department_name.label_tag }} {% if form.department_name.field.required %}<span class="required-field">*</span>{% endif %}</th>
+      <td>{{ form.department_name }} <span class="help-text">{{ form.department_name.help_text }}</span> {{ form.department_name.errors }}</td>
+  </tr>
+
+  <tr>
+      <th>{{ form.department_type.label_tag }} {% if form.department_type.field.required %}<span class="required-field">*</span>{% endif %}</th>
+      <td>{{ form.department_type }} <span class="help-text">{{ form.department_type.help_text }}</span> {{ form.department_type.errors }}</td>
+  </tr>

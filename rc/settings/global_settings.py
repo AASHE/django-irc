@@ -137,6 +137,7 @@ INSTALLED_APPS = (
     'aashe.aasheauth',
     'aashe.moderation',
     'aashe.disciplines',
+    'aashe.departments',
     'treemenus',
     'linkcheck',
     'haystack',
@@ -152,6 +153,7 @@ INSTALLED_APPS = (
     'rc.resources.apps.scrape',
     'rc.resources.apps.academic_programs',
     'rc.resources.apps.revolving_fund',
+    'rc.resources.apps.greenfunds',
     'pagedown'
     )
 

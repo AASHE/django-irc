@@ -7,6 +7,7 @@ salesforce.py
 salesforce.pyc
 *~
 rc/rc.db
+whoosh_index/*
 *.tar.gz
 rc/whoosh_index/*
 

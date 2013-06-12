@@ -1,0 +1,92 @@
+{% extends "greenfunds/base_funds.html" %}
+{% load markup %}
+{% load humanize %}
+{% load greenfunds-extras %}
+
+{% block title %}{{ object.fund_name }} at {{ object.institution.name }} | {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+<ul class="breadcrumb"><li class="first"><a href="/">Home</a></li>
+  <li><a href="{% url resource-center-index %}">Resource Center</a></li>
+  <li><a href="{% url green-fund-index %}">Campus Sustainability Green Funds</a></li>
+  <li class="last">{{ object.fund_name }}</li>
+</ul>
+{% endblock breadcrumb %}
+
+{% block body %}
+<div class="fund-detail">
+  <h1>{{ object.model_name }}</h1>
+  <h2>{{ object.institution.name }}</h2>
+
+  <a href="{% url green-fund-edit slug=object.slug %}"><button class="btn btn-primary btn-mini btn-fund-update" type="button">Update this Information</button></a>
+  {% if request.user.is_staff %}
+  <a href="."><button class="btn btn-mini btn-inverse btn-fund-update">Edit in Admin</button></a>
+  {% endif %}
+
+  <table class="table">
+    <thead>
+      <tr class="info"><th colspan="2"><strong>{{ object.institution.name }}</strong></th></tr>
+    </thead>
+    <tbody>
+      <tr>
+
+    {% if object.institution.city and object.institution.state %}
+      <tr><td>Fund Location</td><td>{{ object.institution.city }}, {{ object.institution.state }}</td></tr>
+    {% endif %}
+
+    {% if object.institution.control %}
+      <tr><td>Institution Control</td><td>{{ object.institution.control }}</td></tr>
+    {% endif %}
+
+    <tr><td>Fund Type</td><td>{{ object|model_name_filter }}</td></tr>
+
+    {% for name, value in object.fund_data.get_fields %}
+      {% if name != 'ID' and value %}
+      <tr><td>{{ name }}</td><td>{{ value }}</td></tr>
+      {% endif %}
+    {% endfor %}
+
+    {% if object.fund_size %}
+      <tr><td>Fund Size</td><td>{{ object.fund_size|intcomma }}</td></tr>
+    {% endif %}
+
+    {% if object.year %}
+      <tr><td>Year Established</td><td>{{ object.year|stringformat:"s" }}</td></tr>
+    {% endif %}
+
+    {% if object.homepage %}
+      <tr><td>Fund Homepage</td><td><a href="{{ object.homepage }}">Link</a></td></tr>
+    {% endif %}
+
+    {% if object.fund_recipients %}
+      <tr><td>Fund Recipients</td><td>
+      {% for recipient in object.fund_recipients.all %}
+        {{ recipient }} 
+      {% endfor %}
+      </td></tr>
+    {% endif %}
+
+    <tr>
+      <td>Fund Contact</td><td>{{ object.project_contact1_details|default:"Data Not Provided" }}</td>
+    </tr>
+
+    </tbody>
+    </table>
+
+</div>
+
+{% if object.fund_description %}
+<h2>Fund Description</h2>
+<p>{{ object.fund_description }}</p>
+{% endif %}
+
+<h2>Additional Links</h2>
+<p>
+
+<a href='{% url green-fund-index %}'>Return to Green Funds Index</a><br /></p>
+
+{% endblock %}
+
+{% block right-side %}
+{% include "greenfunds/right_side_nav.html" %}
+{% endblock right-side %}
