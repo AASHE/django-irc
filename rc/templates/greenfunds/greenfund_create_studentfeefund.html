@@ -2,3 +2,18 @@
       <th>{{ form.sunset_date.label_tag }} {% if form.sunset_date.field.required %}<span class="required-field">*</span>{% endif %}</th>
       <td>{{ form.sunset_date }} <span class="help-text">{{ form.sunset_date.help_text }}</span> {{ form.sunset_date.errors }}</td>
   </tr>
+
+  <tr>
+      <th>{{ form.term.label_tag }} {% if form.term.field.required %}<span class="required-field">*</span>{% endif %}</th>
+      <td>{{ form.term }} <span class="help-text">{{ form.term.help_text }}</span> {{ form.term.errors }}</td>
+  </tr>
+
+  <tr>
+      <th>{{ form.rate_per_term.label_tag }} {% if form.rate_per_term.field.required %}<span class="required-field">*</span>{% endif %}</th>
+      <td>{{ form.rate_per_term }} <span class="help-text">{{ form.rate_per_term.help_text }}</span> {{ form.rate_per_term.errors }}</td>
+  </tr>
+
+  <tr>
+      <th>{{ form.student_type.label_tag }} {% if form.student_type.field.required %}<span class="required-field">*</span>{% endif %}</th>
+      <td>{{ form.student_type }} <span class="help-text">{{ form.student_type.help_text }}</span> {{ form.student_type.errors }}</td>
+  </tr>

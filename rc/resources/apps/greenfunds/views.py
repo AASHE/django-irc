@@ -158,34 +158,42 @@ class FundCarnegieView(FundList):
 
 class HybridFundDetail(DetailView):
     queryset = HybridFund.objects.filter(published=True)
+    model = HybridFund
     slug_field = 'slug'
 
     def get_context_data(self, **kwargs):
         context = super(HybridFundDetail, self).get_context_data(**kwargs)
+        context['model_name'] = self.model._meta.verbose_name.title()
         return context
 
 class DepartmentFundDetail(DetailView):
     queryset = DepartmentFund.objects.filter(published=True)
+    model = DepartmentFund
     slug_field = 'slug'
 
     def get_context_data(self, **kwargs):
         context = super(DepartmentFundDetail, self).get_context_data(**kwargs)
+        context['model_name'] = self.model._meta.verbose_name.title()
         return context
 
 class StudentFeeFundDetail(DetailView):
     queryset = StudentFeeFund.objects.filter(published=True)
+    model = StudentFeeFund
     slug_field = 'slug'
 
     def get_context_data(self, **kwargs):
         context = super(StudentFeeFundDetail, self).get_context_data(**kwargs)
+        context['model_name'] = self.model._meta.verbose_name.title()
         return context
 
 class DonationFundDetail(DetailView):
     queryset = DonationFund.objects.filter(published=True)
+    model = DonationFund
     slug_field = 'slug'
 
     def get_context_data(self, **kwargs):
         context = super(DonationFundDetail, self).get_context_data(**kwargs)
+        context['model_name'] = self.model._meta.verbose_name.title()
         return context
 
 # CRUD Views

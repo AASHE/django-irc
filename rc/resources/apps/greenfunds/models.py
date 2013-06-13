@@ -8,12 +8,12 @@ from aashe.utils.slugify import unique_slugify
 
 # Term length
 TERM_CHOICES = (
-    ('SM', 'semester'),
-    ('QA', 'quarter'),
-    ('CR', 'credit'),
-    ('AN', 'annually'),
-    ('TM', 'trimester'),
-    ('TR', 'term')
+    ('SM', 'Semester'),
+    ('QA', 'Quarter'),
+    ('CR', 'Credit'),
+    ('AN', 'Annually'),
+    ('TM', 'Trimester'),
+    ('TR', 'Term')
 )
 # Fund Type
 TYPE_CHOICES = (
@@ -91,13 +91,6 @@ class GreenFund(models.Model):
 
         super(GreenFund, self).save()
 
-    def get_fund_type_display(self):
-        '''
-        A special display function for use in templates
-        to output what "type" of fund this is...
-        '''
-        return self.fund_data._meta.verbose_name
-
     def __unicode__(self):
         return self.fund_name
 
@@ -124,7 +117,7 @@ class StudentFeeFund(GreenFund):
 # Donation Driven Funds
 class DonationFund(GreenFund):
     fund_type = models.CharField(choices=TYPE_CHOICES, max_length=2,
-                                help_text="Is this fund fee mandatory?")
+                                help_text="Ongoing or one-time?")
     donation_source = models.CharField(choices=SOURCE_CHOICES, max_length=2,
                                 help_text="Primary funding source.")
 

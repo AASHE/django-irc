@@ -15,22 +15,31 @@
 
 {% block body %}
 <div class="fund-detail">
-  <h1>{{ object.model_name }}</h1>
-  <h2>{{ object.institution.name }}</h2>
+  <h1>{{ object.fund_name }}</h1>
+  <h2>{{ model_name }} - {{ object.institution.name }}</h2>
+  <br />
 
 
   {% if object|model_name_filter == "StudentFeeFund" %}
     <a href="{% url fee-fund-edit slug=object.slug %}"><button class="btn btn-primary btn-mini btn-fund-update" type="button">Update this Information</button></a>
+    {% if request.user.is_staff %}
+    <a href="{% url admin:greenfunds_studentfeefund_change object.pk %}"><button class="btn btn-mini btn-inverse btn-fund-update">Edit in Admin</button></a>
+    {% endif %}
   {% elif object|model_name_filter == "DonationFund" %}
     <a href="{% url donation-fund-edit slug=object.slug %}"><button class="btn btn-primary btn-mini btn-fund-update" type="button">Update this Information</button></a>
+    {% if request.user.is_staff %}
+    <a href="{% url admin:greenfunds_donationfund_change object.pk %}"><button class="btn btn-mini btn-inverse btn-fund-update">Edit in Admin</button></a>
+    {% endif %}
   {% elif object|model_name_filter == "DepartmentFund" %}
     <a href="{% url department-fund-edit slug=object.slug %}"><button class="btn btn-primary btn-mini btn-fund-update" type="button">Update this Information</button></a>
+    {% if request.user.is_staff %}
+    <a href="{% url admin:greenfunds_departmentfund_change object.pk %}"><button class="btn btn-mini btn-inverse btn-fund-update">Edit in Admin</button></a>
+    {% endif %}
   {% elif object|model_name_filter == "HybridFund" %}
     <a href="{% url hybrid-fund-edit slug=object.slug %}"><button class="btn btn-primary btn-mini btn-fund-update" type="button">Update this Information</button></a>
-  {% endif %}
-
-  {% if request.user.is_staff %}
-  <a href="."><button class="btn btn-mini btn-inverse btn-fund-update">Edit in Admin</button></a>
+    {% if request.user.is_staff %}
+    <a href="{% url admin:greenfunds_hybridfund_change object.pk %}"><button class="btn btn-mini btn-inverse btn-fund-update">Edit in Admin</button></a>
+    {% endif %}
   {% endif %}
 
   <table class="table">
@@ -48,10 +57,40 @@
       <tr><td>Institution Control</td><td>{{ object.institution.control }}</td></tr>
     {% endif %}
 
-    <tr><td>Fund Type</td><td>{{ object|model_name_filter }}</td></tr>
+    {% if object.sunset_date %}
+      <tr><td>Sunset Date</td><td>{{ object.sunset_date }}</td></tr>
+    {% endif %}
 
-    {% if object.institution.control %}
-      <tr><td>Institution Control</td><td>{{ object.institution.control }}</td></tr>
+    {% if object.term %}
+      <tr><td>Fund Term</td><td>{{ object.get_term_display }}</td></tr>
+    {% endif %}
+
+    {% if object.rate_per_term %}
+      <tr><td>Fund Rate Per Term</td><td>${{ object.rate_per_term }}</td></tr>
+    {% endif %}
+
+    {% if object.student_type %}
+      <tr><td>Fund Student Type</td><td>{{ object.student_type }}</td></tr>
+    {% endif %}
+
+    {% if object.fund_type %}
+      <tr><td>Fund Donation Type</td><td>{{ object.get_fund_type_display }}</td></tr>
+    {% endif %}
+
+    {% if object.fund_type %}
+      <tr><td>Donation Source</td><td>{{ object.donation_source }}</td></tr>
+    {% endif %}
+
+    {% if object.department_name %}
+      <tr><td>Department Name</td><td>{{ object.department_name }}</td></tr>
+    {% endif %}
+
+    {% if object.department_type %}
+      <tr><td>Department Type</td><td>{{ object.department_type }}</td></tr>
+    {% endif %}
+
+    {% if object.funding_source %}
+      <tr><td>Funding Source</td><td>{{ object.funding_source }}</td></tr>
     {% endif %}
 
     {% if object.fund_size %}
