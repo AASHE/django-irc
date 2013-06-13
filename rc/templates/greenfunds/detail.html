@@ -18,7 +18,17 @@
   <h1>{{ object.model_name }}</h1>
   <h2>{{ object.institution.name }}</h2>
 
-  <a href="{% url green-fund-edit slug=object.slug %}"><button class="btn btn-primary btn-mini btn-fund-update" type="button">Update this Information</button></a>
+
+  {% if object|model_name_filter == "StudentFeeFund" %}
+    <a href="{% url fee-fund-edit slug=object.slug %}"><button class="btn btn-primary btn-mini btn-fund-update" type="button">Update this Information</button></a>
+  {% elif object|model_name_filter == "DonationFund" %}
+    <a href="{% url donation-fund-edit slug=object.slug %}"><button class="btn btn-primary btn-mini btn-fund-update" type="button">Update this Information</button></a>
+  {% elif object|model_name_filter == "DepartmentFund" %}
+    <a href="{% url department-fund-edit slug=object.slug %}"><button class="btn btn-primary btn-mini btn-fund-update" type="button">Update this Information</button></a>
+  {% elif object|model_name_filter == "HybridFund" %}
+    <a href="{% url hybrid-fund-edit slug=object.slug %}"><button class="btn btn-primary btn-mini btn-fund-update" type="button">Update this Information</button></a>
+  {% endif %}
+
   {% if request.user.is_staff %}
   <a href="."><button class="btn btn-mini btn-inverse btn-fund-update">Edit in Admin</button></a>
   {% endif %}
@@ -40,11 +50,9 @@
 
     <tr><td>Fund Type</td><td>{{ object|model_name_filter }}</td></tr>
 
-    {% for name, value in object.fund_data.get_fields %}
-      {% if name != 'ID' and value %}
-      <tr><td>{{ name }}</td><td>{{ value }}</td></tr>
-      {% endif %}
-    {% endfor %}
+    {% if object.institution.control %}
+      <tr><td>Institution Control</td><td>{{ object.institution.control }}</td></tr>
+    {% endif %}
 
     {% if object.fund_size %}
       <tr><td>Fund Size</td><td>{{ object.fund_size|intcomma }}</td></tr>

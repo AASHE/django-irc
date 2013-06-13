@@ -8,7 +8,7 @@ from haystack.forms import ModelSearchForm, SearchForm
 from haystack.views import search_view_factory
 from haystack.query import SearchQuerySet
 
-sqs = SearchQuerySet().models(GreenFund)
+sqs = SearchQuerySet().models(StudentFeeFund, DonationFund, DepartmentFund, HybridFund)
 
 # Create your views here.
 urlpatterns = patterns('',
@@ -42,8 +42,14 @@ urlpatterns = patterns('',
     url(r'^edit/success/$', TemplateView.as_view(
       template_name='greenfunds/crud_success.html'),
     name='green-fund-edit-success'),
-    url(r'^edit/(?P<slug>[-\w]+)/$', login_required()(FundUpdateView.as_view()),
-      name="green-fund-edit"),
+    url(r'^hybrid/(?P<slug>[-\w]+)/edit$', login_required()(HybridFundUpdateView.as_view()),
+      name="hybrid-fund-edit"),
+    url(r'^department/(?P<slug>[-\w]+)/edit$', login_required()(DepartmentFundUpdateView.as_view()),
+      name="department-fund-edit"),
+    url(r'^donation/(?P<slug>[-\w]+)/edit$', login_required()(DonationFundUpdateView.as_view()),
+      name="donation-fund-edit"),
+    url(r'^student-fee/(?P<slug>[-\w]+)/edit$', login_required()(StudentFeeFundUpdateView.as_view()),
+      name="fee-fund-edit"),
     url(r'^edit/success/$', 'django.views.generic.base.TemplateView',
       {'template_name': 'greenfunds/crud_success.html'},
       name='green-fund-edit-success'),

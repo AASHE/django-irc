@@ -9,7 +9,7 @@ from aashe.disciplines.models import Discipline
 from django.shortcuts import get_object_or_404, render_to_response
 from django.views.generic.edit import CreateView, UpdateView, FormView
 from haystack.views import SearchView, search_view_factory
-from models import GreenFund, StudentFeeFund, DonationFund, DepartmentFund
+from models import GreenFund, StudentFeeFund, DonationFund, DepartmentFund, HybridFund
 from forms import *
 from django.core.paginator import InvalidPage, EmptyPage #, Paginator
 from rc.resources.apps.academic_programs.digg_paginator import DiggPaginator as Paginator
@@ -161,7 +161,7 @@ class HybridFundDetail(DetailView):
     slug_field = 'slug'
 
     def get_context_data(self, **kwargs):
-        context = super(FundDetail, self).get_context_data(**kwargs)
+        context = super(HybridFundDetail, self).get_context_data(**kwargs)
         return context
 
 class DepartmentFundDetail(DetailView):
@@ -169,7 +169,7 @@ class DepartmentFundDetail(DetailView):
     slug_field = 'slug'
 
     def get_context_data(self, **kwargs):
-        context = super(FundDetail, self).get_context_data(**kwargs)
+        context = super(DepartmentFundDetail, self).get_context_data(**kwargs)
         return context
 
 class StudentFeeFundDetail(DetailView):
@@ -177,7 +177,7 @@ class StudentFeeFundDetail(DetailView):
     slug_field = 'slug'
 
     def get_context_data(self, **kwargs):
-        context = super(FundDetail, self).get_context_data(**kwargs)
+        context = super(StudentFeeFundDetail, self).get_context_data(**kwargs)
         return context
 
 class DonationFundDetail(DetailView):
@@ -185,7 +185,7 @@ class DonationFundDetail(DetailView):
     slug_field = 'slug'
 
     def get_context_data(self, **kwargs):
-        context = super(FundDetail, self).get_context_data(**kwargs)
+        context = super(DonationFundDetail, self).get_context_data(**kwargs)
         return context
 
 # CRUD Views
@@ -198,9 +198,9 @@ class FundCreateView(CreateView):
         context['model_name'] = self.model.__name__
         return context
 
-class FundUpdateView(UpdateView):
-    queryset = GreenFund.objects.all()
-    model = GreenFund
+class StudentFeeFundUpdateView(UpdateView):
+    queryset = StudentFeeFund.objects.all()
+    model = StudentFeeFund
     # form_class = GreenFundUpdateForm
     template_name = 'greenfunds/greenfund_update.html'
     success_url = reverse_lazy("green-fund-edit-success")
@@ -211,7 +211,58 @@ class FundUpdateView(UpdateView):
         return form
 
     def get_context_data(self, **kwargs):
-        context = super(FundUpdateView, self).get_context_data(**kwargs)
+        context = super(StudentFeeFundUpdateView, self).get_context_data(**kwargs)
+        context['model_name'] = self.model.__name__
+        return context
+
+class DonationFundUpdateView(UpdateView):
+    queryset = DonationFund.objects.all()
+    model = DonationFund
+    # form_class = GreenFundUpdateForm
+    template_name = 'greenfunds/greenfund_update.html'
+    success_url = reverse_lazy("green-fund-edit-success")
+
+    def get_form(self, form_class):
+        form = form_class(**self.get_form_kwargs())
+        form.request = self.request
+        return form
+
+    def get_context_data(self, **kwargs):
+        context = super(DonationFundUpdateView, self).get_context_data(**kwargs)
+        context['model_name'] = self.model.__name__
+        return context
+
+class DepartmentFundUpdateView(UpdateView):
+    queryset = DepartmentFund.objects.all()
+    model = DepartmentFund
+    # form_class = GreenFundUpdateForm
+    template_name = 'greenfunds/greenfund_update.html'
+    success_url = reverse_lazy("green-fund-edit-success")
+
+    def get_form(self, form_class):
+        form = form_class(**self.get_form_kwargs())
+        form.request = self.request
+        return form
+
+    def get_context_data(self, **kwargs):
+        context = super(DepartmentFundUpdateView, self).get_context_data(**kwargs)
+        context['model_name'] = self.model.__name__
+        return context
+
+class HybridFundUpdateView(UpdateView):
+    queryset = HybridFund.objects.all()
+    model = HybridFund
+    # form_class = GreenFundUpdateForm
+    template_name = 'greenfunds/greenfund_update.html'
+    success_url = reverse_lazy("green-fund-edit-success")
+
+    def get_form(self, form_class):
+        form = form_class(**self.get_form_kwargs())
+        form.request = self.request
+        return form
+
+    def get_context_data(self, **kwargs):
+        context = super(HybridFundUpdateView, self).get_context_data(**kwargs)
         context['model_name'] = self.model.__name__
         return context
 
