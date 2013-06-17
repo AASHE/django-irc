@@ -49,8 +49,8 @@ def dev():
     env.remote_vars = {
         'SALESFORCE_USERNAME': os.environ.get('SALESFORCE_USERNAME', ''),
         'SALESFORCE_PASSWORD': os.environ.get('SALESFORCE_PASSWORD', ''),
-        }    
-    
+        }
+
 def new():
     '''
     Configure the fabric environment for the dev server(s).
@@ -62,7 +62,7 @@ def new():
     env.activate = 'source %s/env/bin/activate' % env.remote_path
     env.uwsgi_service_name = 'aashe-rc'
     env.release_path = '%s/current' % env.remote_path
-    
+
 def production():
     '''
     Configure the fabric environment for the production server(s).
@@ -121,6 +121,7 @@ def export():
     local("rm %s" % tarfile)
     with cd(env.remote_path):
         # extract tarfile to export path
+        run ('rm -rf %s' % export_path)
         run('tar xvzf %s' % tarfile)
         run('rm -rf %s' % tarfile)
         env.release_path = '%s/%s' % (env.remote_path, export_path)
@@ -135,7 +136,7 @@ def requirements():
         if not hasattr(env, 'release_path'):
             env.release_path = '%s/current' % env.remote_path
         run('pip install -r %s/%s' % (env.release_path, env.requirements_txt))
-        
+
 def test():
     '''
     Test our installation in a few ways.
@@ -146,8 +147,8 @@ def test():
         with cd(env.release_path):
             result = run('python manage.py validate --settings=%s' % env.django_settings)
             print 'test() result was %s' % result
-    return result.succeeded        
-        
+    return result.succeeded
+
 def update_symlinks():
     with cd(env.remote_path):
         if exists(env.previous_symlink_name):
@@ -157,16 +158,16 @@ def update_symlinks():
             if exists(env.current_symlink_name):
                 current_path = run('readlink %s' % env.current_symlink_name)
                 if current_path != previous_path:
-                    run('rm -rf %s' % previous_path)            
+                    run('rm -rf %s' % previous_path)
         if exists(env.current_symlink_name):
             # get the real directory pointed to by current
             current_path = run('readlink %s' % env.current_symlink_name)
-            # make current the new previous 
+            # make current the new previous
             run('ln -s %s %s' % (current_path, env.previous_symlink_name))
-            run('rm %s' % env.current_symlink_name)            
+            run('rm %s' % env.current_symlink_name)
         # update "current" symbolic link to new code path
         run('ln -s %s %s' % (env.release_path, env.current_symlink_name))
-        
+
 def config():
     '''
     Configure the exported and uploaded code archive.
@@ -197,7 +198,7 @@ def refresh_orgs():
     with virtualenv():
         with cd(env.release_path):
             run("python manage.py refresh_orgs --settings=%s" % env.django_settings)
-            
+
 def restart():
     '''
     Reboot uwsgi server.
@@ -229,7 +230,7 @@ def loaddata(fixture=''):
     with virtualenv():
         with cd(env.release_path):
             run('python manage.py loaddata %s --settings=%s' %
-                (fixture, env.django_settings))            
+                (fixture, env.django_settings))
 
 def findlinks():
     '''
