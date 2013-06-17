@@ -122,7 +122,8 @@ def export():
     with cd(env.remote_path):
         # extract tarfile to export path
         run ('rm -rf %s' % export_path)
-        run('tar xvzf %s' % tarfile)
+        run ('mkdir %s' % export_path)
+        run('tar xvzf %s -C %s/' % (tarfile, export_path))
         run('rm -rf %s' % tarfile)
         env.release_path = '%s/%s' % (env.remote_path, export_path)
 
