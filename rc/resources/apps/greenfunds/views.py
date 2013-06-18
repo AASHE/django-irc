@@ -75,7 +75,7 @@ class FundByRegion(FundList):
                    'south': {'title': 'Southern U.S.', 'states': SOUTH},
                    'west': {'title': 'Western U.S.', 'states': WEST}}
 
-    template_name = 'greenfunds/GreenFund_region.html'
+    template_name = 'greenfunds/greenfund_region.html'
 
     def get_queryset(self):
         state_list = self.REGIONS_MAP.get(self.kwargs['region'])['states']
@@ -91,7 +91,7 @@ class FundByRegion(FundList):
         return context
 
 class FundTypeView(FundList):
-    template_name = 'greenfunds/GreenFund_control.html'
+    template_name = 'greenfunds/greenfund_control.html'
 
     def get_queryset(self):
         return list(chain(StudentFeeFund.objects.filter(published=True, institution__is_member=True),
@@ -100,7 +100,7 @@ class FundTypeView(FundList):
           HybridFund.objects.filter(published=True, institution__is_member=True),))
 
 class FundByYear(FundList):
-    template_name = 'greenfunds/GreenFund_year.html'
+    template_name = 'greenfunds/greenfund_year.html'
 
     def get_context_data(self, **kwargs):
         context = super(FundByYear, self).get_context_data(**kwargs)
@@ -124,7 +124,7 @@ class FundByYear(FundList):
                   HybridFund.objects.filter(published=True, year=self.kwargs['year']),))
 
 class FundByMember(FundList):
-    template_name = 'greenfunds/GreenFund_member.html'
+    template_name = 'greenfunds/greenfund_member.html'
     model = GreenFund
 
     def get_queryset(self):
@@ -134,7 +134,7 @@ class FundByMember(FundList):
                   HybridFund.objects.filter(published=True, institution__is_member=True),))
 
 class FundCarnegieView(FundList):
-    template_name = 'greenfunds/GreenFund_carnegie.html'
+    template_name = 'greenfunds/greenfund_carnegie.html'
     queryset=list(chain(StudentFeeFund.objects.filter(published=True),
           DonationFund.objects.filter(published=True),
           DepartmentFund.objects.filter(published=True),
