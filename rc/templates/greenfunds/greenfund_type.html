@@ -1,26 +1,26 @@
 {% extends "greenfunds/base_funds.html" %}
-{% load state_utils %}
 
-{% block title %}Green Funds at {{ carnegie|title }} Campuses | {{ block.super }}{% endblock %}
+{% load greenfunds-extras %}
+
+{% block title %}{{ fund_type|title }} Green Funds | {{ block.super }}{% endblock %}
 
 {% block breadcrumb %}
 <ul class="breadcrumb"><li class="first"><a href="/">Home</a></li>
   <li><a href="{% url resource-center-index %}">Resource Center</a></li>
   <li><a href="{% url green-fund-index %}">Campus Sustainability Green Funds</a></li>
-  <li>Carnegie Classification</li>
-  <li class="last">{{ carnegie|title }}</li>
+  <li>Type</li>
+  <li class="last">{{ fund_type|title }}</li>
 </ul>
 {% endblock breadcrumb %}
 
 {% block body %}
-<h1>Green Funds at {{ carnegie|title }} Campuses</h1>
-<p>The database contains <strong>{{ total_funds }}</strong> Green Funds in the <strong>&lsquo;{{ carnegie|title }}&rsquo;</strong> classfication.
+<p>The database contains <strong>{{ total_funds }}</strong> Green Funds in the <strong>&lsquo;{{ fund_type|title }}&rsquo;</strong> type.
 
 <ul class="breadcrumb">
   <li>Browse:</li>
-  {% for class in carnegie_classes %}<li><a href="{% url green-fund-carnegie carnegie=class|lower|urlencode %}">{{ class }}</a>{% if not forloop.last %}<span class="divider">|</span>{% endif %}</li>{% endfor %}
+  <li><a href="{% url green-fund-type type='all' %}">All</a><span class="divider">|</span></li>
+  {% for fund_type, fund_model in fund_types.items %}<li><a href="{% url green-fund-type type=fund_type %}">{{ fund_model|model_verbose_name_filter|title }}</a>{% if not forloop.last %}<span class="divider">|</span>{% endif %}</li>{% endfor %}
 </ul>
-
 
 {% include "greenfunds/greenfund_table.html" %}
 

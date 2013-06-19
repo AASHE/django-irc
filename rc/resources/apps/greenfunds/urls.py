@@ -42,13 +42,13 @@ urlpatterns = patterns('',
     url(r'^edit/success/$', TemplateView.as_view(
       template_name='greenfunds/crud_success.html'),
     name='green-fund-edit-success'),
-    url(r'^hybrid/(?P<slug>[-\w]+)/edit$', login_required()(HybridFundUpdateView.as_view()),
+    url(r'^type/hybrid/(?P<slug>[-\w]+)/edit$', login_required()(HybridFundUpdateView.as_view()),
       name="hybrid-fund-edit"),
-    url(r'^department/(?P<slug>[-\w]+)/edit$', login_required()(DepartmentFundUpdateView.as_view()),
+    url(r'^type/department/(?P<slug>[-\w]+)/edit$', login_required()(DepartmentFundUpdateView.as_view()),
       name="department-fund-edit"),
-    url(r'^donation/(?P<slug>[-\w]+)/edit$', login_required()(DonationFundUpdateView.as_view()),
+    url(r'^type/donation/(?P<slug>[-\w]+)/edit$', login_required()(DonationFundUpdateView.as_view()),
       name="donation-fund-edit"),
-    url(r'^student-fee/(?P<slug>[-\w]+)/edit$', login_required()(StudentFeeFundUpdateView.as_view()),
+    url(r'^type/student-fee/(?P<slug>[-\w]+)/edit$', login_required()(StudentFeeFundUpdateView.as_view()),
       name="fee-fund-edit"),
     url(r'^edit/success/$', 'django.views.generic.base.TemplateView',
       {'template_name': 'greenfunds/crud_success.html'},
@@ -65,17 +65,13 @@ urlpatterns = patterns('',
     # Funds by Region
     url(r'^region/(?P<region>[\w-]+)/$', FundByRegion.as_view(), name='green-fund-region'),
     # Year
-    url(r'^year/$', FundByYear.as_view(model=GreenFund,
-    template_name='greenfunds/greenfund_year_index.html'),
+    url(r'^year/$', FundByYear.as_view(template_name='greenfunds/greenfund_year_index.html'),
     name='green-fund-year-index'),
-    url(r'^year/(?P<year>\d{4})/$', FundByYear.as_view(model=GreenFund),
+    url(r'^year/(?P<year>\d{4})/$', FundByYear.as_view(),
     name='green-fund-year'),
     # Map
     url(r'^map/$', FundMap.as_view(template_name='greenfunds/greenfund_map.html'),
     name="green-fund-map"),
-    # Control
-    # url(r'^control/(?P<control>public|private)/$', FundTypeView.as_view(),
-    #   name='green-fund-control'),
     # Carnegie
     url(r'^carnegie/(?P<carnegie>.+)/$', FundCarnegieView.as_view(), name='green-fund-carnegie'),
     # Members
@@ -89,16 +85,20 @@ urlpatterns = patterns('',
         template_name = 'greenfunds/index.html'),
         name="green-fund-index"),
     # Detail
-    url(r'^hybrid/(?P<slug>[-\w]+)/$', HybridFundDetail.as_view(
+    url(r'^type/hybrid/(?P<slug>[-\w]+)/$', HybridFundDetail.as_view(
         template_name = 'greenfunds/detail.html'),
         name="hybrid-fund-detail"),
-    url(r'^department/(?P<slug>[-\w]+)/$', DepartmentFundDetail.as_view(
+    url(r'^type/department/(?P<slug>[-\w]+)/$', DepartmentFundDetail.as_view(
         template_name = 'greenfunds/detail.html'),
         name="department-fund-detail"),
-    url(r'^student-fee/(?P<slug>[-\w]+)/$', StudentFeeFundDetail.as_view(
+    url(r'^type/student-fee/(?P<slug>[-\w]+)/$', StudentFeeFundDetail.as_view(
         template_name = 'greenfunds/detail.html'),
         name="fee-fund-detail"),
-    url(r'^donation/(?P<slug>[-\w]+)/$', DonationFundDetail.as_view(
+    url(r'^type/donation/(?P<slug>[-\w]+)/$', DonationFundDetail.as_view(
         template_name = 'greenfunds/detail.html'),
         name="donation-fund-detail"),
+    url(r'^type/(?P<type>.+)/$', FundTypeView.as_view(), name='green-fund-type'),
+    url(r'^type/$', FundTypeView.as_view(),
+      name='green-fund-type-index',
+      kwargs=dict(type='all')),
     )
