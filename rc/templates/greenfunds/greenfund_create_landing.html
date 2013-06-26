@@ -17,18 +17,15 @@ Add a Green Fund
 
 <p><em><a href="{% url green-fund-index %}">Return to Green Funds Homepage</a></em></p>
 
-<p>Please select from the following list</p>
+<p>Funds in this database are organized into four different types based on the primary source of funding. To add a new fund, please select from one of the four fund types below.</p>
 
 <ol>
-  <li><a href="{% url green-fund-add-studentfee %}">Add Student Fee Fund</a></li>
-  <li><a href="{% url green-fund-add-donation %}">Add Donation Driven Fund</a></li>
-  <li><a href="{% url green-fund-add-department %}">Add Department Driven Fund</a></li>
-  <li><a href="{% url green-fund-add-hybrid %}">Add Hybrid Fund</a></li>
+  <li><a href="{% url green-fund-add-studentfee %}">Add Student Fee Fund</a> (select if major funding comes from fees paid for by students)</li>
+  <li><a href="{% url green-fund-add-donation %}">Add Donation Driven Fund</a> (examples include, alumni, corporate and foundation donations)</li>
+  <li><a href="{% url green-fund-add-department %}">Add Department Driven Fund</a> (this includes academic and administrative budgeted green funds)</li>
+  <li><a href="{% url green-fund-add-hybrid %}">Add Hybrid Fund</a> (select if the fund is a combination of fund types)</li>
 </ol>
 
-<p><em><a href="{% url green-fund-index %}">Return to Green Funds Homepage</a></em></p>
+<p><em>If you would like to add a green revolving fund, please add it to our other database <a href="{% url revolving-fund-index %}">here.</a></em></p>
 {% endblock %}
 
-{% block right-side %}
-{% include "greenfunds/right_side_nav.html" %}
-{% endblock right-side %}
