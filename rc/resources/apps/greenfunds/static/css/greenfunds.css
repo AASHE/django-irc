@@ -1,7 +1,11 @@
 #map_canvas {
-  height: 500px;
+    height: 500px;
 }
 
 #map_canvas img {
-  max-width: none; 
+    max-width: none;
+}
+
+.fund-standard label {
+    display: inline;
 }
