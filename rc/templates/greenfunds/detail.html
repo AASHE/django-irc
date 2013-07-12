@@ -77,8 +77,12 @@
       <tr><td>Fund Donation Type</td><td>{{ object.get_fund_type_display }}</td></tr>
     {% endif %}
 
-    {% if object.fund_type %}
+    {% if object.donation_source %}
       <tr><td>Donation Source</td><td>{{ object.donation_source }}</td></tr>
+    {% endif %}
+
+    {% if object.donation_source_description %}
+      <tr><td>Donation Source Description</td><td>{{ object.donation_source_description }}</td></tr>
     {% endif %}
 
     {% if object.department_name %}
@@ -113,9 +117,12 @@
       </td></tr>
     {% endif %}
 
+    {% if object.project_contact1_details %}
     <tr>
-      <td>Fund Contact</td><td>{{ object.project_contact1_details|default:"Data Not Provided" }}</td>
+      <td>Fund Contact</td><td>{{ object.project_contact1_details }}</td>
     </tr>
+    {% endif %}
+
 
     </tbody>
     </table>

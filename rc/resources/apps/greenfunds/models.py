@@ -20,12 +20,12 @@ TYPE_CHOICES = (
     ('ON', 'Ongoing'),
     ('OT', 'One-time gift')
 )
-# Funding Source
-SOURCE_CHOICES = (
-    ('AL', 'Alumni'),
-    ('FD', 'Foundation'),
-    ('CP', 'Corporate/Commercial')
-)
+# # Funding Source
+# SOURCE_CHOICES = (
+#     ('AL', 'Alumni'),
+#     ('FD', 'Foundation'),
+#     ('CP', 'Corporate/Commercial')
+# )
 # Student Types
 STUDENT_CHOICES = (
     ('UG', 'Undergraduate'),
@@ -38,11 +38,7 @@ class GreenFund(models.Model):
     institution = models.ForeignKey("organization.Organization",
                                   help_text="Select the institution or organization that administers this fund",
                                   )
-    # Reference to fund data
-    # content_type = models.ForeignKey(ContentType, blank=False, null=False)
-    # object_id = models.PositiveIntegerField()
-    # fund_data = generic.GenericForeignKey('content_type', 'object_id')
-    year = models.IntegerField(max_length=4, verbose_name='Year Implemented')
+    year = models.IntegerField(blank=True, null=True, max_length=4, verbose_name='Year Implemented')
     homepage = models.URLField(max_length=255,
                                help_text="Enter the URL for the fund's website.",
                                blank=True)
@@ -53,7 +49,7 @@ class GreenFund(models.Model):
                                     blank=True,
                                     null=True)
     fund_description = models.TextField(_("Description of fund and projects funded"))
-    fund_recipients = models.ManyToManyField("FundRecipient",
+    fund_recipients = models.ManyToManyField("FundRecipient", blank=True,
                                     help_text="Select the recipient(s) of this fund.")
     project_contact1_firstname = models.CharField(blank=True, max_length=75,
                                                   verbose_name='First name')
@@ -62,7 +58,7 @@ class GreenFund(models.Model):
     project_contact1_lastname = models.CharField(blank=True, max_length=75,
                                                  verbose_name='Last name')
     project_contact1_email = models.EmailField(blank=True, verbose_name='Email')
-    project_contact1_title = models.CharField(blank=True, max_length=75,
+    project_contact1_title = models.CharField(blank=True, max_length=255,
                                               verbose_name='Title/Position')
     project_contact1_phone = models.CharField(blank=True, max_length=75,
                                               verbose_name='Phone')
@@ -118,8 +114,10 @@ class StudentFeeFund(GreenFund):
 class DonationFund(GreenFund):
     fund_type = models.CharField(choices=TYPE_CHOICES, max_length=2,
                                 help_text="Ongoing or one-time?")
-    donation_source = models.CharField(choices=SOURCE_CHOICES, max_length=2,
-                                help_text="Primary funding source.")
+    donation_source = models.ManyToManyField("DonationSource",
+                                    help_text="Select the recipient(s) of this fund.")
+    donation_source_description = models.TextField(_("Description of donation source"))
+
 
     class Meta:
         verbose_name = 'donation driven fund'
@@ -151,3 +149,12 @@ class FundRecipient(models.Model):
 
     class Meta:
         verbose_name = 'fund recipient type'
+
+class DonationSource(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'donation source type'
