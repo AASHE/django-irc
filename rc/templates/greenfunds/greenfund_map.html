@@ -1,4 +1,5 @@
 {% extends "greenfunds/base_funds.html" %}
+{% load greenfunds-extras %}
 
 {% block title %}Green Funds Map | {{ block.super }}{% endblock title %}
 
@@ -31,12 +32,12 @@
             map: map,
             position:  new google.maps.LatLng({{ p.institution.latitude }}, {{ p.institution.longitude }}),
             labelClass: "labels main-label", // the CSS class for the label
-            labelContent: "{{ p.fund_name }}",
+            labelContent: "{{ p.fund_name|escape }}",
             });
           pMarker = marker;
 
           google.maps.event.addListener(marker, 'click', function() {
-            infowindow.setContent("<a target=\"_blank\" href=\"{% url green-fund-detail slug=p.slug %}\">{{ p.fund_name }}</a><br />{% if p.institution %}{{ p.institution.picklist_name }}<br />{% endif %}{{ p.institution.city }}, {{ p.institution.state }}")
+            infowindow.setContent("<a target=\"_blank\" href=\"{% if p|model_name_filter == 'StudentFeeFund' %}{% url fee-fund-detail slug=p.slug %}{% elif p|model_name_filter == 'DonationFund' %}{% url donation-fund-detail slug=p.slug %}{% elif p|model_name_filter == 'DepartmentFund' %}{% url department-fund-detail slug=p.slug %}{% elif p|model_name_filter == 'HybridFund' %}{% url hybrid-fund-detail slug=p.slug %}{% endif %}\">{{ p.fund_name }}</a><br />{% if p.institution %}{{ p.institution.picklist_name }}<br />{% endif %}{{ p.institution.city }}, {{ p.institution.state }}")
             infowindow.open(map, this);
           });
         {% endif %}

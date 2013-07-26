@@ -70,7 +70,11 @@ urlpatterns = patterns('',
     url(r'^year/(?P<year>\d{4})/$', FundByYear.as_view(),
     name='green-fund-year'),
     # Map
-    url(r'^map/$', FundMap.as_view(template_name='greenfunds/greenfund_map.html'),
+    url(r'^map/$', FundMap.as_view(queryset=list(chain(StudentFeeFund.objects.filter(published=True),
+      DonationFund.objects.filter(published=True),
+      DepartmentFund.objects.filter(published=True),
+      HybridFund.objects.filter(published=True))),
+    template_name='greenfunds/greenfund_map.html'),
     name="green-fund-map"),
     # Carnegie
     url(r'^carnegie/(?P<carnegie>.+)/$', FundCarnegieView.as_view(), name='green-fund-carnegie'),

@@ -42,6 +42,11 @@ class FundList(ListView):
 class FundMap(FundList):
     template_name = 'greenfunds/greenfund_map.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(FundMap, self).get_context_data(**kwargs)
+
+        return context
+
 class FundIndex(FundList):
     def get_context_data(self, **kwargs):
         context = super(FundIndex, self).get_context_data(**kwargs)
