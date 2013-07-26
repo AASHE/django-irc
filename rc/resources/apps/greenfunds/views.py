@@ -97,9 +97,9 @@ class FundByYear(FundList):
     def get_context_data(self, **kwargs):
         context = super(FundByYear, self).get_context_data(**kwargs)
         context['year'] = self.kwargs.get('year', str(datetime.now().year))
-        context['years'] = GreenFund._default_manager.filter(published=True).values_list(
+        context['years'] = GreenFund._default_manager.filter(published=True).exclude(year=None).values_list(
             'year', flat=True).distinct().order_by('-year')
-        context['years_extra'] = GreenFund._default_manager.filter(published=True).values(
+        context['years_extra'] = GreenFund._default_manager.filter(published=True).exclude(year=None).values(
             'year').distinct().annotate(Count('id')).order_by("-year")
         return context
 

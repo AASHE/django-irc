@@ -1,6 +1,6 @@
 {% extends "greenfunds/base_funds.html" %}
 
-{% block title %}Student Green Funds at AASHE Member Institutions | {{ block.super }}{% endblock %}
+{% block title %}Campus Green Funds at AASHE Member Institutions | {{ block.super }}{% endblock %}
 
 {% block breadcrumb %}
 <ul class="breadcrumb"><li class="first"><a href="/">Home</a></li>
@@ -11,9 +11,9 @@
 {% endblock breadcrumb %}
 
 {% block body %}
-<h1>Student Green Funds at AASHE Member Institutions</h1></h1>
+<h1>Green Funds at AASHE Member Institutions</h1></h1>
 
-<p>AASHE's Campus Sustainability Student Green Fund database contains information on <strong>{{ total_funds }}</strong> Green Funds at <strong>{{ total_campuses }}</strong> AASHE Member Institutions.</p>
+<p>AASHE's Campus Sustainability Green Fund database contains information on <strong>{{ total_funds }}</strong> Green Funds at <strong>{{ total_campuses }}</strong> AASHE Member Institutions.</p>
 
 {% include "greenfunds/greenfund_table.html" %}
 

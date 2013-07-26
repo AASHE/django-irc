@@ -22,9 +22,9 @@
 
    function setMarkers(map) {
      var pMarker = null;
-     
+
      var infowindow = new google.maps.InfoWindow();
-     
+
      {% for p in object_list %}
         {% if p.institution.latitude and p.institution.longitude %}
           var marker = new google.maps.Marker({
@@ -34,7 +34,7 @@
             labelContent: "{{ p.fund_name }}",
             });
           pMarker = marker;
-          
+
           google.maps.event.addListener(marker, 'click', function() {
             infowindow.setContent("<a target=\"_blank\" href=\"{% url green-fund-detail slug=p.slug %}\">{{ p.fund_name }}</a><br />{% if p.institution %}{{ p.institution.picklist_name }}<br />{% endif %}{{ p.institution.city }}, {{ p.institution.state }}")
             infowindow.open(map, this);
@@ -46,7 +46,7 @@
   }
 
   google.maps.event.addDomListener(window, 'load', initialize);
-  
+
 </script>
 {% endblock head-extra %}
 
@@ -62,7 +62,7 @@
 {% block body %}
 <h1>Green Funds Map</h1>
 
-<p>AASHE's Campus Sustainability Student Green Fund database contains information on <strong>{{ total_funds }}</strong> Green Funds at <strong>{{ total_campuses }}</strong> institutions.</p>
+<p>AASHE's Campus Sustainability Green Fund database contains information on <strong>{{ total_funds }}</strong> Green Funds at <strong>{{ total_campuses }}</strong> institutions.</p>
 
 <div id="map_canvas"></div>
 
