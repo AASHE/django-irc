@@ -8,7 +8,7 @@ from haystack.forms import ModelSearchForm, SearchForm
 from haystack.views import search_view_factory
 from haystack.query import SearchQuerySet
 
-sqs = SearchQuerySet().models(StudentFeeFund, DonationFund, DepartmentFund, HybridFund)
+sqs = SearchQuerySet().models(GreenFund)
 
 # Create your views here.
 urlpatterns = patterns('',
