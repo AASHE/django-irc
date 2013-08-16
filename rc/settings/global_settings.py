@@ -13,7 +13,7 @@ LOGIN_URL="/resources/accounts/login"
 ADMINS = (
     ('Jesse Legg', 'jesse.legg@aashe.org'),
     ('Bob Erb', 'bob.erb@aashe.org'),
-    ('Matt Thomas', 'mthomas@aashe.org')
+    ('Margi La Porte', 'margi@aashe.org')
 )
 
 MANAGERS = ADMINS
