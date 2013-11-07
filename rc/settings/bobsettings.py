@@ -9,10 +9,12 @@ INTERNAL_IPS = ('127.0.0.1',)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'django_irc_dev',
+        'NAME': 'rc20131106',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': '',
         }
     }
+
+AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',)
