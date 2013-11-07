@@ -127,7 +127,7 @@ class AcademicProgram(models.Model):
               self.country = "United States of America"
             if self.city and self.state:
               # geolocate lat and long
-              g = geocoders.Google()
+              g = geocoders.GoogleV3()
               location = "%s %s" % (self.city, self.state)
               try:
                 place, (lat, lng) = g.geocode(location)
