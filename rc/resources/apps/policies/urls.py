@@ -7,7 +7,7 @@ from rc.resources.apps.policies import models
 def policy_url(url_string, policy_type, page_title='',
                with_description=False, table_list=False,
                template_name=None, opening_text='', bold_org_name=True,
-               member_only=False):
+               member_only=True):
     '''Returns a url for policies.Policy, filtered by pollicy_type,
     and sorted by organization__name.  If table_list is True, a
     template describing a table of Policies is used; else, a template
@@ -39,7 +39,7 @@ def policy_url(url_string, policy_type, page_title='',
 
 def policy_by_country_by_org_name_url(url_string, policy_type,
                                       page_title='', opening_text='',
-                                      member_only=False):
+                                      member_only=True):
     '''Returns a url for policies.Policy, filtered by policy_type,
     and sorted by organization__country and then organization__name. A
     template describing a table of Policies is used.'''
@@ -63,7 +63,7 @@ def policy_by_country_by_org_name_url(url_string, policy_type,
                         'member_only': member_only })
 
 def policy_by_category_by_org_name_url(url_string, policy_type,
-                                       page_title='', member_only=False):
+                                       page_title='', member_only=True):
     '''Returns a url for policies.Policy, filtered by policy_type,
     and sorted by category and then organization__name. A template
     describing a list of Policies is used.'''

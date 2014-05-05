@@ -36,7 +36,9 @@ urlpatterns = patterns('',
             model=models.SustainabilityBlog,
             queryset=models.SustainabilityBlog.objects.published().order_by(
                     'type', 'title')),
-        name='sustainability-blogs'),
+        name='sustainability-blogs',
+        kwargs={'member_only': True}
+        ),
 
     url(r'^campus-sustainability-plans$',
         ResourceItemListView.as_view(
@@ -61,6 +63,9 @@ urlpatterns = patterns('',
             queryset=models.StudentFee.objects.published().order_by(
                     'organization__name')),
         name='student-fees',
-        kwargs={'member_only': False, 'title': 'Dedicated Student Fees for Sustainability'}),
+        kwargs={
+            'member_only': True,
+            'title': 'Dedicated Student Fees for Sustainability'}
+    ),
 
     )

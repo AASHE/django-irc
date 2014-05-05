@@ -127,8 +127,10 @@ urlpatterns = patterns('',
         ResourceItemListView.as_view(
             model=models.GlobalWarmingCommitment,
             queryset=models.GlobalWarmingCommitment.objects.published().order_by(
-                    'organization__name', 'date')),
-            name='global-warming-commitments'),
+                'organization__name', 'date')),
+        kwargs={'member_only': True},
+        name='global-warming-commitments',
+    ),
 
     url(r'^campus-hybrid-vehicle-fleets$',
         ResourceItemListView.as_view(
@@ -178,7 +180,10 @@ urlpatterns = patterns('',
             queryset=models.RenewableResearchCenter.objects.published().order_by(
                     'organization__name')),
         name='renewable-research-centers',
-        kwargs={'title': 'Renewable Energy Research Centers'}),
+        kwargs={
+            'title': 'Renewable Energy Research Centers',
+            'member_only': True,
+        }),
 
     url(r'^campus-installations-stationary-fuel-cells$',
         ResourceItemListView.as_view(
@@ -186,7 +191,10 @@ urlpatterns = patterns('',
             queryset=models.FuelCell.objects.published().order_by('-size',
                                                       'organization__name')),
         name='fuel-cells',
-        kwargs={'title': 'Campus Installations of Stationary Fuel Cells'}),
+        kwargs={
+            'title': 'Campus Installations of Stationary Fuel Cells',
+            'member_only': True,
+        }),
 
     url(r'^sustainable-dining-initiatives-campus$',
         ResourceItemListView.as_view(
@@ -212,7 +220,10 @@ urlpatterns = patterns('',
             queryset=models.SustainableLandscape.objects.published().order_by(
                     'organization__name')),
         name='sustainable-landscapes',
-        kwargs={'title': 'Sustainable Landscaping Initiatives on Campus'}),
+        kwargs={
+            'title': 'Sustainable Landscaping Initiatives on Campus',
+            'member_only': True,
+        }),
 
     url(r'^links-related-sustainable-purchasing-campus$',
         ResourceItemListView.as_view(
@@ -231,7 +242,10 @@ urlpatterns = patterns('',
                     '-type', 'organization__country',
                     'organization__name')),
         name='transit-passes',
-        kwargs={'type_list': dict(models.TransitPass.PASS_TYPES)}),
+        kwargs={
+            'type_list': dict(models.TransitPass.PASS_TYPES),
+            'member_only': True,
+        }),
 
     green_building_url(
         url_string=r'^athletic-recreation-centers-stadiums$',
@@ -245,7 +259,8 @@ urlpatterns = patterns('',
         building_type='Green Student Centers',
         image_url='http://www.aashe.org/files/sju_mckeown_0.jpg',
         image_alt='SJU McKeown',
-        image_caption='St. John\'s University McKeown Center'),
+        image_caption='St. John\'s University McKeown Center',
+    ),
 
     green_building_url(
         url_string=r'^green-libraries-campus$',
@@ -253,7 +268,8 @@ urlpatterns = patterns('',
         image_url='http://www.aashe.org/files/thompson_library_1.jpg',
         image_alt='OSU Thompson Library',
         image_caption='Ohio State University Thompson Library',
-        buildings_name='libraries'),
+        buildings_name='libraries',
+    ),
 
     green_building_url(
         url_string=r'^green-residence-halls$',
@@ -262,14 +278,15 @@ urlpatterns = patterns('',
         image_alt='MIT Ashdown House',
         image_caption='MIT Ashdown House',
         # Model is empty, dunno why (mt)
-        model=models.GreenResidenceHall
-        ),
+        model=models.GreenResidenceHall,
+    ),
 
     green_building_url(
         url_string=r'^green-science-buildings$',
         building_type='Green Science Buildings',
         image_url='http://www.aashe.org/files/brandeis.jpg',
         image_alt='Brandeis University Shapiro Science Center',
-        image_caption='Brandeis University Shapiro Science Center'),
-
+        image_caption='Brandeis University Shapiro Science Center',
+    ),
+                       
     )

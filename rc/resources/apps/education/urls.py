@@ -14,6 +14,7 @@ urlpatterns = patterns(
         ResourceItemListView.as_view(
             model=models.SustainabilityNetwork,
             queryset=models.SustainabilityNetwork.objects.published()),
+        kwargs={'member_only': True},
         name='sustainability-networks'),
 
     url(r'^study-abroad-programs-sustainability$',
@@ -22,7 +23,7 @@ urlpatterns = patterns(
             queryset=models.StudyAbroadProgram.objects.published()),
         name='study-abroad-programs',
         kwargs={'program_types': dict(models.StudyAbroadProgram.PROGRAM_TYPES),
-                'member_only': False}),
+                'member_only': True}),
 
     url(r'^campus-and-campus-community-gardens$',
         ResourceItemListView.as_view(
@@ -109,7 +110,10 @@ urlpatterns = patterns(
             template_name='education/academiccenters/'
                           'agriculture_list.html'),
         name=academic_centers_url_name('AG'),
-        kwargs={'title': "Campus Centers and Institutes on Agriculture & Sustainability",}),
+        kwargs={
+            'title': "Campus Centers and Institutes on Agriculture & Sustainability",
+            'member_only': True,
+        }),
 
     url('^sustainable-design-academic-centers$',
         ResourceItemListView.as_view(
@@ -119,7 +123,10 @@ urlpatterns = patterns(
             template_name='education/academiccenters/'
                           'architecture_list.html'),
         name=academic_centers_url_name('AR'),
-        kwargs={'title': "Campus Centers and Institutes on Architecture & Sustainability",}),
+        kwargs={
+            'title': "Campus Centers and Institutes on Architecture & Sustainability",
+            'member_only': True,
+        }),
 
     url('^business-school-academic-centers-and-'
         'research-initiatives-sustainability$',
@@ -130,7 +137,10 @@ urlpatterns = patterns(
             template_name='education/academiccenters/'
                           'business_list.html'),
             name=academic_centers_url_name('BS'),
-            kwargs={'title': "Campus Centers and Institutes on Business & Sustainability",}),
+            kwargs={
+                'title': "Campus Centers and Institutes on Business & Sustainability",
+                'member_only': True,
+            }),
 
     url('^research-centers-sustainable-development$',
         ResourceItemListView.as_view(
@@ -140,7 +150,10 @@ urlpatterns = patterns(
             template_name='education/academiccenters/'
                           'developmentstudies_list.html'),
         name=academic_centers_url_name('DS'),
-        kwargs={'title': "Campus Centers and Institutes on Development Studies & Sustainability",}),
+        kwargs={
+            'title': "Campus Centers and Institutes on Development Studies & Sustainability",
+            'member_only': True,
+        }),
 
    url('^academic-centers-ecological-economics$',
         ResourceItemListView.as_view(
@@ -151,7 +164,10 @@ urlpatterns = patterns(
             template_name='education/academiccenters/'
                           'economics_list.html'),
         name=academic_centers_url_name('EC'),
-        kwargs={'title': "Campus Centers and Institutes on Economics & Sustainability",}),
+        kwargs={
+            'title': "Campus Centers and Institutes on Economics & Sustainability",
+            'member_only': True,
+        }),
 
     url('^'
         'academic-centers-sustainability-and-environmental-education$',
@@ -162,7 +178,10 @@ urlpatterns = patterns(
             template_name='education/academiccenters/'
                           'education_list.html'),
         name=academic_centers_url_name('ED'),
-        kwargs={'title': "Campus Centers and Institutes on Education & Sustainability",}),
+        kwargs={
+            'title': "Campus Centers and Institutes on Education & Sustainability",
+            'member_only': True,
+        }),
 
     url('^sustainable-engineering-academic-centers$',
         ResourceItemListView.as_view(
@@ -172,7 +191,10 @@ urlpatterns = patterns(
             template_name='education/academiccenters/'
                           'engineering_list.html'),
         name=academic_centers_url_name('EN'),
-        kwargs={'title': "Campus Centers and Institutes on Engineering & Sustainability",}),
+        kwargs={
+            'title': "Campus Centers and Institutes on Engineering & Sustainability",
+            'member_only': True,
+        }),
 
     url('^academic-centers-focused-environmental-law$',
         ResourceItemListView.as_view(
@@ -182,7 +204,10 @@ urlpatterns = patterns(
                                               'organization__name'),
             template_name='education/academiccenters/law_list.html'),
         name=academic_centers_url_name('LW'),
-        kwargs={'title': "Campus Centers and Institutes on Law & Sustainability",}),
+        kwargs={
+            'title': "Campus Centers and Institutes on Law & Sustainability",
+            'member_only': True,
+        }),
 
     url('^academic-centers-and-research-inititatives-urban-studies$',
         ResourceItemListView.as_view(
@@ -192,7 +217,10 @@ urlpatterns = patterns(
             template_name='education/academiccenters/'
                           'urbanstudies_list.html'),
         name=academic_centers_url_name('US'),
-        kwargs={'title': "Campus Centers and Institutes on Urban Studies & Sustainability",}),
+        kwargs={
+            'title': "Campus Centers and Institutes on Urban Studies & Sustainability",
+            'member_only': True,
+        }),
 
     url('^courses-campus-sustainability$',
         ResourceItemListView.as_view(
@@ -202,6 +230,9 @@ urlpatterns = patterns(
             template_name='education/academiccenters/'
                           'campussustainabilitycourse_list.html'),
         name='campus-sustainability-courses',
-        kwargs={'title': "Courses Focusing on Campus Sustainability",}),
+        kwargs={
+            'title': "Courses Focusing on Campus Sustainability",
+            'member_only': True,
+        }),
 
     )

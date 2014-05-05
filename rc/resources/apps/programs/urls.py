@@ -73,5 +73,8 @@ urlpatterns = patterns('',
                     'organization__name'),
             template_name='programs/student_sustainability_educator_list.html'),
         name='student-sustainability-educator',
-        kwargs={'title': 'Student Peer-to-Peer Sustainability Education Programs'}),
+        kwargs={
+            'title': 'Student Peer-to-Peer Sustainability Education Programs',
+            'member_only': True,
+        }),
         )
